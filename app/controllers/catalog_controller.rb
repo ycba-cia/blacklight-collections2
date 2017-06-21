@@ -39,7 +39,7 @@ class CatalogController < ApplicationController
 
     # solr field configuration for search results/index views
     config.index.title_field = 'title_display'
-    config.index.display_type_field = 'format'
+    #config.index.display_type_field = 'format'
     #config.index.thumbnail_field = 'thumbnail_path_ss'
 
     # solr field configuration for document/show views
@@ -71,21 +71,21 @@ class CatalogController < ApplicationController
     #  (useful when user clicks "more" on a large facet and wants to navigate alphabetically across a large set of results)
     # :index_range can be an array or range of prefixes that will be used to create the navigation (note: It is case sensitive when searching values)
 
-    config.add_facet_field 'format', label: 'Format'
-    config.add_facet_field 'pub_date', label: 'Publication Year', single: true
+    #config.add_facet_field 'format', label: 'Format'
+    #config.add_facet_field 'pub_date', label: 'Publication Year', single: true
     config.add_facet_field 'subject_topic_facet', label: 'Topic', limit: 20, index_range: 'A'..'Z'
     config.add_facet_field 'language_facet', label: 'Language', limit: true
     config.add_facet_field 'lc_1letter_facet', label: 'Call Number'
     config.add_facet_field 'subject_geo_facet', label: 'Region'
     config.add_facet_field 'subject_era_facet', label: 'Era'
 
-    config.add_facet_field 'example_pivot_field', label: 'Pivot Field', :pivot => ['format', 'language_facet']
+    #config.add_facet_field 'example_pivot_field', label: 'Pivot Field', :pivot => ['format', 'language_facet']
 
-    config.add_facet_field 'example_query_facet_field', label: 'Publish Date', :query => {
-       :years_5 => { label: 'within 5 Years', fq: "pub_date:[#{Time.zone.now.year - 5 } TO *]" },
-       :years_10 => { label: 'within 10 Years', fq: "pub_date:[#{Time.zone.now.year - 10 } TO *]" },
-       :years_25 => { label: 'within 25 Years', fq: "pub_date:[#{Time.zone.now.year - 25 } TO *]" }
-    }
+    #config.add_facet_field 'example_query_facet_field', label: 'Publish Date', :query => {
+    #   :years_5 => { label: 'within 5 Years', fq: "pub_date:[#{Time.zone.now.year - 5 } TO *]" },
+    #   :years_10 => { label: 'within 10 Years', fq: "pub_date:[#{Time.zone.now.year - 10 } TO *]" },
+    #   :years_25 => { label: 'within 25 Years', fq: "pub_date:[#{Time.zone.now.year - 25 } TO *]" }
+    #}
 
 
     # Have BL send all facet field names to Solr, which has been the default
@@ -185,10 +185,12 @@ class CatalogController < ApplicationController
     # label in pulldown is followed by the name of the SOLR field to sort by and
     # whether the sort is ascending or descending (it must be asc or desc
     # except in the relevancy case).
-    config.add_sort_field 'score desc, pub_date_sort desc, title_sort asc', label: 'relevance'
-    config.add_sort_field 'pub_date_sort desc, title_sort asc', label: 'year'
-    config.add_sort_field 'author_sort asc, title_sort asc', label: 'author'
-    config.add_sort_field 'title_sort asc, pub_date_sort desc', label: 'title'
+    #config.add_sort_field 'score desc, pub_date_sort desc, title_sort asc', label: 'relevance'
+    #config.add_sort_field 'pub_date_sort desc, title_sort asc', label: 'year'
+    #config.add_sort_field 'author_sort asc, title_sort asc', label: 'author'
+    #config.add_sort_field 'title_sort asc, pub_date_sort desc', label: 'title'
+    config.add_sort_field 'score desc', label: 'relevance'
+
 
     # If there are more than this many search results, no spelling ("did you
     # mean") suggestion is offered.
