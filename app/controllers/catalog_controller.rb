@@ -39,12 +39,12 @@ class CatalogController < ApplicationController
 
     # solr field configuration for search results/index views
     config.index.title_field = 'title_txt'
-    config.index.display_type_field = 'format_txt'
+    config.index.display_type_field = 'recordtype_ss'
     #config.index.thumbnail_field = 'thumbnail_path_ss'
 
     # solr field configuration for document/show views
     config.show.title_field = 'title_txt'
-    config.show.display_type_field = 'format_txt'
+    config.show.display_type_field = 'recordtype_ss'
     #config.show.thumbnail_field = 'thumbnail_path_ss'
 
     # solr fields that will be treated as facets by the blacklight application

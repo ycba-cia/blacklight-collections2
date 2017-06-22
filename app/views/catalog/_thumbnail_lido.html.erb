@@ -1,0 +1,6 @@
+<div class="row">
+<% if document['thumbnail_ss'][0] %>
+    <div class="col-xs-12 col-sm-4">
+<%= image_tag(document['thumbnail_ss'][0], class: 'ycba-thumbnail img-thumbnail', alt: document['title_txt'], onerror:"this.style.display='none';") %>
+    </div>
+<% end %>
