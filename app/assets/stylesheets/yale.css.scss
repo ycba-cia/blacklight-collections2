@@ -1,0 +1,192 @@
+
+@font-face {
+  font-family: "theSans_plain";
+  font-style: normal;
+  font-weight: normal;
+  src: font-url("TheSans_B2_500_.eot?#iefix") format("embedded-opentype"),
+  font-url("TheSans_B2_500_.woff") format("woff"),
+  font-url("TheSans_B2_500_.svg#TheSans_B2_500_") format("svg");
+}
+
+@font-face {
+  font-family: "theSans_bold";
+  font-style: normal;
+  font-weight: normal;
+  src: font-url("TheSans_B2_700_.eot?#iefix") format("embedded-opentype"),
+  font-url("TheSans_B2_700_.woff") format("woff"),
+  font-url("TheSans_B2_700_.svg#TheSans_B2_500_") format("svg");
+}
+
+#header-navbar {
+  background-color: rgb(240, 244, 245);
+  border: 0px;
+}
+
+#header-subnav {
+  clear:left;
+  background-color: white;
+  color: black;
+}
+#header-subnav a {
+  padding: 5px 40px 5px 0px;
+}
+
+#header-subnav a:visited {
+  color: black;
+}
+
+#footer-navbar {
+  background-color: rgb(143, 159, 170);
+  border-top-color: rgb(143, 159, 170);
+  color: rgb(143, 159, 170);
+  height: 65px;
+  font-size: 12px;
+}
+
+#location-mark-footer {
+  height: 22px;
+  width: 13px;
+  background-color: rgb(143, 159, 170);
+  margin-right: 10px;
+  margin-top: 2px;
+}
+
+#yale-logo-footer {
+  height: 14px;
+  background-color: rgb(143, 159, 170);
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+#header-navbar .navbar-brand {
+  background-color: transparent;
+  background-image: url("logo_header.png");
+  background-repeat: no-repeat;
+  width: 445px;
+  height: 13px;
+  background-size: 445px 13px;
+  margin-top: 21px;
+  padding-bottom: 17px;
+  padding-left: 0px;
+  margin-left: 0px;
+}
+
+#search-navbar {
+  background-color: #FFFFFF;
+  border-bottom: none;
+}
+
+body {
+  padding-top: 100px;
+  padding-bottom: 65px;
+  font-family: "theSans_plain";
+}
+
+#footer-address {
+
+}
+
+#footer-address img {
+  float: left;
+}
+
+#footer-social-media img {
+  height: 18px;
+  margin-right: 18px;
+  background-color: rgb(143, 159, 170);
+  margin-top: 12px;
+}
+
+.footer-text {
+  color: white;
+  vertical-align: middle;
+  margin-top: 12px;
+  font-family: "theSans_plain";
+}
+
+.facets-heading {
+  font-family: "theSans_bold";
+}
+
+.facet-label {
+  font-size: 12px;
+}
+
+.ycba-thumbnail {
+  max-height: 150px;
+  max-width: 250px;
+  width: auto;
+  vertical-align: top;
+}
+
+#ycba-thumbnail-row img {
+  padding-bottom: 5px;
+}
+
+#ycba-thumbnail-controls {
+  padding-top: 5px;
+  padding-bottom: 20px;
+}
+
+#ycba-main-image {
+  padding-bottom: 5px;
+}
+
+#documents .document {
+  border: 0px;
+}
+
+.document-metadata dt {
+  margin-left: 10px;
+  width: auto;
+}
+
+.document-metadata dd {
+  margin-left: 70px;
+}
+
+.blacklight-lido .blacklight-topic_ss br {
+  display: none;
+}
+
+.lido .blacklight-topic_ss a {
+  margin-right: 5px;
+}
+
+.blacklight-lido .blacklight-geographic_facet br {
+  display: none;
+}
+
+.lido .blacklight-geographic_facet  a {
+  margin-right: 5px;
+}
+
+.lido .blacklight-era_txt {
+  display: none;
+}
+
+.lido .blacklight-geographic_culture_txt {
+  display: none;
+}
+
+#ycba-object-contact-us {
+  padding-top: 30px;
+}
+
+#ycba-request-photography {
+  padding-top: 10px;
+}
+
+@media (max-width: 768px) {
+  .document-metadata dd {
+    margin-left: 0px;
+  }
+  .document-metadata dt {
+    margin-left: 0px;
+  }
+}
+
+.fbslide {
+  margin-left: -8px;
+}
+
