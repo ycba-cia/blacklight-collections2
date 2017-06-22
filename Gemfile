@@ -58,6 +58,7 @@ group :development, :test do
   gem 'solr_wrapper', '>= 0.3'
   gem 'rspec'
   gem 'rspec-rails'
+  gem 'coveralls', require: false
 end
 
 gem 'rsolr', '>= 1.0'
