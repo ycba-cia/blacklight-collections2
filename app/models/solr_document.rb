@@ -1,23 +1,43 @@
 # frozen_string_literal: true
 class SolrDocument
-  include Blacklight::Solr::Document    
-      # The following shows how to setup this blacklight document to display marc documents
-  extension_parameters[:marc_source_field] = :marc_display
-  extension_parameters[:marc_format_type] = :marcxml
-  use_extension( Blacklight::Solr::Document::Marc) do |document|
-    document.key?( :marc_display  )
-  end
-  
-  field_semantics.merge!(    
-                         :title => "title_display",
-                         :author => "author_display",
-                         :language => "language_facet",
-                         :format => "format"
-                         )
-
+  include Blacklight::Solr::Document
+  include Blacklight::Gallery::OpenseadragonSolrDocument
 
 
   # self.unique_key = 'id'
+
+  def physical_description
+    self['physical_txt']
+  end
+
+  def publisher
+    publisher = []
+    value = self['publisher_ss']
+    pub_date = self['publishDate_txt']
+    publisher.push(value) unless value.nil? or value.empty?
+    publisher.push(pub_date) unless value.nil? or value.empty? or pub_date.nil? or pub_date.empty?
+    (value.nil? or value.empty?) ? nil : publisher.join(' ')
+  end
+
+  def orbis_link
+    self['url_txt']
+  end
+
+  def callnumber
+    self['callnumber_txt']
+  end
+
+  def note
+    self['description_txt']
+  end
+
+  def cds_url
+    cds_url = nil
+    if self['url_ss'] and self['url_ss'][0].start_with?('http://hdl.handle.net/10079/bibid/')
+      cds_url = self['url_ss'][0].gsub('http://hdl.handle.net/10079/bibid/', '')
+    end
+    cds_url
+  end
 
   # Email uses the semantic field mappings below to generate the body of an email.
   SolrDocument.use_extension(Blacklight::Document::Email)

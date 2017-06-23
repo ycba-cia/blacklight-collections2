@@ -1,0 +1,23 @@
+/*
+ *= require blacklight_gallery/default
+ */
+
+#documents {
+  .masonry {
+    &.document {
+      border: 0px;
+      background-color: #ffffff;
+
+      a  {
+        color: black;
+        text-decoration: none;
+        text-shadow: none;
+      }
+
+      .caption {
+        background-color: rgba(255, 255, 255, 0.6);
+      }
+    }
+
+  }
+}

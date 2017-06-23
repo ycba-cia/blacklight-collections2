@@ -1,0 +1,6 @@
+development:
+  host: 'deliver.odai.yale.edu'
+test:
+  host: 'deliver.odai.yale.edu'
+production:
+  host: 'deliver.odai.yale.edu'

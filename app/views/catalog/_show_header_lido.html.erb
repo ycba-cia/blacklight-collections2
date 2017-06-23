@@ -1,0 +1,34 @@
+
+<%= render_document_heading(document, :tag => :h2) %>
+
+<div class="col-xs-12 col-md-4 col-md-push-8">
+  <div class="row">
+    <div id="ycba-main-image" class="col-xs-12">
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div id="ycba-main-image-caption" class="col-xs-12"></div>
+  </div>
+
+  <div class="row">
+    <div id="ycba-image-rights" class="col-xs-8"><%= display_rights(document) %></div>
+    <div id="ycba-thumbnail-controls" class="col-xs-2 pull-right"></div>
+  </div>
+
+  <div class="row">
+    <div id="ycba-thumbnail-row" class="col-xs-12"></div>
+  </div>
+
+  <div class="row">
+    <div id="ycba-request-photography" class="col-xs-12">
+      <%= link_to("Request additional photography", image_request_link(document)) %>
+    </div>
+  </div>
+</div>
+
+<script language="Javascript">updateImageData(<%= @document['recordID_ss'][0] %>);</script>
+<script language="Javascript">
+  cdsData("<%= cds_info_url(@document['recordID_ss'][0]) %>");
+</script>

@@ -1,0 +1,8 @@
+<%= link_to_document document, document_show_link_field(document), :counter => document_counter + 1  %>
+
+<% index_fields(document).each do |field_name, field| -%>
+    <% if should_render_index_field?(document, field) and field_name == 'auth_author_display_txt' %>
+        <dt class="blacklight-<%= field_name.parameterize %>"><%= render_index_field_label document, field: field_name %></dt>
+        <dd class="blacklight-<%= field_name.parameterize %>"><%= render_index_field_value document, field: field_name %></dd>
+    <% end -%>
+<% end -%>
