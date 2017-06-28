@@ -1,0 +1,11 @@
+<div class="row">
+
+    <div class="col-xs-12 col-sm-4">
+      <% if document['isbn_ss'] %>
+        <%= image_tag( "/bookcover/isbn/#{document['isbn_ss'][0]}/size/medium", class: 'ycba-thumbnail', alt: document['title_txt']) %>
+      <% elsif document.cds_url %>
+          <%= image_tag cds_thumbnail_url(document.cds_url, 1), alt: document['title_txt'], onerror: "this.src='/no_cover.png';"  %>
+      <% else %>
+        <%= image_tag "/no_cover.png", alt: "No cover image available" %>
+      <% end %>
+    </div>

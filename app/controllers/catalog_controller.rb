@@ -2,10 +2,16 @@
 class CatalogController < ApplicationController
 
   include Blacklight::Catalog
-  include Blacklight::Marc::Catalog
-
 
   configure_blacklight do |config|
+    config.view.gallery.partials = [:compact_index]
+    config.view.masonry.partials = [:compact_index]
+    #config.view.slideshow.partials = [:compact_index]
+
+    config.index.thumbnail_method = :thumb
+    config.show.tile_source_field = :content_metadata_image_iiif_info_ssm
+    config.show.partials.insert(1, :openseadragon)
+
     ## Class for sending and receiving requests from a search index
     # config.repository_class = Blacklight::Solr::Repository
     #
@@ -23,29 +29,28 @@ class CatalogController < ApplicationController
     # solr path which will be added to solr base url before the other solr params.
     #config.solr_path = 'select'
 
+
     # items to show per page, each number in the array represent another option to choose from.
-    #config.per_page = [10,20,50,100]
+    config.per_page = [15,50,100]
 
     ## Default parameters to send on single-document requests to Solr. These settings are the Blackligt defaults (see SearchHelper#solr_doc_params) or
     ## parameters included in the Blacklight-jetty document requestHandler.
     #
-    #config.default_document_solr_params = {
+    # config.default_document_solr_params = {
     #  qt: 'document',
     #  ## These are hard-coded in the blacklight 'document' requestHandler
     #  # fl: '*',
-    #  # rows: 1,
+    #  #rows: 1,
     #  # q: '{!term f=id v=$id}'
-    #}
+    # }
 
     # solr field configuration for search results/index views
     config.index.title_field = 'title_txt'
     config.index.display_type_field = 'recordtype_ss'
-    #config.index.thumbnail_field = 'thumbnail_path_ss'
 
     # solr field configuration for document/show views
     config.show.title_field = 'title_txt'
     config.show.display_type_field = 'recordtype_ss'
-    #config.show.thumbnail_field = 'thumbnail_path_ss'
 
     # solr fields that will be treated as facets by the blacklight application
     #   The ordering of the field names is the order of the display
@@ -72,12 +77,13 @@ class CatalogController < ApplicationController
     # :index_range can be an array or range of prefixes that will be used to create the navigation (note: It is case sensitive when searching values)
 
     config.add_facet_field 'resource_facet', :label => 'Online Access'
+
     config.add_facet_field 'publishDate_ss', :label => 'Publication Year', single: true
     config.add_facet_field 'collection_facet', :label => 'Collection', :limit => 20
     config.add_facet_field 'language_facet', :label => 'Language', :limit => true
     config.add_facet_field 'lc_1letter_facet', :label => 'Call Number'
     #config.add_facet_field 'geographic_facet', :label => 'Region'
-    config.add_facet_field 'auth_author_display_facet', :label => 'Creator'
+    config.add_facet_field 'author_ss', label: 'Creator'
     config.add_facet_field 'author_gender_ss', :label => 'Creator Gender'
     config.add_facet_field 'title_collective_ss', :label => 'Collective Title'
     config.add_facet_field 'era_facet', :label => 'Period'
@@ -90,13 +96,17 @@ class CatalogController < ApplicationController
     config.add_facet_field 'topic_frameStyle_facet', :label => 'Frame Style'
     config.add_facet_field 'credit_line_facet', :label => 'Credit Line'
 
+    config.add_facet_field 'author_additional_ss', label: 'Contributor', show: false
+    config.add_facet_field 'topic_subjectActor_ss', label: 'People Represented or Subject', show: false
+    config.add_facet_field 'form_genre_ss', label: 'Form Genre', show: false
+
     #config.add_facet_field 'example_pivot_field', label: 'Pivot Field', :pivot => ['format', 'language_facet']
 
-    #config.add_facet_field 'example_query_facet_field', label: 'Publish Date', :query => {
-    #   :years_5 => { label: 'within 5 Years', fq: "pub_date:[#{Time.zone.now.year - 5 } TO *]" },
-    #   :years_10 => { label: 'within 10 Years', fq: "pub_date:[#{Time.zone.now.year - 10 } TO *]" },
-    #   :years_25 => { label: 'within 25 Years', fq: "pub_date:[#{Time.zone.now.year - 25 } TO *]" }
-    #}
+    # config.add_facet_field 'example_query_facet_field', label: 'Publish Date', :query => {
+    #    :years_5 => { label: 'within 5 Years', fq: "pub_date:[#{Time.zone.now.year - 5 } TO *]" },
+    #    :years_10 => { label: 'within 10 Years', fq: "pub_date:[#{Time.zone.now.year - 10 } TO *]" },
+    #    :years_25 => { label: 'within 25 Years', fq: "pub_date:[#{Time.zone.now.year - 25 } TO *]" }
+    # }
 
 
     # Have BL send all facet field names to Solr, which has been the default
@@ -104,31 +114,52 @@ class CatalogController < ApplicationController
     # handler defaults, or have no facets.
     config.add_facet_fields_to_solr_request!
 
+
+
     # solr fields to be displayed in the index (search results) view
     #   The ordering of the field names is the order of the display
-    config.add_index_field 'type_txt', :label => 'Type'
+    # config.add_index_field 'title_t', :label => 'Title'
+    #config.add_index_field 'type_txt', :label => 'Type'
     config.add_index_field 'auth_author_display_txt', :label => 'Creator'
-    config.add_index_field 'format_txt', :label => 'Format'
+    config.add_index_field 'publishDate_txt', label: "Date"
+    config.add_index_field 'format_txt', :label => 'Medium'
+    config.add_index_field 'collection_txt', :label => 'Collection'
+    config.add_index_field 'credit_line_txt', :label => 'Credit Line'
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
     #config.add_show_field 'title_t', :label => 'Title'
-    config.add_show_field 'author_txt', :label => 'Creator'
-    config.add_show_field 'title_alt_txt', :label => 'Alternate Title(s)'
-    config.add_show_field 'publishDate_txt', :label => 'Date'
+
+    break_separator = {words_connector: ' <br/> ', last_word_connector: ' <br/> ', two_words_connector: ' <br/> '}
+    config.add_show_field 'author_ss', :label => 'Creator', link_to_search: true, separator_options: break_separator
+    config.add_show_field 'author_additional_ss', :label => 'Contributors', link_to_search: true, separator_options: break_separator
+    config.add_show_field 'title_alt_txt', :label => 'Alternate Title(s)', separator_options: break_separator
+    config.add_show_field 'publishDate_txt', :label => 'Date', unless:  :display_marc_field?
     config.add_show_field 'format_txt', :label => 'Medium'
-    config.add_show_field 'physical_txt', :label => 'Dimensions'
-    config.add_show_field 'description_txt', :label => 'Inscription(s)/Marks/Lettering'
+    config.add_show_field 'physical_txt',  :label => 'Dimensions', unless:  :display_marc_field?
+    config.add_show_field 'type_ss', :label => 'Classification' #Bibliographic
+    config.add_show_field 'publisher', accessor: 'publisher', :label => 'Imprint', if: :display_marc_accessor_field? #Bibliographic
+    config.add_show_field 'physical_description', accessor: 'physical_description', label: 'Physical Description', if: :display_marc_accessor_field?
+    config.add_show_field 'edition_ss', label: 'Edition' #Bibliographic
+    config.add_show_field 'orbis_link', accessor: 'orbis_link', :label => 'Full Orbis Record', helper_method: 'render_as_link', if: :display_marc_accessor_field?
+    config.add_show_field 'resourceURL_ss', :label => 'Related content', helper_method: 'render_related_content', if: :display_marc_field?
+    config.add_show_field 'description_txt', :label => 'Inscription(s)/Marks/Lettering', helper_method: 'render_citation', unless:  :display_marc_field?
+    config.add_show_field 'note', accessor: 'note', :label => 'Notes', helper_method: 'render_citation', if: :display_marc_accessor_field?
+    config.add_show_field 'marc_contents_txt', label: 'Contents' #Bibliographic
     config.add_show_field 'credit_line_txt', :label => 'Credit Line'
-    config.add_show_field 'callnumber_txt', :label => 'Accession Number'
+    config.add_show_field 'isbn_ss', :label => 'ISBN'
+    config.add_show_field 'callnumber_txt', :label => 'Accession Number', unless: :display_marc_field?
+    config.add_show_field 'callnumber', accessor: 'callnumber', :label => 'Call Number', if: :display_marc_accessor_field?
     config.add_show_field 'collection_txt', :label => 'Collection'
     config.add_show_field 'geographic_culture_txt', :label => 'Culture'
     config.add_show_field 'era_txt', :label => 'Era'
-    config.add_show_field 'url_txt', :label => 'Link'
-    config.add_show_field 'topic_subjectActor_txt', :label => 'People Represented or Subject'
-    config.add_show_field 'topic_txt', :label => 'Subject Terms'
-    config.add_show_field 'citation_txt', :label => 'Publications'
-    config.add_show_field 'resourceURL_txt', :label => 'screen'
+    config.add_show_field 'url_txt', :label => 'Link', helper_method: 'render_as_link', unless:  :display_marc_field?
+    config.add_show_field 'topic_subjectActor_ss', :label => 'People Represented or Subject', link_to_search: true, separator_options: break_separator
+    config.add_show_field 'topic_ss', :label => 'Subject Terms', link_to_search: 'topic_facet', separator_options: break_separator
+    config.add_show_field 'geographic_facet', label: 'Place Represented', link_to_search: true, separator_options: break_separator
+    config.add_show_field 'form_genre_ss', :label => 'Form Genre', link_to_search: true, separator_options: break_separator  #Bibliographic
+    config.add_show_field 'citation_txt', :label => 'Publications', helper_method: 'render_citation'
+    config.add_show_field 'videoURL_ss', :label => 'Video', helper_method: 'render_as_link'
 
     # "fielded" search configuration. Used by pulldown among other places.
     # For supported keys in hash, see rdoc for Blacklight::SearchFields
@@ -197,8 +228,6 @@ class CatalogController < ApplicationController
     #config.add_sort_field 'pub_date_sort desc, title_sort asc', label: 'year'
     #config.add_sort_field 'author_sort asc, title_sort asc', label: 'author'
     #config.add_sort_field 'title_sort asc, pub_date_sort desc', label: 'title'
-    config.add_sort_field 'score desc', label: 'relevance'
-
 
     # If there are more than this many search results, no spelling ("did you
     # mean") suggestion is offered.
@@ -208,4 +237,14 @@ class CatalogController < ApplicationController
     config.autocomplete_enabled = true
     config.autocomplete_path = 'suggest'
   end
+
+  def display_marc_field?(context, doc)
+    doc['recordtype_ss'] and doc['recordtype_ss'][0].to_s == 'marc'
+  end
+
+  def display_marc_accessor_field?(context, doc)
+    puts "#{context.accessor} ****> #{doc.send(context.accessor)}"
+    display_marc_field?(context, doc) and !doc.send(context.accessor).nil?
+  end
+
 end
