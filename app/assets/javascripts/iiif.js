@@ -111,6 +111,12 @@ function setMainImage(image, index) {
         html += "<img class='img-responsive hidden-sm' src='" + derivative['url'] + "' onclick='fancybox(" + index + ");' />";
         html += "<img class='img-responsive visible-sm-block lazy' data-original='" + large_derivative['url'] + "' onclick='fancybox(" + index + ");'/>";
         $("#ycba-main-image").html(html);
+        var dl_url_jpeg = derivative['url'].split("/").slice(0,-1).join("/").concat("/3");
+        var dl_url_tiff = derivative['url'].split("/").slice(0,-1).join("/").concat("/6");
+        var dl_name = dl_url_jpeg.split("/")[5];
+        var dl_html_jpeg = "<a href='" + dl_url_jpeg + "' download='" + dl_name + "'>download jpeg</a>";
+        var dl_html_tiff = "<a href='" + dl_url_tiff + "' download='" + dl_name + "'>download tiff</a>";
+        $("#ycba-downloads").html(dl_html_jpeg + " | " + dl_html_tiff);
     }
 
     if (metadata) {
