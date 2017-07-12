@@ -30,6 +30,8 @@
       <%= link_to("Request additional photography", image_request_link(document)) %>
     </div>
   </div>
+
+  <%= render partial: 'viewer' %>
 </div>
 
 <script language="Javascript">updateImageData(<%= @document['recordID_ss'][0] %>);</script>
