@@ -32,9 +32,6 @@ class BookCoverController < ApplicationController
         end
       end
     end
-    
-    #syndetics_image = syndetics_cover_image(isbn,"rn12")
-    #librarything_image = librarything_cover_image(isbn)
   end
 
   private
