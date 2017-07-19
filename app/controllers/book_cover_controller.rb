@@ -18,12 +18,21 @@ class BookCoverController < ApplicationController
         if amazon_image
           send_data amazon_image, type: 'image/jpeg', disposition: 'inline', filename: "#{isbn}.jpg"
         else
-          redirect_to '/no_cover.png'
+          syndetics_image = syndetics_cover_image(isbn,"rn12")
+          if syndetics_image
+            send_data syndetics_image, type: 'image/jpeg', disposition: 'inline', filename: "#{isbn}.jpg"
+          else
+            librarything_image = librarything_cover_image(isbn)
+            if librarything_image
+              send_data syndetics_image, type: 'image/jpeg', disposition: 'inline', filename: "#{isbn}.jpg"
+            else
+              redirect_to '/no_cover.png'
+            end
+          end
         end
       end
     end
-
-
+    
     #syndetics_image = syndetics_cover_image(isbn,"rn12")
     #librarything_image = librarything_cover_image(isbn)
   end
