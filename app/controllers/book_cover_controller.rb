@@ -5,6 +5,7 @@ class BookCoverController < ApplicationController
   def show
     isbn = params[:isbn]
     size = params[:size] || 'small'
+#=begin
     openlibrary_image = openlibrary_cover_image(isbn, size)
     if openlibrary_image
       send_data openlibrary_image, type: 'image/jpeg', disposition: 'inline', filename: "#{isbn}.jpg"
@@ -13,13 +14,28 @@ class BookCoverController < ApplicationController
       if google_image
         send_data google_image, type: 'image/jpeg', disposition: 'inline', filename: "#{isbn}.jpg"
       else
-        redirect_to 'no_cover.png'
+        amazon_image = amazon_cover_image(isbn)
+        if amazon_image
+          send_data amazon_image, type: 'image/jpeg', disposition: 'inline', filename: "#{isbn}.jpg"
+        else
+          redirect_to '/no_cover.png'
+        end
       end
     end
+#=end
+=begin
+    amazon_image = amazon_cover_image(isbn)
+    if amazon_image
+      puts "AI"
+      send_data amazon_image, type: 'image/jpeg', disposition: 'inline', filename: "#{isbn}.jpg"
+    else
+      puts"NC"
+      redirect_to '/no_cover.png'
+    end
+=end
 
     #syndetics_image = syndetics_cover_image(isbn, size)
     #librarything_image = librarything_cover_image(isbn, size)
-    #amazon_image = amazon_cover_image(isbn, size)
   end
 
   private
@@ -40,10 +56,7 @@ class BookCoverController < ApplicationController
     end
 
     url = "http://covers.openlibrary.org/b/isbn/#{isbn}-#{openlibrary_size}.jpg"
-    bytes = open(url).read
-    bytes = nil if bytes.length < 1000  # received a 1x1 px image; cover not found
-    bytes
-    #return_image(url)
+    return_image(url)
   end
 
   def google_cover_image(isbn)
@@ -58,8 +71,13 @@ class BookCoverController < ApplicationController
     else
       return nil
     end
-    puts "t:"+t.to_s
     return_image(t)
+  end
+
+  def amazon_cover_image(isbn)
+    u = "http://images.amazon.com/images/P/#{isbn}.01.20TRZZZZ.jpg"
+    #bytes = open(u,"mimeType" => "text/xml; charset=x-user-defined").read #alternate with header
+    return_image(u)
   end
 
 end
