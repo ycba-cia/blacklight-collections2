@@ -5,7 +5,7 @@ class BookCoverController < ApplicationController
   def show
     isbn = params[:isbn]
     size = params[:size] || 'small'
-#=begin
+
     openlibrary_image = openlibrary_cover_image(isbn, size)
     if openlibrary_image
       send_data openlibrary_image, type: 'image/jpeg', disposition: 'inline', filename: "#{isbn}.jpg"
@@ -22,20 +22,10 @@ class BookCoverController < ApplicationController
         end
       end
     end
-#=end
-=begin
-    amazon_image = amazon_cover_image(isbn)
-    if amazon_image
-      puts "AI"
-      send_data amazon_image, type: 'image/jpeg', disposition: 'inline', filename: "#{isbn}.jpg"
-    else
-      puts"NC"
-      redirect_to '/no_cover.png'
-    end
-=end
 
-    #syndetics_image = syndetics_cover_image(isbn, size)
-    #librarything_image = librarything_cover_image(isbn, size)
+
+    #syndetics_image = syndetics_cover_image(isbn,"rn12")
+    #librarything_image = librarything_cover_image(isbn)
   end
 
   private
@@ -77,6 +67,22 @@ class BookCoverController < ApplicationController
   def amazon_cover_image(isbn)
     u = "http://images.amazon.com/images/P/#{isbn}.01.20TRZZZZ.jpg"
     #bytes = open(u,"mimeType" => "text/xml; charset=x-user-defined").read #alternate with header
+    return_image(u)
+  end
+
+  #https://developers.exlibrisgroup.com/resources/voyager/code_contributions/SyndeticsStarterDocument.pdf
+  def syndetics_cover_image(isbn,type)
+    client_code = ENV['SYNDETICS_CLIENT_CODE']
+    u = "http://www.syndetics.com/index.aspx?isbn=#{isbn}/summary.html&client=#{client_code}&type=#{type}"
+    return_image(u)
+  end
+
+  #http://blog.librarything.com/main/2008/08/a-million-free-covers-from-librarything/
+  def librarything_cover_image(isbn)
+    devkey = ENV['LIBRARYTHING_DEV_KEY']
+    #EX: http://covers.librarything.com/devkey/KEY/medium/isbn/0545010225
+    u = "http://covers.librarything.com/devkey/#{devkey}/medium/isbn/#{isbn}"
+    puts "LT:"+u
     return_image(u)
   end
 

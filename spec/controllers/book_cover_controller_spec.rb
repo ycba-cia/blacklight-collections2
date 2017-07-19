@@ -24,4 +24,21 @@ RSpec.describe BookCoverController, type: :controller do
         BookCoverController.new.instance_eval{return_image(u)}
   end
 
+  it 'should return expected syndetics book cover' do
+    isbn = "0316769487"
+    client_code = ENV['SYNDETICS_CLIENT_CODE']
+    type = "rn12"
+    u = "http://www.syndetics.com/index.aspx?isbn=#{isbn}/summary.html&client=#{client_code}&type=#{type}"
+    BookCoverController.new.instance_eval{syndetics_cover_image(isbn,type)}.should ==
+        BookCoverController.new.instance_eval{return_image(u)}
+  end
+
+  it 'should return expected librarything book cover' do
+    isbn = "0316769487"
+    devkey = ENV['LIBRARYTHING_DEV_KEY']
+    u = "http://covers.librarything.com/devkey/#{devkey}/medium/isbn/#{isbn}"
+    BookCoverController.new.instance_eval{librarything_cover_image(isbn)}.should ==
+        BookCoverController.new.instance_eval{return_image(u)}
+  end
+
 end
