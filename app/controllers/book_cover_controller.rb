@@ -18,17 +18,18 @@ class BookCoverController < ApplicationController
         if amazon_image
           send_data amazon_image, type: 'image/jpeg', disposition: 'inline', filename: "#{isbn}.jpg"
         else
-          syndetics_image = syndetics_cover_image(isbn,"rn12")
-          if syndetics_image
-            send_data syndetics_image, type: 'image/jpeg', disposition: 'inline', filename: "#{isbn}.jpg"
-          else
-            librarything_image = librarything_cover_image(isbn)
-            if librarything_image
-              send_data syndetics_image, type: 'image/jpeg', disposition: 'inline', filename: "#{isbn}.jpg"
-            else
+          ##TODO - commented out need to obtain a code https://www.drupal.org/node/872368
+          #syndetics_image = syndetics_cover_image(isbn,"rn12")
+          #if syndetics_image
+          #  send_data syndetics_image, type: 'image/jpeg', disposition: 'inline', filename: "#{isbn}.jpg"
+          #else
+            #TODO - not implemented due to 1 call per second license agreement -https://www.librarything.com/services/keys.php
+            #librarything_image = librarything_cover_image(isbn)
+            #if librarything_image
+            #  send_data syndetics_image, type: 'image/jpeg', disposition: 'inline', filename: "#{isbn}.jpg"
+            #else
               redirect_to '/no_cover.png'
-            end
-          end
+            #end
         end
       end
     end
