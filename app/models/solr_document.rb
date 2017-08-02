@@ -39,6 +39,11 @@ class SolrDocument
     cds_url
   end
 
+  #defs for citations
+  def author
+    self['author_ss'] + self['author_additional_ss']
+  end
+
   # Email uses the semantic field mappings below to generate the body of an email.
   SolrDocument.use_extension(Blacklight::Document::Email)
 
