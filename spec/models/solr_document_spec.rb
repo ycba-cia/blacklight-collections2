@@ -1,4 +1,5 @@
 require "rails_helper"
+require "citations"
 RSpec.describe SolrDocument do
   describe "access methods" do
     let(:solrdoc) do
@@ -21,6 +22,10 @@ RSpec.describe SolrDocument do
         #NOTE: added fake author_additional_ss to prue.json
         it { is_expected.to eq ["Sir Joshua Reynolds RA, 1723–1792, British","Sir Fake Author 1","Sir Fake Author 2"] }
       end
+    end
+
+    it "can retrieve a short title" do
+      expect(solrdoc.title).to eq ["Mrs. Abington as Miss Prue in \"Love for Love\" by William Congreve"]
     end
 
     describe "#id" do

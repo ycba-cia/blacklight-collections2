@@ -2,6 +2,7 @@
 class SolrDocument
   include Blacklight::Solr::Document
   include Blacklight::Gallery::OpenseadragonSolrDocument
+  include Blacklight::Solr::Citations
 
 
   # self.unique_key = 'id'
@@ -37,11 +38,6 @@ class SolrDocument
       cds_url = self['url_ss'][0].gsub('http://hdl.handle.net/10079/bibid/', '')
     end
     cds_url
-  end
-
-  #defs for citations
-  def author
-    self['author_ss'] + self['author_additional_ss']
   end
 
   # Email uses the semantic field mappings below to generate the body of an email.
