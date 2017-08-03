@@ -32,11 +32,11 @@ module Blacklight::Solr::Citations
     authors.each do |a|
       a = abbreviateName(a)
       if i+1 == authors.length && i > 0
-        a2 << " & " << stripPunctuation(a) << "."
+        a2 << "& " << stripPunctuation(a) << "."
       elsif authors.length > 1
         a2 << stripPunctuation(a) << ", "
       else
-        a2 << stripPunctuation(s) << "."
+        a2 << stripPunctuation(a) << "."
       end
       i=i+1
     end
@@ -44,11 +44,11 @@ module Blacklight::Solr::Citations
   end
 
   def getPublisher
-
+    publisher_cit[0]
   end
 
   def getYear
-
+    publishDate[0]
   end
 
   def getEdition
@@ -56,7 +56,7 @@ module Blacklight::Solr::Citations
   end
 
   def stripPunctuation s
-    s = s.gsub(/[.,:;\/]/,"").strip!
+    s = s.gsub(/[.,:;\/]/,"").strip
     s
   end
 

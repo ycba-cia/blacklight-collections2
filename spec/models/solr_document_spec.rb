@@ -1,5 +1,7 @@
 require "rails_helper"
 require "citations"
+#http://collections.britishart.yale.edu/vufind/Record/2038711/Cite
+#http://collections.britishart.yale.edu/vufind/Record/1669236/Cite
 RSpec.describe SolrDocument do
   describe "access methods" do
     let(:solrdoc) do
@@ -88,6 +90,21 @@ RSpec.describe SolrDocument do
       expect(solrdoc.abbreviateName(s2)).to eq "Leighton, C."
       expect(solrdoc.abbreviateName(s3)).to eq "Sir Joshua Reynolds RA"
       expect(solrdoc.abbreviateName(s4)).to eq "Sir Fake Author 1"
+    end
+
+    it "renders an APA author" do
+      expect(solrdoc.getAPAAuthors).to eq "Sir Joshua Reynolds RA, Sir Fake Author 1, & Sir Fake Author 2."
+      expect(solrdoc2.getAPAAuthors).to eq "Leighton C, & Josiah Wedgwood & Sons."
+    end
+
+    it "renders a publisher" do
+      expect(solrdoc.getPublisher).to eq "New Haven : YCBA Madeup Press"
+      expect(solrdoc2.getPublisher).to eq "Hamden : YUL Madeup Press"
+    end
+
+    it "renders a year" do
+      expect(solrdoc.getYear).to eq "1771"
+      expect(solrdoc2.getYear).to eq "2075"
     end
 
   end
