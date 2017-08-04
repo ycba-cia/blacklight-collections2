@@ -1,6 +1,8 @@
 module Blacklight::Solr::Citations
   extend ActiveSupport::Concern
 
+  #note: rough ruby version of vufind php code from:
+  #bac6-dev:/usr/local/vufind-prod/vufind-1.2/web/sys/CitationBuilder.php
   def authors
     (self['author_ss'] ? self['author_ss'] : [""]) + (self['author_additional_ss'] ? self['author_additional_ss'] : [""])
   end
@@ -78,10 +80,55 @@ module Blacklight::Solr::Citations
     return apafields
   end
 
+  def getMLA
+    apafields = Hash.new
+    apafields["title"] = getMLATitle
+    apafields["authors"] = getMLAAuthors
+    apafields["publisher"] = getPublisher
+    apafields["year"] = getYear
+    apafields["edition"] = getEdition
+    return apafields
+  end
+
   def getMLATitle
     capitalizeTitle(title[0])
   end
+
+  def getMLAAuthors
+    return "" if authors[0] == ""
+    if authors.length > 4
+      return cleanNameDates(authors[0]) + ", et al"
+    end
+    newauthors = ""
+    authors.each_with_index do |author, i|
+      if i+1 == authors.length && i > 0
+        #last
+        newauthors = newauthors + ", and " + reverseName(stripPunctuation(author))
+      elsif i > 0
+        newauthors = newauthors + ", " + reverseName(stripPunctuation(author))
+      else
+        #first
+        newauthors = cleanNameDates(author)
+      end
+    end
+      return newauthors
+    end
 #
+
+  def reverseName n
+    return "" if n[0].nil?
+    return "" if n[0] == ""
+    parts = n.split(",").each(&:strip!)
+    if parts[1].nil? || isDateRange?(parts[1])
+      return parts[0]
+    end
+    name = parts[1] + " " + parts[0]
+    if parts[2].nil? == false && isNameSuffix?(parts[2])
+      name = name + ", " + parts[2]
+    end
+    return name
+  end
+
   def stripPunctuation s
     return "" if s == ""
     return "" if s.nil?
@@ -134,5 +181,33 @@ module Blacklight::Solr::Citations
       followsColon = true if word[word.length - 1] == ":"
     }
       return newwords.join(" ")
+  end
+
+  def cleanNameDates n
+    parts = n.split(",").each(&:strip!)
+    name = ""
+    return name if parts[0].nil?
+    name = parts[0]
+    return name if parts[1].nil?
+    if isDateRange?(parts[1])
+      return name
+    else
+      name = name + ", " + parts[1]
+    end
+    return name if parts[2].nil?
+    if isNameSuffix?(parts[2])
+      name = name + ", " + parts[2]
+    end
+    return name
+  end
+
+  def isNameSuffix? n
+    return false if n.nil?
+    return false if n == ""
+    n = stripPunctuation(n)
+    suffix = ["Jr","Sr"] #MD? pHD?
+    return true if suffix.include? n
+    return true if (/^[MDCLXVI]+$/ =~ n) == 0
+    return false
   end
 end

@@ -13,7 +13,7 @@ RSpec.describe SolrDocument do
     end
 
     let(:solrdoc3) do
-      SolrDocument.new(id: '01234567', edition_ss: ['1st ed.'])
+      SolrDocument.new(id: '01234567', edition_ss: ['1st ed.'],author_ss: ["Leighton, Clare, 1898-1989.","name2","me","you","him"])
     end
 
     describe "#[]" do
@@ -121,6 +121,45 @@ RSpec.describe SolrDocument do
       expect(solrdoc.capitalizeTitle(t4)).to eq "Note: Try Capitalize After a Colon"
     end
 
+    it "distinguishes a suffix" do
+      s1 = nil
+      s2 = ""
+      s3 = "Jr"
+      s4 = "XCLVII"
+      s5 ="random"
+      expect(solrdoc.isNameSuffix?(s1)).to eq false
+      expect(solrdoc.isNameSuffix?(s2)).to eq false
+      expect(solrdoc.isNameSuffix?(s3)).to eq true
+      expect(solrdoc.isNameSuffix?(s4)).to eq true
+      expect(solrdoc.isNameSuffix?(s5)).to eq false
+    end
+
+    it "cleans MLA nameDates" do
+      s1 = "Leighton, Clare, 1898-1989."
+      s2 = "Josiah Wedgwood & Sons."
+      s3 = "Sir Joshua Reynolds RA, 1723–1792"
+      s4 = "Jones Jr, Indiana, 1910-2000"
+      s5 = ""
+      expect(solrdoc.cleanNameDates(s1)).to eq "Leighton, Clare"
+      expect(solrdoc.cleanNameDates(s2)).to eq "Josiah Wedgwood & Sons."
+      expect(solrdoc.cleanNameDates(s3)).to eq "Sir Joshua Reynolds RA"
+      expect(solrdoc.cleanNameDates(s4)).to eq "Jones Jr, Indiana"
+      expect(solrdoc.cleanNameDates(s5)).to eq ""
+    end
+
+    it "reverses names for MLA" do
+      s1 = "Leighton, Clare, 1898-1989."
+      s2 = "Josiah Wedgwood & Sons."
+      s3 = "Sir Joshua Reynolds RA, 1723–1792"
+      s4 = "Jones Jr, Indiana, 1910-2000"
+      s5 = ""
+      expect(solrdoc.reverseName(s1)).to eq "Clare Leighton"
+      expect(solrdoc.reverseName(s2)).to eq "Josiah Wedgwood & Sons."
+      expect(solrdoc.reverseName(s3)).to eq "Sir Joshua Reynolds RA"
+      expect(solrdoc.reverseName(s4)).to eq "Indiana Jones Jr"
+      expect(solrdoc.reverseName(s5)).to eq ""
+    end
+
     it "render an MLA title" do
       expect(solrdoc.getMLATitle).to eq "Mrs. Abington As Miss Prue in \"love for Love\" By William Congreve"
       expect(solrdoc2.getMLATitle).to eq "Clare Leighton Collection,"
@@ -129,6 +168,12 @@ RSpec.describe SolrDocument do
     it "renders an APA title" do
       expect(solrdoc.getAPATitle).to eq "Mrs Abington as Miss Prue in \"Love for Love\" by William Congreve"
       expect(solrdoc2.getAPATitle).to eq "Clare Leighton collection"
+    end
+
+    it "renders an MLA author" do
+      expect(solrdoc.getMLAAuthors).to eq "Sir Joshua Reynolds RA, Sir Fake Author 1, and Sir Fake Author 2"
+      expect(solrdoc2.getMLAAuthors).to eq "Leighton, Clare, and Josiah Wedgwood & Sons"
+      expect(solrdoc3.getMLAAuthors).to eq "Leighton, Clare, et al"
     end
 
     it "renders an APA author" do

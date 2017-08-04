@@ -7,7 +7,7 @@ class CatalogController < ApplicationController
     idd = params[:id]
     document = SolrDocument.find(idd)
     @apa = document.getAPA
-
+    @mla = document.getMLA
     respond_to do |format|
       format.html
     end
