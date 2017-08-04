@@ -3,6 +3,16 @@ class CatalogController < ApplicationController
 
   include Blacklight::Catalog
 
+  def cite
+    idd = params[:id]
+    document = SolrDocument.find(idd)
+    @apa = document.getAPA
+    @mla = document.getMLA
+    respond_to do |format|
+      format.html
+    end
+  end
+
   configure_blacklight do |config|
     config.view.gallery.partials = [:compact_index]
     config.view.masonry.partials = [:compact_index]
