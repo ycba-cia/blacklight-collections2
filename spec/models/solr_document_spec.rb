@@ -12,6 +12,10 @@ RSpec.describe SolrDocument do
       SolrDocument.new(JSON.parse(File.open("spec/fixtures/leighton.json","rb").read))
     end
 
+    let(:solrdoc3) do
+      SolrDocument.new(id: '01234567', edition_ss: ['1st ed.'])
+    end
+
     describe "#[]" do
       subject { solrdoc[field] }
 
@@ -61,6 +65,10 @@ RSpec.describe SolrDocument do
       expect(solrdoc2.edition).to eq ["101th ed."]
     end
 
+    it "can't retrieve a pub place" do
+      expect(solrdoc.pubPlace).to eq [""]
+    end
+
     describe "#id" do
       subject { solrdoc.id }
       it { is_expected.to eq '1669236' }
@@ -69,7 +77,17 @@ RSpec.describe SolrDocument do
     it "can strip punctuation" do
       s = "This., -/ is #! an $ % ^ & * example ;: {} of a = -_ string with `~)() punctuation. "
       ss = "This - is #! an $ % ^ & * example  {} of a = -_ string with `~)() punctuation"
+      sss = ""
       expect(solrdoc.stripPunctuation(s)).to eq ss
+      expect(solrdoc.stripPunctuation(sss)).to eq ""
+      expect(solrdoc.stripPunctuation(nil)).to eq ""
+    end
+
+    it "is punctuated" do
+      s = "asdf"
+      s2 = "asdf."
+      expect(solrdoc.isPunctuated(s)).to eq false
+      expect(solrdoc.isPunctuated(s2)).to eq true
     end
 
     it "can validate a date range" do
@@ -92,6 +110,11 @@ RSpec.describe SolrDocument do
       expect(solrdoc.abbreviateName(s4)).to eq "Sir Fake Author 1"
     end
 
+    it "renders an APA title" do
+      expect(solrdoc.getAPATitle).to eq "Mrs Abington as Miss Prue in \"Love for Love\" by William Congreve"
+      expect(solrdoc2.getAPATitle).to eq "Clare Leighton collection"
+    end
+
     it "renders an APA author" do
       expect(solrdoc.getAPAAuthors).to eq "Sir Joshua Reynolds RA, Sir Fake Author 1, & Sir Fake Author 2."
       expect(solrdoc2.getAPAAuthors).to eq "Leighton C, & Josiah Wedgwood & Sons."
@@ -105,6 +128,13 @@ RSpec.describe SolrDocument do
     it "renders a year" do
       expect(solrdoc.getYear).to eq "1771"
       expect(solrdoc2.getYear).to eq "2075"
+    end
+
+    it "renders an edition" do
+      #NOTE:added fake edition to prue.json, leighton.json
+      expect(solrdoc.getEdition).to eq "99th ed."
+      expect(solrdoc2.getEdition).to eq "101th ed."
+      expect(solrdoc3.getEdition).to eq ""
     end
 
   end
