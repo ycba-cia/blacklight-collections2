@@ -78,6 +78,10 @@ module Blacklight::Solr::Citations
     return apafields
   end
 
+  def getMLATitle
+    capitalizeTitle(title[0])
+  end
+#
   def stripPunctuation s
     return "" if s == ""
     return "" if s.nil?
@@ -113,5 +117,22 @@ module Blacklight::Solr::Citations
     else
       return true
     end
+  end
+
+  def capitalizeTitle s
+    exceptions = ['a', 'an', 'the', 'against', 'between', 'in', 'of',
+                  'to', 'and', 'but', 'for', 'nor', 'or', 'so', 'yet', 'to']
+    words = s.split(" ")
+    newwords = Array.new
+    followsColon = false
+    words.each { |word|
+      if !(exceptions.include? word) || followsColon
+        word = word.capitalize
+      end
+      followsColon = false
+      newwords.push(word)
+      followsColon = true if word[word.length - 1] == ":"
+    }
+      return newwords.join(" ")
   end
 end

@@ -110,6 +110,22 @@ RSpec.describe SolrDocument do
       expect(solrdoc.abbreviateName(s4)).to eq "Sir Fake Author 1"
     end
 
+    it "can MLA capitalize a title" do
+      t1 = "Mrs. Abington as Miss Prue in \"Love for Love\" by William Congreve"
+      t2 = "Clare Leighton collection"
+      t3 = ""
+      t4 = "Note: try capitalize after a colon"
+      expect(solrdoc.capitalizeTitle(t1)).to eq "Mrs. Abington As Miss Prue in \"love for Love\" By William Congreve"
+      expect(solrdoc.capitalizeTitle(t2)).to eq "Clare Leighton Collection"
+      expect(solrdoc.capitalizeTitle(t3)).to eq ""
+      expect(solrdoc.capitalizeTitle(t4)).to eq "Note: Try Capitalize After a Colon"
+    end
+
+    it "render an MLA title" do
+      expect(solrdoc.getMLATitle).to eq "Mrs. Abington As Miss Prue in \"love for Love\" By William Congreve"
+      expect(solrdoc2.getMLATitle).to eq "Clare Leighton Collection,"
+    end
+
     it "renders an APA title" do
       expect(solrdoc.getAPATitle).to eq "Mrs Abington as Miss Prue in \"Love for Love\" by William Congreve"
       expect(solrdoc2.getAPATitle).to eq "Clare Leighton collection"
