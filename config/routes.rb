@@ -26,6 +26,8 @@ Rails.application.routes.draw do
   get 'bookcover/isbn/:isbn' => 'book_cover#show'
   get 'bookcover/isbn/:isbn/size/:size' => 'book_cover#show'
 
+  get 'catalog/:id/cite', :to => "catalog#cite", :as => "catalog_citation"
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

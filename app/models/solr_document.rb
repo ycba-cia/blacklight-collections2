@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require "citations"
 class SolrDocument
   include Blacklight::Solr::Document
   include Blacklight::Gallery::OpenseadragonSolrDocument

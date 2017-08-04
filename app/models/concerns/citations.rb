@@ -68,6 +68,16 @@ module Blacklight::Solr::Citations
     end
   end
 
+  def getAPA
+    apafields = Hash.new
+    apafields["title"] = getAPATitle
+    apafields["authors"] = getAPAAuthors
+    apafields["publisher"] = getPublisher
+    apafields["year"] = getYear
+    apafields["edition"] = getEdition
+    return apafields
+  end
+
   def stripPunctuation s
     return "" if s == ""
     return "" if s.nil?
