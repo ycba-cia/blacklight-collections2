@@ -3,6 +3,8 @@ class CatalogController < ApplicationController
 
   include Blacklight::Catalog
 
+  #ERJ: for reference https://github.com/projectblacklight/blacklight/wiki/Adding-new-document-actions
+
   def cite
     idd = params[:id]
     document = SolrDocument.find(idd)
@@ -248,6 +250,7 @@ class CatalogController < ApplicationController
     config.autocomplete_path = 'suggest'
   end
 
+  #ERJ maybe next 2 methods belong in a helper
   def display_marc_field?(context, doc)
     doc['recordtype_ss'] and doc['recordtype_ss'][0].to_s == 'marc'
   end
@@ -256,5 +259,4 @@ class CatalogController < ApplicationController
     puts "#{context.accessor} ****> #{doc.send(context.accessor)}"
     display_marc_field?(context, doc) and !doc.send(context.accessor).nil?
   end
-
 end
