@@ -109,19 +109,33 @@ module ApplicationHelper
     document['thumbnail_ss'][0] if document['thumbnail_ss'] and document['thumbnail_ss'][0]
   end
 
-  def get_export_url(doc)
+  def get_export_url_xml(doc)
     if doc['recordtype_ss']
       if doc['recordtype_ss'][0].to_s == 'marc'
-        #http://localhost:3000/catalog/2051524
-        #url = "http://google.com"
         url = "http://columbus.library.yale.edu:8055/OAI_BAC/src/OAIOrbisTool.jsp?verb=GetRecord&identifier=oai:orbis.library.yale.edu:"+get_bib_from_handle(doc)+"&metadataPrefix=marc21"
       elsif doc['recordtype_ss'][0].to_s == 'lido'
+        url = "http://collections.britishart.yale.edu/oaicatmuseum/OAIHandler?verb=GetRecord&identifier=oai:tms.ycba.yale.edu:" + doc['recordID_ss'][0] +"&metadataPrefix=lido" if doc['recordID_ss']
       elsif doc['recordtype_ss'][0].to_s == 'mods'
+        url = "" #8/8/17 some rare books have this but not supported
       else
-        #catalog controller error template
+        url = ""
       end
     end
-    #return "http://google.com"
+    return url
+  end
+
+  def get_export_url_rdf(doc)
+    if doc['recordtype_ss']
+      if doc['recordtype_ss'][0].to_s == 'marc'
+        url = "http://collections.britishart.yale.edu/vufind/Record/"+doc['id']+"/Export?style=RDF"
+      elsif doc['recordtype_ss'][0].to_s == 'lido'
+        url = "http://collection.britishart.yale.edu/id/page/object/"+doc['recordID_ss'][0] if doc['recordID_ss']
+      elsif doc['recordtype_ss'][0].to_s == 'mods'
+        url == ""  #8/8/17 some rare books have this but not supported
+      else
+        url = ""
+      end
+    end
     return url
   end
 
