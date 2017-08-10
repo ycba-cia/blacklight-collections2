@@ -31,7 +31,16 @@ module ApplicationHelper
   end
 
   def combine_topic_subject options={}
-    return options[:document][:topic_subjectConcept] + options[:document][:topic_subjectEvent] + options[:document][:topic_subjectObject]
+    subjects = options[:document][:topic_subjectConcept_ss] + options[:document][:topic_subjectEvent_ss] + options[:document][:topic_subjectObject_ss]
+    subjects.join(' ').html_safe
+  end
+
+  def combine_curatorial_comments options={}
+    str = ""
+    options[:value].each_with_index { |v,i|
+      str = str + v + "</br>--" + options[:document][:curatorial_comment_auth_ss][i] + "," + options[:document][:curatorial_comment_date_ss][i] + "</br>"
+    }
+    return str.html_safe
   end
 
   def render_search_per_line options={}
