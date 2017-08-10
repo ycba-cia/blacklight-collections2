@@ -361,7 +361,7 @@ DEPENDENCIES
   pg
   puma (~> 3.7)
   rails (~> 5.1.1)
-  rsolr (>= 1.0)
+  rsolr (>= 2.0)
   rspec
   rspec-rails
   sass-rails (~> 5.0)
