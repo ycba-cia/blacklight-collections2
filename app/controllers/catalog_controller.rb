@@ -108,6 +108,12 @@ class CatalogController < ApplicationController
     config.add_facet_field 'topic_frameStyle_facet', :label => 'Frame Style'
     config.add_facet_field 'credit_line_facet', :label => 'Credit Line'
 
+    config.add_facet_field 'earliestDate_i', :label => 'Earliest Date' #NEW_TO_BL
+    config.add_facet_field 'latestDate_i', :label => 'Latest Date' #NEW_TO_BL
+    config.add_facet_field 'physical_heightValue_i', :label => 'Earliest Date' #NEW_TO_BL
+    config.add_facet_field 'physical_widthValue_i', :label => 'Latest Date' #NEW_TO_BL
+
+
     config.add_facet_field 'author_additional_ss', label: 'Contributor', show: false
     config.add_facet_field 'topic_subjectActor_ss', label: 'People Represented or Subject', show: false
     config.add_facet_field 'form_genre_ss', label: 'Form Genre', show: false
@@ -150,28 +156,41 @@ class CatalogController < ApplicationController
     config.add_show_field 'format_txt', :label => 'Medium'
     config.add_show_field 'physical_txt',  :label => 'Dimensions', unless:  :display_marc_field?
     config.add_show_field 'type_ss', :label => 'Classification' #Bibliographic
-    config.add_show_field 'publisher', accessor: 'publisher', :label => 'Imprint', if: :display_marc_accessor_field? #Bibliographic
-    config.add_show_field 'physical_description', accessor: 'physical_description', label: 'Physical Description', if: :display_marc_accessor_field?
+    config.add_show_field 'publisher_ss', accessor: 'publisher', :label => 'Imprint', if: :display_marc_accessor_field? #Bibliographic
+    config.add_show_field 'physical_description', accessor: 'physical_description', label: 'Physical Description', if: :display_marc_accessor_field? #NOT_IN_VU
     config.add_show_field 'edition_ss', label: 'Edition' #Bibliographic
-    config.add_show_field 'orbis_link', accessor: 'orbis_link', :label => 'Full Orbis Record', helper_method: 'render_as_link', if: :display_marc_accessor_field?
-    config.add_show_field 'resourceURL_ss', :label => 'Related content', helper_method: 'render_related_content', if: :display_marc_field?
+    config.add_show_field 'orbis_link', accessor: 'orbis_link', :label => 'Full Orbis Record', helper_method: 'render_as_link', if: :display_marc_accessor_field? #NOT_IN_VU
+    config.add_show_field 'resourceURL_ss', :label => 'Related content', helper_method: 'render_related_content', if: :display_marc_field? #NOT_IN_VU
     config.add_show_field 'description_txt', :label => 'Inscription(s)/Marks/Lettering', helper_method: 'render_citation', unless:  :display_marc_field?
-    config.add_show_field 'note', accessor: 'note', :label => 'Notes', helper_method: 'render_citation', if: :display_marc_accessor_field?
-    config.add_show_field 'marc_contents_txt', label: 'Contents' #Bibliographic
+    config.add_show_field 'note', accessor: 'note', :label => 'Notes', helper_method: 'render_citation', if: :display_marc_accessor_field? #NOT_IN_VU
+    config.add_show_field 'marc_contents_txt', label: 'Contents' #Bibliographic #NOT_IN_VU
     config.add_show_field 'credit_line_txt', :label => 'Credit Line'
-    config.add_show_field 'isbn_ss', :label => 'ISBN'
+    config.add_show_field 'isbn_ss', :label => 'ISBN' #NOT_IN_VU
     config.add_show_field 'callnumber_txt', :label => 'Accession Number', unless: :display_marc_field?
-    config.add_show_field 'callnumber', accessor: 'callnumber', :label => 'Call Number', if: :display_marc_accessor_field?
+    config.add_show_field 'callnumber', accessor: 'callnumber', :label => 'Call Number', if: :display_marc_accessor_field? #NOT_IN_VU
     config.add_show_field 'collection_txt', :label => 'Collection'
-    config.add_show_field 'geographic_culture_txt', :label => 'Culture'
-    config.add_show_field 'era_txt', :label => 'Era'
+    config.add_show_field 'curatorial_comment_txt', :label => 'Curatorial Comment' #NEW_TO_BL
+    config.add_show_field 'geographic_culture_txt', :label => 'Culture' #NOT_IN_VU
+    config.add_show_field 'era_txt', :label => 'Era' #NOT_IN_VU
     config.add_show_field 'url_txt', :label => 'Link', helper_method: 'render_as_link', unless:  :display_marc_field?
     config.add_show_field 'topic_subjectActor_ss', :label => 'People Represented or Subject', link_to_search: true, separator_options: break_separator
-    config.add_show_field 'topic_ss', :label => 'Subject Terms', link_to_search: 'topic_facet', separator_options: break_separator
+    config.add_show_field 'topic_ss', :label => 'Subject Terms - Current', link_to_search: 'topic_facet', separator_options: break_separator
+
+    config.add_show_field 'topic_frameCrossSection_ss', :label => 'Cross-section', link_to_search: true, separator_options: break_separator #NEW_TO_BL
+    config.add_show_field 'topic_frameOrnament_ss', :label => 'Ornaments', link_to_search: true, separator_options: break_separator #NEW_TO_BL
+    config.add_show_field 'topic_frameFeature_ss', :label => 'Features', link_to_search: true, separator_options: break_separator #NEW_TO_BL
+    config.add_show_field 'topic_frameAlteration_ss', :label => 'Alteration', link_to_search: true, separator_options: break_separator #NEW_TO_BL
+    config.add_show_field 'topic_frameStatus_ss', :label => 'Status', link_to_search: true, separator_options: break_separator #NEW_TO_BL
+    config.add_show_field 'topic_frameQuality_ss', :label => 'Quality', link_to_search: true, separator_options: break_separator #NEW_TO_BL
+    config.add_show_field 'topic_frameStyle_ss', :label => 'Style', link_to_search: true, separator_options: break_separator #NEW_TO_BL
+    config.add_show_field 'topic_frameSubjectConcept_ss', :label => 'Subject Terms', helper_method: 'combine_topic_subject', separator_options: break_separator #NEW_TO_BL
+    config.add_show_field 'topic_subjectPlace', :label => 'Place Represented', link_to_search: true, separator_options: break_separator #NEW_TO_BL
+
+
     config.add_show_field 'geographic_facet', label: 'Place Represented', link_to_search: true, separator_options: break_separator
-    config.add_show_field 'form_genre_ss', :label => 'Form Genre', link_to_search: true, separator_options: break_separator  #Bibliographic
+    config.add_show_field 'form_genre_ss', :label => 'Form Genre', link_to_search: true, separator_options: break_separator  #Bibliographic #NOT_IN_VU
     config.add_show_field 'citation_txt', :label => 'Publications', helper_method: 'render_citation'
-    config.add_show_field 'videoURL_ss', :label => 'Video', helper_method: 'render_as_link'
+    config.add_show_field 'videoURL_ss', :label => 'Related Video', helper_method: 'render_as_link'
 
     # "fielded" search configuration. Used by pulldown among other places.
     # For supported keys in hash, see rdoc for Blacklight::SearchFields

@@ -30,6 +30,10 @@ module ApplicationHelper
     citations.join(' ').html_safe
   end
 
+  def combine_topic_subject options={}
+    return options[:document][:topic_subjectConcept] + options[:document][:topic_subjectEvent] + options[:document][:topic_subjectObject]
+  end
+
   def render_search_per_line options={}
     options[:value].each {  |link|
       links.append(link_to "#{link}", "#{link}")
