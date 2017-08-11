@@ -169,7 +169,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'callnumber_txt', :label => 'Accession Number', unless: :display_marc_field?
     config.add_show_field 'callnumber', accessor: 'callnumber', :label => 'Call Number', if: :display_marc_accessor_field? #NOT_IN_VU
     config.add_show_field 'collection_txt', :label => 'Collection'
-    config.add_show_field 'curatorial_comment_txt', :label => 'Curatorial Comment' #NEW_TO_BL
+    config.add_show_field 'curatorial_comment_txt', :label => 'Curatorial Comment', helper_method: 'combine_curatorial_comments' #NEW_TO_BL
     config.add_show_field 'geographic_culture_txt', :label => 'Culture' #NOT_IN_VU
     config.add_show_field 'era_txt', :label => 'Era' #NOT_IN_VU
     config.add_show_field 'url_txt', :label => 'Link', helper_method: 'render_as_link', unless:  :display_marc_field?

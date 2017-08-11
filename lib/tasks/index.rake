@@ -13,12 +13,14 @@ namespace :index do
     start=0
     stop=false
     solr = RSolr.connect :url => 'http://127.0.0.1:8380/solr/biblio'
+    #solr = RSolr.connect :url => 'http://discoverdev.odai.yale.edu/vufind-solr/biblio'
     target_solr = RSolr.connect :url => SOLR_CONFIG['url']
 
     while stop!=true
       # send a request to /select
       response = solr.post 'select', :params => {
           :q=>'institution:"Yale Center for British Art"',
+          #:q=>'recordID:5005',
           :sort=>'id asc',
           :start=>start,
           :rows=>100
@@ -44,18 +46,18 @@ namespace :index do
           if doc['recordtype'] == "lido"
             xml = REXML::Document.new(doc['fullrecord'])
             #puts xml
-            ort = XPath.first(xml, '//lido:rightsWorkSet/lido:rightsType/lido:conceptID[@lido:type="object copyright"]')
-            rightsURL = XPath.first(xml, '//lido:legalBodyID[@lido:type="URL"]')
+            ort = REXML::XPath.first(xml, '//lido:rightsWorkSet/lido:rightsType/lido:conceptID[@lido:type="object copyright"]')
+            rightsURL = REXML::XPath.first(xml, '//lido:legalBodyID[@lido:type="URL"]')
             ort = ort.text if ort
             rightsURL = rightsURL.text if rightsURL
 
             videos = []
-            videoURL = XPath.each(xml, '//lido:linkResource[@lido:formatResource="video"]') { |video|
+            videoURL = REXML::XPath.each(xml, '//lido:linkResource[@lido:formatResource="video"]') { |video|
               videos.append(video.text)
             }
 
             citations = []
-            XPath.each(xml, '//lido:relatedWorkSet/lido:relatedWork/lido:displayObject') { |citation|
+            REXML::XPath.each(xml, '//lido:relatedWorkSet/lido:relatedWork/lido:displayObject') { |citation|
               close = false
               citation = citation.text.gsub('/') { |match|
                   value = close ? '</i>' : '<i>'
@@ -65,22 +67,64 @@ namespace :index do
               citations.append(citation)
             }
 
+            cur_comm = []
+            c1 = REXML::XPath.each(xml, '//lido:eventSet/lido:displayEvent[../lido:event/lido:eventType/lido:term="Curatorial comment"]/text()') { |cc|
+              cur_comm.append(cc)
+            }
+
+            cur_comm_author = []
+            REXML::XPath.each(xml, '//lido:eventSet/lido:event/lido:eventActor/lido:actorInRole/lido:actor/lido:nameActorSet/lido:appellationValue[../../../../../lido:eventType/lido:term="Curatorial comment"]/text()') { |cc_auth|
+              cur_comm_author.append(cc_auth)
+            }
+
+            cur_comm_date = []
+            REXML::XPath.each(xml,'//lido:eventSet/lido:event/lido:eventDate/lido:displayDate[../../lido:eventType/lido:term="Curatorial comment"]/text()') { |cc_date|
+              cur_comm_date.append(cc_date)
+            }
+
+            #doc['curatorial_comment_txt'] = cur_comm.to_s if cur_comm
+            #doc['curatorial_comment_auth_ss'] = cur_comm_author.to_s if cur_comm_author
+            #doc['curatorial_comment_date_ss'] = cur_comm_date.to_s if cur_comm_date
+
+            cur_comm.each { |cc|
+              doc['curatorial_comment_txt'] = cc.to_s
+            }
+            cur_comm_author.each { |cc|
+              doc['curatorial_comment_auth_ss'] = cc.to_s
+            }
+            cur_comm_date.each { |cc|
+              doc['curatorial_comment_date_ss'] = cc.to_s
+            }
+
+            #puts "CC1:" + doc['curatorial_comment_txt'].to_s
+            #puts "CC2:" + doc['curatorial_comment_auth_ss'].to_s
+            #puts "CC3:" + doc['curatorial_comment_date_ss'].to_s
+
             doc['ort_ss'] = ort
             doc['rightsURL_ss'] = rightsURL
             doc['videoURL_ss'] = videos
             doc['citation'] = citations
+            #puts "CC4:" + doc['rightsURL_ss'].to_s
+
           elsif doc['recordtype'] == 'marc'
             doc['isbn_ss'] = get_isbn(doc)
           end
         end
 
+        int_fields = ["earliestDate","latestDate","physical_heightValue","physical_widthValue"]
         docClone.each do |key, array|
           if key!="id" and !key.end_with?("_facet")
             value=doc.delete(key)
             doc[key+"_ss"] = value if value and key != 'fullrecord'
             doc[key+"_txt"] = value if value
+            if int_fields.include? key
+              doc[key+"_is"] = value.map(&:to_i) if value && value.is_a?(Array)
+              doc[key+"_i"] = value.to_i if value && value.is_a?(String)
+            end
           end
         end
+
+        doc['ts_s'] = Time.now
 
         puts doc["id"]
         documents.push(doc)

@@ -62,7 +62,7 @@ group :development, :test do
   gem 'travis'
 end
 
-gem 'rsolr', '>= 1.0'
+gem 'rsolr', '>= 2.0'
 gem 'jquery-rails'
 gem 'devise'
 gem 'devise-guests', '~> 0.6'
