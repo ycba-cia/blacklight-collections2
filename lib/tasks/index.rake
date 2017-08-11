@@ -20,7 +20,7 @@ namespace :index do
       # send a request to /select
       response = solr.post 'select', :params => {
           :q=>'institution:"Yale Center for British Art"',
-          #:q=>'recordID:5005',
+          #:q=>'recordID:107',
           :sort=>'id asc',
           :start=>start,
           :rows=>100
@@ -126,11 +126,12 @@ namespace :index do
 
         doc['ts_s'] = Time.now
 
-        puts doc["id"]
+        puts "doc:" + doc["id"]
         documents.push(doc)
 
       }
       puts start
+      puts "len:" + documents.length.to_s
       target_solr.add documents
       target_solr.commit
       start +=100

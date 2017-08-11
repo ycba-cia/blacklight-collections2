@@ -38,7 +38,12 @@ module ApplicationHelper
   def combine_curatorial_comments options={}
     str = ""
     options[:value].each_with_index { |v,i|
-      str = str + v + "</br>--" + options[:document][:curatorial_comment_auth_ss][i] + "," + options[:document][:curatorial_comment_date_ss][i] + "</br>"
+      if options[:document][:curatorial_comment_auth_ss] && options[:document][:curatorial_comment_auth_ss][i] &&
+          options[:document][:curatorial_comment_date_ss] && options[:document][:curatorial_comment_date_ss][i]
+        str = str + v + "</br>--" + options[:document][:curatorial_comment_auth_ss][i] + "," + options[:document][:curatorial_comment_date_ss][i] + "</br>"
+      else
+        str = str + v + "</br>"
+      end
     }
     return str.html_safe
   end
