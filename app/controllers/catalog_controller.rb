@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 class CatalogController < ApplicationController
 
+  include BlacklightRangeLimit::ControllerOverride
+
   include Blacklight::Catalog
 
   #ERJ: for reference https://github.com/projectblacklight/blacklight/wiki/Adding-new-document-actions
@@ -108,10 +110,10 @@ class CatalogController < ApplicationController
     config.add_facet_field 'topic_frameStyle_facet', :label => 'Frame Style'
     config.add_facet_field 'credit_line_facet', :label => 'Credit Line'
 
-    config.add_facet_field 'earliestDate_i', :label => 'Earliest Date' #NEW_TO_BL
-    config.add_facet_field 'latestDate_i', :label => 'Latest Date' #NEW_TO_BL
-    config.add_facet_field 'physical_heightValue_i', :label => 'Earliest Date' #NEW_TO_BL
-    config.add_facet_field 'physical_widthValue_i', :label => 'Latest Date' #NEW_TO_BL
+    config.add_facet_field 'earliestDate_i', :label => 'Earliest Date', :range => true #NEW_TO_BL
+    config.add_facet_field 'latestDate_i', :label => 'Latest Date', :range => true #NEW_TO_BL
+    config.add_facet_field 'physical_heightValue_is', :label => 'Height [cm]', :range => true #NEW_TO_BL
+    config.add_facet_field 'physical_widthValue_is', :label => 'Width [cm]', :range => true #NEW_TO_BL
 
 
     config.add_facet_field 'author_additional_ss', label: 'Contributor', show: false
