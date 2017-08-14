@@ -31,7 +31,10 @@ module ApplicationHelper
   end
 
   def combine_topic_subject options={}
-    subjects = options[:document][:topic_subjectConcept_ss] + options[:document][:topic_subjectEvent_ss] + options[:document][:topic_subjectObject_ss]
+    subjects = []
+    subjects = subjects + options[:document][:topic_subjectConcept_ss] if options[:document][:topic_subjectConcept_ss]
+    subjects = subjects + options[:document][:topic_subjectEvent_ss] if options[:document][:topic_subjectEvent_ss]
+    subjects = subjects + options[:document][:topic_subjectObject_ss] if options[:document][:topic_subjectObject_ss]
     subjects.join(' ').html_safe
   end
 
