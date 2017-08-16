@@ -110,10 +110,52 @@ class CatalogController < ApplicationController
     config.add_facet_field 'topic_frameStyle_facet', :label => 'Frame Style'
     config.add_facet_field 'credit_line_facet', :label => 'Credit Line'
 
-    config.add_facet_field 'earliestDate_i', :label => 'Earliest Date', :range => true #NEW_TO_BL
-    config.add_facet_field 'latestDate_i', :label => 'Latest Date', :range => true #NEW_TO_BL
-    config.add_facet_field 'physical_heightValue_is', :label => 'Height [cm]', :range => true #NEW_TO_BL
-    config.add_facet_field 'physical_widthValue_is', :label => 'Width [cm]', :range => true #NEW_TO_BL
+    config.add_facet_field 'earliestDate_i', :label => 'Earliest Date', :query => {
+        a: { :label=> '0', :fq=> 'earliestDate_i:0'},
+        b: { :label=> '1-1500', :fq=> 'earliestDate_i:[1 TO 1500]'},
+        c: { :label=> '1501-1600', :fq=> 'earliestDate_i:[1501 TO 1600]'},
+        d: { :label=> '1601-1700', :fq=> 'earliestDate_i:[1601 TO 1700]'},
+        e: { :label=> '1701-1800', :fq=> 'earliestDate_i:[1701 TO 1800]'},
+        f: { :label=> '1801-1900', :fq=> 'earliestDate_i:[1801 TO 1900]'},
+        g: { :label=> '1901-2000', :fq=> 'earliestDate_i:[1901 TO 2000]'},
+        h: { :label=> '2001-2100', :fq=> 'earliestDate_i:[2001 TO 2100]'},
+        i: { :label=> 'unknown', :fq=> '-earliestDate_i:[* TO *]'}
+    }#NEW_TO_BL
+    config.add_facet_field 'latestDate_i', :label => 'Latest Date', :query => {
+        a: { :label=> '0', :fq=> 'latestDate_i:0'},
+        b: { :label=> '1-1500', :fq=> 'latestDate_i:[1 TO 1500]'},
+        c: { :label=> '1501-1600', :fq=> 'latestDate_i:[1501 TO 1600]'},
+        d: { :label=> '1601-1700', :fq=> 'latestDate_i:[1601 TO 1700]'},
+        e: { :label=> '1701-1800', :fq=> 'latestDate_i:[1701 TO 1800]'},
+        f: { :label=> '1801-1900', :fq=> 'latestDate_i:[1801 TO 1900]'},
+        g: { :label=> '1901-2000', :fq=> 'latestDate_i:[1901 TO 2000]'},
+        h: { :label=> '2001-2100', :fq=> 'latestDate_i:[2001 TO 2100]'},
+        i: { :label=> 'unknown', :fq=> '-latestDate_i:[* TO *]'}
+    }#NEW_TO_BL
+    config.add_facet_field 'physical_heightValue_is', :label => 'Height [cm]', :query => {
+        a: { :label=> '0', :fq=> 'physical_heightValue_is:0'},
+        b: { :label=> '1-100', :fq=> 'physical_heightValue_is:[1 TO 100]'},
+        c: { :label=> '101-200', :fq=> 'physical_heightValue_is:[101 TO 200]'},
+        d: { :label=> '201-300', :fq=> 'physical_heightValue_is:[201 TO 300]'},
+        e: { :label=> '301-400', :fq=> 'physical_heightValue_is:[301 TO 400]'},
+        f: { :label=> '401-500', :fq=> 'physical_heightValue_is:[401 TO 500]'},
+        g: { :label=> '501-600', :fq=> 'physical_heightValue_is:[501 TO 600]'},
+        h: { :label=> '601-700', :fq=> 'physical_heightValue_is:[601 TO 700]'},
+        i: { :label=> '701-800', :fq=> 'physical_heightValue_is:[701 TO 800]'},
+        j: { :label=> 'unknown', :fq=> '-physical_heightValue_is[* TO *]'}
+    }#NEW_TO_BL
+    config.add_facet_field 'physical_widthValue_is', :label => 'Width [cm]', :query => {
+        a: { :label=> '0', :fq=> 'physical_widthValue_is:0'},
+        b: { :label=> '1-100', :fq=> 'physical_widthValue_is:[1 TO 100]'},
+        c: { :label=> '101-200', :fq=> 'physical_widthValue_is:[101 TO 200]'},
+        d: { :label=> '201-300', :fq=> 'physical_widthValue_is:[201 TO 300]'},
+        e: { :label=> '301-400', :fq=> 'physical_widthValue_is:[301 TO 400]'},
+        f: { :label=> '401-500', :fq=> 'physical_widthValue_is:[401 TO 500]'},
+        g: { :label=> '501-600', :fq=> 'physical_widthValue_is:[501 TO 600]'},
+        h: { :label=> '601-700', :fq=> 'physical_widthValue_is:[601 TO 700]'},
+        i: { :label=> '701-800', :fq=> 'physical_widthValue_is:[701 TO 800]'},
+        j: { :label=> 'unknown', :fq=> '-physical_widthValue_is[* TO *]'}
+    }#NEW_TO_BL
 
 
     config.add_facet_field 'author_additional_ss', label: 'Contributor', show: false

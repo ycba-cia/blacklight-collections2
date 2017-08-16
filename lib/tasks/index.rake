@@ -20,7 +20,7 @@ namespace :index do
       # send a request to /select
       response = solr.post 'select', :params => {
           :q=>'institution:"Yale Center for British Art"',
-          #:q=>'recordID:107',
+          #:q=>'recordID:120',
           :sort=>'id asc',
           :start=>start,
           :rows=>100
@@ -130,7 +130,7 @@ namespace :index do
         documents.push(doc)
 
       }
-      puts start
+      puts "page:"+start.to_s
       puts "len:" + documents.length.to_s
       target_solr.add documents
       target_solr.commit
