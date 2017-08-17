@@ -309,8 +309,10 @@ class CatalogController < ApplicationController
     config.spell_max = 5
 
     # Configuration for autocomplete suggestor
-    config.autocomplete_enabled = true
-    config.autocomplete_path = 'suggest'
+    # disable until solrconfig.xml access found for ycba_collections_search
+    #config.autocomplete_enabled = true
+    #config.autocomplete_path = 'suggest'
+
   end
 
   #ERJ maybe next 2 methods belong in a helper
