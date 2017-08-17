@@ -4,7 +4,11 @@ module Blacklight::Solr::Citations
   #note: rough ruby version of vufind php code from:
   #bac6-dev:/usr/local/vufind-prod/vufind-1.2/web/sys/CitationBuilder.php
   def authors
-    (self['author_ss'] ? self['author_ss'] : [""]) + (self['author_additional_ss'] ? self['author_additional_ss'] : [""])
+    a = (self['author_ss'] ? self['author_ss'] : [""]) + (self['author_additional_ss'] ? self['author_additional_ss'] : [""])
+    if a.length > 1
+      a.delete("")
+    end
+    a
   end
 
   def title
@@ -36,9 +40,8 @@ module Blacklight::Solr::Citations
   #TODO start here
   def getAPAAuthors
     return "" if authors[0] == ""
-    i = 0
     a2 = ""
-    authors.each do |a|
+    authors.each_with_index do |a,i|
       a = abbreviateName(a)
       if i+1 == authors.length && i > 0
         a2 << "& " << stripPunctuation(a) << "."
@@ -47,7 +50,6 @@ module Blacklight::Solr::Citations
       else
         a2 << stripPunctuation(a) << "."
       end
-      i=i+1
     end
     a2
   end
@@ -72,20 +74,20 @@ module Blacklight::Solr::Citations
 
   def getAPA
     apafields = Hash.new
-    apafields["title"] = getAPATitle
+    apafields["title"] = getAPATitle + "."
     apafields["authors"] = getAPAAuthors
     apafields["publisher"] = getPublisher
-    apafields["year"] = getYear
+    apafields["year"] = "(" + getYear + ")."
     apafields["edition"] = getEdition
     return apafields
   end
 
   def getMLA
     apafields = Hash.new
-    apafields["title"] = getMLATitle
+    apafields["title"] = getMLATitle + "."
     apafields["authors"] = getMLAAuthors
     apafields["publisher"] = getPublisher
-    apafields["year"] = getYear
+    apafields["year"] = getYear + "."
     apafields["edition"] = getEdition
     return apafields
   end
@@ -103,12 +105,14 @@ module Blacklight::Solr::Citations
     authors.each_with_index do |author, i|
       if i+1 == authors.length && i > 0
         #last
-        newauthors = newauthors + ", and " + reverseName(stripPunctuation(author))
-      elsif i > 0
+        newauthors = newauthors + ", and " + reverseName(stripPunctuation(author)) << "."
+      elsif authors.length > 1 && i != 0
         newauthors = newauthors + ", " + reverseName(stripPunctuation(author))
+      elsif authors.length > 1 && i == 0
+        newauthors = reverseName(stripPunctuation(author))
       else
         #first
-        newauthors = cleanNameDates(author)
+        newauthors = cleanNameDates(author) << "."
       end
     end
       return newauthors

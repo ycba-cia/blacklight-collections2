@@ -171,7 +171,7 @@ RSpec.describe SolrDocument do
     end
 
     it "renders an MLA author" do
-      expect(solrdoc.getMLAAuthors).to eq "Sir Joshua Reynolds RA, Sir Fake Author 1, and Sir Fake Author 2"
+      expect(solrdoc.getMLAAuthors).to eq "Sir Joshua Reynolds RA 1723–1792 British, Sir Fake Author 1, and Sir Fake Author 2."
       expect(solrdoc2.getMLAAuthors).to eq "Leighton, Clare, and Josiah Wedgwood & Sons"
       expect(solrdoc3.getMLAAuthors).to eq "Leighton, Clare, et al"
     end
