@@ -110,6 +110,7 @@ class CatalogController < ApplicationController
     config.add_facet_field 'topic_frameStyle_facet', :label => 'Frame Style'
     config.add_facet_field 'credit_line_facet', :label => 'Credit Line'
 
+
     config.add_facet_field 'earliestDate_i', :label => 'Earliest Date', :query => {
         a: { :label=> '0', :fq=> 'earliestDate_i:0'},
         b: { :label=> '1-1500', :fq=> 'earliestDate_i:[1 TO 1500]'},
@@ -157,6 +158,22 @@ class CatalogController < ApplicationController
         j: { :label=> 'unknown', :fq=> '-physical_widthValue_is[* TO *]'}
     }#NEW_TO_BL
 
+    
+#range limit gem buggy, using above query distribution instead https://github.com/projectblacklight/blacklight_range_limit
+=begin
+    config.add_facet_field 'earliestDate_i',
+                           label: 'Earliest Date', limit: 3,
+                           range: { segments: false }, segments: false
+    config.add_facet_field 'latestDate_i',
+                           label: 'Latest Date', limit: 3,
+                           range: { segments: false }, segments: false
+    config.add_facet_field 'physical_heightValue_is',
+                           label: 'Height [cm]', limit: 3,
+                           range: { segments: false }, segments: false
+    config.add_facet_field 'physical_widthValue_is',
+                           label: 'Width [cm]', limit: 3,
+                           range: { segments: false }, segments: false
+=end
 
     config.add_facet_field 'author_additional_ss', label: 'Contributor', show: false
     config.add_facet_field 'topic_subjectActor_ss', label: 'People Represented or Subject', show: false
