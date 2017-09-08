@@ -60,12 +60,12 @@ module ApplicationHelper
 
   def cds_info_url(id, type = 2)
     cds = Rails.application.config_for(:cds)
-    "http://#{cds['host']}/info/repository/YCBA/object/#{id}/type/#{type}"
+    "https://#{cds['host']}/info/repository/YCBA/object/#{id}/type/#{type}"
   end
 
   def cds_thumbnail_url(id, type = 2)
     cds = Rails.application.config_for(:cds)
-    "http://#{cds['host']}/content/repository/YCBA/object/#{id}/type/#{type}/format/1"
+    "https://#{cds['host']}/content/repository/YCBA/object/#{id}/type/#{type}/format/1"
   end
 
   def display_rights(document)
@@ -89,7 +89,7 @@ module ApplicationHelper
   end
 
   def image_request_link(document)
-    url = "http://britishart.yale.edu/request-images?"
+    url = "https://britishart.yale.edu/request-images?"
     url += "id=#{field_value(document,'recordID_ss')}&"
     url += "num=#{field_value(document,'callnumber_txt')}&"
     url += "collection=#{field_value(document,'collection_txt')}&"
@@ -115,10 +115,10 @@ module ApplicationHelper
     if document['recordtype_ss'] and document['recordtype_ss'][0].to_s == 'marc'
       if document['isbn_ss']
         url = "/bookcover/isbn/#{document['isbn_ss'][0]}/size/medium"
-      elsif document['url_ss'] and document['url_ss'][0].start_with?('http://hdl.handle.net/10079/bibid/')
-        cds_id = document['url_ss'][0].gsub('http://hdl.handle.net/10079/bibid/', '')
+      elsif document['url_ss'] and document['url_ss'][0].start_with?('https://hdl.handle.net/10079/bibid/')
+        cds_id = document['url_ss'][0].gsub('https://hdl.handle.net/10079/bibid/', '')
         cds = Rails.application.config_for(:cds)
-        url = "http://#{cds['host']}/content/repository/YCBA/object/#{cds_id}/type/1/format/1"
+        url = "https://#{cds['host']}/content/repository/YCBA/object/#{cds_id}/type/1/format/1"
       end
     end
     url ||= '/no_cover.png'
@@ -148,9 +148,9 @@ module ApplicationHelper
   def get_export_url_rdf(doc)
     if doc['recordtype_ss']
       if doc['recordtype_ss'][0].to_s == 'marc'
-        url = "http://collections.britishart.yale.edu/vufind/Record/"+doc['id']+"/Export?style=RDF"
+        url = "https://collections.britishart.yale.edu/vufind/Record/"+doc['id']+"/Export?style=RDF"
       elsif doc['recordtype_ss'][0].to_s == 'lido'
-        url = "http://collection.britishart.yale.edu/id/page/object/"+doc['recordID_ss'][0] if doc['recordID_ss']
+        url = "https://collection.britishart.yale.edu/id/page/object/"+doc['recordID_ss'][0] if doc['recordID_ss']
       elsif doc['recordtype_ss'][0].to_s == 'mods'
         url == ""  #8/8/17 some rare books have this but not supported
       else
@@ -161,8 +161,8 @@ module ApplicationHelper
   end
 
   def get_bib_from_handle(doc)
-    if doc['url_ss'] and doc['url_ss'][0].start_with?('http://hdl.handle.net/10079/bibid/')
-      bib = doc['url_ss'][0].gsub('http://hdl.handle.net/10079/bibid/', '')
+    if doc['url_ss'] and doc['url_ss'][0].start_with?('https://hdl.handle.net/10079/bibid/')
+      bib = doc['url_ss'][0].gsub('https://hdl.handle.net/10079/bibid/', '')
     else
       bib = "" #or return no bib to extract from url_ss field
     end
