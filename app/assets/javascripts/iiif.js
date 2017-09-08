@@ -43,7 +43,7 @@ function fancybox(index) {
 }
 
 function cdsData(url) {
-    console.log("URL:"+url);
+    //console.log("URL:"+url);
     if (objectImages.length == 0) {
         $.ajax({
             type: "GET",
@@ -64,7 +64,7 @@ function cdsData(url) {
                     image['height'] = value['pixelsY'];
                     image['url'] = value['url'];
                     derivatives[index] = image;
-                    console.log("IMG:"+image['url']);
+                    //console.log("IMG:"+image['url']);
                 });
                 objectImages[index] = derivatives;
             });
