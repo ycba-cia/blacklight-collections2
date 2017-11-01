@@ -2,7 +2,7 @@
 
 
 function updateImageData( id ) {
-    var manifest = "http://manifests.britishart.yale.edu/manifest/" + id;
+    var manifest = "https://manifests.britishart.yale.edu/manifest/" + id;
     $.ajax({
         type: "HEAD",
         async: true,
@@ -10,7 +10,7 @@ function updateImageData( id ) {
         url: manifest
     }).success(function(message,text,jqXHR){
         $("#ycba-thumbnail-controls").append(
-            "<a target='_blank' class='' href='http://mirador.britishart.yale.edu/?manifest=" + manifest + "'><img src='http://manifests.britishart.yale.edu/logo-iiif.png' class='img-responsive' alt='IIIF Manifest'></a>");
+            "<a target='_blank' class='' href='http://mirador.britishart.yale.edu/?manifest=" + manifest + "'><img src='https://manifests.britishart.yale.edu/logo-iiif.png' class='img-responsive' alt='IIIF Manifest'></a>");
     });
 }
 
