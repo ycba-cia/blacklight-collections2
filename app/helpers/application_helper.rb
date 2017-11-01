@@ -163,6 +163,8 @@ module ApplicationHelper
   def get_bib_from_handle(doc)
     if doc['url_ss'] and doc['url_ss'][0].start_with?('https://hdl.handle.net/10079/bibid/')
       bib = doc['url_ss'][0].gsub('https://hdl.handle.net/10079/bibid/', '')
+    elsif doc['url_ss'] and doc['url_ss'][0].start_with?('http://hdl.handle.net/10079/bibid/')
+      bib = doc['url_ss'][0].gsub('http://hdl.handle.net/10079/bibid/', '')
     else
       bib = "" #or return no bib to extract from url_ss field
     end
