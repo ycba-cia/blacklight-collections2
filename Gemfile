@@ -79,3 +79,5 @@ gem 'blacklight-gallery'
 gem 'marc'
 
 gem 'blacklight_range_limit'
+
+gem 'rails_12factor', group: :production
