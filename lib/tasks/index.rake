@@ -12,7 +12,7 @@ namespace :index do
     SOLR_CONFIG = Rails.application.config_for(:blacklight)
     start=0
     stop=false
-    solr = RSolr.connect :url => 'http://127.0.0.1:8380/solr/biblio'
+    solr = RSolr.connect :url => 'http://127.0.0.1:8380/solr/biblio' #make sure tunnelling prod!
     #solr = RSolr.connect :url => 'http://discoverdev.odai.yale.edu/vufind-solr/biblio'
     target_solr = RSolr.connect :url => SOLR_CONFIG['url']
 
@@ -55,6 +55,12 @@ namespace :index do
             videoURL = REXML::XPath.each(xml, '//lido:linkResource[@lido:formatResource="video"]') { |video|
               videos.append(video.text)
             }
+
+            actorInRole = []
+            REXML::XPath.each(xml, '//lido:eventActor/lido:displayActorInRole') { |actor|
+              actorInRole.append(actor.text)
+            }
+
 
             citations = []
             REXML::XPath.each(xml, '//lido:relatedWorkSet/lido:relatedWork/lido:displayObject') { |citation|
@@ -104,6 +110,7 @@ namespace :index do
             doc['rightsURL_ss'] = rightsURL
             doc['videoURL_ss'] = videos
             doc['citation'] = citations
+            doc['actorInRole_ss'] = actorInRole
             #puts "CC4:" + doc['rightsURL_ss'].to_s
 
           elsif doc['recordtype'] == 'marc'

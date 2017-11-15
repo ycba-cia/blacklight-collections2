@@ -100,6 +100,7 @@ class CatalogController < ApplicationController
     config.add_facet_field 'author_ss', label: 'Creator'
     config.add_facet_field 'author_gender_ss', :label => 'Creator Gender'
     config.add_facet_field 'title_collective_ss', :label => 'Collective Title'
+    config.add_facet_field 'type_ss', :label => 'Classification'
     config.add_facet_field 'era_facet', :label => 'Period'
     config.add_facet_field 'genre_name_facet', :label => 'Genre'
     config.add_facet_field 'object_name_ss', :label => 'Work Type'
@@ -199,7 +200,7 @@ class CatalogController < ApplicationController
     #   The ordering of the field names is the order of the display
     # config.add_index_field 'title_t', :label => 'Title'
     #config.add_index_field 'type_txt', :label => 'Type'
-    config.add_index_field 'auth_author_display_txt', :label => 'Creator'
+    config.add_index_field 'author_ss', :label => 'Creator'
     config.add_index_field 'publishDate_txt', label: "Date"
     config.add_index_field 'format_txt', :label => 'Medium'
     config.add_index_field 'collection_txt', :label => 'Collection'
