@@ -9,7 +9,7 @@ function updateImageData( id ) {
         crossDomain: false,
         url: manifest
     }).success(function(message,text,jqXHR){
-        $("#ycba-thumbnail-controls").append(
+        $("#ycba-thumbnail-controls").empty().append(
             "<a target='_blank' class='' href='http://mirador.britishart.yale.edu/?manifest=" + manifest + "'><img src='https://manifests.britishart.yale.edu/logo-iiif.png' class='img-responsive' alt='IIIF Manifest'></a>");
     });
 }
