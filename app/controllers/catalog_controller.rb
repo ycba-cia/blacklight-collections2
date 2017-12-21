@@ -106,7 +106,7 @@ class CatalogController < ApplicationController
     config.add_facet_field 'auth_format_ss', :label => 'Medium', :limit => 20
     config.add_facet_field 'topic_facet', :label => 'Subject Terms', :limit => 50
     config.add_facet_field 'geographic_facet', :label => 'Place Represented'
-    config.add_facet_field 'topic_frameQuality_facet', :label => 'Frame Quality'
+    #config.add_facet_field 'topic_frameQuality_facet', :label => 'Frame Quality' #removed per issue#49 12/21/17
     config.add_facet_field 'topic_frameStyle_facet', :label => 'Frame Style'
     config.add_facet_field 'credit_line_facet', :label => 'Credit Line'
 
