@@ -78,6 +78,6 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'blacklight-gallery'
 gem 'marc'
 
-gem 'blacklight_range_limit'
+gem 'blacklight_range_limit', '6.3.1'
 
 gem 'rails_12factor', group: :production

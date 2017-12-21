@@ -111,7 +111,11 @@ class CatalogController < ApplicationController
     config.add_facet_field 'topic_frameStyle_facet', :label => 'Frame Style'
     config.add_facet_field 'credit_line_facet', :label => 'Credit Line'
 
-
+    config.add_facet_field 'earliestDate_i', :label => 'Earliest Date',range: { segments: false }
+    config.add_facet_field 'latestDate_i', :label => 'Latest Date',range: { segments: false }
+    config.add_facet_field 'physical_heightValue_is', :label => 'Height [cm]',range: { segments: false }
+    config.add_facet_field 'physical_widthValue_is', :label => 'Width [cm]',range: { segments: false }
+=begin
     config.add_facet_field 'earliestDate_i', :label => 'Earliest Date', :query => {
         a: { :label=> '0', :fq=> 'earliestDate_i:0'},
         b: { :label=> '1-1500', :fq=> 'earliestDate_i:[1 TO 1500]'},
@@ -123,6 +127,7 @@ class CatalogController < ApplicationController
         h: { :label=> '2001-2100', :fq=> 'earliestDate_i:[2001 TO 2100]'},
         i: { :label=> 'unknown', :fq=> '-earliestDate_i:[* TO *]'}
     }#NEW_TO_BL
+
     config.add_facet_field 'latestDate_i', :label => 'Latest Date', :query => {
         a: { :label=> '0', :fq=> 'latestDate_i:0'},
         b: { :label=> '1-1500', :fq=> 'latestDate_i:[1 TO 1500]'},
@@ -158,23 +163,9 @@ class CatalogController < ApplicationController
         i: { :label=> '701-800', :fq=> 'physical_widthValue_is:[701 TO 800]'},
         j: { :label=> 'unknown', :fq=> '-physical_widthValue_is[* TO *]'}
     }#NEW_TO_BL
-
+=end
     
 #range limit gem buggy, using above query distribution instead https://github.com/projectblacklight/blacklight_range_limit
-=begin
-    config.add_facet_field 'earliestDate_i',
-                           label: 'Earliest Date', limit: 3,
-                           range: { segments: false }, segments: false
-    config.add_facet_field 'latestDate_i',
-                           label: 'Latest Date', limit: 3,
-                           range: { segments: false }, segments: false
-    config.add_facet_field 'physical_heightValue_is',
-                           label: 'Height [cm]', limit: 3,
-                           range: { segments: false }, segments: false
-    config.add_facet_field 'physical_widthValue_is',
-                           label: 'Width [cm]', limit: 3,
-                           range: { segments: false }, segments: false
-=end
 
     config.add_facet_field 'author_additional_ss', label: 'Contributor', show: false
     config.add_facet_field 'topic_subjectActor_ss', label: 'People Represented or Subject', show: false
@@ -212,6 +203,7 @@ class CatalogController < ApplicationController
 
     break_separator = {words_connector: ' <br/> ', last_word_connector: ' <br/> ', two_words_connector: ' <br/> '}
     config.add_show_field 'author_ss', :label => 'Creator', link_to_search: true, separator_options: break_separator
+    #config.add_show_field 'actorInRole_ss', :label => 'Creator', link_to_search: true, separator_options: break_separator #ERJ note: see issue 30
     config.add_show_field 'author_additional_ss', :label => 'Contributors', link_to_search: true, separator_options: break_separator
     config.add_show_field 'title_alt_txt', :label => 'Alternate Title(s)', separator_options: break_separator
     config.add_show_field 'publishDate_txt', :label => 'Date', unless:  :display_marc_field?
