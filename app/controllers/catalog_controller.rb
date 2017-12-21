@@ -104,7 +104,7 @@ class CatalogController < ApplicationController
     config.add_facet_field 'genre_name_facet', :label => 'Genre'
     config.add_facet_field 'object_name_ss', :label => 'Work Type'
     config.add_facet_field 'auth_format_ss', :label => 'Medium', :limit => 20
-    config.add_facet_field 'topic_facet', :label => 'Subject Terms'
+    config.add_facet_field 'topic_facet', :label => 'Subject Terms', :limit => 50
     config.add_facet_field 'geographic_facet', :label => 'Place Represented'
     config.add_facet_field 'topic_frameQuality_facet', :label => 'Frame Quality'
     config.add_facet_field 'topic_frameStyle_facet', :label => 'Frame Style'
