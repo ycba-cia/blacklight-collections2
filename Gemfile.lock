@@ -173,15 +173,15 @@ GEM
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
-    mini_portile2 (2.2.0)
+    mini_portile2 (2.3.0)
     minitest (5.10.2)
     multi_json (1.12.1)
     multipart-post (2.0.0)
     net-http-persistent (2.9.4)
     net-http-pipeline (1.0.1)
     nio4r (2.1.0)
-    nokogiri (1.8.0)
-      mini_portile2 (~> 2.2.0)
+    nokogiri (1.8.2)
+      mini_portile2 (~> 2.3.0)
     openseadragon (0.3.3)
       rails (> 3.2.0)
     orm_adapter (0.5.0)
@@ -368,6 +368,7 @@ DEPENDENCIES
   jquery-rails
   listen (>= 3.0.5, < 3.2)
   marc
+  nokogiri (~> 1.8.1)
   pg
   puma (~> 3.7)
   rails (~> 5.1.1)
