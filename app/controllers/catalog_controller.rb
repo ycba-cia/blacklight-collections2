@@ -237,10 +237,9 @@ class CatalogController < ApplicationController
     config.add_show_field 'topic_frameQuality_ss', :label => 'Quality', link_to_search: true, separator_options: break_separator #NEW_TO_BL
     config.add_show_field 'topic_frameStyle_ss', :label => 'Style', link_to_search: true, separator_options: break_separator #NEW_TO_BL
     config.add_show_field 'topic_frameSubjectConcept_ss', :label => 'Subject Terms', helper_method: 'combine_topic_subject', separator_options: break_separator #NEW_TO_BL
-    config.add_show_field 'topic_subjectPlace', :label => 'Place Represented', link_to_search: true, separator_options: break_separator #NEW_TO_BL
+    config.add_show_field 'topic_subjectPlace', :label => 'Place Represented', link_to_search: true, separator_options: break_separator #NEW_TO_BL lido only for now
 
-
-    config.add_show_field 'geographic_facet', label: 'Place Represented', link_to_search: true, separator_options: break_separator
+    config.add_show_field 'geographic_facet', label: 'Place Represented', link_to_search: true, separator_options: break_separator, unless: :display_marc_field?
     config.add_show_field 'form_genre_ss', :label => 'Form Genre', link_to_search: true, separator_options: break_separator  #Bibliographic #NOT_IN_VU
     config.add_show_field 'citation_txt', :label => 'Publications', helper_method: 'render_citation'
     config.add_show_field 'videoURL_ss', :label => 'Related Video', helper_method: 'render_as_link'
