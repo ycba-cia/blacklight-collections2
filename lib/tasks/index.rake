@@ -56,11 +56,11 @@ namespace :index do
               videos.append(video.text)
             }
 
-            actorInRole = []
-            REXML::XPath.each(xml, '//lido:eventActor/lido:displayActorInRole') { |actor|
-              actorInRole.append(actor.text)
-            }
-
+            #issue 30 test solution, commenting out in favor of xslt change
+            #actorInRole = []
+            #REXML::XPath.each(xml, '//lido:eventActor/lido:displayActorInRole') { |actor|
+            #  actorInRole.append(actor.text)
+            #}
 
             citations = []
             REXML::XPath.each(xml, '//lido:relatedWorkSet/lido:relatedWork/lido:displayObject') { |citation|
@@ -110,7 +110,8 @@ namespace :index do
             doc['rightsURL_ss'] = rightsURL
             doc['videoURL_ss'] = videos
             doc['citation'] = citations
-            doc['actorInRole_ss'] = actorInRole
+            #issue 30 test solution, commenting out actorInRole_ss in favor of xslt change
+            #doc['actorInRole_ss'] = actorInRole
             #puts "CC4:" + doc['rightsURL_ss'].to_s
 
           elsif doc['recordtype'] == 'marc'
