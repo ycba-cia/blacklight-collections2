@@ -167,6 +167,7 @@ namespace :index do
     while !stop
       response = solr.post 'select', :params => {
           :fq=>'recordtype_ss:marc',
+          #:fq=>'recordtype_ss:marc && id:2038446',
           :fl=> 'recordtype_ss,id,fullrecord_txt',
           :sort=>'id asc',
           :start=>start,
@@ -179,7 +180,7 @@ namespace :index do
         id = doc['id']
         marc = get_marc(doc)
         isbn = get_isbn(marc)
-        form_genre = get_marc_field(marc, '655', 'a')
+        form_genre = get_form_genre(marc)
         marc_contents = get_marc_field(marc, '505', 'a')
         Rails.logger.info "#{id} : #{isbn} : #{form_genre}"
         json = JSON.unparse([
@@ -189,6 +190,7 @@ namespace :index do
                                    'marc_contents_txt' => { 'set' => marc_contents}
                                  }
                              ])
+        #puts "JSON: #{json}"
         solr.update data: json, headers: { 'Content-Type' => 'application/json' } if isbn or form_genre or marc_contents
       end
       solr.commit
@@ -299,4 +301,19 @@ namespace :index do
     values.empty? ? nil : values
   end
 
+  def get_form_genre(marc)
+    field = '655'
+    subfield = ['a','x','z','y']
+    values = []
+    if marc[field]
+      marc.each_by_tag(field) { |tag|
+        each_values = []
+        subfield.each { |sf|
+          each_values.push(tag[sf]) if tag[sf].nil? == false
+        }
+        values.push(each_values.join(" -- "))
+      }
+    end
+    values.empty? ? nil : values
+  end
 end
