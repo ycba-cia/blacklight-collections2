@@ -2,6 +2,7 @@ require 'rubygems'
 require 'rsolr'
 require 'rexml/document'
 require 'marc'
+require 'active_support/core_ext/integer/inflections'
 
 include REXML
 
@@ -21,6 +22,7 @@ namespace :index do
       response = solr.post 'select', :params => {
           :q=>'institution:"Yale Center for British Art"',
           #:q=>'recordID:120',
+          #:q=>'institution:"Yale Center for British Art" && collection:"Rare Books and Manuscripts"',
           :sort=>'id asc',
           :start=>start,
           :rows=>100
@@ -134,7 +136,17 @@ namespace :index do
 
         doc['ts_s'] = Time.now
 
+        doc["era_facet"] = centuries(chomp_field(doc["era_facet"]))
+        doc["geographic_facet"] = chomp_field(doc["geographic_facet"])
+        doc["publishDate_ss"] = chomp_field(doc["publishDate_ss"])
+
         puts "doc:" + doc["id"]
+
+        #output for testing
+        #puts "era_facet #{doc["era_facet"]}"
+        #puts "geographic_facet #{doc["geographic_facet"]}"
+        #puts "publishDate_ss #{doc["publishDate_ss"]}"
+
         documents.push(doc)
 
       }
@@ -315,5 +327,27 @@ namespace :index do
       }
     end
     values.empty? ? nil : values
+  end
+
+  #remove trailing period
+  def chomp_field(field)
+    value = field.map { |s| s.chomp(".") } if field.is_a?(Array)
+    value = field.chomp(".") if field.is_a?(String)
+    value
+  end
+
+  #lido organizes Period field into centuries, this converts years to centuries
+  #in effect normalizing the biblio like lido
+  def centuries(field)
+    return nil if field.nil?
+    a = Array.new
+    if (field[0] =~ /^\d{4}.*$/) == 0 #["1824"]
+      a.push((field[0][0,2].to_i + 1).ordinalize + " century")
+    elsif (field[0] =~ /^\[\d{4}.*$/) == 0 #["[1824]"]
+      a.push((field[0][1,2].to_i + 1).ordinalize + " century")
+    else
+      a = field
+    end
+    return a
   end
 end
