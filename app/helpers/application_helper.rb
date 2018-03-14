@@ -20,9 +20,11 @@ module ApplicationHelper
   end
 
   def render_related_content options={}
+    text_to_suppress = "View a digitized version of this item in the Yale Center for British Art's online catalog"
     links = []
     options[:value].each {  |item|
       text, url = item.split("\n")
+      next if text == text_to_suppress
       links.append(link_to "#{text}", url, target: '_blank')
     }
     links.join('<br/>').html_safe
