@@ -90,26 +90,27 @@ class CatalogController < ApplicationController
     #  (useful when user clicks "more" on a large facet and wants to navigate alphabetically across a large set of results)
     # :index_range can be an array or range of prefixes that will be used to create the navigation (note: It is case sensitive when searching values)
 
-    config.add_facet_field 'collection_facet', :label => 'Collection', :limit => 20, :collapse => false, :sort => 'index'
-    config.add_facet_field 'resource_facet', :label => 'Online Access'
-    config.add_facet_field 'publishDate_ss', :label => 'Publication Year', single: true
-    config.add_facet_field 'language_facet', :label => 'Language', :limit => true
-    config.add_facet_field 'lc_1letter_facet', :label => 'Call Number'
-    #config.add_facet_field 'geographic_facet', :label => 'Region'
-    config.add_facet_field 'author_ss', label: 'Creator', :tag => 'author_ss', :ex => 'author_ss'
-    config.add_facet_field 'author_gender_ss', :label => 'Creator Gender'
-    config.add_facet_field 'title_collective_ss', :label => 'Collective Title'
-    config.add_facet_field 'type_ss', :label => 'Classification'
-    config.add_facet_field 'era_facet', :label => 'Period'
-    config.add_facet_field 'genre_name_facet', :label => 'Genre'
-    config.add_facet_field 'object_name_ss', :label => 'Work Type'
-    config.add_facet_field 'auth_format_ss', :label => 'Medium', :limit => 20
-    config.add_facet_field 'topic_facet', :label => 'Subject Terms', :limit => 50
-    config.add_facet_field 'geographic_facet', :label => 'Place Represented'
-    config.add_facet_field 'topic_subjectActor_facet', :label => 'People Represented'
-    #config.add_facet_field 'topic_frameQuality_facet', :label => 'Frame Quality' #removed per issue#49 12/21/17
-    config.add_facet_field 'topic_frameStyle_facet', :label => 'Frame Style'
-    config.add_facet_field 'credit_line_facet', :label => 'Credit Line'
+    config.add_facet_field 'collection_ss', :label => 'Collection', :limit => 20, :collapse => false, :sort => 'index'
+    #config.add_facet_field 'ort_ss', :label => 'Object Rights'
+    #config.add_facet_field 'resource_ss', :label => 'Online Access'
+    #config.add_facet_field 'publishDateFacet_ss', :label => 'Publication Year', single: true
+    #config.add_facet_field 'language_ss', :label => 'Language', :limit => true
+    #config.add_facet_field 'lc_1letter_ss', :label => 'Call Number' #or callnumber_ss
+    ##config.add_facet_field 'geographic_facet', :label => 'Region'
+    #config.add_facet_field 'author_ss', label: 'Creator', :tag => 'author_ss', :ex => 'author_ss'
+    #config.add_facet_field 'author_gender_ss', :label => 'Creator Gender'
+    #config.add_facet_field 'title_collective_ss', :label => 'Collective Title'
+    #config.add_facet_field 'type_ss', :label => 'Classification'
+    #config.add_facet_field 'era_ss', :label => 'Period'
+    #config.add_facet_field 'genre_name_ss', :label => 'Genre'
+    #config.add_facet_field 'object_name_ss', :label => 'Work Type'
+    #config.add_facet_field 'auth_format_ss', :label => 'Medium', :limit => 20
+    #config.add_facet_field 'topic_ss', :label => 'Subject Terms', :limit => 50
+    #config.add_facet_field 'geographic_ss', :label => 'Place Represented'
+    #config.add_facet_field 'topic_subjectActor_ss', :label => 'People Represented'
+    ##config.add_facet_field 'topic_frameQuality_facet', :label => 'Frame Quality' #removed per issue#49 12/21/17
+    #config.add_facet_field 'topic_frameStyle_ss', :label => 'Frame Style'
+    #config.add_facet_field 'credit_line_ss', :label => 'Credit Line'
 
     config.add_facet_field 'earliestDate_i', :label => 'Earliest Date',range: { segments: false }
     config.add_facet_field 'latestDate_i', :label => 'Latest Date',range: { segments: false }
@@ -167,9 +168,9 @@ class CatalogController < ApplicationController
     
 #range limit gem buggy, using above query distribution instead https://github.com/projectblacklight/blacklight_range_limit
 
-    config.add_facet_field 'author_additional_ss', label: 'Contributor', show: false
-    config.add_facet_field 'topic_subjectActor_ss', label: 'People Represented or Subject', show: false
-    config.add_facet_field 'form_genre_ss', label: 'Form Genre', show: false
+    #config.add_facet_field 'author_additional_ss', label: 'Contributor', show: false
+    ##config.add_facet_field 'topic_subjectActor_ss', label: 'People Represented or Subject', show: false
+    #config.add_facet_field 'form_genre_ss', label: 'Form Genre', show: false
 
     #config.add_facet_field 'example_pivot_field', label: 'Pivot Field', :pivot => ['format', 'language_facet']
 
@@ -192,10 +193,10 @@ class CatalogController < ApplicationController
     # config.add_index_field 'title_t', :label => 'Title'
     #config.add_index_field 'type_txt', :label => 'Type'
     config.add_index_field 'author_ss', :label => 'Creator'
-    config.add_index_field 'publishDate_txt', label: "Date"
-    config.add_index_field 'format_txt', :label => 'Medium'
-    config.add_index_field 'collection_txt', :label => 'Collection'
-    config.add_index_field 'credit_line_txt', :label => 'Credit Line'
+    config.add_index_field 'publishDate_ss', label: "Date"
+    config.add_index_field 'format_ss', :label => 'Medium'
+    config.add_index_field 'collection_ss', :label => 'Collection'
+    config.add_index_field 'credit_line_ss', :label => 'Credit Line'
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
@@ -205,28 +206,28 @@ class CatalogController < ApplicationController
     config.add_show_field 'author_ss', :label => 'Creator', link_to_search: true, separator_options: break_separator
     #config.add_show_field 'actorInRole_ss', :label => 'Creator', link_to_search: true, separator_options: break_separator #ERJ note: see issue 30
     config.add_show_field 'author_additional_ss', :label => 'Contributors', link_to_search: true, separator_options: break_separator
-    config.add_show_field 'title_alt_txt', :label => 'Alternate Title(s)', separator_options: break_separator
-    config.add_show_field 'publishDate_txt', :label => 'Date', unless:  :display_marc_field?
-    config.add_show_field 'format_txt', :label => 'Medium'
-    config.add_show_field 'physical_txt',  :label => 'Dimensions', unless:  :display_marc_field?
+    config.add_show_field 'title_alt_ss', :label => 'Alternate Title(s)', separator_options: break_separator
+    config.add_show_field 'publishDate_ss', :label => 'Date', unless:  :display_marc_field?
+    config.add_show_field 'format_ss', :label => 'Medium'
+    config.add_show_field 'physical_ss',  :label => 'Dimensions', unless:  :display_marc_field?
     config.add_show_field 'type_ss', :label => 'Classification' #Bibliographic
     config.add_show_field 'publisher_ss', accessor: 'publisher', :label => 'Imprint', if: :display_marc_accessor_field? #Bibliographic
     config.add_show_field 'physical_description', accessor: 'physical_description', label: 'Physical Description', if: :display_marc_accessor_field? #NOT_IN_VU
     config.add_show_field 'edition_ss', label: 'Edition' #Bibliographic
     config.add_show_field 'orbis_link', accessor: 'orbis_link', :label => 'Full Orbis Record', helper_method: 'render_as_link', if: :display_marc_accessor_field? #NOT_IN_VU
     config.add_show_field 'resourceURL_ss', :label => 'Related content', helper_method: 'render_related_content', if: :display_marc_field? #NOT_IN_VU
-    config.add_show_field 'description_txt', :label => 'Inscription(s)/Marks/Lettering', helper_method: 'render_citation', unless:  :display_marc_field?
-    config.add_show_field 'note', accessor: 'note', :label => 'Notes', helper_method: 'render_citation', if: :display_marc_accessor_field? #NOT_IN_VU
-    config.add_show_field 'marc_contents_txt', label: 'Contents' #Bibliographic #NOT_IN_VU
-    config.add_show_field 'credit_line_txt', :label => 'Credit Line'
+    config.add_show_field 'note', :label => 'Inscription(s)/Marks/Lettering', helper_method: 'render_citation', unless:  :display_marc_field?
+    config.add_show_field 'description_ss', accessor: 'note', :label => 'Notes', helper_method: 'render_citation', if: :display_marc_accessor_field? #NOT_IN_VU
+    config.add_show_field 'marc_contents_ss', label: 'Contents' #Bibliographic #NOT_IN_VU
+    config.add_show_field 'credit_line_ss', :label => 'Credit Line'
     config.add_show_field 'isbn_ss', :label => 'ISBN' #NOT_IN_VU
-    config.add_show_field 'callnumber_txt', :label => 'Accession Number', unless: :display_marc_field?
+    config.add_show_field 'callnumber_ss', :label => 'Accession Number', unless: :display_marc_field?
     config.add_show_field 'callnumber', accessor: 'callnumber', :label => 'Call Number', if: :display_marc_accessor_field? #NOT_IN_VU
-    config.add_show_field 'collection_txt', :label => 'Collection'
-    config.add_show_field 'curatorial_comment_txt', :label => 'Curatorial Comment', helper_method: 'combine_curatorial_comments' #NEW_TO_BL
-    config.add_show_field 'geographic_culture_txt', :label => 'Culture' #NOT_IN_VU
-    config.add_show_field 'era_txt', :label => 'Era' #NOT_IN_VU
-    config.add_show_field 'url_txt', :label => 'Link', helper_method: 'render_as_link', unless:  :display_marc_field?
+    config.add_show_field 'collection_ss', :label => 'Collection'
+    config.add_show_field 'curatorial_comment_ss', :label => 'Curatorial Comment', helper_method: 'combine_curatorial_comments' #NEW_TO_BL
+    config.add_show_field 'geographic_culture_ss', :label => 'Culture' #NOT_IN_VU
+    config.add_show_field 'era_ss', :label => 'Era' #NOT_IN_VU
+    config.add_show_field 'url_ss', :label => 'Link', helper_method: 'render_as_link', unless:  :display_marc_field?
     config.add_show_field 'topic_subjectActor_ss', :label => 'People Represented or Subject', link_to_search: true, separator_options: break_separator
     config.add_show_field 'topic_ss', :label => 'Subject Terms - Current', link_to_search: 'topic_facet', separator_options: break_separator, helper_method: 'sort_values_and_link_to_facet'
     config.add_show_field 'topic_frameCrossSection_ss', :label => 'Cross-section', link_to_search: true, separator_options: break_separator #NEW_TO_BL
@@ -239,9 +240,9 @@ class CatalogController < ApplicationController
     config.add_show_field 'topic_frameSubjectConcept_ss', :label => 'Subject Terms', helper_method: 'combine_topic_subject', separator_options: break_separator #NEW_TO_BL
     config.add_show_field 'topic_subjectPlace', :label => 'Place Represented', link_to_search: true, separator_options: break_separator #NEW_TO_BL lido only for now
 
-    config.add_show_field 'geographic_facet', label: 'Place Represented', link_to_search: true, separator_options: break_separator, unless: :display_marc_field?
+    config.add_show_field 'geographic_ss', label: 'Place Represented', link_to_search: true, separator_options: break_separator, unless: :display_marc_field?
     config.add_show_field 'form_genre_ss', :label => 'Form Genre', link_to_search: true, separator_options: break_separator  #Bibliographic #NOT_IN_VU
-    config.add_show_field 'citation_txt', :label => 'Publications', helper_method: 'render_citation'
+    config.add_show_field 'citation_ss', :label => 'Publications', helper_method: 'render_citation'
     config.add_show_field 'videoURL_ss', :label => 'Related Video', helper_method: 'render_as_link'
 
     # "fielded" search configuration. Used by pulldown among other places.
