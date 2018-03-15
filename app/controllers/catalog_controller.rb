@@ -91,26 +91,26 @@ class CatalogController < ApplicationController
     # :index_range can be an array or range of prefixes that will be used to create the navigation (note: It is case sensitive when searching values)
 
     config.add_facet_field 'collection_ss', :label => 'Collection', :limit => 20, :collapse => false, :sort => 'index'
-    #config.add_facet_field 'ort_ss', :label => 'Object Rights'
-    #config.add_facet_field 'resource_ss', :label => 'Online Access'
-    #config.add_facet_field 'publishDateFacet_ss', :label => 'Publication Year', single: true
-    #config.add_facet_field 'language_ss', :label => 'Language', :limit => true
-    #config.add_facet_field 'lc_1letter_ss', :label => 'Call Number' #or callnumber_ss
-    ##config.add_facet_field 'geographic_facet', :label => 'Region'
-    #config.add_facet_field 'author_ss', label: 'Creator', :tag => 'author_ss', :ex => 'author_ss'
-    #config.add_facet_field 'author_gender_ss', :label => 'Creator Gender'
-    #config.add_facet_field 'title_collective_ss', :label => 'Collective Title'
-    #config.add_facet_field 'type_ss', :label => 'Classification'
-    #config.add_facet_field 'era_ss', :label => 'Period'
-    #config.add_facet_field 'genre_name_ss', :label => 'Genre'
-    #config.add_facet_field 'object_name_ss', :label => 'Work Type'
-    #config.add_facet_field 'auth_format_ss', :label => 'Medium', :limit => 20
-    #config.add_facet_field 'topic_ss', :label => 'Subject Terms', :limit => 50
-    #config.add_facet_field 'geographic_ss', :label => 'Place Represented'
-    #config.add_facet_field 'topic_subjectActor_ss', :label => 'People Represented'
-    ##config.add_facet_field 'topic_frameQuality_facet', :label => 'Frame Quality' #removed per issue#49 12/21/17
-    #config.add_facet_field 'topic_frameStyle_ss', :label => 'Frame Style'
-    #config.add_facet_field 'credit_line_ss', :label => 'Credit Line'
+    config.add_facet_field 'ort_ss', :label => 'Object Rights'
+    config.add_facet_field 'resource_ss', :label => 'Online Access'
+    config.add_facet_field 'publishDateFacet_ss', :label => 'Publication Year', single: true
+    config.add_facet_field 'language_ss', :label => 'Language', :limit => true
+    config.add_facet_field 'lc_1letter_ss', :label => 'Call Number' #or callnumber_ss
+    #config.add_facet_field 'geographic_facet', :label => 'Region'
+    config.add_facet_field 'author_ss', label: 'Creator', :tag => 'author_ss', :ex => 'author_ss'
+    config.add_facet_field 'author_gender_ss', :label => 'Creator Gender'
+    config.add_facet_field 'title_collective_ss', :label => 'Collective Title'
+    config.add_facet_field 'type_ss', :label => 'Classification'
+    config.add_facet_field 'era_ss', :label => 'Period'
+    config.add_facet_field 'genre_name_ss', :label => 'Genre'
+    config.add_facet_field 'object_name_ss', :label => 'Work Type'
+    config.add_facet_field 'auth_format_ss', :label => 'Medium', :limit => 20
+    config.add_facet_field 'topic_ss', :label => 'Subject Terms', :limit => 50
+    config.add_facet_field 'geographic_ss', :label => 'Place Represented'
+    config.add_facet_field 'topic_subjectActor_ss', :label => 'People Represented'
+    #config.add_facet_field 'topic_frameQuality_facet', :label => 'Frame Quality' #removed per issue#49 12/21/17
+    config.add_facet_field 'topic_frameStyle_ss', :label => 'Frame Style'
+    config.add_facet_field 'credit_line_ss', :label => 'Credit Line'
 
     config.add_facet_field 'earliestDate_i', :label => 'Earliest Date',range: { segments: false }
     config.add_facet_field 'latestDate_i', :label => 'Latest Date',range: { segments: false }
@@ -168,9 +168,9 @@ class CatalogController < ApplicationController
     
 #range limit gem buggy, using above query distribution instead https://github.com/projectblacklight/blacklight_range_limit
 
-    #config.add_facet_field 'author_additional_ss', label: 'Contributor', show: false
-    ##config.add_facet_field 'topic_subjectActor_ss', label: 'People Represented or Subject', show: false
-    #config.add_facet_field 'form_genre_ss', label: 'Form Genre', show: false
+    config.add_facet_field 'author_additional_ss', label: 'Contributor', show: false
+    #config.add_facet_field 'topic_subjectActor_ss', label: 'People Represented or Subject', show: false
+    config.add_facet_field 'form_genre_ss', label: 'Form Genre', show: false
 
     #config.add_facet_field 'example_pivot_field', label: 'Pivot Field', :pivot => ['format', 'language_facet']
 
