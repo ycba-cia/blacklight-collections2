@@ -1,0 +1,2 @@
+class InterfaceMapping < ApplicationRecord
+end
