@@ -1,0 +1,71 @@
+// Mixins
+
+/*
+%debug-names-extend {
+  &::before {
+    background: $color-cool-lighter;
+    border: 1px solid rgba($color-black, .65);
+    color: $color-black;
+    content: attr(class);
+    display: inline-block;
+    font-size: .5rem;
+    left: 0;
+    opacity: 0;
+    padding: 0 1em;
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    transition: opacity $easing-change;
+    width: auto;
+    z-index: 9999;
+  }
+
+  html.debug-names & {
+    &:hover {
+      outline: 1px dashed rgba($color-black, .35);
+
+      &::before {
+        opacity: 1;
+      }
+    }
+  }
+}
+*/
+
+@mixin style-base-atom {
+  //@extend %debug-names-extend;
+
+  @include mobile {
+    position: relative;
+  }
+}
+
+@mixin style-base-molecule {
+  //@extend %debug-names-extend;
+
+  @include mobile {
+    position: relative;
+  }
+}
+
+@mixin style-base-organism {
+  //@extend %debug-names-extend;
+
+  @include mobile {
+    position: relative;
+  }
+}
+
+@mixin style-base-structure {
+  //@extend %debug-names-extend;
+
+  @include mobile {
+    position: relative;
+  }
+}
+
+// Fluid font size -- so awesome
+@mixin fluid-font-size($min-font-size: 15px, $max-font-size: 20px, $min-screen-width: $website-min-width, $max-screen-width: $website-max-width) {
+  // NOTE: See https://www.smashingmagazine.com/2016/05/fluid-typography/
+  font-size: calc(#{$min-font-size} + (#{strip-units($max-font-size)} - #{strip-units($min-font-size)}) * (100vw - #{$min-screen-width}) / (#{strip-units($max-screen-width)} - #{strip-units($min-screen-width)}));
+}

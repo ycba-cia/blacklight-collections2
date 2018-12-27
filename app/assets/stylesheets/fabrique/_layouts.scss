@@ -1,0 +1,16 @@
+
+%layout-full {
+  @include grid-span(12, 12, 12, 12, 12);
+}
+
+%layout-10 {
+  @include grid-span(12, 12, 10, 10, 10);
+}
+
+%layout-8 {
+  @include grid-span(12, 10, 8, 8, 8);
+}
+
+%layout-6 {
+  @include grid-span(10, 8, 6, 6, 6);
+}

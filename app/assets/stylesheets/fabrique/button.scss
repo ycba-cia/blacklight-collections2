@@ -1,0 +1,145 @@
+@mixin button {
+  @include style-base-atom;
+  @include typography-button;
+
+  @include mobile {
+    border: 1px solid currentColor;
+    cursor: pointer;
+    display: inline-block;
+    height: 64px;
+    max-width: 100%;
+    overflow: hidden;
+    padding: 21px 27px;
+    text-align: center;
+    transition: color $easing-change, background-color $easing-change, border-color $easing-change;
+    vertical-align: bottom;
+    white-space: nowrap;
+
+    .button__span {
+      display: inline-block;
+      vertical-align: baseline;
+    }
+
+    .button__icon {
+      display: inline-block;
+      height: 28px;
+      position: relative;
+      top: -5px;
+      vertical-align: top;
+      width: 28px;
+
+      &.button__icon--before {
+        margin-right: 5px;
+      }
+
+      &.button__icon--after {
+        margin-left: 5px;
+      }
+
+      > svg {
+        display: inline-block;
+        height: 100%;
+        vertical-align: top;
+        width: 100%;
+      }
+    }
+  }
+}
+
+@mixin button--default--colors {
+  @include mobile {
+    background-color: $color-white;
+    border-color: $color-black;
+    color: $color-black;
+
+    &:hover {
+      background-color: $color-black;
+      border-color: $color-black;
+      color: $color-white;
+    }
+  }
+}
+
+@mixin button--disabled {
+  @include mobile {
+    cursor: default;
+    opacity: .4;
+    pointer-events: none;
+  }
+}
+
+@mixin button--selected {
+  @include mobile {
+    background-color: $color-cool-light;
+    color: $color-black;
+  }
+}
+
+@mixin button--icon-only {
+  @include mobile {
+    background-color: transparent;
+    border: none;
+    color: inherit;
+    font-size: 24px;
+    height: 32px;
+    line-height: 32px;
+    padding: 4px;
+    width: 32px;
+
+    .button__icon {
+      height: 24px;
+      margin: 0;
+      top: 0;
+      width: 24px;
+
+      svg {
+        vertical-align: top;
+      }
+    }
+
+    &:hover {
+      background-color: transparent;
+      color: inherit;
+    }
+  }
+}
+
+@mixin button--clean {
+  @include mobile {
+    background-color: transparent;
+    border: none;
+    color: inherit;
+    height: 32px;
+    padding: 7px 0;
+
+    &:hover {
+      background-color: transparent;
+      color: inherit;
+    }
+  }
+}
+
+.button {
+  @include button;
+
+  &.button--default {
+    @include button--default--colors;
+  }
+
+  &.button--icon-only {
+    @include button--icon-only;
+  }
+
+  &.button--clean {
+    @include button--clean;
+  }
+
+  &.button--selected {
+    @include button--selected;
+  }
+
+  &:disabled,
+  &.button--disabled {
+    @include button--disabled;
+  }
+}

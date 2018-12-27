@@ -1,0 +1,32 @@
+
+@mixin logo {
+  @include style-base-atom;
+
+  @include mobile {
+    display: inline-block;
+    line-height: 0;
+    position: relative;
+    transition: color $easing-change;
+    vertical-align: top;
+
+    .logo__svg {
+      display: block;
+      height: 100%;
+      width: 100%;
+
+      path {
+        transition: fill $easing-change;
+      }
+    }
+
+    &,
+    &:link,
+    &:visited {
+      color: inherit;
+    }
+  }
+}
+
+.logo {
+  @include logo;
+}

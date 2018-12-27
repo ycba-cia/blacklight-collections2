@@ -1,0 +1,28 @@
+
+// Disable strong tags helper
+//
+// To disable bold/faux-bold if the font doesn't support it.
+// Supports multiple priority levels.
+
+@mixin disable-strong($priority: normal) {
+  @if ($priority == extrahigh) {
+    html {
+      strong,
+      b {
+        font-weight: inherit !important;
+      }
+    }
+  } @elseif ($priority == high) {
+    html {
+      strong,
+      b {
+        font-weight: inherit;
+      }
+    }
+  } @else {
+    strong,
+    b {
+      font-weight: inherit;
+    }
+  }
+}

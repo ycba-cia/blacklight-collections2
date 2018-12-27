@@ -1,0 +1,226 @@
+// Breakpoint mixins
+
+// These mixins are convenient, both for readability and portability between different grid systems.
+// The way these work is: it applies the grid settings, includes the context, and resets the grid settings again.
+// This is much faster then using 'grid-media()'. We use !global to override variables outside the mixins.
+
+// You can add or remove breakpoints at will, but be sure to edit the other grid files as well.
+
+// It is not necessary to use each breakpoint individually (like mobile-only, portrait-only, ... desktop),
+// but it does improve readability in the inspector at the tradeoff of a slightly larger filesize.
+
+// Unfortunately, SASS doesn't yet support variable mixin interpolation.
+
+$neat-grid: () !global; // Global variable to detect nested breakpoints
+
+@mixin mobile {
+  @if (map-get($neat-grid, columns)) {
+    @warn 'Detected a nested breakpoint!';
+  } @else {
+    $neat-grid: $neat-settings-mobile !global;
+
+    @content;
+
+    $neat-grid: () !global;
+  }
+}
+
+@mixin portrait {
+  @if (map-get($neat-grid, columns)) {
+    @warn 'Detected a nested breakpoint!';
+  } @else {
+    $neat-grid: $neat-settings-portrait !global;
+
+    @media (min-width: $breakpoint-portrait) {
+      @content;
+    }
+
+    $neat-grid: () !global;
+  }
+}
+
+@mixin landscape {
+  @if (map-get($neat-grid, columns)) {
+    @warn 'Detected a nested breakpoint!';
+  } @else {
+    $neat-grid: $neat-settings-landscape !global;
+
+    @media (min-width: $breakpoint-landscape) {
+      @content;
+    }
+
+    $neat-grid: () !global;
+  }
+}
+
+@mixin notebook {
+  @if (map-get($neat-grid, columns)) {
+    @warn 'Detected a nested breakpoint!';
+  } @else {
+    $neat-grid: $neat-settings-notebook !global;
+
+    @media (min-width: $breakpoint-notebook) {
+      @content;
+    }
+
+    $neat-grid: () !global;
+  }
+}
+
+@mixin desktop {
+  @if (map-get($neat-grid, columns)) {
+    @warn 'Detected a nested breakpoint!';
+  } @else {
+    $neat-grid: $neat-settings-desktop !global;
+
+    @media (min-width: $breakpoint-desktop) {
+      @content;
+    }
+
+    $neat-grid: () !global;
+  }
+}
+
+@mixin mobile-only {
+  @if (map-get($neat-grid, columns)) {
+    @warn 'Detected a nested breakpoint!';
+  } @else {
+    $neat-grid: $neat-settings-mobile !global;
+
+    @media (max-width: ($breakpoint-portrait - 1)) {
+      @content;
+    }
+
+    $neat-grid: () !global;
+  }
+}
+
+@mixin portrait-only {
+  @if (map-get($neat-grid, columns)) {
+    @warn 'Detected a nested breakpoint!';
+  } @else {
+    $neat-grid: $neat-settings-portrait !global;
+
+    @media (min-width: $breakpoint-portrait) and (max-width: ($breakpoint-landscape - 1)) {
+      @content;
+    }
+
+    $neat-grid: () !global;
+  }
+}
+
+@mixin landscape-only {
+  @if (map-get($neat-grid, columns)) {
+    @warn 'Detected a nested breakpoint!';
+  } @else {
+    $neat-grid: $neat-settings-landscape !global;
+
+    @media (min-width: $breakpoint-landscape) and (max-width: ($breakpoint-notebook - 1)) {
+      @content;
+    }
+
+    $neat-grid: () !global;
+  }
+}
+
+@mixin notebook-only {
+  @if (map-get($neat-grid, columns)) {
+    @warn 'Detected a nested breakpoint!';
+  } @else {
+    $neat-grid: $neat-settings-notebook !global;
+
+    @media (min-width: $breakpoint-notebook) and (max-width: ($breakpoint-desktop - 1)) {
+      @content;
+    }
+
+    $neat-grid: () !global;
+  }
+}
+
+// Shorthand helper
+@mixin every-breakpoint {
+  @include breakpoints(mobile-only, portrait-only, landscape-only, notebook-only, desktop) {
+    @content;
+  }
+}
+
+// Sorry for the mess, SASS doesn't support dynamic include name interpolation yet.
+@mixin breakpoints($breakpoints...) {
+  @each $breakpoint in $breakpoints {
+    @if ($breakpoint == mobile) {
+      @include mobile {
+        @content;
+      }
+    } @else if ($breakpoint == mobile-only) {
+      @include mobile-only {
+        @content;
+      }
+    } @else if ($breakpoint == portrait) {
+      @include portrait {
+        @content;
+      }
+    } @else if ($breakpoint == portrait-only) {
+      @include portrait-only {
+        @content;
+      }
+    } @else if ($breakpoint == landscape) {
+      @include landscape {
+        @content;
+      }
+    } @else if ($breakpoint == landscape-only) {
+      @include landscape-only {
+        @content;
+      }
+    } @else if ($breakpoint == notebook) {
+      @include notebook {
+        @content;
+      }
+    } @else if ($breakpoint == notebook-only) {
+      @include notebook-only {
+        @content;
+      }
+    } @else if ($breakpoint == desktop) {
+      @include desktop {
+        @content;
+      }
+    }
+  }
+}
+
+@mixin too-small {
+  @if (map-get($neat-grid, columns)) {
+    @warn 'Detected a nested breakpoint!';
+  } @else {
+    $neat-grid: $neat-settings-mobile !global;
+
+    @media (max-width: ($breakpoint-mobile - 1)) {
+      @content;
+    }
+
+    $neat-grid: () !global;
+  }
+}
+
+@mixin too-large {
+  @if (map-get($neat-grid, columns)) {
+    @warn 'Detected a nested breakpoint!';
+  } @else {
+    $neat-grid: $neat-settings-desktop !global;
+
+    @media (min-width: ($breakpoint-desktop)) {
+      @content;
+    }
+
+    $neat-grid: () !global;
+  }
+}
+
+// Get setting function
+// Usage - $padding: get-setting('padding');
+@function get-setting($name) {
+  @if (not $neat-grid) {
+    @warn 'Trying to get setting "' + $name + '" while not inside a breakpoint!';
+  }
+
+  @return map-get($neat-grid, $name);
+}

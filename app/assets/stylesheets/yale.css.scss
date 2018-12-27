@@ -17,6 +17,20 @@
   font-url("TheSans_B2_700_.svg#TheSans_B2_500_") format("svg");
 }
 
+@font-face {
+  font-family: "Mallory Standard Webfont Normal";
+  font-style: normal;
+  font-weight: normal;
+  src: url("mallory/mallory-book.woff2") format("woff2"), url("mallory/mallory-book.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Mallory Standard Webfont Bold";
+  font-style: normal;
+  font-weight: bold;
+  src: url("mallory/mallory-bold.woff2") format("woff2"), url("mallory/mallory-bold.woff") format("woff");
+}
+
 #header-navbar {
   background-color: rgb(240, 244, 245);
   border: 0px;
@@ -77,9 +91,10 @@
 }
 
 body {
-  padding-top: 100px;
+  //padding-top: 100px;
   padding-bottom: 65px;
-  font-family: "theSans_plain";
+  //font-family: "theSans_plain";
+  font-family: "Mallory Standard Webfont Normal";
 }
 
 #footer-address {
@@ -101,11 +116,13 @@ body {
   color: white;
   vertical-align: middle;
   margin-top: 12px;
-  font-family: "theSans_plain";
+  //font-family: "theSans_plain";
+  font-family: "Mallory Standard Webfont Normal";
 }
 
 .facets-heading {
-  font-family: "theSans_bold";
+  //font-family: "theSans_bold";
+  font-family: "Mallory Standard Webfont Bold";
 }
 
 .facet-label {

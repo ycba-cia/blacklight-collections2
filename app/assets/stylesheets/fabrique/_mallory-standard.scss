@@ -1,0 +1,139 @@
+
+// Flexible webfont base file
+// NOTE: When using this file as a base, rename all $*-font variables.
+
+// Variable font settings
+$mallory-standard-font-name: 'Mallory Standard Webfont';
+$mallory-standard-font-cleanname: 'mallory';
+$mallory-standard-font-path: '/themes/britishart19/fonts/' + $mallory-standard-font-cleanname + '/';
+$mallory-standard-font-stack: $mallory-standard-font-name, 'Arial', 'Helvetica', sans-serif;
+$mallory-standard-font-feature-settings: 'kern' 1, 'calt' 0; // Kern, but don't display glyph alternates
+
+// Weight names and their real values
+// Reference:
+// 100: thin, hairline
+// 200 extra light, ultra light
+// 300 light
+// 400 normal, regular, book
+// 500 medium
+// 600 semibold, demibold
+// 700 bold
+// 800 extrabold, ultrabold
+// 900 black, heavy
+
+$mallory-standard-font-weights: (
+  light: (weight: 300, style: normal),
+  light-italic: (weight: 300, style: italic),
+  book: (weight: normal, style: normal),
+  book-italic: (weight: normal, style: italic),
+  medium: (weight: 500, style: normal),
+  medium-italic: (weight: 500, style: italic),
+  bold: (weight: bold, style: normal),
+  bold-italic: (weight: bold, style: italic),
+);
+
+// Automatically map weights
+@each $weight in map-keys($mallory-standard-font-weights) {
+  @if not (map-get($mallory-standard-font-weights, $weight)) {
+    @error 'Variant "' + $weight + '" not found in "' + $mallory-standard-font-name + '" definition.';
+  }
+
+  $properties: map-get($mallory-standard-font-weights, $weight);
+  $font-style: map-get($properties, style);
+  $font-weight: map-get($properties, weight);
+
+  @font-face {
+    //font-display: optional; property still buggy in chrome et al.
+    font-family: $mallory-standard-font-name;
+    font-style: $font-style;
+    font-weight: $font-weight;
+    src: url($mallory-standard-font-path + $mallory-standard-font-cleanname + '-' + $weight + '.woff2') format('woff2'), url($mallory-standard-font-path + $mallory-standard-font-cleanname + '-' + $weight + '.woff') format('woff');
+  }
+
+  %font-#{$mallory-standard-font-cleanname}-#{$weight} {
+    font-family: $mallory-standard-font-stack;
+    font-style: $font-style;
+    font-weight: $font-weight;
+  }
+}
+
+// Font mixin whereby you can use the real font weights, such as 'book' or 'black'.
+@mixin font-mallory($font-size: null, $line-height: null, $font-weight: null, $font-style: null, $letter-spacing: null, $text-transform: null) {
+
+  // Convert possible 'normal' font-weight strings to 'book', which is the font's actual weight name
+  @if ($font-weight == null or $font-weight == 'normal' or $font-weight == 'regular') {
+    $font-weight: 'book';
+  }
+
+  // Look up the actual weight
+  @if ($font-weight != 'normal') {
+    @if not (map-get($mallory-standard-font-weights, $font-weight)) {
+      @error 'Variant "' + $font-weight + '" not found in "' + $mallory-standard-font-name + '" definition.';
+    }
+
+    $mapped-weight: map-get($mallory-standard-font-weights, $font-weight);
+    $mapped-value-weight: map-get($mapped-weight, 'weight');
+    $mapped-value-style: map-get($mapped-weight, 'style');
+
+    @if ($mapped-value-weight) {
+      $font-weight: $mapped-value-weight;
+    }
+
+    @if ($mapped-value-style) {
+      $font-style: $mapped-value-style;
+    }
+  }
+
+  // Set the basics
+  font-family: $mallory-standard-font-stack;
+  font-feature-settings: $mallory-standard-font-feature-settings;
+  font-size-adjust: initial;
+  text-rendering: optimizeLegibility;
+
+  // Include styles if given
+  @if ($font-size) {
+    font-size: $font-size;
+  }
+
+  @if ($font-style) {
+    font-style: $font-style;
+  }
+
+  @if ($font-weight) {
+    font-weight: $font-weight;
+  }
+
+  @if ($line-height) {
+    line-height: $line-height;
+  }
+
+  @if ($letter-spacing) {
+    letter-spacing: $letter-spacing;
+  }
+
+  @if ($text-transform) {
+    text-transform: $text-transform;
+  }
+}
+
+// Get a real font weight value
+// For example: 'black' returns 900.
+@function get-mallory-weight($font-weight) {
+
+  // Convert possible 'normal' font-weight strings to 'book', which is the font's actual weight name
+  @if ($font-weight == null or $font-weight == 'normal' or $font-weight == 'regular') {
+    $font-weight: 'book';
+  }
+
+  // Look up the actual weight
+  @if ($font-weight != 'normal') {
+    $mapped-weight: map-get($mallory-standard-font-weights, $font-weight);
+    $mapped-value-weight: map-get($mapped-weight, 'weight');
+
+    @if ($mapped-value-weight) {
+      $font-weight: $mapped-value-weight;
+    }
+  }
+
+  @return $font-weight;
+}
