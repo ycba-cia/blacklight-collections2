@@ -1,0 +1,155 @@
+
+// Styles
+
+@mixin style-anchor($inverted: false) {
+  @include mobile {
+    cursor: pointer;
+    text-decoration: none;
+    text-decoration-skip: ink; // Pretty descenders! 😍
+    transition: color $easing-change;
+
+    > span {
+      text-decoration: if($inverted, none, underline);
+    }
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+
+      > span {
+        text-decoration: if($inverted, underline, none);
+      }
+    }
+  }
+}
+
+@mixin style-anchor-plain($inverted: false) {
+  @include mobile {
+    cursor: pointer;
+    text-decoration: if($inverted, none, underline);
+    text-decoration-skip: ink; // Pretty descenders! 😍
+    transition: color $easing-change;
+
+    &:hover,
+    &:focus {
+      text-decoration: if($inverted, underline, none);
+    }
+  }
+}
+
+@mixin style-button-container {
+  @include mobile {
+    font-size: 0; // Magic for removing margins between inline blocks
+  }
+}
+
+// Disable empty elements (only works if no whitespace), a slight enhancing feature for richtext (it sometimes puts empty <p></p> elements in the output)
+@mixin style-disable-empty-elements {
+  @include mobile {
+    p:empty {
+      display: none;
+    }
+  }
+}
+
+@mixin style-list-base {
+  @include mobile {
+    list-style: none;
+    padding-left: 16px;
+
+    li {
+      margin-left: .1em;
+      padding-left: 1.5em;
+      position: relative;
+
+      &::before {
+        content: '';
+        display: inline-block;
+        height: 1em;
+        margin-left: -1.5em;
+        margin-right: .5em;
+        vertical-align: baseline;
+        width: 1em;
+      }
+    }
+  }
+}
+
+@mixin style-list-unordered {
+  @include mobile {
+    li {
+      &::before {
+        content: '•';
+      }
+    }
+  }
+}
+
+@mixin style-list-ordered {
+  @include mobile {
+    counter-reset: list-counter;
+
+    li {
+      counter-increment: list-counter;
+
+      &::before {
+        content: counter(list-counter) '.';
+        //color: $color-black;
+      }
+    }
+  }
+}
+
+// Visually disable the size when the displayport is too small
+@mixin style-minimum-width-blackout {
+  @include mobile {
+    &::after {
+      background: rgba(255, 255, 255, .8);
+      content: '';
+      display: block;
+      height: 100%;
+      left: 0;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: $z-index-website-min-width-overlay;
+    }
+  }
+}
+
+@mixin style-full-bleed-background-image {
+  @include mobile {
+    left: 50%;
+    min-width: 320px;
+    transform: translateX(-50%);
+    width: 101vw;
+
+    @content;
+  }
+}
+
+@mixin style-bleed-right {
+  @include mobile {
+    &::before {
+      background-color: inherit;
+      bottom: 0;
+      color: inherit;
+      content: '';
+      display: block;
+      position: absolute;
+      right: -100vw;
+      top: 0;
+      width: 100vw;
+      z-index: -1;
+    }
+  }
+
+  @include every-breakpoint {
+    &::before {
+      $width: get-setting('margin') + get-setting('gutter');
+
+      right: -$width;
+      width: $width;
+    }
+  }
+}

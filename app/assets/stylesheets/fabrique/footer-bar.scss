@@ -1,0 +1,83 @@
+
+@mixin footer-bar {
+  @include style-base-structure;
+  @include grid-base('footer-bar');
+
+  .footer-bar__wrapper {
+    @extend %layout-full;
+  }
+
+  .footer-bar__links,
+  .footer-bar__link {
+    @include typography-footer;
+  }
+
+  .footer-bar__link {
+    @include style-anchor(true);
+  }
+
+  @include mobile {
+    background-color: $color-yale-blue;
+    color: $color-white;
+
+    .footer-bar__wrapper {
+      padding: 32px 0;
+    }
+
+    .footer-bar__logo {
+      display: inline-block;
+      height: 32px;
+      position: relative;
+      vertical-align: bottom;
+      width: 64px;
+
+      > svg {
+        display: block;
+        height: 100%;
+        transform: scale(110%);
+        transform-origin: 50% 50%;
+        width: 100%;
+
+        > g {
+          fill: currentColor;
+        }
+      }
+    }
+
+    .footer-bar__links {
+      font-size: 0;
+    }
+
+    .footer-bar__link {
+      margin: 0 32px 0 0;
+      padding: 14px 0 2px;
+    }
+  }
+
+  @include mobile-only {
+    .footer-bar__wrapper {
+      text-align: center;
+    }
+
+    .footer-bar__links {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: -16px;
+      margin-top: 16px;
+    }
+
+    .footer-bar__link {
+      margin: 0 8px;
+    }
+  }
+
+  @include portrait {
+    .footer-bar__links {
+      @include grid-column(9, (direction: rtl));
+    }
+  }
+}
+
+.footer-bar {
+  @include footer-bar;
+}
