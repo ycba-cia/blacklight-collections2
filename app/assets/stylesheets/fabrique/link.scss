@@ -1,0 +1,45 @@
+
+@mixin link {
+  @include style-base-atom;
+  @include typography-paragraph($margins: false);
+
+  @include mobile {
+    display: inline-block;
+    transition: color $easing-change;
+    vertical-align: bottom;
+
+    .button__span {
+      display: inline-block;
+      vertical-align: baseline;
+    }
+
+    .link__icon {
+      display: inline-block;
+      height: 28px;
+      position: relative;
+      top: -5px;
+      vertical-align: top;
+      width: 28px;
+
+      &.link__icon--before {
+        margin-right: 5px;
+      }
+
+      &.link__icon--after {
+        margin-left: 5px;
+      }
+
+      > svg {
+        display: inline-block;
+        height: 100%;
+        vertical-align: top;
+        width: 100%;
+      }
+    }
+  }
+}
+
+.link {
+  @include link;
+  @include style-anchor;
+}

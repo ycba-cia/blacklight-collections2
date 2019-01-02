@@ -1,4 +1,5 @@
 @import 'variables';
+@import 'normalize';
 @import 'neat/functions/**/*';
 @import 'neat/mixins/**/*';
 @import 'grid-container';
@@ -13,6 +14,7 @@
 @import 'constrainer-mixins';
 @import 'layouts';
 @import 'mixins';
+@import 'link';
 
 @import 'button';
 @import 'logo';

@@ -92,7 +92,7 @@
 
 body {
   //padding-top: 100px;
-  padding-bottom: 65px;
+  //padding-bottom: 65px;
   //font-family: "theSans_plain";
   font-family: "Mallory Standard Webfont Normal";
 }
@@ -207,3 +207,14 @@ body {
   margin-left: -8px;
 }
 
+//import order overrides:
+.footer-bar__wrapper a {
+  color: inherit;
+}
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
+  html,
+  body {
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
