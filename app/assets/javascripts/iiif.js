@@ -43,7 +43,7 @@ function fancybox(index) {
 }
 
 function cdsData(url) {
-    //console.log("URL:"+url);
+    console.log("URL:"+url);
     if (objectImages.length == 0) {
         $.ajax({
             type: "GET",
@@ -86,14 +86,16 @@ function renderCdsImages() {
         var html = "";
         $.each(objectImages, function(index, data){
             //console.log(objectImages);
-            html += "<div class='col-xs-6 col-sm-3 col-md-6'>"
+            //html += "<div class='col-xs-6 col-sm-3 col-md-6'>"
+            html += "<div class='col-xs-6 col-sm-3 col-md-2'>"
                 + "<div onclick='setMainImage(objectImages[" + index + "], " + index + ");'><img class=' img-responsive' src='"
                 + data[1]['url'] + "'/></div>"
                 + data['metadata']['caption']
                 + "</div>";
             if ( (index + 1) % 4 == 0) {
                 html += "<div class='clearfix visible-xs-block visible-sm-block visible-med-block visible-lg-block'></div>";
-            } else if ( (index + 1) % 2 == 0) {
+            //} else if ( (index + 1) % 2 == 0) {
+            } else if ( (index + 1) % 6 == 0) {
                 html += "<div class='clearfix visible-med-block visible-lg-block'></div>";
             }
         });
@@ -109,7 +111,7 @@ function setMainImage(image, index) {
 
     if (derivative) {
         var html = "";
-        html += "<img class='img-responsive hidden-sm' src='" + derivative['url'] + "' onclick='fancybox(" + index + ");' />";
+        html += "<img class='img-responsive hidden-sm' src='" + large_derivative['url'] + "' onclick='fancybox(" + index + ");' />";
         html += "<img class='img-responsive visible-sm-block lazy' data-original='" + large_derivative['url'] + "' onclick='fancybox(" + index + ");'/>";
         $("#ycba-main-image").html(html);
         var dl_url_jpeg = derivative['url'].split("/").slice(0,-1).join("/").concat("/3");
