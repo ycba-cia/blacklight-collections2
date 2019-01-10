@@ -228,6 +228,23 @@ body {
   white-space: normal;
 }
 
+.blacklight-citation_txt-closed {
+   display: block;
+ }
+
+.blacklight-citation_txt-open {
+  display: none;
+}
+
+.blacklight-citation_txt-closed:hover {
+  background-color: lightblue;
+}
+
+.blacklight-citation_txt-open:hover {
+  background-color: lightblue;
+}
+
+
 //import order overrides:
 .footer-bar__wrapper a {
   color: inherit;

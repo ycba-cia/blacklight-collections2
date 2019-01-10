@@ -5,8 +5,14 @@
     <% doc_presenter = show_presenter(document) %>
     <% document_show_fields(document).each do |field_name, field| -%>
         <% if should_render_show_field? document, field %>
-            <dt class="blacklight-<%= field_name.parameterize %>"><%= render_document_show_field_label document, field: field_name %></dt>
-            <dd class="blacklight-<%= field_name.parameterize %>"><%= doc_presenter.field_value field_name %></dd>
+            <% if "citation_txt" == field_name %>
+              <dt class="blacklight-<%= field_name.parameterize %>"><%= render_document_show_field_label document, field: field_name %></dt>
+              <dd class="blacklight-<%= field_name.parameterize %>-closed" onclick="toggle_citation()"><%= "<click to display>" %></dd>
+              <dd class="blacklight-<%= field_name.parameterize %>-open" onclick="toggle_citation()"><%= "<click to hide>" %></br><%= doc_presenter.field_value field_name %></dd>
+            <% else %>
+              <dt class="blacklight-<%= field_name.parameterize %>"><%= render_document_show_field_label document, field: field_name %></dt>
+              <dd class="blacklight-<%= field_name.parameterize %>"><%= doc_presenter.field_value field_name %></dd>
+            <% end %>
         <% end -%>
     <% end -%>
     <%= render "show_fields" %>
