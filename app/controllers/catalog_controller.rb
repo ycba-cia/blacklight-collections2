@@ -63,7 +63,7 @@ class CatalogController < ApplicationController
     config.index.display_type_field = 'recordtype_ss'
 
     # solr field configuration for document/show views
-    config.show.title_field = 'title_txt'
+    #config.show.title_field = 'title_txt'
     config.show.display_type_field = 'recordtype_ss'
 
     # solr fields that will be treated as facets by the blacklight application
@@ -202,6 +202,7 @@ class CatalogController < ApplicationController
     #config.add_show_field 'title_t', :label => 'Title'
 
     break_separator = {words_connector: ' <br/> ', last_word_connector: ' <br/> ', two_words_connector: ' <br/> '}
+    config.add_show_field 'title_ss', :label => 'Title'
     config.add_show_field 'author_ss', :label => 'Creator', link_to_search: true, separator_options: break_separator
     #config.add_show_field 'actorInRole_ss', :label => 'Creator', link_to_search: true, separator_options: break_separator #ERJ note: see issue 30
     config.add_show_field 'author_additional_ss', :label => 'Contributors', link_to_search: true, separator_options: break_separator
