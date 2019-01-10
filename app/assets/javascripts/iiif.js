@@ -86,18 +86,11 @@ function renderCdsImages() {
         var html = "";
         $.each(objectImages, function(index, data){
             //console.log(objectImages);
-            //html += "<div class='col-xs-6 col-sm-3 col-md-6'>"
-            html += "<div class='col-xs-6 col-sm-3 col-md-2'>"
+            html += "<div class='scrollthumb'>"
                 + "<div onclick='setMainImage(objectImages[" + index + "], " + index + ");'><img class=' img-responsive' src='"
-                + data[1]['url'] + "'/></div>"
+                + data[1]['url'] + "'/></div><div class='thumbtext'>"
                 + data['metadata']['caption']
-                + "</div>";
-            if ( (index + 1) % 4 == 0) {
-                html += "<div class='clearfix visible-xs-block visible-sm-block visible-med-block visible-lg-block'></div>";
-            //} else if ( (index + 1) % 2 == 0) {
-            } else if ( (index + 1) % 6 == 0) {
-                html += "<div class='clearfix visible-med-block visible-lg-block'></div>";
-            }
+                + "</div></div>";
         });
         html += "";
         $("#ycba-thumbnail-row").append(html);
