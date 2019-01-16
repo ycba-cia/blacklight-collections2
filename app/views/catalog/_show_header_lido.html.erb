@@ -21,20 +21,16 @@
     <div id="ycba-downloads" class="col-xs-12"></div>
   </div>
 
-  <div>
-    <hr>
-    <span>Alternative Images</span>
-  </div>
-  <div class="row">
-    <div id="ycba-thumbnail-row" class="col-xs-12 imagescroll"></div>
-  </div>
-
   <div class="row">
     <div id="ycba-request-photography" class="col-xs-12">
       <%= link_to("Request additional photography", image_request_link(document)) %>
     </div>
   </div>
-  <hr>
+
+  <div class="row">
+    <div id="ycba-thumbnail-row" class="col-xs-12 imagescroll"></div>
+  </div>
+
 </div>
 
 <script language="Javascript">updateImageData(<%= @document['recordID_ss'][0] %>);</script>
