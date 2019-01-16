@@ -80,6 +80,8 @@ function renderCdsImages() {
     if (objectImages.length > 0) {
         var data = objectImages[0];
         setMainImage(data);
+    } else {
+        $("#ycba-request-photography").hide();
     }
 
     if (objectImages.length > 1) {
