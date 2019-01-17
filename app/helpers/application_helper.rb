@@ -111,12 +111,12 @@ module ApplicationHelper
     subject = "[Online Collection] #{field_value(document,'callnumber_txt')}, #{field_value(document,'title_txt')}, #{field_value(document,'author_ss')} "
   end
 
-  private
-
   def field_value(document, field)
     value = document[field][0] if document[field]
     value ||= ''
   end
+
+  private
 
   def thumb(document, options)
     url = doc_thumbnail(document)
