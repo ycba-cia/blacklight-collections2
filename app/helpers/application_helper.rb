@@ -77,7 +77,7 @@ module ApplicationHelper
   end
 
   def display_rights(document)
-    rights_text = document['rights_txt']
+    rights_text = document['ort_ss']
     rights_text = rights_text[0] if rights_text
 
     rights_statement_url = document['rightsURL_ss']
