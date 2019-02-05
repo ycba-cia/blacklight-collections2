@@ -92,7 +92,7 @@ class CatalogController < ApplicationController
 
     config.add_facet_field 'collection_ss', :label => 'Collection', :limit => 20, :collapse => false, :sort => 'index'
     config.add_facet_field 'resource_ss', :label => 'Online Access'
-    config.add_facet_field 'publishDate_ss', :label => 'Publication Year', single: true
+    config.add_facet_field 'publishDate_ss', :label => 'Date', single: true
     config.add_facet_field 'language_ss', :label => 'Language', :limit => true #marc only
     #config.add_facet_field 'lc_1letter_ss', :label => 'Call Number' #note: no lc_1letter field in xslts or postprocessing
     #config.add_facet_field 'geographic_ss', :label => 'Region' #note: see below label 'Place Represented'
