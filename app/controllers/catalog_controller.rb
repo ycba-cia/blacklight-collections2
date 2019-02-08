@@ -92,10 +92,12 @@ class CatalogController < ApplicationController
 
     config.add_facet_field 'collection_ss', :label => 'Collection', :limit => 20, :collapse => false, :sort => 'index'
     config.add_facet_field 'resource_ss', :label => 'Online Access'
-    config.add_facet_field 'publishDate_ss', :label => 'Date', single: true
+    #config.add_facet_field 'publishDateFacet_ss', :label => 'Date', range: { segments: false }
+    config.add_facet_field 'publishDateFacet_ss', :label => 'Date', single: true
     config.add_facet_field 'language_ss', :label => 'Language', :limit => true #marc only
     #config.add_facet_field 'lc_1letter_ss', :label => 'Call Number' #note: no lc_1letter field in xslts or postprocessing
     #config.add_facet_field 'geographic_ss', :label => 'Region' #note: see below label 'Place Represented'
+    config.add_facet_field 'rights_ss', label: 'Item Rights'
     config.add_facet_field 'author_ss', label: 'Creator', :tag => 'author_ss', :ex => 'author_ss'
     config.add_facet_field 'author_gender_ss', :label => 'Creator Gender'
     config.add_facet_field 'title_collective_ss', :label => 'Collective Title'
@@ -222,7 +224,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'credit_line_txt', :label => 'Credit Line'
     config.add_show_field 'isbn_ss', :label => 'ISBN' #NOT_IN_VU
     config.add_show_field 'callnumber_txt', :label => 'Accession Number', unless: :display_marc_field?
-    config.add_show_field 'callnumber', accessor: 'callnumber', :label => 'Call Number', if: :display_marc_accessor_field? #NOT_IN_VU
+    config.add_show_field 'callnumber', accessor: 'callnumber', :label => 'Call Number', separator_options: break_separator, if: :display_marc_accessor_field? #NOT_IN_VU
     config.add_show_field 'collection_txt', :label => 'Collection'
     config.add_show_field 'curatorial_comment_txt', :label => 'Curatorial Comment', helper_method: 'combine_curatorial_comments' #NEW_TO_BL
     config.add_show_field 'geographic_culture_txt', :label => 'Culture' #NOT_IN_VU
