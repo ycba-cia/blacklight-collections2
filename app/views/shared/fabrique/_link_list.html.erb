@@ -1,0 +1,18 @@
+<div class="x-link-list x-footer__link-list">
+  <% if list.length > 0 %>
+    <ul class="x-link-list__items">
+      <% for item in list %>
+        <li class="x-link-list__item">
+          <a class="x-link x-link-list__link" href="<%= item[1] %>">
+            <span class="x-link__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                <path fill="currentColor" fill-rule="evenodd" d="M12 23.9L17.3 16.3 12 8.6 13.1 8 20.8 16 20.8 16.5 13.1 24.4z"/>
+              </svg>
+            </span>
+            <span class="x-link__span"><%= item[0].html_safe %></span>
+          </a>
+        </li>
+        <% end %>
+    </ul>
+  <% end %>
+</div>

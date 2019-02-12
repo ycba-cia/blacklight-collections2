@@ -1,0 +1,40 @@
+<footer class="x-footer">
+  <div class="x-footer__outer-constrainer">
+    <div class="x-footer__inner-constrainer">
+      <div class="x-footer__grid-container">
+        <div class="x-footer__logo-container">
+          <a class="x-logo x-logo--horizontal x-footer__logo" href="/">
+            <span class="x-logo__span">Yale Center for British Art</span>
+            <svg class="x-logo__svg" width="611" height="18" viewBox="0 0 611 18" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+              <use xlink:href="#x-logo--horizontal" x="0" y="0" fill="currentColor"/>
+            </svg>
+          </a>
+          <a class="x-logo x-logo--vertical x-footer__logo" href="/">
+            <span class="x-logo__span">Yale Center for British Art</span>
+            <svg class="x-logo__svg" width="80" height="92" viewBox="0 0 80 92" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+              <use xlink:href="#x-logo--vertical" x="0" y="0" fill="currentColor"/>
+            </svg>
+          </a>
+        </div>
+        <div class="x-footer__columns">
+          <% @footeritems.each do |item| %>
+            <div class="x-footer__column">
+              <% if item[:title] %>
+                <h6 class="x-footer__column-title"><%= item[:title].html_safe %></h6>
+              <% end %>
+              <% if item[:text] %>
+                <p class="x-footer__column-text"><%= item[:text].html_safe %></p>
+              <% end %>
+              <% if item[:link_list] %>
+                <%= render partial: "shared/fabrique/link_list", locals: {list: item[:link_list]} %>
+              <% end %>
+              <% if item[:definition_list] %>
+                <%= render partial: "shared/fabrique/definition_list", locals: {list: item[:definition_list]} %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

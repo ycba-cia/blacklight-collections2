@@ -1,0 +1,10 @@
+<div class="x-definition-list x-footer__definition-list">
+  <div class="x-definition-list__items">
+    <% for item in list %>
+      <dl class="x-definition-list__item">
+        <dt class="x-definition-list__property"><%= item[0].html_safe %></dt>
+        <dd class="x-definition-list__value"><%= item[1].html_safe %></dd>
+      </dl>
+    <% end %>
+  </div>
+</div>
