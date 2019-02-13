@@ -91,7 +91,9 @@ class CatalogController < ApplicationController
     # :index_range can be an array or range of prefixes that will be used to create the navigation (note: It is case sensitive when searching values)
 
     config.add_facet_field 'collection_ss', :label => 'Collection', :limit => 20, :collapse => false, :sort => 'index'
+    config.add_facet_field 'onview_ss', :label => 'Currently On View'
     config.add_facet_field 'resource_ss', :label => 'Online Access'
+    config.add_facet_field 'has_image_ss', :label => 'Image Available'
     #config.add_facet_field 'publishDateFacet_ss', :label => 'Date', range: { segments: false }
     config.add_facet_field 'publishDateFacet_ss', :label => 'Date', single: true
     config.add_facet_field 'language_ss', :label => 'Language', :limit => true #marc only
