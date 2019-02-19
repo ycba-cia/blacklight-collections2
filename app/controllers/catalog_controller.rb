@@ -20,6 +20,7 @@ class CatalogController < ApplicationController
   configure_blacklight do |config|
     config.view.gallery.partials = [:compact_index]
     config.view.masonry.partials = [:compact_index]
+    config.view.masonry.default = true
     #config.view.slideshow.partials = [:compact_index]
 
     config.index.thumbnail_method = :thumb
@@ -45,7 +46,7 @@ class CatalogController < ApplicationController
 
 
     # items to show per page, each number in the array represent another option to choose from.
-    config.per_page = [15,50,100]
+    config.per_page = [100,50,15]
 
     ## Default parameters to send on single-document requests to Solr. These settings are the Blackligt defaults (see SearchHelper#solr_doc_params) or
     ## parameters included in the Blacklight-jetty document requestHandler.
@@ -92,7 +93,7 @@ class CatalogController < ApplicationController
 
     config.add_facet_field 'collection_ss', :label => 'Collection', :limit => 20, :collapse => false, :sort => 'index'
     config.add_facet_field 'onview_ss', :label => 'Currently On View'
-    config.add_facet_field 'resource_ss', :label => 'Online Access'
+    #config.add_facet_field 'resource_ss', :label => 'Online Access'
     config.add_facet_field 'has_image_ss', :label => 'Image Available'
     #config.add_facet_field 'publishDateFacet_ss', :label => 'Date', range: { segments: false }
     config.add_facet_field 'publishDateFacet_ss', :label => 'Date', single: true
