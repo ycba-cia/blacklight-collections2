@@ -220,7 +220,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'physical_description', accessor: 'physical_description', label: 'Physical Description', if: :display_marc_accessor_field? #NOT_IN_VU
     config.add_show_field 'edition_ss', label: 'Edition' #Bibliographic
     config.add_show_field 'orbis_link', accessor: 'orbis_link', :label => 'Full Orbis Record', helper_method: 'render_as_link', if: :display_marc_accessor_field? #NOT_IN_VU
-    config.add_show_field 'resourceURL_ss', :label => 'Related content', helper_method: 'render_related_content', if: :display_marc_field? #NOT_IN_VU
+    config.add_show_field 'resourceURL_ss', :label => 'Related content', helper_method: 'render_related_content', if: :render_related_content? #NOT_IN_VU
     config.add_show_field 'description_txt', :label => 'Inscription(s)/Marks/Lettering', helper_method: 'render_citation', unless:  :display_marc_field?
     config.add_show_field 'note', accessor: 'note', :label => 'Notes', helper_method: 'render_citation', if: :display_marc_accessor_field? #NOT_IN_VU
     config.add_show_field 'marc_contents_txt', label: 'Contents' #Bibliographic #NOT_IN_VU
@@ -335,7 +335,23 @@ class CatalogController < ApplicationController
   end
 
   def display_marc_accessor_field?(context, doc)
-    puts "#{context.accessor} ****> #{doc.send(context.accessor)}"
+    #NOTE: good diagnostic
+    #puts "#{context.accessor} ****> #{doc.send(context.accessor)}"
     display_marc_field?(context, doc) and !doc.send(context.accessor).nil?
+  end
+
+  def render_related_content?(context,doc)
+    return false if display_marc_field?(context, doc) == false
+    return false if doc['resourceURL_ss'].nil?
+    text_to_suppress = "View a digitized version"
+    links = []
+    doc['resourceURL_ss'].each {  |item|
+      text, url = item.split("\n")
+      return false if text.start_with?(text_to_suppress)
+    }
+    #NOTE: good diagnostic
+    #puts "RELATED:#{doc['resourceURL_ss']}"
+    #puts "CONTEXT:#{context.inspect}"
+    true
   end
 end

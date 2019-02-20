@@ -19,6 +19,7 @@ module ApplicationHelper
     options[:value].sort_by(&:downcase).map { |v| "<a href=\"/?f[#{options[:field]}][]=#{v}\">#{v}</a>" }.join('</br>').html_safe
   end
 
+  #deprecated helper method - replaced by render_related_content? method in catalog_controller.rb
   def render_related_content options={}
     text_to_suppress = "View a digitized version of this item in the Yale Center for British Art's online catalog"
     links = []
