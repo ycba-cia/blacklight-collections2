@@ -82,6 +82,7 @@ function renderCdsImages() {
         setMainImage(data);
     } else {
         $("#ycba-request-photography").hide();
+        $("#ycba-image-rights").hide();
     }
 
     if (objectImages.length > 1) {
