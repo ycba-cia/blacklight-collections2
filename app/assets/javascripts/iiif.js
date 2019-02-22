@@ -96,7 +96,7 @@ function renderCdsImages() {
                 + "</div></div>";
         });
         html += "";
-        $("#ycba-thumbnail-row").append(html);
+        $("#ycba-thumbnail-row-inner").append(html);
     }
 }
 
@@ -107,8 +107,8 @@ function setMainImage(image, index) {
 
     if (derivative) {
         var html = "";
-        html += "<img class='img-responsive hidden-sm' src='" + large_derivative['url'] + "' onclick='fancybox(" + index + ");' />";
-        html += "<img class='img-responsive visible-sm-block lazy' data-original='" + large_derivative['url'] + "' onclick='fancybox(" + index + ");'/>";
+        html += "<img class='img-responsive hidden-sm center-block' src='" + large_derivative['url'] + "' onclick='fancybox(" + index + ");' />";
+        html += "<img class='img-responsive visible-sm-block lazy center-block' data-original='" + large_derivative['url'] + "' onclick='fancybox(" + index + ");'/>";
         $("#ycba-main-image").html(html);
         var dl_url_jpeg = derivative['url'].split("/").slice(0,-1).join("/").concat("/3");
         var dl_url_tiff = derivative['url'].split("/").slice(0,-1).join("/").concat("/6");

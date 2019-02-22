@@ -220,6 +220,16 @@ body {
   max-width: 100px;
   padding-left: 10px;
   padding-right: 10px;
+  //margin-left: auto;
+  //margin-right: auto;
+}
+
+#ycba-thumbnail-row-inner {
+  display: flex;
+  flex-direction: row;
+  white-space: nowrap;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .thumbtext {
@@ -260,6 +270,43 @@ body {
 .img-thumbnail {
   padding: 0px;
 }
+
+.lido dl {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.lido dt {
+  width: 25%;
+}
+
+.lido dd {
+  margin-left: auto;
+  width: 73%;
+}
+
+//facet select color overrides
+.panel-success, .facet_limit-active {
+    border-color: #A7BBD1;
+}
+
+.panel-success > .panel-heading, .facet_limit-active > .panel-heading {
+  //color: #3c763d;
+  background-color: #A7BBD1;
+  border-color: #A7BBD1; //?
+}
+
+.panel-title {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 16px;
+  color: #000000;
+}
+
+.text-success, .facet-values li .selected {
+  color: #000000;
+}
+//end facet select color overrides
 
 //div::-webkit-scrollbar {
 //  background-color: transparent;

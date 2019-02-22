@@ -9,27 +9,33 @@
   </div>
 
   <div class="row">
-    <div id="ycba-main-image-caption" class="col-xs-12"></div>
+    <div id="ycba-main-image-caption" class="col-xs-12" align="center"></div>
   </div>
 
   <div class="row">
-    <div id="ycba-image-rights" class="col-xs-8"><%= display_rights(document) %></div>
-    <div id="ycba-thumbnail-controls" class="col-xs-2 pull-right"></div>
+    <div id="ycba-image-rights" class="col-xs-12" align="center"><%= display_rights(document) %></div>
+    <!--<div id="ycba-thumbnail-controls" class="col-xs-2 pull-right"></div>-->
+  </div>
+
+  <div class="row">
+    <div id="ycba-thumbnail-controls" class="col-xs-12" align="center"></div>
   </div>
 
   <div class="row">
     <!--<div id="ycba-ort"><%= field_value(document,"collection_ss") %></div>-->
-    <div id="ycba-downloads" class="col-xs-12"></div>
+    <div id="ycba-downloads" class="col-xs-12" align="center"></div>
   </div>
 
   <div class="row">
-    <div id="ycba-request-photography" class="col-xs-12">
+    <div id="ycba-request-photography" class="col-xs-12" align="center">
       <%= link_to("Request additional photography", image_request_link(document)) %>
     </div>
   </div>
 
   <div class="row">
-    <div id="ycba-thumbnail-row" class="col-xs-12 imagescroll"></div>
+    <div id="ycba-thumbnail-row" class="col-xs-12 imagescroll">
+      <div id="ycba-thumbnail-row-inner"></div>
+    </div>
   </div>
 
 </div>

@@ -18,7 +18,7 @@ class CatalogController < ApplicationController
   end
 
   configure_blacklight do |config|
-    config.view.gallery.partials = [:compact_index]
+    config.view.gallery.partials = [:image_index]
     config.view.masonry.partials = [:compact_index]
     config.view.masonry.default = true
     #config.view.slideshow.partials = [:compact_index]
