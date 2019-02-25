@@ -219,7 +219,7 @@ $growFactor: 1.5;// 1.5 times the original size
 $moveLeft: -($tileHeight * ($growFactor - 1) / 2);
 $moveRight: $tileHeight * ($growFactor - 1);
 
-/*
+
 .imagescroll {
   width: 100%;
   display: flex;
@@ -227,7 +227,7 @@ $moveRight: $tileHeight * ($growFactor - 1);
   overflow-x: scroll;
   white-space: nowrap;
 }
-*/
+
 /*
 .scrollthumb {
     height: 100%;
@@ -243,11 +243,22 @@ $moveRight: $tileHeight * ($growFactor - 1);
   overflow: scroll;
   width: 100%;
 }
+/*
+.imagescroll {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  overflow-x: scroll;
+  white-space: nowrap;
+}
+*/
 .row__inner {
   transition: $duration transform;
   font-size: 0;
   white-space: nowrap;
   margin: ($tileHeight / 2) 0;
+  margin-left: auto;
+  margin-right: auto;
   //padding-bottom: 10px;
 }// Account for OS X scroll bar
 

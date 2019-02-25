@@ -90,13 +90,12 @@ function renderCdsImages() {
         $.each(objectImages, function(index, data){
             //console.log(objectImages);
             html += "<div class='tile'>"
-                    + "<div class='tile__media' onclick='setMainImage(objectImages[" + index + "], " + index + ");''>"
-                        +"<img class='tile__img' src='" + data[1]['url'] + "' alt='' />"
-                    + "</div>"
-                    + "<div class='tile__details'>"
-                        + "<div class='tile__title'>"+ data['metadata']['caption']+"</div>"
-                    + "</div>"
-                   +"</div>";
+                + "<figure class='tile__media' onclick='setMainImage(objectImages[" + index + "], " + index + ");''>"
+                +"<img class='tile__img' src='" + data[1]['url'] + "' alt='' />"
+                + "<div class='tile__details'>"
+                + "<figcaption class='tile__title'>"+ data['metadata']['caption']+"</figcaption>"
+                + "</div>"
+                +"</div>";
         });
         html += "";
         $("#ycba-thumbnail-row-inner").append(html);
