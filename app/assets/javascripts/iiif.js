@@ -89,11 +89,14 @@ function renderCdsImages() {
         var html = "";
         $.each(objectImages, function(index, data){
             //console.log(objectImages);
-            html += "<div class='scrollthumb'>"
-                + "<div onclick='setMainImage(objectImages[" + index + "], " + index + ");'><img class=' img-responsive' src='"
-                + data[1]['url'] + "'/></div><div class='thumbtext'>"
-                + data['metadata']['caption']
-                + "</div></div>";
+            html += "<div class='tile'>"
+                    + "<div class='tile__media' onclick='setMainImage(objectImages[" + index + "], " + index + ");''>"
+                        +"<img class='tile__img' src='" + data[1]['url'] + "' alt='' />"
+                    + "</div>"
+                    + "<div class='tile__details'>"
+                        + "<div class='tile__title'>"+ data['metadata']['caption']+"</div>"
+                    + "</div>"
+                   +"</div>";
         });
         html += "";
         $("#ycba-thumbnail-row-inner").append(html);
@@ -101,6 +104,7 @@ function renderCdsImages() {
 }
 
 function setMainImage(image, index) {
+    //alert(index);
     var derivative = image[2] || image[1];
     var metadata = image['metadata'];
     var large_derivative = image[3] || image[2] || image[1];
@@ -124,6 +128,7 @@ function setMainImage(image, index) {
             $("#ycba-main-image-caption").html(caption);
         }
     }
+    $('body').scrollTop(0);
     $("img.lazy").lazyload();
 }
 
