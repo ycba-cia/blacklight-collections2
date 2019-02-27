@@ -122,8 +122,10 @@ module ApplicationHelper
     if document['recordtype_ss'] and document['recordtype_ss'][0].to_s == 'marc'
       if document['isbn_ss']
         url = "/bookcover/isbn/#{document['isbn_ss'][0]}/size/medium"
-      elsif document['url_ss'] and document['url_ss'][0].start_with?('https://hdl.handle.net/10079/bibid/')
-        cds_id = document['url_ss'][0].gsub('https://hdl.handle.net/10079/bibid/', '')
+      #elsif document['url_ss'] and document['url_ss'][0].start_with?('https://hdl.handle.net/10079/bibid/')
+      #  cds_id = document['url_ss'][0].gsub('https://hdl.handle.net/10079/bibid/', '')
+      else
+        cds_id = document['id'].split(":")[1]
         cds = Rails.application.config_for(:cds)
         url = "https://#{cds['host']}/content/repository/YCBA/object/#{cds_id}/type/1/format/1"
       end

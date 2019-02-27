@@ -91,12 +91,12 @@ class CatalogController < ApplicationController
     #  (useful when user clicks "more" on a large facet and wants to navigate alphabetically across a large set of results)
     # :index_range can be an array or range of prefixes that will be used to create the navigation (note: It is case sensitive when searching values)
 
-    config.add_facet_field 'collection_ss', :label => 'Collection', :limit => 20, :collapse => false, :sort => 'index'
+    config.add_facet_field 'collection_ss', :label => 'Collection', :limit => 20, :collapse => false, :sort => 'count'
     config.add_facet_field 'onview_ss', :label => 'Currently On View'
     #config.add_facet_field 'resource_ss', :label => 'Online Access'
     config.add_facet_field 'has_image_ss', :label => 'Image Available'
     #config.add_facet_field 'publishDateFacet_ss', :label => 'Date', range: { segments: false }
-    config.add_facet_field 'publishDateFacet_ss', :label => 'Date', single: true
+    config.add_facet_field 'publishDateFacet_ss', :label => 'Date', single: true,range: { segments: false }
     config.add_facet_field 'language_ss', :label => 'Language', :limit => true #marc only
     #config.add_facet_field 'lc_1letter_ss', :label => 'Call Number' #note: no lc_1letter field in xslts or postprocessing
     #config.add_facet_field 'geographic_ss', :label => 'Region' #note: see below label 'Place Represented'
@@ -116,8 +116,9 @@ class CatalogController < ApplicationController
     config.add_facet_field 'topic_frameStyle_ss', :label => 'Frame Style'
     config.add_facet_field 'credit_line_ss', :label => 'Credit Line'
 
-    config.add_facet_field 'earliestDate_is', :label => 'Earliest Date',range: { segments: false }
-    config.add_facet_field 'latestDate_is', :label => 'Latest Date',range: { segments: false }
+    #not using earliest/latest Date, slider doesn't make sense
+    #config.add_facet_field 'earliestDate_is', :label => 'Earliest Date',range: { segments: false }
+    #config.add_facet_field 'latestDate_is', :label => 'Latest Date',range: { segments: false }
     config.add_facet_field 'physical_heightValue_is', :label => 'Height [cm]',range: { segments: false }
     config.add_facet_field 'physical_widthValue_is', :label => 'Width [cm]',range: { segments: false }
 =begin

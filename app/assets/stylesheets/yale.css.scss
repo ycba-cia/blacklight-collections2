@@ -31,6 +31,15 @@
   src: url("mallory/mallory-bold.woff2") format("woff2"), url("mallory/mallory-bold.woff") format("woff");
 }
 
+//fix header
+.fixer {
+  position: fixed;
+}
+
+//start page after fixed header
+.downer {
+  padding-top: 100px;
+}
 #header-navbar {
   background-color: rgb(240, 244, 245);
   border: 0px;
@@ -459,3 +468,7 @@ $moveRight: $tileHeight * ($growFactor - 1);
 //div::-webkit-scrollbar {
 //  background-color: transparent;
 //}
+
+.slider_js {
+  display: none;
+}
