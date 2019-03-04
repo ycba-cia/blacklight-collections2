@@ -31,14 +31,21 @@
   src: url("mallory/mallory-bold.woff2") format("woff2"), url("mallory/mallory-bold.woff") format("woff");
 }
 
+div:empty {
+  display:none;
+}
+
 //fix header
 .fixer {
   position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
 }
 
 //start page after fixed header
 .downer {
-  padding-top: 100px;
+  padding-top: 160px;
 }
 #header-navbar {
   background-color: rgb(240, 244, 245);
@@ -249,7 +256,7 @@ $moveRight: $tileHeight * ($growFactor - 1);
 */
 
 .row__outer {
-  overflow: scroll;
+  //overflow: scroll;
   width: 100%;
 }
 /*
@@ -286,7 +293,8 @@ $moveRight: $tileHeight * ($growFactor - 1);
 .tile__img {
   //width: $tileWidth;
   height: $tileHeight;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: left bottom;
 }
 
 .tile__details {
@@ -428,18 +436,21 @@ $moveRight: $tileHeight * ($growFactor - 1);
   padding: 0px;
 }
 
+.dl-horizontal dt {
+  //text-align: left;
+}
+
 .lido dl {
-  display: flex;
-  flex-wrap: wrap;
+  //display: flex;
+  //flex-wrap: wrap;
 }
 
 .lido dt {
-  width: 25%;
+  //width: 25%;
 }
 
 .lido dd {
-  margin-left: auto;
-  width: 73%;
+  margin-left: 12.5%;
 }
 
 //facet select color overrides
