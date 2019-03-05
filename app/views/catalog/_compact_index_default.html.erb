@@ -2,7 +2,7 @@
 
 <% index_fields(document).each do |field_name, field| -%>
   <% if field_name == 'auth_author_display_ss' %>
-      <dd style="font-style: italic;"  class="blacklight-<%= field_name.parameterize %>"><%= field_value document, field_name %></dd>
+      <dd class="blacklight-<%= field_name.parameterize %>"><%= field_value document, field_name %></dd>
   <% end %>
   <% if field_name == 'publishDate_txt' %>
     <dd class="blacklight-<%= field_name.parameterize %>"><%= field_value document, field_name %></dd>

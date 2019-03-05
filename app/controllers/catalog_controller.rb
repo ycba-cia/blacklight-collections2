@@ -96,7 +96,7 @@ class CatalogController < ApplicationController
     #config.add_facet_field 'resource_ss', :label => 'Online Access'
     config.add_facet_field 'has_image_ss', :label => 'Image Available'
     #config.add_facet_field 'publishDateFacet_ss', :label => 'Date', range: { segments: false }
-    config.add_facet_field 'publishDateFacet_ss', :label => 'Date', single: true,range: { segments: false }
+    config.add_facet_field 'earliestDate_is', :label => 'Date', single: true,range: { segments: false }
     config.add_facet_field 'language_ss', :label => 'Language', :limit => true #marc only
     #config.add_facet_field 'lc_1letter_ss', :label => 'Call Number' #note: no lc_1letter field in xslts or postprocessing
     #config.add_facet_field 'geographic_ss', :label => 'Region' #note: see below label 'Place Represented'
