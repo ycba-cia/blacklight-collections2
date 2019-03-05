@@ -16,7 +16,7 @@ module ApplicationHelper
   def sort_values_and_link_to_facet options={}
     #http://localhost:3000/?f[topic_facet][]=woman #example
     #facet = "topic_facet"
-    options[:value].sort_by(&:downcase).map { |v| "<a href=\"/?f[#{options[:field]}][]=#{v}\">#{v}</a>" }.join('</br>').html_safe
+    options[:value].sort_by(&:downcase).map { |v| "<a href=\"/?f[#{options[:field]}][]=#{v}\">#{v}</a> | " }.join('</br>').chomp(" | ").html_safe
   end
 
   #used with render_related_content? method in catalog_controller.rb
