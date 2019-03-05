@@ -294,11 +294,12 @@ $moveRight: $tileHeight * ($growFactor - 1);
   //width: $tileWidth;
   height: $tileHeight;
   object-fit: contain;
-  object-position: left bottom;
+  object-position: center bottom;
 }
 
 .tile__details {
   font-size: 10px;
+  text-align: center;
 }
 
 

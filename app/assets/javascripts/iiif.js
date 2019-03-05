@@ -88,11 +88,15 @@ function renderCdsImages() {
         var html = "";
         $.each(objectImages, function(index, data){
             //console.log(objectImages);
+            var caption = data['metadata']['caption'];
+            if (!caption || 0 === caption.length) {
+                caption = "no caption";
+            }
             html += "<div class='tile'>"
                 + "<figure class='tile__media' onclick='setMainImage(objectImages[" + index + "], " + index + ");''>"
                 +"<img class='tile__img' src='" + data[1]['url'] + "' alt='' />"
                 + "<div class='tile__details'>"
-                + "<figcaption class='tile__title'>"+ data['metadata']['caption']+"</figcaption>"
+                + "<figcaption class='tile__title'>"+caption+"</figcaption>"
                 + "</div>"
                 +"</div>";
         });
