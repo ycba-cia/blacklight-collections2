@@ -458,6 +458,11 @@ $moveRight: $tileHeight * ($growFactor - 1);
   top: 70px;
 }
 
+.masonry.document.col-xs-6.col-md-3 {
+  padding-left: 3.75px;
+  padding-right: 3.75px;
+}
+
 //facet select color overrides
 .panel-success, .facet_limit-active {
     border-color: #C9CED1;
