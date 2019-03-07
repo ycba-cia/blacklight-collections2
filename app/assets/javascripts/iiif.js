@@ -94,7 +94,7 @@ function renderCdsImages() {
             }
             html += "<div class='tile'>"
                 + "<figure class='tile__media' onclick='setMainImage(objectImages[" + index + "], " + index + ");''>"
-                +"<img class='tile__img' src='" + data[1]['url'] + "' alt='' />"
+                +"<img class='tile__img' src='" + data[1]['url'] + "' alt='"+caption+"' />"
                 + "<div class='tile__details'>"
                 + "<figcaption class='tile__title'>"+caption+"</figcaption>"
                 + "</div>"
@@ -113,8 +113,9 @@ function setMainImage(image, index) {
 
     if (derivative) {
         var html = "";
-        html += "<img class='img-responsive hidden-sm center-block' src='" + large_derivative['url'] + "' onclick='fancybox(" + index + ");' />";
-        html += "<img class='img-responsive visible-sm-block lazy center-block' data-original='" + large_derivative['url'] + "' onclick='fancybox(" + index + ");'/>";
+        //for fancybox add to img tag: onclick='fancybox(" + index + ");'
+        html += "<img class='img-responsive hidden-sm center-block' src='" + large_derivative['url'] + "' alt='main image' />";
+        html += "<img class='img-responsive visible-sm-block lazy center-block' data-original='" + large_derivative['url'] + "' alt=''main image' />";
         $("#ycba-main-image").html(html);
         var dl_url_jpeg = derivative['url'].split("/").slice(0,-1).join("/").concat("/3");
         var dl_url_tiff = derivative['url'].split("/").slice(0,-1).join("/").concat("/6");
