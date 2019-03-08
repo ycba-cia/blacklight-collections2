@@ -120,9 +120,26 @@ function setMainImage(image, index) {
         var dl_url_jpeg = derivative['url'].split("/").slice(0,-1).join("/").concat("/3");
         var dl_url_tiff = derivative['url'].split("/").slice(0,-1).join("/").concat("/6");
         var dl_name = dl_url_jpeg.split("/")[5];
-        var dl_html_jpeg = "<a href='" + dl_url_jpeg + "' download='" + dl_name + "'>download jpeg</a>";
-        var dl_html_tiff = "<a href='" + dl_url_tiff + "' download='" + dl_name + "'>download tiff</a>";
-        $("#ycba-downloads").html(dl_html_jpeg + " | " + dl_html_tiff);
+        //var dl_html_jpeg = "<a href='" + dl_url_jpeg + "' download='" + dl_name + "'>download jpeg</a>";
+        //var dl_html_tiff = "<a href='" + dl_url_tiff + "' download='" + dl_name + "'>download tiff</a>";
+        //$("#ycba-downloads").html(dl_html_jpeg + " | " + dl_html_tiff);
+
+        var format = large_derivative['format'];
+        var sizeBytes = large_derivative['sizeBytes'];
+        var pixelsX = large_derivative['pixelsX'];
+        var pixelsY = large_derivative['pixelsY'];
+        //WIP 3/8/19 - info, tiff info, deal w/caption metadata, put in partial
+
+        var tiff_info =  "";
+        tiff_info += "<a href='" + dl_url_tiff + "' download='" + dl_name + "'>";
+        tiff_info += "<button id='tiff-dl-button' type='button' class='btn btn-primary btn-sm'>TIFF</button>";
+        tiff_info += "</a>";
+        var jpeg_info = "";
+        jpeg_info += "<a href='" + dl_url_jpeg + "' download='" + dl_name + "'>";
+        jpeg_info += "<button id='jpeg-dl-button' type='button' class='btn btn-primary btn-sm'>JPEG</button>";
+        jpeg_info += "</a>"
+        $("#tiff-container").html(tiff_info);
+        $("#jpeg-container").html(jpeg_info);
     }
 
     if (metadata) {

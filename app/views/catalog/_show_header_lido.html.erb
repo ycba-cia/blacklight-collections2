@@ -23,7 +23,48 @@
 
   <div class="row">
     <!--<div id="ycba-ort"><%= field_value(document,"collection_ss") %></div>-->
-    <div id="ycba-downloads" class="col-xs-12" align="center"></div>
+    <div id="ycba-downloads" class="col-xs-12" align="center">
+      <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#downloadModal">
+        Download Selected Image
+      </button>
+    </div>
+    <div class="modal fade" id="downloadModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Download Selected Image</h4>
+          </div>
+          <div id="download-details" class="modal-body">
+            <!--jquery content here-->
+            <div class="row">
+              <div id="tiff-container" class="col-xs-2">
+                <button id="tiff-dl-button" type="button" class="btn btn-primary btn-sm">TIFF</button>
+              </div>
+              <div id="tiff-dl-info class="col-xs-9">image/tiff, 2468 x 3000 px, 21.24MB</div>
+            </div>
+            </br>
+            <div class="row">
+              <div id="jpeg-container" class="col-xs-2">
+                <button id="jpeg-dl-button" type="button" class="btn btn-primary btn-sm">JPEG</button>
+              </div>
+              <div id="jpeg-dl-info class="col-xs-9">image/jpeg, 1580 x 1920 px, 110dpi, 0.85MB</div>
+            </div>
+            </br>
+            <div class="row">
+              <div id="caption-container" class="col-xs-2">
+                <button id="caption-dl-button" type="button" class="btn btn-primary btn-sm">Caption</button>
+              </div>
+              <div id="caption-dl-info" class="col-xs-9">(.txt)</div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <!--<button type="button" class="btn btn-primary">Submit</button>-->
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="row">
