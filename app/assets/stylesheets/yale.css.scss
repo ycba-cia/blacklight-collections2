@@ -493,3 +493,11 @@ $moveRight: $tileHeight * ($growFactor - 1);
 .slider_js {
   display: none;
 }
+
+#documents .masonry.document a {
+  font-weight: normal;
+}
+
+#documents .masonry.document .middle-label {
+  font-weight: bold;
+}
