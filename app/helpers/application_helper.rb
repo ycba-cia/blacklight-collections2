@@ -186,4 +186,30 @@ module ApplicationHelper
     end
   end
 
+  def concat_caption(doc)
+    fields = Array.new
+    fields.push doc['author_ss'] if doc['author_ss']
+    fields.push doc['title_ss'] if doc['title_ss']
+    fields.push doc['publishDate_ss'] if doc['publishDate_ss']
+    fields.push doc['format_ss'] if doc['format_ss']
+    fields.push doc['credit_line_ss'] if doc['credit_line_ss']
+    fields.push doc['callnumber_ss'] if doc['callnumber_ss']
+    caption = fields.join(", ")
+    return caption
+  end
+
+  def get_marc_caption(doc)
+    url = "https://deliver.odai.yale.edu/info/repository/YCBA/object/#{doc["id"].split(":")[1]}/type/1"
+    json = JSON.load(open(url))
+    caption = ""
+    if j[0] && j[0]["metadata"] && j[0]["metadata"]["caption"]
+      caption = j[0]["metadata"]["caption"]
+    end
+    return caption
+  end
+
+  def marc_field?(doc)
+    doc['recordtype_ss'] and doc['recordtype_ss'][0].to_s == 'marc'
+  end
+
 end

@@ -110,6 +110,7 @@ function setMainImage(image, index) {
     var derivative = image[2] || image[1];
     var metadata = image['metadata'];
     var large_derivative = image[3] || image[2] || image[1];
+    var tiff_image =  image [6];
 
     if (derivative) {
         var html = "";
@@ -117,7 +118,7 @@ function setMainImage(image, index) {
         html += "<img class='img-responsive hidden-sm center-block' src='" + large_derivative['url'] + "' alt='main image' />";
         html += "<img class='img-responsive visible-sm-block lazy center-block' data-original='" + large_derivative['url'] + "' alt=''main image' />";
         $("#ycba-main-image").html(html);
-        var dl_url_jpeg = derivative['url'].split("/").slice(0,-1).join("/").concat("/3");
+        var dl_url_jpeg = derivative['url'].split("/").slice(0,-1).join("/").concat("/"+large_derivative['url'].split("/")[7]);
         var dl_url_tiff = derivative['url'].split("/").slice(0,-1).join("/").concat("/6");
         var dl_name = dl_url_jpeg.split("/")[5];
         //var dl_html_jpeg = "<a href='" + dl_url_jpeg + "' download='" + dl_name + "'>download jpeg</a>";
@@ -125,19 +126,44 @@ function setMainImage(image, index) {
         //$("#ycba-downloads").html(dl_html_jpeg + " | " + dl_html_tiff);
 
         var format = large_derivative['format'];
-        var sizeBytes = large_derivative['sizeBytes'];
-        var pixelsX = large_derivative['pixelsX'];
-        var pixelsY = large_derivative['pixelsY'];
+        var sizeBytes = large_derivative['size'];
+        var pixelsX = large_derivative['width'];
+        var pixelsY = large_derivative['height'];
+        var sizeMBytes = (sizeBytes / 1000000).toFixed(2) + " MB";
+        var pixels = pixelsX + " x " + pixelsY + "px";
+        var jpegImageInfo = format + ", " + pixels +", " + sizeMBytes;
+
+        var tiffImageInfo = "";
+        if (tiff_image) {
+            format = tiff_image['format'];
+            sizeBytes = tiff_image['size'];
+            pixelsX = tiff_image['width'];
+            pixelsY = tiff_image['height'];
+            sizeMBytes = (sizeBytes / 1000000).toFixed(2) + " MB";
+            pixels = pixelsX + " x " + pixelsY + "px";
+            tiffImageInfo = format + ", " + pixels + ", " + sizeMBytes;
+        } else {
+            tiffImageInfo = "TIFF image not available";
+        }
         //WIP 3/8/19 - info, tiff info, deal w/caption metadata, put in partial
 
         var tiff_info =  "";
-        tiff_info += "<a href='" + dl_url_tiff + "' download='" + dl_name + "'>";
-        tiff_info += "<button id='tiff-dl-button' type='button' class='btn btn-primary btn-sm'>TIFF</button>";
-        tiff_info += "</a>";
+        if (tiff_image) {
+            tiff_info += "<a href='" + dl_url_tiff + "' download='" + dl_name + "'>";
+            tiff_info += "<button id='tiff-dl-button' type='button' class='btn btn-primary btn-sm'>TIFF</button>";
+            tiff_info += "</a>";
+        } else {
+            tiff_info += "<a href='" + dl_url_tiff + "' download='" + dl_name + "'>";
+            tiff_info += "<button id='tiff-dl-button' type='button' class='btn btn-primary btn-sm' disabled>TIFF</button>";
+            tiff_info += "</a>";
+        }
+        $("#tiff-dl-info").text(tiffImageInfo);
         var jpeg_info = "";
         jpeg_info += "<a href='" + dl_url_jpeg + "' download='" + dl_name + "'>";
         jpeg_info += "<button id='jpeg-dl-button' type='button' class='btn btn-primary btn-sm'>JPEG</button>";
         jpeg_info += "</a>"
+        $("#jpeg-dl-info").text(jpegImageInfo);
+
         $("#tiff-container").html(tiff_info);
         $("#jpeg-container").html(jpeg_info);
     }

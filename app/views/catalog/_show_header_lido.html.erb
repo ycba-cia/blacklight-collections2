@@ -22,7 +22,7 @@
   </div>
 
   <div class="row">
-    <!--<div id="ycba-ort"><%= field_value(document,"collection_ss") %></div>-->
+    <!--<div id="ycba-ort"><%#= field_value(document,"collection_ss") %></div>-->
     <div id="ycba-downloads" class="col-xs-12" align="center">
       <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#downloadModal">
         Download Selected Image
@@ -41,21 +41,30 @@
               <div id="tiff-container" class="col-xs-2">
                 <button id="tiff-dl-button" type="button" class="btn btn-primary btn-sm">TIFF</button>
               </div>
-              <div id="tiff-dl-info class="col-xs-9">image/tiff, 2468 x 3000 px, 21.24MB</div>
+              <div id="tiff-dl-info" class="col-xs-10"></div>
             </div>
             </br>
             <div class="row">
               <div id="jpeg-container" class="col-xs-2">
                 <button id="jpeg-dl-button" type="button" class="btn btn-primary btn-sm">JPEG</button>
               </div>
-              <div id="jpeg-dl-info class="col-xs-9">image/jpeg, 1580 x 1920 px, 110dpi, 0.85MB</div>
+              <div id="jpeg-dl-info" class="col-xs-10"></div>
             </div>
             </br>
             <div class="row">
-              <div id="caption-container" class="col-xs-2">
-                <button id="caption-dl-button" type="button" class="btn btn-primary btn-sm">Caption</button>
+              <div id="caption-container" style="text-decoration: underline;" class="col-xs-2">
+                <!--<button id="caption-dl-button" type="button" class="btn btn-primary btn-sm">Caption</button>-->
+                Caption
               </div>
-              <div id="caption-dl-info" class="col-xs-9">(.txt)</div>
+            </div>
+            <div>
+              <div id="caption-dl-info" class="col-xs-12">
+                <% if marc_field?(document) %>
+                  <%= get_marc_caption(document) %>
+                <% else %>
+                  <%= concat_caption(document) %>
+                <% end %>
+              </div>
             </div>
           </div>
           <div class="modal-footer">
