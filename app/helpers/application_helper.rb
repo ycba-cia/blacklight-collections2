@@ -202,8 +202,10 @@ module ApplicationHelper
     url = "https://deliver.odai.yale.edu/info/repository/YCBA/object/#{doc["id"].split(":")[1]}/type/1"
     json = JSON.load(open(url))
     caption = ""
-    if j[0] && j[0]["metadata"] && j[0]["metadata"]["caption"]
-      caption = j[0]["metadata"]["caption"]
+    if json["0"] && json["0"]["metadata"] && json["0"]["metadata"]["caption"]
+      caption = json["0"]["metadata"]["caption"]
+    else
+      caption = "Caption not found"
     end
     return caption
   end
