@@ -132,7 +132,12 @@ module ApplicationHelper
     end
     url ||= '/no_cover.png'
     square = path_to_image('square.png')
-    image_tag url, alt: 'cover image', onerror: "this.src='#{square}';"
+    if document['collection_ss'][0].to_s == "Reference Library" || document['collection_ss'][0].to_s == "Rare Books and Manuscripts"
+      error_img = '/no_cover.png'
+    else
+      error_img = square
+    end
+    image_tag url, alt: 'cover image', onerror: "this.src='#{error_img}';"
   end
 
   def doc_thumbnail(document)
