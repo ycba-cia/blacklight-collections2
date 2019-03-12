@@ -115,8 +115,8 @@ function setMainImage(image, index) {
     if (derivative) {
         var html = "";
         //for fancybox add to img tag: onclick='fancybox(" + index + ");'
-        html += "<img class='img-responsive hidden-sm center-block' src='" + large_derivative['url'] + "' alt='main image' />";
-        html += "<img class='img-responsive visible-sm-block lazy center-block' data-original='" + large_derivative['url'] + "' alt=''main image' />";
+        html += "<img id='main-image' onclick='toggleImageSize()' class='img-responsive hidden-sm center-block' src='" + large_derivative['url'] + "' alt='main image' />";
+        html += "<img id='main-image' onclick='toggleImageSize()' class='img-responsive visible-sm-block lazy center-block' data-original='" + large_derivative['url'] + "' alt=''main image' />";
         $("#ycba-main-image").html(html);
         var dl_url_jpeg = derivative['url'].split("/").slice(0,-1).join("/").concat("/"+large_derivative['url'].split("/")[7]);
         var dl_url_tiff = derivative['url'].split("/").slice(0,-1).join("/").concat("/6");
@@ -176,6 +176,11 @@ function setMainImage(image, index) {
     }
     $('body').scrollTop(0);
     $("img.lazy").lazyload();
+}
+
+function toggleImageSize() {
+    var element = document.getElementById("main-image");
+    element.classList.toggle("fitscreen");
 }
 
 function applyLightSlider() {

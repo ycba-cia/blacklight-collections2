@@ -506,3 +506,8 @@ $moveRight: $tileHeight * ($growFactor - 1);
   border: solid black 1px;
   background-color: #e6e6e6;
 }
+
+.fitscreen {
+  max-width: 100%;
+  max-height: 88vh;
+}
