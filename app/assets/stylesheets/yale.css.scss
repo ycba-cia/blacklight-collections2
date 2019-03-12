@@ -494,6 +494,7 @@ $moveRight: $tileHeight * ($growFactor - 1);
   display: none;
 }
 
+//light box captions stylings
 #documents .masonry.document a {
   font-weight: normal;
 }
@@ -502,12 +503,20 @@ $moveRight: $tileHeight * ($growFactor - 1);
   font-weight: 900;
 }
 
+//for download modal
 #caption-dl-info {
   border: solid black 1px;
   background-color: #e6e6e6;
 }
 
+//resize main image to fit screen
 .fitscreen {
   max-width: 100%;
   max-height: 88vh;
+}
+
+
+//suppress display of unknowns in date (range) facet
+.blacklight-earliestdate_is .profile {
+  display: none;
 }
