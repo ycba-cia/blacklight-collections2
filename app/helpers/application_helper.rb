@@ -214,4 +214,12 @@ module ApplicationHelper
     doc['recordtype_ss'] and doc['recordtype_ss'][0].to_s == 'marc'
   end
 
+  def copyrighted?(doc)
+    if doc['rights_ss'] && (doc['rights_ss'][0].to_s=="under copyright" || doc['rights_ss'][0].to_s=="copyrighted")
+      return true
+    else
+      return false
+    end
+  end
+
 end
