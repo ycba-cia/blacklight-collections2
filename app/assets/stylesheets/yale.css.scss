@@ -520,3 +520,23 @@ $moveRight: $tileHeight * ($growFactor - 1);
 .blacklight-earliestdate_is .profile {
   display: none;
 }
+
+#left-nav {
+  position: absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width: 48px;
+  height: 48px;
+  background-image: url("previous.png");
+  left: 0;
+}
+
+#right-nav {
+  position: absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width: 48px;
+  height: 48px;
+  background-image: url("next.png");
+  right: 0;
+}

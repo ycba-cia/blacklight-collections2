@@ -79,7 +79,7 @@ function renderCdsImages() {
 
     if (objectImages.length > 0) {
         var data = objectImages[0];
-        setMainImage(data);
+        setMainImage(data,0);
     } else {
         $("#image-section").hide();
     }
@@ -110,13 +110,37 @@ function setMainImage(image, index) {
     var derivative = image[2] || image[1];
     var metadata = image['metadata'];
     var large_derivative = image[3] || image[2] || image[1];
-    var tiff_image =  image [6];
+    var tiff_image =  image[6];
+    var next = index+1;
+    var prev = index-1;
+    if (next > objectImages.length) {
+        next = objectImages.length;
+    }
+    if (prev < 0) {
+        prev = 0;
+    }
+    console.log('len:'+objectImages.length);
+    var fit = false;
+    if (document.getElementById("main-image")!==null) {
+        if (document.getElementById("main-image").classList.contains("fitscreen")) {
+            fit = true;
+        }
+    }
 
     if (derivative) {
         var html = "";
         //for fancybox add to img tag: onclick='fancybox(" + index + ");'
-        html += "<img id='main-image' onclick='toggleImageSize()' class='img-responsive hidden-sm center-block' src='" + large_derivative['url'] + "' alt='main image' />";
-        html += "<img id='main-image' onclick='toggleImageSize()' class='img-responsive visible-sm-block lazy center-block' data-original='" + large_derivative['url'] + "' alt=''main image' />";
+        html += "<div id='left-nav' onclick='setMainImage(objectImages[" + prev + "], " + prev + ")'>  </div>";
+        html += "<div id='right-nav' onclick='setMainImage(objectImages[" + next + "], " + next + ")'>  </div>";
+
+        if (fit) {
+            html += "<img id='main-image' onclick='toggleImageSize()' class='img-responsive hidden-sm center-block fitscreen' src='" + large_derivative['url'] + "' alt='main image' />";
+            html += "<img id='main-image' onclick='toggleImageSize()' class='img-responsive visible-sm-block lazy center-block fitscreen' data-original='" + large_derivative['url'] + "' alt=''main image' />";
+
+        } else {
+            html += "<img id='main-image' onclick='toggleImageSize()' class='img-responsive hidden-sm center-block' src='" + large_derivative['url'] + "' alt='main image' />";
+            html += "<img id='main-image' onclick='toggleImageSize()' class='img-responsive visible-sm-block lazy center-block' data-original='" + large_derivative['url'] + "' alt=''main image' />";
+        }
         $("#ycba-main-image").html(html);
         var dl_url_jpeg = derivative['url'].split("/").slice(0,-1).join("/").concat("/"+large_derivative['url'].split("/")[7]);
         var dl_url_tiff = derivative['url'].split("/").slice(0,-1).join("/").concat("/6");
@@ -166,6 +190,11 @@ function setMainImage(image, index) {
 
         $("#tiff-container").html(tiff_info);
         $("#jpeg-container").html(jpeg_info);
+
+        if (objectImages.length==1) {
+            $("#left-nav").hide();
+            $("#right-nav").hide();
+        }
     }
 
     if (metadata) {
@@ -179,8 +208,24 @@ function setMainImage(image, index) {
 }
 
 function toggleImageSize() {
-    var element = document.getElementById("main-image");
-    element.classList.toggle("fitscreen");
+    var image = document.getElementById("main-image");
+    image.classList.toggle("fitscreen");
+    /*
+    var image_width = image.clientWidth;
+    var container = document.getElementById("content");
+    var container_width = container.clientWidth;
+    var margin = (container_width - image_width)/2;
+    var margin_px = margin + "px";
+
+    var left_nav = document.getElementById("left-nav");
+    var right_nav = document.getElementById("right-nav");
+    left_nav.style.marginLeft = margin_px;
+    right_nav.style.marginRight = margin_px;
+    console.log("size:"+image_width);
+    console.log("screen:"+container_width);
+    console.log("marginpx:"+margin_px);
+    */
+
 }
 
 function applyLightSlider() {
