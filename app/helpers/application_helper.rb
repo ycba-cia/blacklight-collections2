@@ -130,13 +130,9 @@ module ApplicationHelper
         url = "https://#{cds['host']}/content/repository/YCBA/object/#{cds_id}/type/1/format/1"
       end
     end
-    url ||= '/no_cover.png'
-    square = path_to_image('square.png')
-    if document['collection_ss'][0].to_s == "Reference Library" || document['collection_ss'][0].to_s == "Rare Books and Manuscripts"
-      error_img = '/no_cover.png'
-    else
-      error_img = square
-    end
+    url ||= path_to_image('empty_square2.png')
+    #square = path_to_image('square.png')
+    error_img = path_to_image('empty_square2.png')
     image_tag url, alt: 'cover image', onerror: "this.src='#{error_img}';"
   end
 
