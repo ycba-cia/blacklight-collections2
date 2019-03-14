@@ -41,12 +41,84 @@ div:empty {
   left: 0;
   top: 0;
   width: 100%;
+  z-index: 1000;
+  background: white;
+}
+
+#header-row {
+  left: 0;
+  top: 0;
+  height: 130px;
+  padding-top: 36px;
 }
 
 //start page after fixed header
 .downer {
-  padding-top: 160px;
+  margin-top: 160px;
 }
+
+//@include breakpoints(mobile-only,portrait-only) {
+@media screen and (min-width: 320px) {
+  .div-horizontal {
+    display: none;
+
+  }
+  .div-vertical {
+    display: block;
+    height: 130px;
+  }
+
+  .vert-wrapper {
+    height: 20%;
+    width: 20%;
+    padding-left: 10%;
+  }
+
+}
+
+@media screen and (min-width: 529px) {
+  .div-horizontal {
+    display: none;
+
+  }
+  .div-vertical {
+    display: block;
+    height: 130px;
+  }
+
+  .vert-wrapper {
+    height: 13%;
+    width: 13%;
+    padding-left: 10%;
+  }
+
+}
+
+//@media landscape {
+@media screen and (min-width: 800px) {
+  .div-vertical {
+    display: none;
+  }
+  .div-horizontal {
+    display: block;
+  }
+}
+
+.home-fonth {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.home-fontv {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  float: right;
+}
+
 #header-navbar {
   background-color: rgb(240, 244, 245);
   border: 0px;
