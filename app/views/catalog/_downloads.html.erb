@@ -16,11 +16,21 @@
           <div class="row">
             <div class="col-xs-12"><%= document["ort_ss"][0].to_s %></div>
           </div>
-          <div class="row">
-            <div class="col-xs-12">This work is protected by copyright. The Yale Center for British Art has permission from the rights holder(s) to make these downloads available for private study. It is your responsibility to clear copyright or any other restrictions with the rights holder(s) prior to publication or use of these images for any other purpose. See <a target="_blank" href="http://britishart.yale.edu/collections/using-collections/image-use">Using Images</a> for more information.</div>
-          </div>
-          </br>
         <% end %>
+        <div class="row">
+          <div class="col-xs-12">
+            <% if document["rights_ss"][0].to_s == "unknown" %>
+              <span>See <a target="_blank" href="http://hdl.handle.net/10079/c59zwbm">Using Images with Unknown Rights</a> for more information.</span>
+            <% end %>
+            <% if document["rights_ss"][0].to_s == "public domain" %>
+              <span>See <a target="_blank" href="http://hdl.handle.net/10079/w6m90dq">Using Public Domain Images</a> for more information.</span>
+            <% end %>
+            <% if document["rights_ss"][0].to_s == "under copyright" || document["rights_ss"][0].to_s == "rights reserved" %>
+              <span>See <a target="_blank" href="http://hdl.handle.net/10079/rfj6qd5">Using Copyrighted Images</a> for more information.</span>
+            <% end %>
+          </div>
+        </div>
+        </br>
         <div class="row">
           <div id="tiff-container" class="col-xs-2">
             <button id="tiff-dl-button" type="button" class="btn btn-primary btn-sm">TIFF</button>
