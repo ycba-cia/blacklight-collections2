@@ -315,7 +315,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    sqlite3 (1.4.0)
+    sqlite3 (1.3.13)
     term-ansicolor (1.7.1)
       tins (~> 1.0)
     thor (0.19.4)
@@ -405,7 +405,7 @@ DEPENDENCIES
   solr_wrapper (>= 0.3)
   spring
   spring-watcher-listen (~> 2.0.0)
-  sqlite3
+  sqlite3 (~> 1.3.6)
   travis
   turbolinks (~> 5)
   tzinfo-data
