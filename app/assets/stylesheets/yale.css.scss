@@ -45,18 +45,6 @@ div:empty {
   background: white;
 }
 
-#header-row {
-  left: 0;
-  top: 0;
-  height: 130px;
-  padding-top: 36px;
-}
-
-//start page after fixed header
-.downer {
-  margin-top: 160px;
-}
-
 //@include breakpoints(mobile-only,portrait-only) {
 @media screen and (min-width: 320px) {
   .div-horizontal {
@@ -72,6 +60,18 @@ div:empty {
     height: 20%;
     width: 20%;
     padding-left: 10%;
+  }
+
+  #header-row {
+    left: 0;
+    top: 0;
+    height: 130px;
+    padding-top: 36px;
+  }
+
+  //start page after fixed header
+  .downer {
+    margin-top: 130px;
   }
 
 }
@@ -101,6 +101,18 @@ div:empty {
   }
   .div-horizontal {
     display: block;
+  }
+
+  #header-row {
+    left: 0;
+    top: 0;
+    height: 96px;
+    padding-top: 36px;
+  }
+
+  //start page after fixed header
+  .downer {
+    margin-top: 96px;
   }
 }
 
@@ -529,6 +541,11 @@ $moveRight: $tileHeight * ($growFactor - 1);
 
 .modal-content {
   top: 100px;
+}
+
+#download-details a {
+  color: #337ab7;
+  text-decoration: underline;
 }
 
 .masonry.document.col-xs-6.col-md-3 {
