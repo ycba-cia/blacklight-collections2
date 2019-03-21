@@ -20,29 +20,29 @@
         <div class="row">
           <div class="col-xs-12">
             <% if document["rights_ss"][0].to_s == "unknown" %>
-              <span>See <a target="_blank" href="http://hdl.handle.net/10079/c59zwbm">Using Images with Unknown Rights</a> for more information.</span>
+              <span>See <a target="_blank" href="http://hdl.handle.net/10079/c59zwbm">Terms of Use for Photographic Images of Works Requiring Further Research</a> for more information.</span>
             <% end %>
             <% if document["rights_ss"][0].to_s == "public domain" %>
-              <span>See <a target="_blank" href="http://hdl.handle.net/10079/w6m90dq">Using Public Domain Images</a> for more information.</span>
+              <span>See <a target="_blank" href="http://hdl.handle.net/10079/w6m90dq">Using Images of Works in the Public Domain</a> for more information.</span>
             <% end %>
             <% if document["rights_ss"][0].to_s == "under copyright" || document["rights_ss"][0].to_s == "rights reserved" %>
-              <span>See <a target="_blank" href="http://hdl.handle.net/10079/rfj6qd5">Using Copyrighted Images</a> for more information.</span>
+              <span>See <a target="_blank" href="http://hdl.handle.net/10079/rfj6qd5">Terms of Use for Photographic Images of Works under Copyright</a> for more information.</span>
             <% end %>
           </div>
         </div>
         </br>
         <div class="row">
-          <div id="tiff-container" class="col-xs-2">
-            <button id="tiff-dl-button" type="button" class="btn btn-primary btn-sm">TIFF</button>
+          <div id="jpeg-container" class="col-xs-1">
+            <button id="jpeg-dl-button" type="button" class="btn btn-primary btn-sm">JPEG</button>
           </div>
-          <div id="tiff-dl-info" class="col-xs-10"></div>
+          <div id="jpeg-dl-info" class="col-xs-11"></div>
         </div>
         </br>
         <div class="row">
-          <div id="jpeg-container" class="col-xs-2">
-            <button id="jpeg-dl-button" type="button" class="btn btn-primary btn-sm">JPEG</button>
+          <div id="tiff-container" class="col-xs-1">
+            <button id="tiff-dl-button" type="button" class="btn btn-primary btn-sm">TIFF</button>
           </div>
-          <div id="jpeg-dl-info" class="col-xs-10"></div>
+          <div id="tiff-dl-info" class="col-xs-11"></div>
         </div>
         </br>
         <div class="row">
@@ -51,7 +51,8 @@
             Caption
           </div>
         </div>
-        <div>
+        </br>
+        <div id="caption-row" class="row">
           <div id="caption-dl-info" class="col-xs-12">
             <% if marc_field?(document) %>
               <%#= get_marc_caption(document) %><!--get from cds caption, not best source-->

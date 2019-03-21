@@ -543,6 +543,17 @@ $moveRight: $tileHeight * ($growFactor - 1);
   top: 100px;
 }
 
+//override -15px in fabrique stylings
+#caption-row {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+#jpeg-dl-info, #tiff-dl-info {
+  padding-left: 25px;
+  padding-top: 5px;
+}
+
 #download-details a {
   color: #337ab7;
   text-decoration: underline;
@@ -632,10 +643,11 @@ $moveRight: $tileHeight * ($growFactor - 1);
   right: 0;
   opacity: .5;
 }
- #right-nav:focus {
+
+#right-nav:focus, #right-nav:hover {
      opacity: 1;
    }
 
-#left-nav:focus {
+#left-nav:focus, #left-nav:hover {
   opacity: 1;
 }
