@@ -632,3 +632,10 @@ $moveRight: $tileHeight * ($growFactor - 1);
   right: 0;
   opacity: .5;
 }
+ #right-nav:focus {
+     opacity: 1;
+   }
+
+#left-nav:focus {
+  opacity: 1;
+}

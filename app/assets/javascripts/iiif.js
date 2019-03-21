@@ -119,7 +119,7 @@ function setMainImage(image, index) {
     if (prev < 0) {
         prev = 0;
     }
-    console.log('len:'+objectImages.length);
+    //console.log('len:'+objectImages.length);
     var fit = false;
     if (document.getElementById("main-image")!==null) {
         if (document.getElementById("main-image").classList.contains("fitscreen")) {
@@ -130,8 +130,8 @@ function setMainImage(image, index) {
     if (derivative) {
         var html = "";
         //for fancybox add to img tag: onclick='fancybox(" + index + ");'
-        html += "<div id='left-nav' onclick='setMainImage(objectImages[" + prev + "], " + prev + ")'>  </div>";
-        html += "<div id='right-nav' onclick='setMainImage(objectImages[" + next + "], " + next + ")'>  </div>";
+        html += "<div id='left-nav' tabindex='0' onclick='setMainImage(objectImages[" + prev + "], " + prev + ")'>  </div>";
+        html += "<div id='right-nav' tabindex='0' onclick='setMainImage(objectImages[" + next + "], " + next + ")'>  </div>";
 
         if (fit) {
             html += "<img id='main-image' onclick='toggleImageSize()' class='img-responsive hidden-sm center-block fitscreen' src='" + large_derivative['url'] + "' alt='main image' />";
@@ -195,6 +195,25 @@ function setMainImage(image, index) {
             $("#left-nav").hide();
             $("#right-nav").hide();
         }
+        if (index==0) {
+            $("#left-nav").hide();
+        }
+        if ((objectImages.length - 1) == index) {
+            $("#right-nav").hide();
+        }
+
+        $("#right-nav").keypress(function(e) {
+            if (e.which == 13) {
+                setMainImage(objectImages[next], next);
+            }
+        });
+
+        $("#left-nav").keypress(function(e) {
+            if (e.which == 13) {
+                setMainImage(objectImages[prev], prev);
+            }
+        });
+
     }
 
     if (metadata) {
