@@ -527,16 +527,21 @@ $moveRight: $tileHeight * ($growFactor - 1);
 }
 
 .lido dl {
-  //display: flex;
-  //flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .lido dt {
-  //width: 25%;
+  text-align: right;
+  width: 20%;
+  margin-bottom: 8px;
 }
 
 .lido dd {
-  margin-left: 12.5%;
+  //margin-left: 12.5%;
+  margin-left: auto;
+  width: 78%;
+  margin-bottom: 8px;
 }
 
 .modal-content {
@@ -650,4 +655,12 @@ $moveRight: $tileHeight * ($growFactor - 1);
 
 #left-nav:focus, #left-nav:hover {
   opacity: 1;
+}
+
+.openseadragon {
+  width: 800px;
+  height: 600px;
+  border: 1px solid black;
+  color: #333;
+  background-color: black;
 }
