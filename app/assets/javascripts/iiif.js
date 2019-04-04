@@ -1,16 +1,42 @@
 
+var viewer = [];
 
-
-function updateImageData( id ) {
+function updateImageData( id ,cds) {
     var manifest = "https://manifests.britishart.yale.edu/manifest/" + id;
     $.ajax({
-        type: "HEAD",
+        type: "GET",
         async: true,
         crossDomain: false,
         url: manifest
     }).success(function(message,text,jqXHR){
+
+
+        var iiif_info = [];
+        var caption_info = [];
+        $.each(message.sequences[0].canvases,function(i,v) {
+            iiif_info.push(""+ v.images[0].resource.service['@id']+"/info.json");
+            caption_info.push(v.label);
+        });
+
+        viewer = OpenSeadragon({
+            id: "osd-hook",
+            prefixUrl: "/assets/osd/",
+            sequenceMode: true,
+            tileSources: iiif_info
+        });
+
+        var count_caption = "image 1 of "+ caption_info.length
+        $("#osd-caption").empty().append(count_caption+"<br>"+caption_info[0]);
+        viewer.addHandler('page', function(event) {
+            count_caption = "image " + (event.page+1) + " of " + caption_info.length;
+            $("#osd-caption").empty().append(count_caption+"</br>"+caption_info[event.page]);
+        });
+
         $("#ycba-thumbnail-controls").empty().append(
             "<a target='_blank' class='' href='http://mirador.britishart.yale.edu/?manifest=" + manifest + "'><img src='https://manifests.britishart.yale.edu/logo-iiif.png' class='img-responsive' alt='IIIF Manifest'></a>");
+    }).error(function(context) {
+        //alert(id);
+        cdsData(cds);
     });
 }
 
@@ -93,7 +119,8 @@ function renderCdsImages() {
                 caption = "no caption";
             }
             html += "<div class='tile'>"
-                + "<figure class='tile__media' onclick='setMainImage(objectImages[" + index + "], " + index + ");''>"
+                //+ "<figure class='tile__media' onclick='setMainImage(objectImages[" + index + "], " + index + ");''>"
+                + "<figure class='tile__media' onclick='osdGoToPage("+index+")'>"
                 +"<img class='tile__img' src='" + data[1]['url'] + "' alt='"+caption+"' />"
                 + "<div class='tile__details'>"
                 + "<figcaption class='tile__title'>"+caption+"</figcaption>"
@@ -103,6 +130,11 @@ function renderCdsImages() {
         html += "";
         $("#ycba-thumbnail-row-inner").append(html);
     }
+}
+
+function osdGoToPage(index) {
+    viewer.goToPage(index);
+    $(window).scrollTop(0);
 }
 
 function setMainImage(image, index) {

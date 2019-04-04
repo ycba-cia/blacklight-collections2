@@ -658,9 +658,12 @@ $moveRight: $tileHeight * ($growFactor - 1);
 }
 
 .openseadragon {
-  width: 800px;
-  height: 600px;
   border: 1px solid black;
   color: #333;
   background-color: black;
+  margin-right: auto;
+  margin-left: auto;
+  width: 100%;
+  height: 75vh;
+  padding-top: 15px;
 }

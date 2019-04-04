@@ -49,9 +49,9 @@
   </div>
 
 </div>
-<script language="Javascript">updateImageData(<%= @document.cds_url %>);</script>
+<script language="Javascript">updateImageData(<%= @document.cds_url %>,"<%= cds_info_url(@document.cds_url, 1) %>");</script>
 <script language="Javascript">
-    cdsData("<%= cds_info_url(@document.cds_url, 1) %>");
+    //cdsData("<%= cds_info_url(@document.cds_url, 1) %>");
 </script>
 
 
