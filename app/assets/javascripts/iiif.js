@@ -1,5 +1,6 @@
 
 var viewer = [];
+var objectImages = [];
 
 function updateImageData( id ,cds) {
     var manifest = "https://manifests.britishart.yale.edu/manifest/" + id;
@@ -34,13 +35,34 @@ function updateImageData( id ,cds) {
 
         $("#ycba-thumbnail-controls").empty().append(
             "<a target='_blank' class='' href='http://mirador.britishart.yale.edu/?manifest=" + manifest + "'><img src='https://manifests.britishart.yale.edu/logo-iiif.png' class='img-responsive' alt='IIIF Manifest'></a>");
+
+        cdsData(cds,"osd");
+        //alert("got object images" + objectImages.length);
+        if (objectImages.length > 1) {
+            var html = "";
+            $.each(objectImages, function(index, data){
+                //console.log(objectImages);
+                var caption = data['metadata']['caption'];
+                if (!caption || 0 === caption.length) {
+                    caption = "no caption";
+                }
+                html += "<div class='tile'>"
+                    //+ "<figure class='tile__media' onclick='setMainImage(objectImages[" + index + "], " + index + ");''>"
+                    + "<figure class='tile__media' onclick='osdGoToPage("+index+")'>"
+                    +"<img class='tile__img' src='" + data[1]['url'] + "' alt='"+caption+"' />"
+                    + "<div class='tile__details'>"
+                    + "<figcaption class='tile__title'>"+caption+"</figcaption>"
+                    + "</div>"
+                    +"</div>";
+            });
+            html += "";
+            $("#ycba-thumbnail-row-inner").append(html);
+        }
     }).error(function(context) {
-        //alert(id);
-        cdsData(cds);
+        //alert("noway");
+        cdsData(cds,"cds");
     });
 }
-
-var objectImages = [];
 
 function fancybox(index) {
     var fbsrc = [];
@@ -68,12 +90,12 @@ function fancybox(index) {
     $.fancybox.open(fbsrc, {}, index);
 }
 
-function cdsData(url) {
+function cdsData(url,type) {
     console.log("URL:"+url);
     if (objectImages.length == 0) {
         $.ajax({
             type: "GET",
-            async: true,
+            async: false,
             crossDomain: true,
             url: url
         }).success(function (data, textStatus, jqXHR) {
@@ -81,6 +103,7 @@ function cdsData(url) {
                 var d = value['derivatives'];
                 var derivatives = [];
                 derivatives['metadata'] = value['metadata'];
+                //alert("got data");
                 $.each(d, function (index, value) {
                     var image = [];
                     image['format'] = value['format'];
@@ -95,7 +118,9 @@ function cdsData(url) {
                 objectImages[index] = derivatives;
             });
             //console.log(objectImages);
-            renderCdsImages();
+            if (type=="cds") {
+                renderCdsImages();
+            }
         });
     }
 }
@@ -110,6 +135,7 @@ function renderCdsImages() {
         $("#image-section").hide();
     }
 
+
     if (objectImages.length > 1) {
         var html = "";
         $.each(objectImages, function(index, data){
@@ -119,8 +145,8 @@ function renderCdsImages() {
                 caption = "no caption";
             }
             html += "<div class='tile'>"
-                //+ "<figure class='tile__media' onclick='setMainImage(objectImages[" + index + "], " + index + ");''>"
-                + "<figure class='tile__media' onclick='osdGoToPage("+index+")'>"
+                + "<figure class='tile__media' onclick='setMainImage(objectImages[" + index + "], " + index + ");''>"
+                //+ "<figure class='tile__media' onclick='osdGoToPage("+index+")'>"
                 +"<img class='tile__img' src='" + data[1]['url'] + "' alt='"+caption+"' />"
                 + "<div class='tile__details'>"
                 + "<figcaption class='tile__title'>"+caption+"</figcaption>"
