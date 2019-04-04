@@ -218,7 +218,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'format_txt', :label => 'Medium'
     config.add_show_field 'physical_txt',  :label => 'Dimensions', unless:  :display_marc_field?
     config.add_show_field 'type_ss', :label => 'Classification' #Bibliographic
-    config.add_show_field 'publisher_ss', :label => 'Imprint', separator_options: break_separator #Bibliographic
+    config.add_show_field 'publisher_ss', :label => 'Published / Created', separator_options: break_separator #Bibliographic
     config.add_show_field 'physical_description', accessor: 'physical_description', label: 'Physical Description', if: :display_marc_accessor_field? #NOT_IN_VU
     config.add_show_field 'edition_ss', label: 'Edition' #Bibliographic
     config.add_show_field 'orbis_link', accessor: 'orbis_link', :label => 'Full Orbis Record', helper_method: 'render_as_link', if: :display_marc_accessor_field? #NOT_IN_VU
@@ -237,7 +237,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'url_txt', :label => 'Link', helper_method: 'render_as_link', unless:  :display_marc_field?
     config.add_show_field 'subject_period_ss', :label => 'Subject Period', link_to_search: true, separator_options: break_separator
     config.add_show_field 'topic_subjectActor_ss', :label => 'People Represented or Subject', link_to_search: true, separator_options: break_separator
-    config.add_show_field 'topic_ss', :label => 'Subject Terms - Current', link_to_search: 'topic_facet', separator_options: break_separator, helper_method: 'sort_values_and_link_to_facet'
+    config.add_show_field 'topic_ss', :label => 'Subject Terms', link_to_search: 'topic_facet', separator_options: break_separator, helper_method: 'sort_values_and_link_to_facet'
     config.add_show_field 'topic_frameCrossSection_ss', :label => 'Cross-section', link_to_search: true, separator_options: break_separator #NEW_TO_BL
     config.add_show_field 'topic_frameOrnament_ss', :label => 'Ornaments', link_to_search: true, separator_options: break_separator #NEW_TO_BL
     config.add_show_field 'topic_frameFeature_ss', :label => 'Features', link_to_search: true, separator_options: break_separator #NEW_TO_BL
@@ -245,11 +245,12 @@ class CatalogController < ApplicationController
     config.add_show_field 'topic_frameStatus_ss', :label => 'Status', link_to_search: true, separator_options: break_separator #NEW_TO_BL
     config.add_show_field 'topic_frameQuality_ss', :label => 'Quality', link_to_search: true, separator_options: break_separator #NEW_TO_BL
     config.add_show_field 'topic_frameStyle_ss', :label => 'Style', link_to_search: true, separator_options: break_separator #NEW_TO_BL
-    config.add_show_field 'topic_frameSubjectConcept_ss', :label => 'Subject Terms', helper_method: 'combine_topic_subject', separator_options: break_separator #NEW_TO_BL
+    #Subject Terms through the combine_topic_subject helper seem to be same as topic_ss as per xslt above - so commenting this out
+    #config.add_show_field 'topic_frameSubjectConcept_ss', :label => 'Subject Terms', helper_method: 'combine_topic_subject', separator_options: break_separator #NEW_TO_BL
     config.add_show_field 'topic_subjectPlace', :label => 'Place Represented', link_to_search: true, separator_options: break_separator #NEW_TO_BL lido only for now
 
     config.add_show_field 'geographic_ss', label: 'Place Represented', link_to_search: true, separator_options: break_separator, unless: :display_marc_field?
-    config.add_show_field 'form_genre_ss', :label => 'Form Genre', link_to_search: true, separator_options: break_separator  #Bibliographic #NOT_IN_VU
+    config.add_show_field 'form_genre_ss', :label => 'Form / Genre', link_to_search: true, separator_options: break_separator  #Bibliographic #NOT_IN_VU
     config.add_show_field 'citation_txt', :label => 'Publications', helper_method: 'render_citation', unless: :display_marc_field?
     config.add_show_field 'cite_as', accessor: 'cite_as', :label => 'Cite As', helper_method: 'render_citation', if: :display_marc_field?
     config.add_show_field 'videoURL_ss', :label => 'Related Video', helper_method: 'render_as_link'
