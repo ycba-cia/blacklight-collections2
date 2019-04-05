@@ -2,7 +2,8 @@
 var viewer = [];
 var objectImages = [];
 
-function updateImageData( id ,cds) {
+function updateImageData( id ,cds,type) {
+    $("#osd-hook").empty();
     var manifest = "https://manifests.britishart.yale.edu/manifest/" + id;
     $.ajax({
         type: "GET",
@@ -10,7 +11,6 @@ function updateImageData( id ,cds) {
         crossDomain: false,
         url: manifest
     }).success(function(message,text,jqXHR){
-
 
         var iiif_info = [];
         var caption_info = [];
@@ -168,6 +168,10 @@ function setMainImage(image, index) {
     var derivative = image[2] || image[1];
     var metadata = image['metadata'];
     var large_derivative = image[3] || image[2] || image[1];
+    var suppress_jpeg_dl = false;
+    if (image[3]==null) {
+        suppress_jpeg_dl = true;
+    }
     var tiff_image =  image[6];
     var next = index+1;
     var prev = index-1;
@@ -214,6 +218,9 @@ function setMainImage(image, index) {
         var sizeMBytes = (sizeBytes / 1000000).toFixed(2) + " MB";
         var pixels = pixelsX + " x " + pixelsY + "px";
         var jpegImageInfo = format + ", " + pixels +", " + sizeMBytes;
+        if (suppress_jpeg_dl) {
+            jpegImageInfo = "JPEG image not available";
+        }
 
         var tiffImageInfo = "";
         if (tiff_image) {
@@ -241,9 +248,15 @@ function setMainImage(image, index) {
         }
         $("#tiff-dl-info").text(tiffImageInfo);
         var jpeg_info = "";
-        jpeg_info += "<a href='" + dl_url_jpeg + "' download='" + dl_name + "'>";
-        jpeg_info += "<button id='jpeg-dl-button' type='button' class='btn btn-primary btn-sm'>JPEG</button>";
-        jpeg_info += "</a>"
+        if (suppress_jpeg_dl) {
+            jpeg_info += "<a href='" + dl_url_jpeg + "' download='" + dl_name + "'>";
+            jpeg_info += "<button id='jpeg-dl-button' type='button' class='btn btn-primary btn-sm' disabled>JPEG</button>";
+            jpeg_info += "</a>"
+        } else {
+            jpeg_info += "<a href='" + dl_url_jpeg + "' download='" + dl_name + "'>";
+            jpeg_info += "<button id='jpeg-dl-button' type='button' class='btn btn-primary btn-sm'>JPEG</button>";
+            jpeg_info += "</a>"
+        }
         $("#jpeg-dl-info").text(jpegImageInfo);
 
         $("#tiff-container").html(tiff_info);
@@ -274,10 +287,11 @@ function setMainImage(image, index) {
 
     }
 
+    var index_page = "Image " + (index+1) + " of " + objectImages.length;
     if (metadata) {
         var caption = metadata['caption'] || '&nbsp;';
         if (caption) {
-            $("#ycba-main-image-caption").html(caption);
+            $("#ycba-main-image-caption").html(index_page+"<br>"+caption);
         }
     }
     $('body').scrollTop(0);
