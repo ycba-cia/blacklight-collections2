@@ -225,6 +225,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'resourceURL_ss', :label => 'Related content', helper_method: 'render_related_content', if: :render_related_content? #NOT_IN_VU
     config.add_show_field 'description_txt', :label => 'Inscription(s) /Marks/ Lettering', helper_method: 'render_citation', unless:  :display_marc_field?
     config.add_show_field 'note', accessor: 'note', :label => 'Notes', helper_method: 'render_citation', if: :display_marc_accessor_field? #NOT_IN_VU
+    config.add_show_field 'cartographic_detail_ss', :label => 'Scale'
     config.add_show_field 'marc_contents_txt', label: 'Contents' #Bibliographic #NOT_IN_VU
     config.add_show_field 'credit_line_txt', :label => 'Credit Line'
     config.add_show_field 'isbn_ss', :label => 'ISBN' #NOT_IN_VU
@@ -251,7 +252,6 @@ class CatalogController < ApplicationController
 
     config.add_show_field 'geographic_ss', label: 'Place Represented', link_to_search: true, separator_options: break_separator, unless: :display_marc_field?
     config.add_show_field 'form_genre_ss', :label => 'Form / Genre', link_to_search: true, separator_options: break_separator  #Bibliographic #NOT_IN_VU
-    config.add_show_field 'cartographic_detail_ss', :label => 'Scale'
     config.add_show_field 'citation_txt', :label => 'Publications', helper_method: 'render_citation', unless: :display_marc_field?
     config.add_show_field 'cite_as', accessor: 'cite_as', :label => 'Cite As', helper_method: 'render_citation', if: :display_marc_field?
     config.add_show_field 'videoURL_ss', :label => 'Related Video', helper_method: 'render_as_link'
