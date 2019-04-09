@@ -112,7 +112,7 @@ class CatalogController < ApplicationController
     config.add_facet_field 'topic_ss', :label => 'Subject Terms', :limit => 50
     config.add_facet_field 'subject_period_ss', :label => 'Subject Period', :limit => 50
     config.add_facet_field 'geographic_ss', :label => 'Place Represented'
-    config.add_facet_field 'topic_subjectActor_ss', :label => 'People Represented'
+    config.add_facet_field 'topic_subjectActor_ss', :label => 'Associated People'
     #config.add_facet_field 'topic_frameQuality_ss', :label => 'Frame Quality' #removed per issue#49 12/21/17
     config.add_facet_field 'topic_frameStyle_ss', :label => 'Frame Style'
     config.add_facet_field 'credit_line_ss', :label => 'Credit Line'
@@ -237,7 +237,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'era_txt', :label => 'Era' #NOT_IN_VU
     config.add_show_field 'url_txt', :label => 'Link', helper_method: 'render_as_link', unless:  :display_marc_field?
     config.add_show_field 'subject_period_ss', :label => 'Subject Period', link_to_search: true, separator_options: break_separator
-    config.add_show_field 'topic_subjectActor_ss', :label => 'People Represented or Subject', link_to_search: true, separator_options: break_separator
+    config.add_show_field 'topic_subjectActor_ss', :label => 'Associated People', link_to_search: true, separator_options: break_separator
     config.add_show_field 'topic_ss', :label => 'Subject Terms', link_to_search: 'topic_facet', separator_options: break_separator, helper_method: 'sort_values_and_link_to_facet'
     config.add_show_field 'topic_frameCrossSection_ss', :label => 'Cross-section', link_to_search: true, separator_options: break_separator #NEW_TO_BL
     config.add_show_field 'topic_frameOrnament_ss', :label => 'Ornaments', link_to_search: true, separator_options: break_separator #NEW_TO_BL
@@ -253,7 +253,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'geographic_ss', label: 'Place Represented', link_to_search: true, separator_options: break_separator, unless: :display_marc_field?
     config.add_show_field 'form_genre_ss', :label => 'Form / Genre', link_to_search: true, separator_options: break_separator  #Bibliographic #NOT_IN_VU
     config.add_show_field 'citation_txt', :label => 'Publications', helper_method: 'render_citation', unless: :display_marc_field?
-    config.add_show_field 'cite_as', accessor: 'cite_as', :label => 'Cite As', helper_method: 'render_citation', if: :display_marc_field?
+    config.add_show_field 'cite_as', accessor: 'cite_as', :label => 'Cite As', if: :display_marc_field?
     config.add_show_field 'videoURL_ss', :label => 'Related Video', helper_method: 'render_as_link'
 
     # "fielded" search configuration. Used by pulldown among other places.

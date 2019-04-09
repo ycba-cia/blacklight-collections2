@@ -42,6 +42,7 @@ class SolrDocument
   end
 
   def cite_as
+    return "Yale Center for British Art" unless self['citation_ss']
     self['citation_ss']
   end
 
