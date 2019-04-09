@@ -26,17 +26,19 @@ function updateImageData( id ,cds,type) {
             tileSources: iiif_info
         });
 
-        var count_caption = "image 1 of "+ caption_info.length
+        var count_caption = "image 1 of "+ caption_info.length;
         $("#osd-caption").empty().append(count_caption+"<br>"+caption_info[0]);
         viewer.addHandler('page', function(event) {
             count_caption = "image " + (event.page+1) + " of " + caption_info.length;
             $("#osd-caption").empty().append(count_caption+"</br>"+caption_info[event.page]);
+            setDLMetadata(event.page);
         });
 
         $("#ycba-thumbnail-controls").empty().append(
             "<a target='_blank' class='' href='http://mirador.britishart.yale.edu/?manifest=" + manifest + "'><img src='https://manifests.britishart.yale.edu/logo-iiif.png' class='img-responsive' alt='IIIF Manifest'></a>");
 
         cdsData(cds,"osd");
+        setDLMetadata(0);
         //alert("got object images" + objectImages.length);
         if (objectImages.length > 1) {
             var html = "";
@@ -159,8 +161,79 @@ function renderCdsImages() {
 }
 
 function osdGoToPage(index) {
+    //console.log(objectImages[index][3]['format']);
     viewer.goToPage(index);
+    setDLMetadata(index);
     $(window).scrollTop(0);
+}
+
+function setDLMetadata(index) {
+    //alert(image.inspect);
+    var image = objectImages[index];
+    var jpeg = image[3] || image[2] || image[1];
+    var tiff = image[6];
+    var suppress_jpeg_dl = false;
+    if (image[3]==null) {
+        suppress_jpeg_dl = true;
+    }
+    var format = jpeg['format'];
+    var sizeBytes = jpeg['size'];
+    var pixelsX = jpeg['width'];
+    var pixelsY = jpeg['height'];
+    var sizeMBytes = (sizeBytes / 1000000).toFixed(2) + " MB";
+    var pixels = pixelsX + " x " + pixelsY + "px";
+    var jpegImageInfo = format + ", " + pixels +", " + sizeMBytes;
+    if (suppress_jpeg_dl) {
+        jpegImageInfo = "JPEG image not available";
+    }
+    console.log(jpegImageInfo);
+
+    var tiffImageInfo = "";
+    if (tiff) {
+        format = tiff['format'];
+        sizeBytes = tiff['size'];
+        pixelsX = tiff['width'];
+        pixelsY = tiff['height'];
+        sizeMBytes = (sizeBytes / 1000000).toFixed(2) + " MB";
+        pixels = pixelsX + " x " + pixelsY + "px";
+        tiffImageInfo = format + ", " + pixels + ", " + sizeMBytes;
+    } else {
+        tiffImageInfo = "TIFF image not available";
+    }
+    console.log(tiffImageInfo);
+
+    var dl_url_jpeg = jpeg['url'].split("/").slice(0,-1).join("/").concat("/"+jpeg['url'].split("/")[7]);
+    var dl_url_tiff = jpeg['url'].split("/").slice(0,-1).join("/").concat("/6");
+    var dl_name = dl_url_jpeg.split("/")[5];
+
+    console.log(dl_url_jpeg);
+    console.log(dl_url_tiff);
+
+    var tiff_info =  "";
+    if (tiff) {
+        tiff_info += "<a href='" + dl_url_tiff + "' download='" + dl_name + "'>";
+        tiff_info += "<button id='tiff-dl-button' type='button' class='btn btn-primary btn-sm'>TIFF</button>";
+        tiff_info += "</a>";
+    } else {
+        tiff_info += "<a href='" + dl_url_tiff + "' download='" + dl_name + "'>";
+        tiff_info += "<button id='tiff-dl-button' type='button' class='btn btn-primary btn-sm' disabled>TIFF</button>";
+        tiff_info += "</a>";
+    }
+    $("#tiff-dl-info").text(tiffImageInfo);
+    var jpeg_info = "";
+    if (suppress_jpeg_dl) {
+        jpeg_info += "<a href='" + dl_url_jpeg + "' download='" + dl_name + "'>";
+        jpeg_info += "<button id='jpeg-dl-button' type='button' class='btn btn-primary btn-sm' disabled>JPEG</button>";
+        jpeg_info += "</a>"
+    } else {
+        jpeg_info += "<a href='" + dl_url_jpeg + "' download='" + dl_name + "'>";
+        jpeg_info += "<button id='jpeg-dl-button' type='button' class='btn btn-primary btn-sm'>JPEG</button>";
+        jpeg_info += "</a>"
+    }
+    $("#jpeg-dl-info").text(jpegImageInfo);
+
+    $("#tiff-container").html(tiff_info);
+    $("#jpeg-container").html(jpeg_info);
 }
 
 function setMainImage(image, index) {
