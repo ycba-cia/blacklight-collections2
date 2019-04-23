@@ -8,10 +8,10 @@
             <% if "citation_txt" == field_name %>
               <dt class="blacklight-<%= field_name.parameterize %>"><%= render_document_show_field_label document, field: field_name %></dt>
               <dd class="blacklight-<%= field_name.parameterize %>-closed" ondblclick="toggle_citation()"><%= "<double click to display>" %></dd>
-              <dd class="blacklight-<%= field_name.parameterize %>-open" ondblclick="toggle_citation()"><%= "<double click to hide>" %></br><%= doc_presenter.field_value field_name %></dd>
+              <dd class="blacklight-<%= field_name.parameterize %>-open" ondblclick="toggle_citation()"><%= "<double click to hide>" %></br><%= doc_presenter.field_value field %></dd>
             <% else %>
               <dt class="blacklight-<%= field_name.parameterize %>"><%= render_document_show_field_label document, field: field_name %></dt>
-              <dd class="blacklight-<%= field_name.parameterize %>"><%= doc_presenter.field_value field_name %></dd>
+              <dd class="blacklight-<%= field_name.parameterize %>"><%= doc_presenter.field_value field %></dd>
             <% end %>
         <% end -%>
     <% end -%>

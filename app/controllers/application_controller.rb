@@ -9,6 +9,9 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :set_fabrique
+
+  skip_after_action :discard_flash_if_xhr
+
   def set_fabrique
     #question how to manage changes here when deployed to heroku?
     #set footer_bar variables
