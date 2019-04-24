@@ -92,101 +92,27 @@ class CatalogController < ApplicationController
     # :index_range can be an array or range of prefixes that will be used to create the navigation (note: It is case sensitive when searching values)
 
     config.add_facet_field 'collection_ss', :label => 'Collection', :limit => 20, :collapse => false, :sort => 'count'
-    config.add_facet_field 'onview_ss', :label => 'Currently On View'
-    #config.add_facet_field 'resource_ss', :label => 'Online Access'
-    config.add_facet_field 'has_image_ss', :label => 'Image Available'
-    #config.add_facet_field 'publishDateFacet_ss', :label => 'Date', range: { segments: false }
-    config.add_facet_field 'earliestDate_is', :label => 'Date', single: true,range: { segments: false }
-    config.add_facet_field 'language_ss', :label => 'Language', :limit => true #marc only
-    #config.add_facet_field 'lc_1letter_ss', :label => 'Call Number' #note: no lc_1letter field in xslts or postprocessing
-    #config.add_facet_field 'geographic_ss', :label => 'Region' #note: see below label 'Place Represented'
-    config.add_facet_field 'rights_ss', label: 'Item Rights'
     config.add_facet_field 'author_ss', label: 'Creator', :tag => 'author_ss', :ex => 'author_ss'
     config.add_facet_field 'author_gender_ss', :label => 'Creator Gender'
     config.add_facet_field 'title_collective_ss', :label => 'Collective Title'
-    config.add_facet_field 'type_ss', :label => 'Classification'
     config.add_facet_field 'era_ss', :label => 'Period'
-    config.add_facet_field 'genre_name_ss', :label => 'Genre'
-    config.add_facet_field 'object_name_ss', :label => 'Work Type'
+    config.add_facet_field 'earliestDate_is', :label => 'Date', single: true,range: { segments: false }
     config.add_facet_field 'auth_format_ss', :label => 'Medium', :limit => 20
+    config.add_facet_field 'physical_heightValue_is', :label => 'Height [cm]',range: { segments: false }
+    config.add_facet_field 'physical_widthValue_is', :label => 'Width [cm]',range: { segments: false }
+    config.add_facet_field 'type_ss', :label => 'Classification'
+    config.add_facet_field 'object_name_ss', :label => 'Work Type'
+    config.add_facet_field 'genre_name_ss', :label => 'Genre'
     config.add_facet_field 'topic_ss', :label => 'Subject Terms', :limit => 50
     config.add_facet_field 'subject_period_ss', :label => 'Subject Period', :limit => 50
     config.add_facet_field 'geographic_ss', :label => 'Place Represented'
     config.add_facet_field 'topic_subjectActor_ss', :label => 'Associated People'
-    #config.add_facet_field 'topic_frameQuality_ss', :label => 'Frame Quality' #removed per issue#49 12/21/17
-    config.add_facet_field 'topic_frameStyle_ss', :label => 'Frame Style'
+    config.add_facet_field 'onview_ss', :label => 'Currently On View'
+    config.add_facet_field 'has_image_ss', :label => 'Image Available'
+    config.add_facet_field 'rights_ss', label: 'Item Rights'
     config.add_facet_field 'credit_line_ss', :label => 'Credit Line'
-
-    #not using earliest/latest Date, slider doesn't make sense
-    #config.add_facet_field 'earliestDate_is', :label => 'Earliest Date',range: { segments: false }
-    #config.add_facet_field 'latestDate_is', :label => 'Latest Date',range: { segments: false }
-    config.add_facet_field 'physical_heightValue_is', :label => 'Height [cm]',range: { segments: false }
-    config.add_facet_field 'physical_widthValue_is', :label => 'Width [cm]',range: { segments: false }
-=begin
-    config.add_facet_field 'earliestDate_i', :label => 'Earliest Date', :query => {
-        a: { :label=> '0', :fq=> 'earliestDate_i:0'},
-        b: { :label=> '1-1500', :fq=> 'earliestDate_i:[1 TO 1500]'},
-        c: { :label=> '1501-1600', :fq=> 'earliestDate_i:[1501 TO 1600]'},
-        d: { :label=> '1601-1700', :fq=> 'earliestDate_i:[1601 TO 1700]'},
-        e: { :label=> '1701-1800', :fq=> 'earliestDate_i:[1701 TO 1800]'},
-        f: { :label=> '1801-1900', :fq=> 'earliestDate_i:[1801 TO 1900]'},
-        g: { :label=> '1901-2000', :fq=> 'earliestDate_i:[1901 TO 2000]'},
-        h: { :label=> '2001-2100', :fq=> 'earliestDate_i:[2001 TO 2100]'},
-        i: { :label=> 'unknown', :fq=> '-earliestDate_i:[* TO *]'}
-    }#NEW_TO_BL
-
-    config.add_facet_field 'latestDate_i', :label => 'Latest Date', :query => {
-        a: { :label=> '0', :fq=> 'latestDate_i:0'},
-        b: { :label=> '1-1500', :fq=> 'latestDate_i:[1 TO 1500]'},
-        c: { :label=> '1501-1600', :fq=> 'latestDate_i:[1501 TO 1600]'},
-        d: { :label=> '1601-1700', :fq=> 'latestDate_i:[1601 TO 1700]'},
-        e: { :label=> '1701-1800', :fq=> 'latestDate_i:[1701 TO 1800]'},
-        f: { :label=> '1801-1900', :fq=> 'latestDate_i:[1801 TO 1900]'},
-        g: { :label=> '1901-2000', :fq=> 'latestDate_i:[1901 TO 2000]'},
-        h: { :label=> '2001-2100', :fq=> 'latestDate_i:[2001 TO 2100]'},
-        i: { :label=> 'unknown', :fq=> '-latestDate_i:[* TO *]'}
-    }#NEW_TO_BL
-    config.add_facet_field 'physical_heightValue_is', :label => 'Height [cm]', :query => {
-        a: { :label=> '0', :fq=> 'physical_heightValue_is:0'},
-        b: { :label=> '1-100', :fq=> 'physical_heightValue_is:[1 TO 100]'},
-        c: { :label=> '101-200', :fq=> 'physical_heightValue_is:[101 TO 200]'},
-        d: { :label=> '201-300', :fq=> 'physical_heightValue_is:[201 TO 300]'},
-        e: { :label=> '301-400', :fq=> 'physical_heightValue_is:[301 TO 400]'},
-        f: { :label=> '401-500', :fq=> 'physical_heightValue_is:[401 TO 500]'},
-        g: { :label=> '501-600', :fq=> 'physical_heightValue_is:[501 TO 600]'},
-        h: { :label=> '601-700', :fq=> 'physical_heightValue_is:[601 TO 700]'},
-        i: { :label=> '701-800', :fq=> 'physical_heightValue_is:[701 TO 800]'},
-        j: { :label=> 'unknown', :fq=> '-physical_heightValue_is[* TO *]'}
-    }#NEW_TO_BL
-    config.add_facet_field 'physical_widthValue_is', :label => 'Width [cm]', :query => {
-        a: { :label=> '0', :fq=> 'physical_widthValue_is:0'},
-        b: { :label=> '1-100', :fq=> 'physical_widthValue_is:[1 TO 100]'},
-        c: { :label=> '101-200', :fq=> 'physical_widthValue_is:[101 TO 200]'},
-        d: { :label=> '201-300', :fq=> 'physical_widthValue_is:[201 TO 300]'},
-        e: { :label=> '301-400', :fq=> 'physical_widthValue_is:[301 TO 400]'},
-        f: { :label=> '401-500', :fq=> 'physical_widthValue_is:[401 TO 500]'},
-        g: { :label=> '501-600', :fq=> 'physical_widthValue_is:[501 TO 600]'},
-        h: { :label=> '601-700', :fq=> 'physical_widthValue_is:[601 TO 700]'},
-        i: { :label=> '701-800', :fq=> 'physical_widthValue_is:[701 TO 800]'},
-        j: { :label=> 'unknown', :fq=> '-physical_widthValue_is[* TO *]'}
-    }#NEW_TO_BL
-=end
+    #config.add_facet_field 'language_ss', :label => 'Language', :limit => true #marc only
     
-#range limit gem buggy, using above query distribution instead https://github.com/projectblacklight/blacklight_range_limit
-
-    #config.add_facet_field 'author_additional_ss', label: 'Contributor', show: false
-    #config.add_facet_field 'topic_subjectActor_ss', label: 'People Represented or Subject', show: false
-    #config.add_facet_field 'form_genre_ss', label: 'Form Genre', show: false
-
-    #config.add_facet_field 'example_pivot_field', label: 'Pivot Field', :pivot => ['format', 'language_facet']
-
-    # config.add_facet_field 'example_query_facet_field', label: 'Publish Date', :query => {
-    #    :years_5 => { label: 'within 5 Years', fq: "pub_date:[#{Time.zone.now.year - 5 } TO *]" },
-    #    :years_10 => { label: 'within 10 Years', fq: "pub_date:[#{Time.zone.now.year - 10 } TO *]" },
-    #    :years_25 => { label: 'within 25 Years', fq: "pub_date:[#{Time.zone.now.year - 25 } TO *]" }
-    # }
-
-
     # Have BL send all facet field names to Solr, which has been the default
     # previously. Simply remove these lines if you'd rather use Solr request
     # handler defaults, or have no facets.
@@ -341,6 +267,10 @@ class CatalogController < ApplicationController
   #ERJ maybe next 2 methods belong in a helper
   def display_marc_field?(context, doc)
     doc['recordtype_ss'] and doc['recordtype_ss'][0].to_s == 'marc'
+  end
+
+  def display_lido_field?(context, doc)
+    doc['recordtype_ss'] and doc['recordtype_ss'][0].to_s == 'lido'
   end
 
   def display_marc_accessor_field?(context, doc)
