@@ -111,8 +111,8 @@ class CatalogController < ApplicationController
     config.add_facet_field 'has_image_ss', :label => 'Image Available'
     config.add_facet_field 'rights_ss', label: 'Item Rights'
     config.add_facet_field 'credit_line_ss', :label => 'Credit Line'
-    #config.add_facet_field 'language_ss', :label => 'Language', :limit => true #marc only
-    
+    config.add_facet_field 'language_ss', :label => 'Language', :limit => true #marc only
+
     # Have BL send all facet field names to Solr, which has been the default
     # previously. Simply remove these lines if you'd rather use Solr request
     # handler defaults, or have no facets.
@@ -135,52 +135,45 @@ class CatalogController < ApplicationController
     #config.add_show_field 'title_t', :label => 'Title'
 
     break_separator = {words_connector: ' <br/> ', last_word_connector: ' <br/> ', two_words_connector: ' <br/> '}
-    config.add_show_field 'title_ss', :label => 'Title'
-    config.add_show_field 'author_ss', :label => 'Creator', link_to_search: true, separator_options: break_separator
-    #config.add_show_field 'actorInRole_ss', :label => 'Creator', link_to_search: true, separator_options: break_separator #ERJ note: see issue 30
-    config.add_show_field 'author_additional_ss', :label => 'Contributors', link_to_search: true, separator_options: break_separator
-    config.add_show_field 'title_alt_txt', :label => 'Alternate Title(s)', separator_options: break_separator
-    config.add_show_field 'publishDate_txt', :label => 'Date', unless:  :display_marc_field?
-    config.add_show_field 'format_txt', :label => 'Medium'
-    config.add_show_field 'physical_txt',  :label => 'Dimensions', unless:  :display_marc_field?
-    config.add_show_field 'type_ss', :label => 'Classification' #Bibliographic
-    config.add_show_field 'publisher_ss', :label => 'Published / Created', separator_options: break_separator #Bibliographic
-    config.add_show_field 'physical_description', accessor: 'physical_description', label: 'Physical Description', if: :display_marc_accessor_field? #NOT_IN_VU
-    config.add_show_field 'edition_ss', label: 'Edition' #Bibliographic
-    config.add_show_field 'orbis_link', accessor: 'orbis_link', :label => 'Full Orbis Record', helper_method: 'render_as_link', if: :display_marc_accessor_field? #NOT_IN_VU
-    config.add_show_field 'resourceURL_ss', :label => 'Related content', helper_method: 'render_related_content', if: :render_related_content? #NOT_IN_VU
-    config.add_show_field 'description_txt', :label => 'Inscription(s) /Marks/ Lettering', helper_method: 'render_citation', unless:  :display_marc_field?
-    config.add_show_field 'cartographic_detail_ss', :label => 'Scale'
-    config.add_show_field 'note', accessor: 'note', :label => 'Notes', helper_method: 'render_citation', if: :display_marc_accessor_field? #NOT_IN_VU
-    config.add_show_field 'marc_contents_txt', label: 'Contents' #Bibliographic #NOT_IN_VU
-    config.add_show_field 'credit_line_txt', :label => 'Credit Line'
-    config.add_show_field 'isbn_ss', :label => 'ISBN' #NOT_IN_VU
-    config.add_show_field 'callnumber_txt', :label => 'Accession Number', unless: :display_marc_field?
-    config.add_show_field 'callnumber', accessor: 'callnumber', :label => 'Call Number', separator_options: break_separator, if: :display_marc_accessor_field? #NOT_IN_VU
-    config.add_show_field 'collection_txt', :label => 'Collection'
-    config.add_show_field 'curatorial_comment_txt', :label => 'Curatorial Comment', helper_method: 'combine_curatorial_comments' #NEW_TO_BL
-    config.add_show_field 'geographic_culture_txt', :label => 'Culture' #NOT_IN_VU
-    config.add_show_field 'era_txt', :label => 'Era' #NOT_IN_VU
-    config.add_show_field 'url_txt', :label => 'Link', helper_method: 'render_as_link', unless:  :display_marc_field?
-    config.add_show_field 'subject_period_ss', :label => 'Subject Period', link_to_search: true, separator_options: break_separator
-    config.add_show_field 'topic_subjectActor_ss', :label => 'Associated People', link_to_search: true, separator_options: break_separator
-    config.add_show_field 'topic_ss', :label => 'Subject Terms', link_to_search: 'topic_facet', separator_options: break_separator, helper_method: 'sort_values_and_link_to_facet'
-    config.add_show_field 'topic_frameCrossSection_ss', :label => 'Cross-section', link_to_search: true, separator_options: break_separator #NEW_TO_BL
-    config.add_show_field 'topic_frameOrnament_ss', :label => 'Ornaments', link_to_search: true, separator_options: break_separator #NEW_TO_BL
-    config.add_show_field 'topic_frameFeature_ss', :label => 'Features', link_to_search: true, separator_options: break_separator #NEW_TO_BL
-    config.add_show_field 'topic_frameAlteration_ss', :label => 'Alteration', link_to_search: true, separator_options: break_separator #NEW_TO_BL
-    config.add_show_field 'topic_frameStatus_ss', :label => 'Status', link_to_search: true, separator_options: break_separator #NEW_TO_BL
-    config.add_show_field 'topic_frameQuality_ss', :label => 'Quality', link_to_search: true, separator_options: break_separator #NEW_TO_BL
-    config.add_show_field 'topic_frameStyle_ss', :label => 'Style', link_to_search: true, separator_options: break_separator #NEW_TO_BL
-    #Subject Terms through the combine_topic_subject helper seem to be same as topic_ss as per xslt above - so commenting this out
-    #config.add_show_field 'topic_frameSubjectConcept_ss', :label => 'Subject Terms', helper_method: 'combine_topic_subject', separator_options: break_separator #NEW_TO_BL
-    config.add_show_field 'topic_subjectPlace', :label => 'Place Represented', link_to_search: true, separator_options: break_separator #NEW_TO_BL lido only for now
 
-    config.add_show_field 'geographic_ss', label: 'Place Represented', link_to_search: true, separator_options: break_separator, unless: :display_marc_field?
-    config.add_show_field 'form_genre_ss', :label => 'Form / Genre', link_to_search: true, separator_options: break_separator  #Bibliographic #NOT_IN_VU
-    config.add_show_field 'citation_txt', :label => 'Publications', helper_method: 'render_citation', unless: :display_marc_field?
-    config.add_show_field 'cite_as', accessor: 'cite_as', :label => 'Cite As', if: :display_marc_field?
-    config.add_show_field 'videoURL_ss', :label => 'Related Video', helper_method: 'render_as_link'
+    #lido fields in detailed view
+    config.add_show_field 'author_ss', :label => 'Creator', link_to_search: true, separator_options: break_separator, if: :display_lido_field?
+    config.add_show_field 'title_ss', :label => 'Title', if: :display_lido_field?
+    config.add_show_field 'publishDate_ss', :label => 'Date', if: :display_lido_field?
+    config.add_show_field 'format_ss', :label => 'Medium', if: :display_lido_field?
+    config.add_show_field 'physical_ss',  :label => 'Dimensions', if: :display_lido_field?
+    config.add_show_field 'description_ss', :label => 'Inscription(s) /Marks/ Lettering', helper_method: 'render_citation', if: :display_lido_field?
+    config.add_show_field 'credit_line_ss', :label => 'Credit Line', if: :display_lido_field?
+    config.add_show_field 'callnumber_ss', :label => 'Accession Number', if: :display_lido_field?
+    config.add_show_field 'type_ss', :label => 'Classification', if: :display_lido_field?
+    config.add_show_field 'collection_ss', :label => 'Collection', if: :display_lido_field?
+    config.add_show_field 'topic_ss', :label => 'Subject Terms', link_to_search: 'topic_facet', separator_options: break_separator, helper_method: 'sort_values_and_link_to_facet', if: :display_lido_field?
+    config.add_show_field 'topic_subjectPlace_ss', :label => 'Place Represented', link_to_search: true, separator_options: break_separator, if: :display_lido_field?
+    config.add_show_field 'topic_subjectActor_ss', :label => 'Associated People', link_to_search: true, separator_options: break_separator, if: :display_lido_field?
+    config.add_show_field 'citation_txt', :label => 'Publications', helper_method: 'render_citation', if: :display_lido_field?
+    config.add_show_field 'url_ss', :label => 'Link', helper_method: 'render_as_link', if: :display_lido_field?
+
+    #marc fields in detailed view (note: accessors needed when field both in marc and lido, and special display_marc_accessor_field method to not show empty fields)
+    config.add_show_field 'author_acc', :accessor => 'author_acc',  :label => 'Creator', helper_method: 'link_to_author', separator_options: break_separator, if: :display_marc_accessor_field?
+    config.add_show_field 'title_acc', :accessor => 'title_acc', :label => 'Title', if: :display_marc_accessor_field?
+    config.add_show_field 'title_alt_ss', :label => 'Alternate Title(s)', separator_options: break_separator, if: :display_marc_field?
+    config.add_show_field 'edition_ss', label: 'Edition', if: :display_marc_field?
+    config.add_show_field 'publisher_ss', :label => 'Published / Created', separator_options: break_separator, if: :display_marc_field?
+    config.add_show_field 'physical_acc', accessor: 'physical_acc', label: 'Physical Description', if: :display_marc_accessor_field?
+    config.add_show_field 'collection_acc', accessor: 'collection_acc', label: 'Collection', if: :display_marc_accessor_field?
+    config.add_show_field 'callnumber_acc', accessor: 'callnumber_acc', :label => 'Call Number', separator_options: break_separator, if: :display_marc_accessor_field?
+    config.add_show_field 'credit_line_acc', accessor: 'credit_line_acc',:label => 'Credit Line', if: :display_marc_accessor_field?
+    #aeon inserted here, see _show_marc_html.erb
+    config.add_show_field 'orbis_link_acc', accessor: 'orbis_link_acc', :label => 'Full Orbis Record', helper_method: 'render_as_link', if: :display_marc_accessor_field?
+    config.add_show_field 'resourceURL_ss', :label => 'Related content', helper_method: 'render_related_content', if: :render_related_content?, if: :display_marc_field?
+    config.add_show_field 'type_acc', accessor: 'type_acc', :label => 'Classification', if: :display_marc_accessor_field?
+    config.add_show_field 'cartographic_detail_ss', :label => 'Scale', if: :display_marc_field?
+    config.add_show_field 'note_acc', accessor: 'note_acc', :label => 'Notes', helper_method: 'render_citation', if: :display_marc_accessor_field?
+    config.add_show_field 'marc_contents_ss', label: 'Contents', if: :display_marc_field?
+    config.add_show_field 'topic_acc', accessor: 'topic_acc', :label => 'Subject Terms', link_to_search: 'topic_facet', separator_options: break_separator, helper_method: 'sort_values_and_link_to_topic', if: :display_marc_accessor_field?
+    config.add_show_field 'form_genre_ss', :label => 'Form / Genre', link_to_search: true, separator_options: break_separator, if: :display_marc_field?
+    config.add_show_field 'author_additional_ss', :label => 'Contributors', link_to_search: true, separator_options: break_separator, if: :display_marc_field?
+    config.add_show_field 'cite_as', accessor: 'cite_as', :label => 'Cite As', if: :display_marc_accessor_field?
 
     # "fielded" search configuration. Used by pulldown among other places.
     # For supported keys in hash, see rdoc for Blacklight::SearchFields

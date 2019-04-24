@@ -21,16 +21,16 @@ class SolrDocument
     (value.nil? or value.empty?) ? nil : publisher.join(' ')
   end
 
-  def orbis_link
-    self['url_txt']
+  def orbis_link_acc
+    self['url_ss']
   end
 
-  def callnumber
-    self['callnumber_txt']
+  def callnumber_acc
+    self['callnumber_ss']
   end
 
-  def note
-    self['description_txt']
+  def note_acc
+    self['description_ss']
   end
 
   def cds_url
@@ -44,6 +44,35 @@ class SolrDocument
   def cite_as
     return "Yale Center for British Art" unless self['citation_ss']
     self['citation_ss']
+  end
+
+  # new accessor fields, so as to render ordering differently for marc and lido, also using legacy methods above here as accessors too
+  def title_acc
+    self['title_ss']
+  end
+
+  def author_acc
+    self['author_ss']
+  end
+
+  def physical_acc
+    self['physical_ss']
+  end
+
+  def collection_acc
+    self['collection_ss']
+  end
+
+  def credit_line_acc
+    self['credit_line_ss']
+  end
+
+  def type_acc
+    self['type_ss']
+  end
+
+  def topic_acc
+    self['topic_ss']
   end
 
   # Email uses the semantic field mappings below to generate the body of an email.

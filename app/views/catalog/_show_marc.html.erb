@@ -2,11 +2,16 @@
 <div class=" col-xs-12 col-md-12 lido">
   <dl class="dl-vertical dl-invert">
     <% doc_presenter = show_presenter(document) %>
+    <% aeon_after="credit_line_acc" %>
     <% document_show_fields(document).each do |field_name, field| -%>
         <% if should_render_show_field? document, field %>
             <dt class="blacklight-<%= field_name.parameterize %>"><%= render_document_show_field_label document, field: field_name %></dt>
             <dd class="blacklight-<%= field_name.parameterize %>"><%= doc_presenter.field_value field %></dd>
         <% end -%>
+      <% if aeon_after==field_name %>
+        <dt class="blacklight-aeon_link>">Aeon Request:</dt>
+        <dd class="blacklight-aeon_link>">Placeholder</dd>
+      <% end -%>
     <% end -%>
     <%= render "show_fields" %>
   </dl>
