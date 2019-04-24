@@ -105,7 +105,7 @@ class CatalogController < ApplicationController
     config.add_facet_field 'genre_name_ss', :label => 'Genre'
     config.add_facet_field 'topic_ss', :label => 'Subject Terms', :limit => 50
     config.add_facet_field 'subject_period_ss', :label => 'Subject Period', :limit => 50
-    config.add_facet_field 'geographic_ss', :label => 'Place Represented'
+    config.add_facet_field 'geographic_ss', :label => 'Associated Places'
     config.add_facet_field 'topic_subjectActor_ss', :label => 'Associated People'
     config.add_facet_field 'onview_ss', :label => 'Currently On View'
     config.add_facet_field 'has_image_ss', :label => 'Image Available'
@@ -148,7 +148,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'type_ss', :label => 'Classification', if: :display_lido_field?
     config.add_show_field 'collection_ss', :label => 'Collection', if: :display_lido_field?
     config.add_show_field 'topic_ss', :label => 'Subject Terms', link_to_search: 'topic_facet', separator_options: break_separator, helper_method: 'sort_values_and_link_to_facet', if: :display_lido_field?
-    config.add_show_field 'topic_subjectPlace_ss', :label => 'Place Represented', link_to_search: true, separator_options: break_separator, if: :display_lido_field?
+    config.add_show_field 'topic_subjectPlace_ss', :label => 'Associated Places', link_to_search: true, separator_options: break_separator, if: :display_lido_field?
     config.add_show_field 'topic_subjectActor_ss', :label => 'Associated People', link_to_search: true, separator_options: break_separator, if: :display_lido_field?
     config.add_show_field 'citation_txt', :label => 'Publications', helper_method: 'render_citation', if: :display_lido_field?
     config.add_show_field 'url_ss', :label => 'Link', helper_method: 'render_as_link', if: :display_lido_field?
