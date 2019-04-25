@@ -1,3 +1,6 @@
+require 'net/http'
+require 'json'
+
 module ApplicationHelper
 
   def render_as_link options={}
@@ -234,5 +237,79 @@ module ApplicationHelper
       return false
     end
   end
+
+  #aeon methods
+  def create_aeon_link(doc)
+    aeon = "https://aeon-mssa.library.yale.edu/aeon.dll?"
+    #start here,get fields, get mfhd and apply a link underline styling, and try for P&D as well
+    action = 10
+    form = 20
+    value = "GenericRequestMonograph"
+    site = "YCBA"
+    callnumber = get_one_value(doc["callnumber_ss"])
+    title = get_one_value(doc["title_ss"]).gsub("'","%27")
+    author = get_one_value(doc["author_ss"]).gsub("'","%27")
+    publishdate = get_one_value(doc["publishDate_ss"])
+    physical = get_one_value(doc["physical_ss"])
+    location = map_collection(doc["collection_ss"])
+    url = get_one_value(doc["url_ss"])
+    mfhd = get_mfhd(doc["url_ss"])
+
+    #puts "callnumber:#{callnumber}"
+    #puts "title:#{title}"
+    #puts "author:#{author}"
+    #puts "publishdate:#{publishdate}"
+    #puts "physical:#{physical}"
+    #puts "location:#{location}"
+    #puts "url:#{url}"
+    #puts "mfhd:#{mfhd}"
+
+    aeon += "Action=#{action}&"
+    aeon += "Form=#{form}&"
+    aeon += "Value=#{value}&"
+    aeon += "Site=#{site}&"
+    aeon += "CallNumber=#{callnumber}&"
+    aeon += "ItemTitle=#{title}&"
+    aeon += "ItemAuthor=#{author}&"
+    aeon += "ItemDate=&"
+    aeon += "Format=#{physical}&"
+    aeon += "Location=#{location}&"
+    aeon += "mfhdID=#{mfhd}&"
+    aeon += "EADNumber=#{url}"
+
+    anchor_tag = "<a href='#{aeon}'>Request Item</a>"
+    return anchor_tag.html_safe
+  end
+
+  def get_one_value(field)
+    defined?(field) && defined?(field[0]) ? field[0] : ""
+  end
+
+  def map_collection(field)
+    return "bacrb" if get_one_value(field)=="Rare Books and Manuscripts"
+    return "bacref" if get_one_value(field)=="Reference Library"
+  end
+
+  def get_mfhd(field)
+    url = get_one_value(field)
+    return "" unless url.start_with?("http://hdl.handle.net/10079/bibid/")
+    bibid = url.split("/").last
+    source = "https://libapp-test.library.yale.edu/VoySearch/GetBibItem?bibid="+bibid
+    resp = Net::HTTP.get_response(URI.parse(source))
+    data = resp.body
+    result = JSON.parse(data)
+    mfhd = parse_mfhd(result)
+    return mfhd
+  end
+
+  def parse_mfhd(r)
+    begin
+      mfhd = r["record"][0]["items"][0]["mfhdid"]
+    rescue
+      mfhd = ""
+    end
+    return mfhd
+  end
+  #end aeon methods
 
 end

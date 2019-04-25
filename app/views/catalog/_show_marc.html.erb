@@ -9,8 +9,8 @@
             <dd class="blacklight-<%= field_name.parameterize %>"><%= doc_presenter.field_value field %></dd>
         <% end -%>
       <% if aeon_after==field_name %>
-        <dt class="blacklight-aeon_link>">Aeon Request:</dt>
-        <dd class="blacklight-aeon_link>">Placeholder</dd>
+        <dt class="blacklight-aeon_link>">Aeon:</dt>
+        <dd class="blacklight-aeon_link>"><%= create_aeon_link(document) %></dd>
       <% end -%>
     <% end -%>
     <%= render "show_fields" %>
