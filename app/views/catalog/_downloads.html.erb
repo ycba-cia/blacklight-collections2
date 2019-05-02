@@ -19,13 +19,13 @@
         <% end %>
         <div class="row">
           <div class="col-xs-12">
-            <% if document["rights_ss"][0].to_s == "unknown" %>
+            <% if document["rights_ss"] && document["rights_ss"][0].to_s == "unknown" %>
               <span>See <a target="_blank" href="http://hdl.handle.net/10079/c59zwbm">Terms of Use for Photographic Images of Works Requiring Further Research</a> for more information.</span>
             <% end %>
-            <% if document["rights_ss"][0].to_s == "public domain" %>
+            <% if document["rights_ss"] && document["rights_ss"][0].to_s == "public domain" %>
               <span>See <a target="_blank" href="http://hdl.handle.net/10079/w6m90dq">Using Images of Works in the Public Domain</a> for more information.</span>
             <% end %>
-            <% if document["rights_ss"][0].to_s == "under copyright" || document["rights_ss"][0].to_s == "rights reserved" %>
+            <% if document["rights_ss"] && (document["rights_ss"][0].to_s == "under copyright" || document["rights_ss"][0].to_s == "rights reserved") %>
               <span>See <a target="_blank" href="http://hdl.handle.net/10079/rfj6qd5">Terms of Use for Photographic Images of Works under Copyright</a> for more information.</span>
             <% end %>
           </div>
