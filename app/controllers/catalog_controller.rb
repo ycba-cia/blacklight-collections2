@@ -173,7 +173,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'topic_acc', accessor: 'topic_acc', :label => 'Subject Terms', link_to_search: 'topic_facet', separator_options: break_separator, helper_method: 'sort_values_and_link_to_topic', if: :display_marc_accessor_field?
     config.add_show_field 'form_genre_ss', :label => 'Form / Genre', link_to_search: true, separator_options: break_separator, if: :display_marc_field?
     config.add_show_field 'author_additional_ss', :label => 'Contributors', link_to_search: true, separator_options: break_separator, if: :display_marc_field?
-    config.add_show_field 'cite_as', accessor: 'cite_as', :label => 'Cite As', if: :display_marc_accessor_field?
+    #config.add_show_field 'cite_as', accessor: 'cite_as', :label => 'Cite As', if: :display_marc_accessor_field? #don't display per #18
 
     # "fielded" search configuration. Used by pulldown among other places.
     # For supported keys in hash, see rdoc for Blacklight::SearchFields
