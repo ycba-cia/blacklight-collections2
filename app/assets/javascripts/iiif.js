@@ -146,6 +146,9 @@ function renderCdsImages() {
             if (!caption || 0 === caption.length) {
                 caption = "no caption";
             }
+            if (caption.length > 48) {
+                caption = caption.substring(0,48) + "...";
+            }
             html += "<div class='tile'>"
                 + "<figure class='tile__media' onclick='setMainImage(objectImages[" + index + "], " + index + ");''>"
                 //+ "<figure class='tile__media' onclick='osdGoToPage("+index+")'>"
