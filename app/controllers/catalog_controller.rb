@@ -236,8 +236,8 @@ class CatalogController < ApplicationController
 
     config.add_search_field('call number') do |field|
       field.solr_local_parameters = {
-          qf: 'callnumber_ss',
-          pf: 'callnumber_ss'
+          qf: 'callnumber_txt',
+          pf: 'callnumber_txt'
       }
     end
 
