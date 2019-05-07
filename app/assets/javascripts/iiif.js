@@ -26,11 +26,9 @@ function updateImageData( id ,cds,type) {
             tileSources: iiif_info
         });
 
-        var count_caption = "image 1 of "+ caption_info.length;
-        $("#osd-caption").empty().append(count_caption+"<br>"+caption_info[0]);
+        $("#osd-caption").empty().append(caption_info[0]);
         viewer.addHandler('page', function(event) {
-            count_caption = "image " + (event.page+1) + " of " + caption_info.length;
-            $("#osd-caption").empty().append(count_caption+"</br>"+caption_info[event.page]);
+            $("#osd-caption").empty().append(caption_info[event.page]);
             setDLMetadata(event.page);
         });
 
@@ -366,12 +364,11 @@ function setMainImage(image, index) {
         });
 
     }
-
-    var index_page = "Image " + (index+1) + " of " + objectImages.length;
+    
     if (metadata) {
         var caption = metadata['caption'] || '&nbsp;';
         if (caption) {
-            $("#ycba-main-image-caption").html(index_page+"<br>"+caption);
+            $("#ycba-main-image-caption").html(caption);
         }
     }
     $('body').scrollTop(0);
