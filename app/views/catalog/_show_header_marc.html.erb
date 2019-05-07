@@ -49,6 +49,15 @@
   </div>
 
 </div>
+
+<div id="non-image-section">
+  <div class="row">
+    <div id="ycba-request-photography" class="col-xs-12" align="center">
+      <%= link_to("Request photography", image_request_link(document)) %>
+    </div>
+  </div>
+</div>
+
 <script language="Javascript">updateImageData(<%= @document.cds_url %>,"<%= cds_info_url(@document.cds_url, 1) %>","marc");</script>
 <script language="Javascript">
     //cdsData("<%= cds_info_url(@document.cds_url, 1) %>");

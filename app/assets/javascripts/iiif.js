@@ -37,6 +37,8 @@ function updateImageData( id ,cds,type) {
         $("#ycba-thumbnail-controls").empty().append(
             "<a target='_blank' class='' href='http://mirador.britishart.yale.edu/?manifest=" + manifest + "'><img src='https://manifests.britishart.yale.edu/logo-iiif.png' class='img-responsive' alt='IIIF Manifest'></a>");
 
+        $("#non-image-section").hide();
+        
         cdsData(cds,"osd");
         setDLMetadata(0);
         //alert("got object images" + objectImages.length);
@@ -133,8 +135,10 @@ function renderCdsImages() {
     if (objectImages.length > 0) {
         var data = objectImages[0];
         setMainImage(data,0);
+        $("#non-image-section").hide();
     } else {
         $("#image-section").hide();
+        $("#non-image-section").show();
     }
 
 
