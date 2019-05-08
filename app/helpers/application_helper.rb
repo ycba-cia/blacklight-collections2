@@ -28,6 +28,12 @@ module ApplicationHelper
     options[:value].sort_by(&:downcase).map { |v| "<a href=\"/?f[topic_ss][]=#{v}\">#{v}</a> | " }.join('</br>').chomp(" | ").html_safe
   end
 
+  def sort_values_and_link_to_topic_no_pipes options={}
+    #http://localhost:3000/?f[topic_facet][]=woman #example
+    #facet = "topic_facet"
+    options[:value].sort_by(&:downcase).map { |v| "<a href=\"/?f[topic_ss][]=#{v}\">#{v}</a>" }.join('</br>').html_safe
+  end
+
   def link_to_author options={}
     #http://localhost:3000/?f[topic_facet][]=woman #example
     #facet = "topic_facet"
