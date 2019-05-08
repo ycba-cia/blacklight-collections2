@@ -92,26 +92,26 @@ class CatalogController < ApplicationController
     # :index_range can be an array or range of prefixes that will be used to create the navigation (note: It is case sensitive when searching values)
 
     config.add_facet_field 'collection_ss', :label => 'Collection', :limit => 20, :collapse => false, :sort => 'count'
-    config.add_facet_field 'author_ss', label: 'Creator', :tag => 'author_ss', :ex => 'author_ss'
+    config.add_facet_field 'author_ss', label: 'Creator', :tag => 'author_ss', :ex => 'author_ss', :limit => 20
     config.add_facet_field 'author_gender_ss', :label => 'Creator Gender'
-    config.add_facet_field 'title_collective_ss', :label => 'Collective Title'
+    config.add_facet_field 'title_collective_ss', :label => 'Collective Title', :limit => 20
     config.add_facet_field 'era_ss', :label => 'Period'
     config.add_facet_field 'earliestDate_is', :label => 'Date', single: true,range: { segments: false }
     config.add_facet_field 'auth_format_ss', :label => 'Medium', :limit => 20
     config.add_facet_field 'physical_heightValue_is', :label => 'Height [cm]',range: { segments: false }
     config.add_facet_field 'physical_widthValue_is', :label => 'Width [cm]',range: { segments: false }
-    config.add_facet_field 'type_ss', :label => 'Classification'
-    config.add_facet_field 'object_name_ss', :label => 'Work Type'
-    config.add_facet_field 'genre_name_ss', :label => 'Genre'
-    config.add_facet_field 'topic_ss', :label => 'Subject Terms', :limit => 50
-    config.add_facet_field 'subject_period_ss', :label => 'Subject Period', :limit => 50
-    config.add_facet_field 'geographic_ss', :label => 'Associated Places'
-    config.add_facet_field 'topic_subjectActor_ss', :label => 'Associated People'
+    config.add_facet_field 'type_ss', :label => 'Classification', :limit => 20
+    config.add_facet_field 'object_name_ss', :label => 'Work Type', :limit => 20
+    config.add_facet_field 'genre_name_ss', :label => 'Genre', :limit => 20
+    config.add_facet_field 'topic_ss', :label => 'Subject Terms', :limit => 20
+    config.add_facet_field 'subject_period_ss', :label => 'Subject Period', :limit => 20
+    config.add_facet_field 'geographic_ss', :label => 'Associated Places', :limit => 20
+    config.add_facet_field 'topic_subjectActor_ss', :label => 'Associated People', :limit => 20
     config.add_facet_field 'onview_ss', :label => 'Currently On View'
     config.add_facet_field 'has_image_ss', :label => 'Image Available'
     config.add_facet_field 'rights_ss', label: 'Item Rights'
-    config.add_facet_field 'credit_line_ss', :label => 'Credit Line'
-    config.add_facet_field 'language_ss', :label => 'Language', :limit => true #marc only
+    config.add_facet_field 'credit_line_ss', :label => 'Credit Line', :limit => 20
+    config.add_facet_field 'language_ss', :label => 'Language', :limit => 20 #marc only
 
     # Have BL send all facet field names to Solr, which has been the default
     # previously. Simply remove these lines if you'd rather use Solr request
