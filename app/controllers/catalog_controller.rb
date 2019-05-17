@@ -109,6 +109,8 @@ class CatalogController < ApplicationController
     config.add_facet_field 'topic_subjectActor_ss', :label => 'Associated People', :limit => 20
     config.add_facet_field 'onview_ss', :label => 'Currently On View'
     config.add_facet_field 'has_image_ss', :label => 'Image Available'
+    y = Time.now.year
+    config.add_facet_field 'date_entered_is', :label => 'New Additions', query: { past_year: { label: "#{y-1}-#{y}",fq: "date_entered_is:[#{y-1} TO #{y}]"}}
     config.add_facet_field 'rights_ss', label: 'Item Rights'
     config.add_facet_field 'credit_line_ss', :label => 'Credit Line', :limit => 20
     config.add_facet_field 'language_ss', :label => 'Language', :limit => 20 #marc only
