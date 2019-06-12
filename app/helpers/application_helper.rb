@@ -244,10 +244,15 @@ module ApplicationHelper
     end
   end
 
+  def get_aeon_endpoint
+    y = YAML.load_file(Rails.root.join("config","local_env.yml"))
+    return y["AEON_ENDPOINT"]
+  end
   #aeon methods
   def create_aeon_link(doc)
     #aeon = "https://aeon-mssa.library.yale.edu/aeon.dll?" #production
-    aeon = "https://aeon-test-mssa.library.yale.edu/aeon.dll?" #test
+    #aeon = "https://aeon-test-mssa.library.yale.edu/aeon.dll?" #test
+    aeon = get_aeon_endpoint
     #
     #start here,get fields, get mfhd and apply a link underline styling, and try for P&D as well
     action = 10
