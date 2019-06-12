@@ -246,7 +246,9 @@ module ApplicationHelper
 
   #aeon methods
   def create_aeon_link(doc)
-    aeon = "https://aeon-mssa.library.yale.edu/aeon.dll?"
+    #aeon = "https://aeon-mssa.library.yale.edu/aeon.dll?" #production
+    aeon = "https://aeon-test-mssa.library.yale.edu/aeon.dll?" #test
+    #
     #start here,get fields, get mfhd and apply a link underline styling, and try for P&D as well
     action = 10
     form = 20
