@@ -341,10 +341,10 @@ module ApplicationHelper
     solr = RSolr.connect :url => solr_config["url"]
     if cn.end_with?("FR")
       id = query_solr(solr,"callnumber_ss","#{cn.gsub("FR","")}")
-      link = link_to "Image", "#{request.protocol}#{request.host_with_port}/catalog/#{id}", method: :get
+      link = link_to cn.gsub("FR",""), "#{request.protocol}#{request.host_with_port}/catalog/#{id}", method: :get
     else
       id = query_solr(solr,"callnumber_ss","#{cn}FR")
-      link = link_to "Frame", "#{request.protocol}#{request.host_with_port}/catalog/#{id}", method: :get
+      link = link_to "#{cn}FR", "#{request.protocol}#{request.host_with_port}/catalog/#{id}", method: :get
     end
     link = "" if id.nil?
     link
