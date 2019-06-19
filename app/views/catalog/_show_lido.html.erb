@@ -12,6 +12,14 @@
           <% elsif "callnumber_ss" == field_name  %>
             <dt class="blacklight-<%= field_name.parameterize %>"><%= render_document_show_field_label document, field: field_name %></dt>
             <dd class="blacklight-<%= field_name.parameterize %>"><span title="Object ID: <%= document["id"].gsub("tms:","") %>"><%= doc_presenter.field_value field %></span></dd>
+          <% elsif "collection_ss" == field_name %>
+            <dt class="blacklight-<%= field_name.parameterize %>"><%= render_document_show_field_label document, field: field_name %></dt>
+            <dd class="blacklight-<%= field_name.parameterize %>"><%= doc_presenter.field_value field %></dd>
+            <% gfl = get_frame_link(document) %>
+            <% if gfl != "" %>
+              <dt class="blacklight-<%= "framelink".parameterize %>"><%= get_frame_link_label(document) %></dt>
+              <dd class="blacklight-<%= "framelink".parameterize %>"><%= gfl %></dd>
+            <% end %>
           <% else %>
               <dt class="blacklight-<%= field_name.parameterize %>"><%= render_document_show_field_label document, field: field_name %></dt>
               <dd class="blacklight-<%= field_name.parameterize %>"><%= doc_presenter.field_value field %></dd>

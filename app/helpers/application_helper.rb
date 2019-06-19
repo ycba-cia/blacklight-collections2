@@ -325,4 +325,36 @@ module ApplicationHelper
   end
   #end aeon methods
 
+  def get_frame_link_label(doc)
+    c = doc["collection_ss"][0]
+    if c == "Frames"
+      label = "Link to Framed Image:"
+    else
+      label = "Link to Frame:"
+    end
+  end
+
+  def get_frame_link(doc)
+    return nil if doc["callnumber_ss"].nil?
+    cn = doc["callnumber_ss"][0]
+    solr_config = Rails.application.config_for(:blacklight)
+    solr = RSolr.connect :url => solr_config["url"]
+    if cn.end_with?("FR")
+      id = query_solr(solr,"callnumber_ss","#{cn.gsub("FR","")}")
+      link = link_to "Image", "#{request.protocol}#{request.host_with_port}/catalog/#{id}", method: :get
+    else
+      id = query_solr(solr,"callnumber_ss","#{cn}FR")
+      link = link_to "Frame", "#{request.protocol}#{request.host_with_port}/catalog/#{id}", method: :get
+    end
+    link = "" if id.nil?
+    link
+  end
+
+  def query_solr(solr,field,value)
+    response = solr.post "select", :params => {
+        :fq=>"#{field}:\"#{value}\""
+    }
+    return nil if response['response']['docs'].length == 0
+    response['response']['docs'][0]["id"]
+  end
 end
