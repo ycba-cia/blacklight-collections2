@@ -28,7 +28,7 @@ class BookCoverController < ApplicationController
             #if librarything_image
             #  send_data syndetics_image, type: 'image/jpeg', disposition: 'inline', filename: "#{isbn}.jpg"
             #else
-              redirect_to '/no_cover.png'
+              redirect_to '/empty_square2.png'
             #end
         end
       end

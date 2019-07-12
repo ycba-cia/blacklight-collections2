@@ -1,36 +1,85 @@
-<div id="header-navbar" class="navbar navbar-inverse navbar-static-top navbar-fixed-top" role="navigation">
-    <div class="<%= container_classes %>">
-        <div class="navbar-header">
-            <%= link_to application_name, root_path, class: "navbar-brand" %>
-        </div>
-    </div>
-    <div id="header-subnav">
-        <div class="<%= container_classes %> hidden-xs">
-                <ul class="nav navbar-nav">
-                    <li><%= link_to('Collections', 'http://britishart.yale.edu/collections') %></li>
-                    <li><%= link_to('Exhibitions', 'http://britishart.yale.edu/exhibitions') %></li>
-                    <li><%= link_to('Calendar', 'http://calendar.yale.edu/cal/ycba') %></li>
-                    <li><%= link_to('Research', 'http://britishart.yale.edu/research') %></li>
-                    <li><%= link_to('Education', 'http://britishart.yale.edu/education') %></li>
-                    <li><%= link_to('Architecture', 'http://britishart.yale.edu/architecture') %></li>
-                    <li><%= link_to('Visiting', 'http://britishart.yale.edu/visiting') %></li>
-                </ul>
-        </div>
-    </div>
+<!--<header>
+<div  class="menu-bar menu-bar--default fixer">
+  <div class="menu-bar__sticky-container">
+    <div class="menu-bar__outer-constrainer">
+      <div class="menu-bar__inner-constrainer">
+        <div class="menu-bar__grid-container">
+          <div class="menu-bar__wrapper">
+            <span class="menu-bar__content">
 
+
+
+  <span  class="button button--clean menu-bar__button menu-bar__button--menu  " >
+
+
+
+<span id="ycbahomelink" onclick="location.href='https://britishart.yale.edu';"/>
+
+    <span class="button__span"><span style="font-size:18px"><<</span> YCBA Home</span>
+
+  </span>
+            </span>
+
+
+
+
+              <a class="logo logo--horizontal menu-bar__logo" href="https://britishart.yale.edu">
+                <%#= show_svg('logo-horizontal.svg') %>
+              </a>
+
+
+
+
+              <a class="logo logo--vertical menu-bar__logo" href="https://britishart.yale.edu">
+                <%#= show_svg('logo-vertical.svg') %>
+              </a>
+
+
+
+
+              <span  class="button button--clean menu-bar__button menu-bar__button--search  " >
+
+
+
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+</header>-->
 
-<div id="search-navbar" class="navbar navbar-default navbar-static-top" role="navigation">
-    <div class="<%= container_classes %>">
-        <%= render_search_bar  %>
-        <div class="collapse navbar-collapse" id="user-util-collapse">
-            <%= render :partial=>'/user_util_links' %>
-        </div>
-        <button type="button" class="navbar-toggle btn collapsed" data-toggle="collapse" data-target="#user-util-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
+<header>
+  <div id="header-row" class="row fixer">
+    <span class="div-horizontal">
+      <span class="col-xs-3 home-fonth" style="padding-left:12%;" onclick="location.href='https://britishart.yale.edu';"><< YCBA Home</span>
+      <span id="large-banner" class="col-xs-5" style="padding-left:7%;">
+        <%= show_svg('logo-horizontal.svg') %>
+      </span>
+    </span>
+    <span class="div-vertical">
+      <span class="col-xs-5 vert-wrapper">
+        <%= show_svg('logo-vertical.svg') %>
+      </span>
+      <span class="col-xs-3 home-fontv" onclick="location.href='https://britishart.yale.edu';"><< YCBA Home</span>
+    </span>
+  </div>
+</header>
+
+<div id="search-navbar" class="navbar navbar-default navbar-static-top downer" role="navigation">
+  <div class="<%= container_classes %>">
+    <%= render_search_bar  %>
+    <div class="collapse navbar-collapse" id="user-util-collapse">
+      <%= render :partial=>'/user_util_links' %>
     </div>
+    <button type="button" class="navbar-toggle btn collapsed" data-toggle="collapse" data-target="#user-util-collapse">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+  </div>
 </div>

@@ -1,0 +1,33 @@
+
+@mixin definition-list {
+  .x-definition-list__item {
+    @include typography-paragraph(false, true);
+  }
+
+  @include mobile {
+    position: relative;
+
+    .x-definition-list__item {
+      @include clearfix;
+    }
+
+    .x-definition-list__property,
+    .x-definition-list__value {
+      float: left;
+      width: 50%;
+    }
+
+    .x-definition-list__property {
+      clear: left;
+      padding-right: 8px;
+    }
+
+    .x-definition-list__value {
+      padding-left: 8px;
+    }
+  }
+}
+
+.x-definition-list {
+  @include definition-list;
+}

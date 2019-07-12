@@ -1,0 +1,36 @@
+<div id="header-navbar" class="navbar navbar-inverse navbar-static-top navbar-fixed-top" role="navigation">
+    <div class="<%= container_classes %>">
+        <div class="navbar-header">
+            <%= link_to application_name, root_path, class: "navbar-brand" %>
+        </div>
+    </div>
+    <div id="header-subnav">
+        <div class="<%= container_classes %> hidden-xs">
+                <ul class="nav navbar-nav">
+                    <li><%= link_to('Collections', 'http://britishart.yale.edu/collections') %></li>
+                    <li><%= link_to('Exhibitions', 'http://britishart.yale.edu/exhibitions') %></li>
+                    <li><%= link_to('Calendar', 'http://calendar.yale.edu/cal/ycba') %></li>
+                    <li><%= link_to('Research', 'http://britishart.yale.edu/research') %></li>
+                    <li><%= link_to('Education', 'http://britishart.yale.edu/education') %></li>
+                    <li><%= link_to('Architecture', 'http://britishart.yale.edu/architecture') %></li>
+                    <li><%= link_to('Visiting', 'http://britishart.yale.edu/visiting') %></li>
+                </ul>
+        </div>
+    </div>
+
+</div>
+
+<div id="search-navbar" class="navbar navbar-default navbar-static-top" role="navigation">
+    <div class="<%= container_classes %>">
+        <%= render_search_bar  %>
+        <div class="collapse navbar-collapse" id="user-util-collapse">
+            <%= render :partial=>'/user_util_links' %>
+        </div>
+        <button type="button" class="navbar-toggle btn collapsed" data-toggle="collapse" data-target="#user-util-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+    </div>
+</div>

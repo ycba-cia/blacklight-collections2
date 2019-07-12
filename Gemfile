@@ -7,7 +7,7 @@ end
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.1.1'
+gem 'rails', '~> 5.2.2'
 # Use Puma as the app server
 gem 'puma', '~> 3.7'
 # Use SCSS for stylesheets
@@ -47,13 +47,14 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   # Use sqlite3 as the database for Active Record
-  gem 'sqlite3'
+  gem 'sqlite3', '~> 1.3.6'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-gem 'blacklight', '>= 6.1'
+#gem 'blacklight', '>= 6.1'
+gem 'blacklight', '6.18.0'
 group :development, :test do
   gem 'solr_wrapper', '>= 0.3'
   gem 'rspec'
@@ -83,3 +84,7 @@ gem 'blacklight_range_limit', '6.3.1'
 gem 'rails_12factor', group: :production
 
 gem 'nokogiri', '~> 1.8.1'
+
+gem 'mysql2', '~> 0.4.10'
+
+gem 'bourbon'

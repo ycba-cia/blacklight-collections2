@@ -1,3 +1,6 @@
+require 'net/http'
+require 'json'
+
 module ApplicationHelper
 
   def render_as_link options={}
@@ -16,15 +19,32 @@ module ApplicationHelper
   def sort_values_and_link_to_facet options={}
     #http://localhost:3000/?f[topic_facet][]=woman #example
     #facet = "topic_facet"
-    options[:value].sort_by(&:downcase).map { |v| "<a href=\"/?f[#{options[:field]}][]=#{v}\">#{v}</a>" }.join('</br>').html_safe
+    options[:value].sort_by(&:downcase).map { |v| "<a href=\"/?f[#{options[:field]}][]=#{v}\">#{v}</a> | " }.join('</br>').chomp(" | ").html_safe
   end
 
+  def sort_values_and_link_to_topic options={}
+    #http://localhost:3000/?f[topic_facet][]=woman #example
+    #facet = "topic_facet"
+    options[:value].sort_by(&:downcase).map { |v| "<a href=\"/?f[topic_ss][]=#{v}\">#{v}</a> | " }.join('</br>').chomp(" | ").html_safe
+  end
+
+  def sort_values_and_link_to_topic_no_pipes options={}
+    #http://localhost:3000/?f[topic_facet][]=woman #example
+    #facet = "topic_facet"
+    options[:value].sort_by(&:downcase).map { |v| "<a href=\"/?f[topic_ss][]=#{v}\">#{v}</a>" }.join('</br>').html_safe
+  end
+
+  def link_to_author options={}
+    #http://localhost:3000/?f[topic_facet][]=woman #example
+    #facet = "topic_facet"
+    options[:value].map { |v| "<a href=\"/?f[author_ss][]=#{v}\">#{v}</a> | " }.join('</br>').chomp(" | ").html_safe
+  end
+
+  #used with render_related_content? method in catalog_controller.rb
   def render_related_content options={}
-    text_to_suppress = "View a digitized version of this item in the Yale Center for British Art's online catalog"
     links = []
     options[:value].each {  |item|
       text, url = item.split("\n")
-      next if text == text_to_suppress
       links.append(link_to "#{text}", url, target: '_blank')
     }
     links.join('<br/>').html_safe
@@ -77,7 +97,7 @@ module ApplicationHelper
   end
 
   def display_rights(document)
-    rights_text = document['rights_txt']
+    rights_text = document['ort_ss']
     rights_text = rights_text[0] if rights_text
 
     rights_statement_url = document['rightsURL_ss']
@@ -111,27 +131,30 @@ module ApplicationHelper
     subject = "[Online Collection] #{field_value(document,'callnumber_txt')}, #{field_value(document,'title_txt')}, #{field_value(document,'author_ss')} "
   end
 
-  private
-
   def field_value(document, field)
     value = document[field][0] if document[field]
     value ||= ''
   end
+
+  private
 
   def thumb(document, options)
     url = doc_thumbnail(document)
     if document['recordtype_ss'] and document['recordtype_ss'][0].to_s == 'marc'
       if document['isbn_ss']
         url = "/bookcover/isbn/#{document['isbn_ss'][0]}/size/medium"
-      elsif document['url_ss'] and document['url_ss'][0].start_with?('https://hdl.handle.net/10079/bibid/')
-        cds_id = document['url_ss'][0].gsub('https://hdl.handle.net/10079/bibid/', '')
+      #elsif document['url_ss'] and document['url_ss'][0].start_with?('https://hdl.handle.net/10079/bibid/')
+      #  cds_id = document['url_ss'][0].gsub('https://hdl.handle.net/10079/bibid/', '')
+      else
+        cds_id = document['id'].split(":")[1]
         cds = Rails.application.config_for(:cds)
         url = "https://#{cds['host']}/content/repository/YCBA/object/#{cds_id}/type/1/format/1"
       end
     end
-    url ||= '/no_cover.png'
-    square = path_to_image('square.png')
-    image_tag url, alt: 'cover image', onerror: "this.src='#{square}';"
+    url ||= path_to_image('empty_square2.png')
+    #square = path_to_image('square.png')
+    error_img = path_to_image('empty_square2.png')
+    image_tag url, alt: 'cover image', onerror: "this.src='#{error_img}';"
   end
 
   def doc_thumbnail(document)
@@ -141,7 +164,7 @@ module ApplicationHelper
   def get_export_url_xml(doc)
     if doc['recordtype_ss']
       if doc['recordtype_ss'][0].to_s == 'marc'
-        url = "http://columbus.library.yale.edu:8055/OAI_BAC/src/OAIOrbisTool.jsp?verb=GetRecord&identifier=oai:orbis.library.yale.edu:"+get_bib_from_handle(doc)+"&metadataPrefix=marc21"
+        url = "https://libapp.library.yale.edu/OAI_BAC/src/OAIOrbisTool.jsp?verb=GetRecord&identifier=oai:orbis.library.yale.edu:"+get_bib_from_handle(doc)+"&metadataPrefix=marc21"
       elsif doc['recordtype_ss'][0].to_s == 'lido'
         url = "http://collections.britishart.yale.edu/oaicatmuseum/OAIHandler?verb=GetRecord&identifier=oai:tms.ycba.yale.edu:" + doc['recordID_ss'][0] +"&metadataPrefix=lido" if doc['recordID_ss']
       elsif doc['recordtype_ss'][0].to_s == 'mods'
@@ -179,4 +202,159 @@ module ApplicationHelper
     return bib
   end
 
+  def show_svg(path)
+    File.open("app/assets/images/#{path}", "rb") do |file|
+      raw file.read
+    end
+  end
+
+  def concat_caption(doc)
+    fields = Array.new
+    fields.push doc['author_ss'] if doc['author_ss']
+    fields.push doc['title_ss'] if doc['title_ss']
+    fields.push doc['publishDate_ss'] if doc['publishDate_ss']
+    fields.push doc['format_ss'] if doc['format_ss']
+    fields.push doc['credit_line_ss'] if doc['credit_line_ss']
+    fields.push doc['callnumber_ss'] if doc['callnumber_ss']
+    caption = fields.join(", ")
+    return caption
+  end
+
+  def get_marc_caption(doc)
+    url = "https://deliver.odai.yale.edu/info/repository/YCBA/object/#{doc["id"].split(":")[1]}/type/1"
+    json = JSON.load(open(url))
+    caption = ""
+    if json["0"] && json["0"]["metadata"] && json["0"]["metadata"]["caption"]
+      caption = json["0"]["metadata"]["caption"]
+    else
+      caption = "Caption not found"
+    end
+    return caption
+  end
+
+  def marc_field?(doc)
+    doc['recordtype_ss'] and doc['recordtype_ss'][0].to_s == 'marc'
+  end
+
+  def copyrighted?(doc)
+    if doc['rights_ss'] && (doc['rights_ss'][0].to_s=="under copyright" || doc['rights_ss'][0].to_s=="copyrighted")
+      return true
+    else
+      return false
+    end
+  end
+
+  def get_aeon_endpoint
+    y = YAML.load_file(Rails.root.join("config","local_env.yml"))
+    return y["AEON_ENDPOINT"]
+  end
+  #aeon methods
+  def create_aeon_link(doc)
+    #aeon = "https://aeon-mssa.library.yale.edu/aeon.dll?" #production
+    #aeon = "https://aeon-test-mssa.library.yale.edu/aeon.dll?" #test
+    aeon = get_aeon_endpoint
+    #
+    #start here,get fields, get mfhd and apply a link underline styling, and try for P&D as well
+    action = 10
+    form = 20
+    value = "GenericRequestMonograph"
+    site = "YCBA"
+    callnumber = get_one_value(doc["callnumber_ss"])
+    title = get_one_value(doc["title_ss"]).gsub("'","%27")
+    author = get_one_value(doc["author_ss"]).gsub("'","%27")
+    publishdate = get_one_value(doc["publishDate_ss"])
+    physical = get_one_value(doc["physical_ss"])
+    location = map_collection(doc["collection_ss"])
+    url = get_one_value(doc["url_ss"])
+    mfhd = get_mfhd(doc["url_ss"])
+
+    #puts "callnumber:#{callnumber}"
+    #puts "title:#{title}"
+    #puts "author:#{author}"
+    #puts "publishdate:#{publishdate}"
+    #puts "physical:#{physical}"
+    #puts "location:#{location}"
+    #puts "url:#{url}"
+    #puts "mfhd:#{mfhd}"
+
+    aeon += "Action=#{action}&"
+    aeon += "Form=#{form}&"
+    aeon += "Value=#{value}&"
+    aeon += "Site=#{site}&"
+    aeon += "CallNumber=#{callnumber}&"
+    aeon += "ItemTitle=#{title}&"
+    aeon += "ItemAuthor=#{author}&"
+    aeon += "ItemDate=&"
+    aeon += "Format=#{physical}&"
+    aeon += "Location=#{location}&"
+    aeon += "mfhdID=#{mfhd}&"
+    aeon += "EADNumber=#{url}"
+
+    anchor_tag = "<a href='#{aeon}'>Request Item</a>"
+    return anchor_tag.html_safe
+  end
+
+  def get_one_value(field)
+    defined?(field) && defined?(field[0]) ? field[0] : ""
+  end
+
+  def map_collection(field)
+    return "bacrb" if get_one_value(field)=="Rare Books and Manuscripts"
+    return "bacref" if get_one_value(field)=="Reference Library"
+  end
+
+  def get_mfhd(field)
+    url = get_one_value(field)
+    return "" unless url.start_with?("http://hdl.handle.net/10079/bibid/")
+    bibid = url.split("/").last
+    source = "https://libapp-test.library.yale.edu/VoySearch/GetBibItem?bibid="+bibid
+    resp = Net::HTTP.get_response(URI.parse(source))
+    data = resp.body
+    result = JSON.parse(data)
+    mfhd = parse_mfhd(result)
+    return mfhd
+  end
+
+  def parse_mfhd(r)
+    begin
+      mfhd = r["record"][0]["items"][0]["mfhdid"]
+    rescue
+      mfhd = ""
+    end
+    return mfhd
+  end
+  #end aeon methods
+
+  def get_frame_link_label(doc)
+    c = doc["collection_ss"][0]
+    if c == "Frames"
+      label = "Link to Framed Image:"
+    else
+      label = "Link to Frame:"
+    end
+  end
+
+  def get_frame_link(doc)
+    return nil if doc["callnumber_ss"].nil?
+    cn = doc["callnumber_ss"][0]
+    solr_config = Rails.application.config_for(:blacklight)
+    solr = RSolr.connect :url => solr_config["url"]
+    if cn.end_with?("FR")
+      id = query_solr(solr,"callnumber_ss","#{cn.gsub("FR","")}")
+      link = link_to cn.gsub("FR",""), "#{request.protocol}#{request.host_with_port}/catalog/#{id}", method: :get
+    else
+      id = query_solr(solr,"callnumber_ss","#{cn}FR")
+      link = link_to "#{cn}FR", "#{request.protocol}#{request.host_with_port}/catalog/#{id}", method: :get
+    end
+    link = "" if id.nil?
+    link
+  end
+
+  def query_solr(solr,field,value)
+    response = solr.post "select", :params => {
+        :fq=>"#{field}:\"#{value}\""
+    }
+    return nil if response['response']['docs'].length == 0
+    response['response']['docs'][0]["id"]
+  end
 end

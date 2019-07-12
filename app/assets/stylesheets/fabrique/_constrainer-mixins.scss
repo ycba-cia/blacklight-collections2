@@ -1,0 +1,125 @@
+
+// Constrainer mixins
+
+// This is extra functionality built around a 'regular' grid.
+// It constrains the website maximum width per breakpoint, minimum width, and allows easy image bleeds.
+// These should be applied to every component outside the normal grid layout container.
+
+// For ease of use, two classes have been supplied: .outer-constrainer and .inner-constrainer, even
+// though it's sligly nasty if you look at it from a separation of concerns perspective.
+
+%outer-constrainer-extend {
+  @include mobile {
+    margin: 0 auto;
+    position: relative;
+
+    &::after {
+      clear: both;
+      content: '';
+      display: table;
+    }
+  }
+
+  @include every-breakpoint {
+    max-width: get-setting('max-width');
+  }
+}
+
+%inner-constrainer-extend {
+  @include mobile {
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+    position: relative;
+
+    &::after {
+      clear: both;
+      content: '';
+      display: table;
+    }
+  }
+
+  @include every-breakpoint {
+    padding: 0 get-setting('margin');
+  }
+}
+
+%grid-container-extend {
+  @include grid-container;
+}
+
+%debug-layout-extend {
+  @include every-breakpoint {
+    @include grid-visual(rgba(map-get($neat-grid, debug-color), .25));
+  }
+}
+
+@mixin grid-base($component-name: false) {
+  $selector: if($component-name, '.' + $component-name + '__', '.');
+
+  #{$selector}outer-constrainer {
+    @extend %outer-constrainer-extend;
+  }
+
+  #{$selector}inner-constrainer {
+    @extend %inner-constrainer-extend;
+  }
+
+  #{$selector}grid-container {
+    @extend %grid-container-extend;
+
+    position: relative;
+
+    html.debug-layout & {
+      @extend %debug-layout-extend;
+    }
+  }
+}
+
+// Used to combine grid-column, grid-push and grid-shift values in a single list
+@mixin grid-apply($combination) {
+  $column: nth($combination, 1);
+  $push: if(length($combination) > 1, nth($combination, 2), false);
+  $shift: if(length($combination) > 2, nth($combination, 3), false);
+
+  @include grid-column($column);
+
+  @if ($push) {
+    @include grid-push($push);
+  }
+
+  @if ($shift) {
+    @include grid-shift($shift);
+  }
+}
+
+// Applies grid-column over multiple breakpoints.
+// @include grid-span(12, 10, 8, 8, 6);
+// Can accept combined grid-column grid-push and grid-shift values, like so:
+// @include grid-span(12, 10 1 1, 8 2, 8 0 2, 6 3 3);
+@mixin grid-span($mobile, $portrait, $landscape, $notebook, $desktop) {
+  @include mobile {
+    position: relative;
+  }
+
+  @include mobile-only {
+    @include grid-apply($mobile);
+  }
+
+  @include portrait-only {
+    @include grid-apply($portrait);
+  }
+
+  @include landscape-only {
+    @include grid-apply($landscape);
+  }
+
+  @include notebook-only {
+    @include grid-apply($notebook);
+  }
+
+  @include desktop {
+    @include grid-apply($desktop);
+  }
+}

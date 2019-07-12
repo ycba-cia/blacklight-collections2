@@ -1,0 +1,19 @@
+
+@mixin main {
+  @include style-base-structure;
+
+  @include mobile {
+    @include clearfix;
+
+    background-image: linear-gradient(to bottom, $color-white 0%, $color-cool-lighter 100%);
+    //text-align: center;
+    min-height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+  }
+}
+
+#main-container {
+  @include main;
+}

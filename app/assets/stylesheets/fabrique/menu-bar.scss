@@ -1,0 +1,200 @@
+
+@mixin menu-bar {
+  @include style-base-structure;
+  @include grid-base('menu-bar');
+
+  .menu-bar__wrapper {
+    @extend %layout-full;
+  }
+
+  @include mobile {
+    .menu-bar__wrapper {
+      padding-bottom: 16px;
+      padding-top: 16px;
+    }
+
+    .menu-bar__content {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .menu-bar__button {
+      flex-shrink: 0;
+    }
+  }
+
+  @include portrait {
+    .menu-bar__wrapper {
+      padding: 32px 0;
+    }
+  }
+
+  @include breakpoints(mobile-only, portrait-only) {
+    .menu-bar__logo {
+      height: 96px;
+      width: 80px;
+
+      &.logo--horizontal {
+        display: none;
+      }
+    }
+
+    .menu-bar__button {
+      height: 32px;
+      padding: 0;
+      position: absolute;
+      right: 0;
+      width: 32px;
+
+      .button__icon {
+        margin: 0;
+        top: 0;
+      }
+
+      .button__span {
+        display: none;
+      }
+
+      &.menu-bar__button--menu {
+        top: 0;
+      }
+
+      &.menu-bar__button--search {
+        top: 32px;
+      }
+    }
+  }
+
+  @include landscape {
+    .menu-bar__logo {
+      padding: 7px 64px;
+
+      &.logo--vertical {
+        display: none;
+      }
+    }
+  }
+
+  @include notebook {
+    .menu-bar__logo {
+      padding-left: 128px;
+      padding-right: 128px;
+    }
+  }
+}
+
+@mixin menu-bar-sticky {
+  @keyframes stickydown {
+    0% {
+      transform: translate3d(0, -100%, 0);
+    }
+
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes stickyup {
+    0% {
+      transform: translate3d(0, 0, 0);
+    }
+
+    100% {
+      transform: translate3d(0, -100%, 0);
+    }
+  }
+
+  @include mobile {
+    z-index: 4096;
+
+    .menu-bar__sticky-container {
+      animation: none;
+      background-color: $color-white;
+      color: $color-black;
+      position: relative;
+      transform: translate3d(0, 0, 0);
+    }
+
+    &.menu-bar--sticky {
+      .menu-bar__sticky-container {
+        left: 0;
+        position: fixed;
+        top: 0;
+        width: 100%;
+      }
+    }
+
+    &.menu-bar--animate-in {
+      .menu-bar__sticky-container {
+        animation: stickydown .5s normal forwards ease-out;
+      }
+    }
+
+    &.menu-bar--animate-out {
+      .menu-bar__sticky-container {
+        animation: stickyup .5s normal forwards ease-out;
+      }
+    }
+  }
+}
+
+@mixin menu-bar--default {
+  .menu-bar__sticky-container {
+    background-color: $color-white;
+    color: $color-black;
+  }
+}
+
+@mixin menu-bar--transparent {
+  &::before {
+    background: linear-gradient(to bottom, rgba($color-black, .5) 0%, rgba($color-black, 0));
+    content: '';
+    display: block;
+    height: 200px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+
+  .menu-bar__sticky-container {
+    background-color: transparent;
+    color: $color-white;
+  }
+
+  &.menu-bar--sticky {
+    .menu-bar__sticky-container {
+      background-color: $color-white;
+      color: $color-black;
+    }
+  }
+
+  &:not(.menu-bar--sticky) {
+    .menu-bar__sticky-container {
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 100%;
+    }
+  }
+
+  .logo,
+  .button {
+    transition: none;
+  }
+}
+
+.menu-bar {
+  @include menu-bar;
+  @include menu-bar-sticky;
+
+  &.menu-bar--default {
+    @include menu-bar--default;
+  }
+
+  &.menu-bar--transparent {
+    @include menu-bar--transparent;
+  }
+}

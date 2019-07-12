@@ -1,0 +1,339 @@
+
+// Typography
+
+// Basic document typography to establish a vertical rhythm.
+@mixin typography-document {
+  @include mobile {
+    @include font-mallory($font-size: 20px, $line-height: 32px, $font-weight: book);
+  }
+}
+
+@mixin typography-heading-1($margins: false, $vertical-rhythm: false) {
+  @include mobile {
+    @include disable-emphasized;
+    @include disable-strong;
+    @include font-mallory();
+
+    text-align: center;
+    text-transform: uppercase;
+
+    @if ($margins) {
+      @include adaptive-margin(32px, 32px);
+    }
+  }
+
+  @include mobile-only {
+    font-size: 22px;
+    font-weight: get-mallory-weight(light);
+    letter-spacing: 5px;
+    line-height: 32px;
+
+    @if ($vertical-rhythm) {
+      padding-bottom: 32px;
+      padding-top: 32px;
+    }
+  }
+
+  @include portrait-only {
+    font-size: 34px;
+    font-weight: get-mallory-weight(light);
+    letter-spacing: 8px;
+    line-height: 48px;
+
+    @if ($vertical-rhythm) {
+      padding-bottom: 24px;
+      padding-top: 24px;
+    }
+  }
+
+  @include landscape {
+    font-size: 45px;
+    font-weight: get-mallory-weight(light);
+    letter-spacing: 10px;
+    line-height: 64px;
+
+    @if ($vertical-rhythm) {
+      padding-bottom: 48px;
+      padding-top: 48px;
+    }
+  }
+}
+
+@mixin typography-heading-2($margins: false, $vertical-rhythm: false) {
+  @include mobile {
+    @include font-mallory;
+    @include disable-emphasized;
+    @include disable-strong;
+
+    @if ($margins) {
+      @include adaptive-margin(32px, 32px);
+    }
+  }
+
+  @include mobile-only {
+    font-size: 32px;
+    font-weight: get-mallory-weight(book);
+    line-height: 32px;
+
+    @if ($vertical-rhythm) {
+      //
+    }
+  }
+
+  @include portrait-only {
+    font-size: 45px;
+    font-weight: get-mallory-weight(book);
+    line-height: 64px;
+
+    @if ($vertical-rhythm) {
+      //
+    }
+  }
+
+  @include landscape {
+    font-size: 58px;
+    font-weight: get-mallory-weight(book);
+    line-height: 64px;
+
+    @if ($vertical-rhythm) {
+      //
+    }
+  }
+}
+
+@mixin typography-heading-3($margins: false, $vertical-rhythm: false) {
+  @include mobile {
+    @include font-mallory($font-size: 32px, $line-height: 48px, $font-weight: book);
+    @include disable-emphasized;
+    @include disable-strong;
+
+    @if ($margins) {
+      @include adaptive-margin(32px, 8px);
+    }
+
+    @if ($vertical-rhythm) {
+      padding-bottom: 24px;
+      padding-top: 24px;
+    }
+  }
+}
+
+@mixin typography-heading-4($margins: false, $vertical-rhythm: false) {
+  @include mobile {
+    @include font-mallory;
+    @include disable-emphasized;
+    @include disable-strong;
+
+    @if ($margins) {
+      @include adaptive-margin(32px, 8px);
+    }
+  }
+
+  @include mobile-only {
+    font-size: 22px;
+    font-weight: get-mallory-weight(medium);
+    line-height: 32px;
+
+    @if ($vertical-rhythm) {
+      //
+    }
+  }
+
+  @include portrait-only {
+    font-size: 23px;
+    font-weight: get-mallory-weight(medium);
+    line-height: 32px;
+
+    @if ($vertical-rhythm) {
+      //
+    }
+  }
+
+  @include landscape {
+    font-size: 24px;
+    font-weight: get-mallory-weight(medium);
+    line-height: 32px;
+
+    @if ($vertical-rhythm) {
+      //
+    }
+  }
+}
+
+@mixin typography-heading-5($margins: false, $vertical-rhythm: false) {
+  @include mobile {
+    @include font-mallory($font-size: 20px, $line-height: 32px, $font-weight: medium);
+    @include disable-emphasized;
+    @include disable-strong;
+
+    @if ($margins) {
+      @include adaptive-margin(32px, 8px);
+    }
+
+    @if ($vertical-rhythm) {
+      //
+    }
+  }
+}
+
+@mixin typography-paragraph($margins: false, $vertical-rhythm: false) {
+  @include mobile {
+    @include font-mallory($font-size: 20px, $line-height: 32px, $font-weight: book);
+
+    @if ($margins) {
+      @include adaptive-margin(8px, 8px);
+    }
+
+    @if ($vertical-rhythm) {
+      //
+    }
+  }
+}
+
+@mixin typography-paragraph--small($margins: false, $vertical-rhythm: false) {
+  @include mobile {
+    @include font-mallory($font-size: 16px, $line-height: 24px, $font-weight: book);
+
+    @if ($margins) {
+      @include adaptive-margin(8px, 8px);
+    }
+
+    @if ($vertical-rhythm) {
+      padding-bottom: 4px;
+      padding-top: 4px;
+    }
+  }
+}
+
+@mixin typography-introduction($margins: false, $vertical-rhythm: false) {
+  @include mobile {
+    @include font-mallory();
+
+    @if ($margins) {
+      @include adaptive-margin(32px, 32px);
+    }
+  }
+
+  @include mobile-only {
+    font-size: 20px;
+    font-weight: get-mallory-weight(book);
+    line-height: 32px;
+
+    @if ($vertical-rhythm) {
+      padding-bottom: 0;
+      padding-top: 0;
+    }
+  }
+
+  @include portrait-only {
+    font-size: 26px;
+    font-weight: get-mallory-weight(book);
+    line-height: 32px;
+
+    @if ($vertical-rhythm) {
+      padding-bottom: 0;
+      padding-top: 0;
+    }
+  }
+
+  @include landscape {
+    font-size: 32px;
+    font-weight: get-mallory-weight(book);
+    line-height: 48px;
+
+    @if ($vertical-rhythm) {
+      padding-bottom: 16px;
+      padding-top: 16px;
+    }
+  }
+}
+
+@mixin typography-button($vertical-rhythm: false) {
+  @include mobile {
+    @include font-mallory($font-size: 13px, $line-height: 20px, $font-weight: bold);
+    @include disable-emphasized;
+    @include disable-strong;
+
+    letter-spacing: 2px;
+    text-transform: uppercase;
+
+    @if ($vertical-rhythm) {
+      padding-bottom: 20px;
+      padding-top: 12px;
+    }
+  }
+}
+
+@mixin typography-field {
+  @include mobile {
+    @include font-mallory($font-size: 13px, $line-height: 20px, $font-weight: book);
+  }
+}
+
+@mixin typography-caption($margins: false, $vertical-rhythm: false) {
+  @include mobile {
+    @include font-mallory($font-size: 13px, $line-height: 24px, $font-weight: book);
+    @include disable-strong;
+    @include disable-emphasized;
+
+    @if ($margins) {
+      @include adaptive-margin(32px, 32px);
+    }
+
+    @if ($vertical-rhythm) {
+      padding-bottom: 4px;
+      padding-top: 4px;
+    }
+  }
+}
+
+@mixin typography-footer {
+  @include mobile {
+    @include font-mallory($font-size: 13px, $line-height: 16px, $font-weight: book);
+    @include disable-emphasized;
+    @include disable-strong;
+  }
+}
+
+@mixin typography-quote($margins: false, $vertical-rhythm: false) {
+  @include mobile {
+    @include font-mallory;
+
+    @if ($margins) {
+      @include adaptive-margin(32px, 32px);
+    }
+  }
+
+  @include mobile-only {
+    font-size: 30px;
+    font-style: italic;
+    font-weight: get-mallory-weight(light);
+    line-height: 48px;
+
+    @if ($vertical-rhythm) {
+      //
+    }
+  }
+
+  @include portrait-only {
+    font-size: 40px;
+    font-style: italic;
+    font-weight: get-mallory-weight(light);
+    line-height: 56px;
+
+    @if ($vertical-rhythm) {
+      //
+    }
+  }
+
+  @include landscape {
+    font-size: 50px;
+    font-style: italic;
+    font-weight: get-mallory-weight(light);
+    line-height: 64px;
+
+    @if ($vertical-rhythm) {
+      //
+    }
+  }
+}

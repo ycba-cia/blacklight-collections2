@@ -1,0 +1,75 @@
+
+// Variables
+
+// Base colors
+$color-black: #000;
+$color-white: #fff;
+
+// Activity colors
+$color-activity-see: #9cd3ff; // light blue
+$color-activity-watch: #b094ff; // purple
+$color-activity-listen: #ff76ad; // pink
+$color-activity-do: #ffb968; // orange
+$color-activity-learn: #ffd506; // orange
+
+// Warm greys (brown)
+$color-warm-lightest: #faf8f5;
+$color-warm-lighter: #f9f1e7;
+$color-warm-light: #f4e3cb;
+$color-warm-dark: #e1ba8b;
+$color-warm-darker: #7c5420;
+$color-warm-darkest: #3d2502;
+
+// Cool greys (blue)
+$color-cool-lightest: #f9f9fc;
+$color-cool-lighter: #e7eaec;
+$color-cool-light: #c9ced1;
+$color-cool-dark: #8e9397;
+$color-cool-darker: #454b52;
+$color-cool-darkest: #272c30;
+
+// Special colors
+$color-error: #ff5151;
+$color-yale-blue: #00356b; // Navy
+$color-warm-dark: #eed5b3; // temporary
+
+// Transparencies
+$transparency-overlay: rgba($color-white, .8);
+
+// Beziers
+$bezier-fancy: cubic-bezier(.26, .88, .57, .9);
+
+// Easings
+$easing-change: .35s $bezier-fancy;
+$easing-change-slower: .5s $bezier-fancy;
+$easing-change-faster: .2s $bezier-fancy;
+
+// Layers / z-indexes
+$z-index-website-min-width-overlay: 9999; // Biggest of 'em all
+$z-index-hide: -1;
+$z-index-hit-target: 100;
+$z-index-form-field-button: 10;
+
+// Sizes
+$component-spacing-mobile: 20px;
+$component-spacing-portrait: 30px;
+$component-spacing-landscape: 30px;
+
+// $activities
+$activities: (
+  see: (
+    color: $color-activity-see,
+  ),
+  watch: (
+    color: $color-activity-watch,
+  ),
+  listen: (
+    color: $color-activity-listen,
+  ),
+  do: (
+    color: $color-activity-do,
+  ),
+  learn: (
+    color: $color-activity-learn,
+  )
+);

@@ -1,0 +1,43 @@
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+strong,
+b {
+  // Reset font-weight so faux-bold doesn't slip in there
+  font-weight: inherit;
+}
+
+em,
+i {
+  // Reset font-style so faux-italic doesn't slip in there
+  font-style: inherit;
+}
+
+option {
+  // Reset dropdown list colors, otherwise they tend to be invisible in Chrome on Windows
+  background-color: inherit;
+  color: inherit;
+}
+
+a {
+  text-decoration-skip: ink; // Pretty descenders! 😍
+}
+
+p,
+figure,
+blockquote,
+dt,
+dd,
+dl {
+  margin: 0;
+}
+
+fieldset,
+legend {
+  margin: 0;
+  padding: 0;
+}

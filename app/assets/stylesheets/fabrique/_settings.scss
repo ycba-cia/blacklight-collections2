@@ -1,0 +1,57 @@
+
+// Grid (Beat-based)
+// Has gutters on the left only. Also uses margins, not paddings, for gutter
+
+$breakpoint-portrait: 530px !global;
+$breakpoint-landscape: 800px !global;
+$breakpoint-notebook: 1180px !global;
+$breakpoint-desktop: 1480px !global;
+
+// Columns
+$neat-settings-mobile: (
+  columns: 12,
+  gutter: 16px,
+  media: 530px,
+  margin: 0,
+  max-width: 100%,
+  debug-color: #f06,
+) !global;
+
+$neat-settings-portrait: (
+  columns: 12,
+  gutter: 16px,
+  media: 800px,
+  margin: 32px,
+  max-width: 100%,
+  debug-color: #0cf,
+) !global;
+
+$neat-settings-landscape: (
+  columns: 12,
+  gutter: 32px,
+  media: 800px,
+  margin: 64px,
+  max-width: 1440px,
+  debug-color: #0f9,
+) !global;
+
+$neat-settings-notebook: (
+  columns: 12,
+  gutter: 32px,
+  media: 1180px,
+  margin: 128px,
+  max-width: 1440px,
+  debug-color: #c3f,
+) !global;
+
+$neat-settings-desktop: (
+  columns: 12,
+  gutter: 32px,
+  media: 1480px,
+  margin: 192px,
+  max-width: 1440px,
+  debug-color: #333,
+) !global;
+
+$website-min-width: 320px !global;
+$website-max-width: map-get($neat-settings-desktop, max-width) !global;

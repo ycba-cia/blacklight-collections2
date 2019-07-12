@@ -1,0 +1,135 @@
+
+// Flexible webfont base file
+// NOTE: When using this file as a base, rename all $*-font variables.
+
+// Variable font settings
+$mallory-microplus-font-name: 'Mallory MicroPlus Webfont';
+$mallory-microplus-font-cleanname: 'mallory-mp';
+$mallory-microplus-font-path: '/themes/britishart19/fonts/' + $mallory-microplus-font-cleanname + '/';
+$mallory-microplus-font-stack: $mallory-microplus-font-name, 'Arial', 'Helvetica', sans-serif;
+$mallory-microplus-font-feature-settings: 'kern' 1, 'calt' 0; // Kern, but don't display glyph alternates
+
+// Weight names and their real values
+// Reference:
+// 100: thin, hairline
+// 200 extra light, ultra light
+// 300 light
+// 400 normal, regular, book
+// 500 medium
+// 600 semibold, demibold
+// 700 bold
+// 800 extrabold, ultrabold
+// 900 black, heavy
+
+$mallory-microplus-font-weights: (
+  book: (weight: normal, style: normal),
+  book-italic: (weight: normal, style: italic),
+  bold: (weight: bold, style: normal),
+  bold-italic: (weight: bold, style: italic),
+);
+
+// Automatically map weights
+@each $weight in map-keys($mallory-microplus-font-weights) {
+  @if not (map-get($mallory-microplus-font-weights, $weight)) {
+    @error 'Variant "' + $weight + '" not found in "' + $mallory-microplus-font-name + '" definition.';
+  }
+
+  $properties: map-get($mallory-microplus-font-weights, $weight);
+  $font-style: map-get($properties, style);
+  $font-weight: map-get($properties, weight);
+
+  @font-face {
+    //font-display: optional; property still buggy in chrome et al.
+    font-family: $mallory-microplus-font-name;
+    font-style: $font-style;
+    font-weight: $font-weight;
+    src: url($mallory-microplus-font-path + $mallory-microplus-font-cleanname + '-' + $weight + '.woff2') format('woff2'), url($mallory-microplus-font-path + $mallory-microplus-font-cleanname + '-' + $weight + '.woff') format('woff');
+  }
+
+  %font-#{$mallory-microplus-font-cleanname}-#{$weight} {
+    font-family: $mallory-microplus-font-stack;
+    font-style: $font-style;
+    font-weight: $font-weight;
+  }
+}
+
+// Font mixin whereby you can use the real font weights, such as 'book' or 'black'.
+@mixin font-mallory-mp($font-size: null, $line-height: null, $font-weight: null, $font-style: null, $letter-spacing: null, $text-transform: null) {
+
+  // Convert possible 'normal' font-weight strings to 'regular', which is the font's actual weight name
+  @if ($font-weight == null or $font-weight == 'normal') {
+    $font-weight: 'regular';
+  }
+
+  // Look up the actual weight
+  @if ($font-weight != 'normal') {
+    @if not (map-get($mallory-microplus-font-weights, $font-weight)) {
+      @error 'Variant "' + $font-weight + '" not found in "' + $mallory-microplus-font-name + '" definition.';
+    }
+
+    $mapped-weight: map-get($mallory-microplus-font-weights, $font-weight);
+    $mapped-value-weight: map-get($mapped-weight, 'weight');
+    $mapped-value-style: map-get($mapped-weight, 'style');
+
+    @if ($mapped-value-weight) {
+      $font-weight: $mapped-value-weight;
+    }
+
+    @if ($mapped-value-style) {
+      $font-style: $mapped-value-style;
+    }
+  }
+
+  // Set the basics
+  font-family: $mallory-microplus-font-stack;
+  font-feature-settings: $mallory-microplus-font-feature-settings;
+  font-size-adjust: initial;
+  text-rendering: optimizeLegibility;
+
+  // Include styles if given
+  @if ($font-size) {
+    font-size: $font-size;
+  }
+
+  @if ($font-style) {
+    font-style: $font-style;
+  }
+
+  @if ($font-weight) {
+    font-weight: $font-weight;
+  }
+
+  @if ($line-height) {
+    line-height: $line-height;
+  }
+
+  @if ($letter-spacing) {
+    letter-spacing: $letter-spacing;
+  }
+
+  @if ($text-transform) {
+    text-transform: $text-transform;
+  }
+}
+
+// Get a real font weight value
+// For example: 'black' returns 900.
+@function get-mallory-mp-weight($font-weight) {
+
+  // Convert possible 'normal' font-weight strings to 'regular', which is the font's actual weight name
+  @if ($font-weight == null or $font-weight == 'normal') {
+    $font-weight: 'regular';
+  }
+
+  // Look up the actual weight
+  @if ($font-weight != 'normal') {
+    $mapped-weight: map-get($mallory-microplus-font-weights, $font-weight);
+    $mapped-value-weight: map-get($mapped-weight, 'weight');
+
+    @if ($mapped-value-weight) {
+      $font-weight: $mapped-value-weight;
+    }
+  }
+
+  @return $font-weight;
+}

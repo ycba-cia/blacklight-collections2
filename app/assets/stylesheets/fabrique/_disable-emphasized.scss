@@ -1,0 +1,28 @@
+
+// Disable emphasized tags helper
+//
+// To disable italics if the font doesn't support it.
+// Supports multiple priority levels.
+
+@mixin disable-emphasized($priority: normal) {
+  @if ($priority == extrahigh) {
+    html {
+      em,
+      i {
+        font-style: inherit !important;
+      }
+    }
+  } @elseif ($priority == high) {
+    html {
+      em,
+      i {
+        font-style: inherit;
+      }
+    }
+  } @else {
+    em,
+    i {
+      font-style: inherit;
+    }
+  }
+}

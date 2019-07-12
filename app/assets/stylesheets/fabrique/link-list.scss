@@ -1,0 +1,28 @@
+
+@mixin link-list {
+  .x-link-list__link {
+    @include typography-paragraph(false, true);
+    @include style-anchor(true);
+  }
+
+  @include mobile {
+    position: relative;
+
+    .x-link-list__link {
+      display: block;
+      padding-left: 16px;
+
+      .x-link__icon {
+        height: 1em;
+        margin-left: -20px;
+        top: 3px;
+        vertical-align: top;
+        width: 16px;
+      }
+    }
+  }
+}
+
+.x-link-list {
+  @include link-list;
+}

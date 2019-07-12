@@ -1,6 +1,7 @@
-<dt class="blacklight-<%= "citation" %>"><%= "Citation" %></dt>
-<dd class="blacklight-<%= "citation" %>"><%= link_to("Show",@document.id+"/cite") %></dd>
-<dt class="blacklight-<%= "export" %>"><%= "Export" %></dt>
-<dd class="blacklight-<%= "export" %>"><%= link_to("XML",get_export_url_xml(@document)) %> | <%= link_to("RDF",get_export_url_rdf(@document)) %></dd>
-
+<dt class="blacklight-<%= "export" %>"><%= "Export:" %></dt>
+<% if marc_field?(@document) %>
+  <dd class="blacklight-<%= "export" %>"><%= link_to("XML",get_export_url_xml(@document)) %></dd>
+<% else %>
+  <dd class="blacklight-<%= "export" %>"><%= link_to("XML",get_export_url_xml(@document)) %> | <%= link_to("RDF",get_export_url_rdf(@document)) %></dd>
+<% end %>
 
