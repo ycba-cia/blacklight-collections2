@@ -4,7 +4,14 @@ var objectImages = [];
 
 function updateImageData( id ,cds,type) {
     $("#osd-hook").empty();
+    if (type=="marc") {
+        id = "b" + id;
+        id = "orbis:99999999"
+    }
     var manifest = "https://manifests.britishart.yale.edu/manifest/" + id;
+    //console.log(manifest);
+    //console.log(cds);
+    //console.log(type);
     $.ajax({
         type: "GET",
         async: true,
@@ -14,10 +21,21 @@ function updateImageData( id ,cds,type) {
 
         var iiif_info = [];
         var caption_info = [];
+        var canvases = [];
         $.each(message.sequences[0].canvases,function(i,v) {
             iiif_info.push(""+ v.images[0].resource.service['@id']+"/info.json");
             caption_info.push(v.label);
+            var canvas = [];
+            canvas.push(""+ v.images[0].resource.service['@id']+"/info.json");
+            canvas.push(v.label);
+            canvas.push("image/jpeg");
+            canvas.push(v.width);
+            canvas.push(v.height);
+            canvas.push(v.images[0].resource.service['@id'].split("/")[4]);//to be replaced by v.rendering
+            canvases.push(canvas);
         });
+
+        //console.log(iiif_info);
 
         viewer = OpenSeadragon({
             id: "osd-hook",
@@ -39,6 +57,7 @@ function updateImageData( id ,cds,type) {
         
         cdsData(cds,"osd");
         setDLMetadata(0);
+        //setIIIFDLMetadata(canvases[0]);//TODO
         //alert("got object images" + objectImages.length);
         if (objectImages.length > 1) {
             var html = "";
@@ -47,6 +66,9 @@ function updateImageData( id ,cds,type) {
                 var caption = data['metadata']['caption'];
                 if (!caption || 0 === caption.length) {
                     caption = "no caption";
+                }
+                if (caption.length > 48) {
+                    caption = caption.substring(0,48) + "...";
                 }
                 html += "<div class='tile'>"
                     //+ "<figure class='tile__media' onclick='setMainImage(objectImages[" + index + "], " + index + ");''>"
@@ -172,6 +194,19 @@ function osdGoToPage(index) {
     $(window).scrollTop(0);
 }
 
+function setIIIFDLMetadata(canvas) {
+    //TODO WIP to be implemented once new IIIF manifests are available
+    var infojson = canvas[0];
+    var label = canvas[1];
+    var format = canvas[2];
+    var sizeBytes = 0;
+    var pixelsX = canvas[3];
+    var pixelsY = canvas[4];
+    var uuid = canvas[5];
+    var sizeMBytes = (sizeBytes / 1000000).toFixed(2) + " MB";
+    var pixels = pixelsX + " x " + pixelsY + "px";
+    var jpegImageInfo = format + ", " + pixels +", " + sizeMBytes;
+}
 function setDLMetadata(index) {
     //alert(image.inspect);
     var image = objectImages[index];
