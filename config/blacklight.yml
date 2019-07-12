@@ -18,4 +18,4 @@ test: &test
   url: <%= ENV['YCBA_TEST_SOLR_URL'] || "http://127.0.0.1:#{ENV['TEST_JETTY_PORT'] || 8983}/solr/blacklight-core/test" %>
 production:
   adapter: solr
-  url: <%= ENV['YCBA_TEST_SOLR_URL'] || "http://127.0.0.1:8983/solr/blacklight-core/prod" %>
+  url: <%= ENV['YCBA_PROD_SOLR_URL'] || "http://127.0.0.1:8983/solr/blacklight-core/prod" %>
