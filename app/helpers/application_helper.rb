@@ -16,6 +16,15 @@ module ApplicationHelper
     links.join('<br/>').html_safe
   end
 
+  def render_aeon_from_call_number options={}
+    #method specific to call number
+    values = []
+    options[:value].each do |v|
+      values.append(v + " [" + create_aeon_link(options[:document],v.html_safe) + "]")
+    end
+    values.join('<br/>').html_safe
+  end
+
   def sort_values_and_link_to_facet options={}
     #http://localhost:3000/?f[topic_facet][]=woman #example
     #facet = "topic_facet"
@@ -249,7 +258,7 @@ module ApplicationHelper
     return y["AEON_ENDPOINT"]
   end
   #aeon methods
-  def create_aeon_link(doc)
+  def create_aeon_link(doc,call_number)
     #aeon = "https://aeon-mssa.library.yale.edu/aeon.dll?" #production
     #aeon = "https://aeon-test-mssa.library.yale.edu/aeon.dll?" #test
     aeon = get_aeon_endpoint
@@ -259,7 +268,7 @@ module ApplicationHelper
     form = 20
     value = "GenericRequestMonograph"
     site = "YCBA"
-    callnumber = get_one_value(doc["callnumber_ss"])
+    callnumber = call_number
     title = get_one_value(doc["title_ss"]).gsub("'","%27")
     author = get_one_value(doc["author_ss"]).gsub("'","%27")
     publishdate = get_one_value(doc["publishDate_ss"])
@@ -290,7 +299,7 @@ module ApplicationHelper
     aeon += "mfhdID=#{mfhd}&"
     aeon += "EADNumber=#{url}"
 
-    anchor_tag = "<a href='#{aeon}'>Request Item</a>"
+    anchor_tag = "<a href='#{aeon}'>Request for use in the YCBA Study Room</a>"
     return anchor_tag.html_safe
   end
 

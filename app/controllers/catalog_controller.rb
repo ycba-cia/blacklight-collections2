@@ -163,7 +163,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'publisher_ss', :label => 'Published / Created', separator_options: break_separator, if: :display_marc_field?
     config.add_show_field 'physical_acc', accessor: 'physical_acc', label: 'Physical Description', if: :display_marc_accessor_field?
     config.add_show_field 'collection_acc', accessor: 'collection_acc', label: 'Collection', if: :display_marc_accessor_field?
-    config.add_show_field 'callnumber_acc', accessor: 'callnumber_acc', :label => 'Call Number', separator_options: break_separator, if: :display_marc_accessor_field?
+    config.add_show_field 'callnumber_acc', accessor: 'callnumber_acc', helper_method: 'render_aeon_from_call_number', :label => 'Call Number', separator_options: break_separator, if: :display_marc_accessor_field?
     config.add_show_field 'credit_line_acc', accessor: 'credit_line_acc',:label => 'Credit Line', if: :display_marc_accessor_field?
     #aeon inserted here, see _show_marc_html.erb
     config.add_show_field 'orbis_link_acc', accessor: 'orbis_link_acc', :label => 'Full Orbis Record', helper_method: 'render_as_link', if: :display_marc_accessor_field?

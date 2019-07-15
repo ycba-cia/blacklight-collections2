@@ -8,10 +8,6 @@
             <dt class="blacklight-<%= field_name.parameterize %>"><%= render_document_show_field_label document, field: field_name %></dt>
             <dd class="blacklight-<%= field_name.parameterize %>"><%= doc_presenter.field_value field %></dd>
         <% end -%>
-      <% if aeon_after==field_name %>
-        <dt class="blacklight-aeon_link>">Aeon:</dt>
-        <dd class="blacklight-aeon_link>"><%= create_aeon_link(document) %></dd>
-      <% end -%>
     <% end -%>
     <%= render "show_fields" %>
   </dl>
