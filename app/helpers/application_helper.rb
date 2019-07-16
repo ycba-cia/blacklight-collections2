@@ -18,9 +18,16 @@ module ApplicationHelper
 
   def render_aeon_from_call_number options={}
     #method specific to call number
+    collection = get_one_value(options[:document][:collection_ss])
     values = []
-    options[:value].each do |v|
-      values.append(v + " [" + create_aeon_link(options[:document],v.html_safe) + "]")
+    if collection=="Paintings and Sculpture" || collection=="Frames"
+      options[:value].each do |v|
+        values.append(v)
+      end
+    else
+      options[:value].each do |v|
+        values.append(v + " [" + create_aeon_link(options[:document],v.html_safe) + "]")
+      end
     end
     values.join('<br/>').html_safe
   end
@@ -290,7 +297,7 @@ module ApplicationHelper
       url = ""
       mfhd = ""
     end
-    
+
     #puts "callnumber:#{callnumber}"
     #puts "title:#{title}"
     #puts "author:#{author}"
