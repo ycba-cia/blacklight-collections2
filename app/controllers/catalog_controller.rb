@@ -146,7 +146,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'physical_ss',  :label => 'Dimensions', if: :display_lido_field?
     config.add_show_field 'description_ss', :label => 'Inscription(s) /Marks/ Lettering', helper_method: 'render_citation', if: :display_lido_field?
     config.add_show_field 'credit_line_ss', :label => 'Credit Line', if: :display_lido_field?
-    config.add_show_field 'callnumber_ss', :label => 'Accession Number', if: :display_lido_field?
+    config.add_show_field 'callnumber_ss', helper_method: 'render_aeon_from_call_number', :label => 'Accession Number', if: :display_lido_field?
     config.add_show_field 'type_ss', :label => 'Classification', if: :display_lido_field?
     config.add_show_field 'collection_ss', :label => 'Collection', if: :display_lido_field?
     config.add_show_field 'topic_ss', :label => 'Subject Terms', link_to_search: 'topic_facet', separator_options: break_separator, helper_method: 'sort_values_and_link_to_facet', if: :display_lido_field?

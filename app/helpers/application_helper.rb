@@ -257,6 +257,11 @@ module ApplicationHelper
     y = YAML.load_file(Rails.root.join("config","local_env.yml"))
     return y["AEON_ENDPOINT"]
   end
+
+  def get_bib_lookup
+    y = YAML.load_file(Rails.root.join("config","local_env.yml"))
+    return y["BIB_LOOKUP"]
+  end
   #aeon methods
   def create_aeon_link(doc,call_number)
     #aeon = "https://aeon-mssa.library.yale.edu/aeon.dll?" #production
@@ -271,12 +276,21 @@ module ApplicationHelper
     callnumber = call_number
     title = get_one_value(doc["title_ss"]).gsub("'","%27")
     author = get_one_value(doc["author_ss"]).gsub("'","%27")
-    publishdate = get_one_value(doc["publishDate_ss"])
+    publishdate = get_one_value(doc["publishDateFacet_ss"])
     physical = get_one_value(doc["physical_ss"])
     location = map_collection(doc["collection_ss"])
     url = get_one_value(doc["url_ss"])
     mfhd = get_mfhd(doc["url_ss"])
 
+    #for Prints and Drawings only
+    collection = get_one_value(doc["collection_ss"])
+    if collection == "Prints and Drawings"
+      physical = get_one_value(doc["format_ss"])
+      location = ""
+      url = ""
+      mfhd = ""
+    end
+    
     #puts "callnumber:#{callnumber}"
     #puts "title:#{title}"
     #puts "author:#{author}"
@@ -293,7 +307,7 @@ module ApplicationHelper
     aeon += "CallNumber=#{callnumber}&"
     aeon += "ItemTitle=#{title}&"
     aeon += "ItemAuthor=#{author}&"
-    aeon += "ItemDate=&"
+    aeon += "ItemDate=#{publishdate}&"
     aeon += "Format=#{physical}&"
     aeon += "Location=#{location}&"
     aeon += "mfhdID=#{mfhd}&"
@@ -316,7 +330,8 @@ module ApplicationHelper
     url = get_one_value(field)
     return "" unless url.start_with?("http://hdl.handle.net/10079/bibid/")
     bibid = url.split("/").last
-    source = "https://libapp-test.library.yale.edu/VoySearch/GetBibItem?bibid="+bibid
+    #source = "https://libapp-test.library.yale.edu/VoySearch/GetBibItem?bibid="+bibid
+    source= get_bib_lookup + bibid
     resp = Net::HTTP.get_response(URI.parse(source))
     data = resp.body
     result = JSON.parse(data)
