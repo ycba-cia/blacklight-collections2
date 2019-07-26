@@ -294,7 +294,6 @@ module ApplicationHelper
     if collection == "Prints and Drawings"
       physical = get_one_value(doc["format_ss"])
       location = ""
-      url = ""
       mfhd = ""
     end
 
