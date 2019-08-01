@@ -293,7 +293,7 @@ module ApplicationHelper
     collection = get_one_value(doc["collection_ss"])
     if collection == "Prints and Drawings"
       physical = get_one_value(doc["format_ss"])
-      location = ""
+      location = get_one_value(doc["location_ss"])
       mfhd = ""
     end
 
