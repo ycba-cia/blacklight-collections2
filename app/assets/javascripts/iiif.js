@@ -26,6 +26,20 @@ function updateImageData( id ,cds,type) {
             tileSources: iiif_info
         });
 
+        //accessibility
+        var zoomin = document.querySelector('[title="Zoom in"]');
+        zoomin.setAttribute("tabindex",0);
+        var zoomin = document.querySelector('[title="Zoom out"]');
+        zoomin.setAttribute("tabindex",0);
+        var zoomin = document.querySelector('[title="Go home"]');
+        zoomin.setAttribute("tabindex",0);
+        var zoomin = document.querySelector('[title="Toggle full page"]');
+        zoomin.setAttribute("tabindex",0);
+        var zoomin = document.querySelector('[title="Previous page"]');
+        zoomin.setAttribute("tabindex",0);
+        var zoomin = document.querySelector('[title="Next page"]');
+        zoomin.setAttribute("tabindex",0);
+
         $("#osd-caption").empty().append(caption_info[0]);
         viewer.addHandler('page', function(event) {
             $("#osd-caption").empty().append(caption_info[event.page]);
