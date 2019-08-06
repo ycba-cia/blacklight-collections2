@@ -70,7 +70,12 @@
 </header>
 
 <div id="skip-div">
-  <a class="skip-main" href="#" onclick="return skip_to_results();">Skip to results section</a>
+  <% if request.url.include?("catalog")==false %>
+    <a class="skip-main" href="#" onclick="return skip_to_results();">Skip to results section</a>
+  <% else %>
+    <a class="skip-main" href="#" onclick="return skip_to_osd();">Skip to image navigation (if applicable)</a>
+    <a class="skip-main" href="#" onclick="return skip_to_links();">Skip to image links</a>
+  <% end %>
 </div>
 
 <div id="search-navbar" class="navbar navbar-default navbar-static-top downer" role="navigation">

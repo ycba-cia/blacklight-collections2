@@ -24,3 +24,15 @@ function skip_to_results() {
     thumbs.focus();
     return false;
 }
+
+function skip_to_osd() {
+    //var zoomin = document.querySelector('[title="Zoom in"]');
+    $("div[title|='Zoom in']").focus();
+    return false;
+}
+
+function skip_to_links() {
+    var link = $("#ycba-image-rights > a").first();
+    link.focus();
+    return false;
+}
