@@ -18,3 +18,9 @@ function toggle_citation() {
         closed.style.display = "block";
     }
 }
+
+function skip_to_results() {
+    var thumbs = $(".thumbnail > a").first();
+    thumbs.focus();
+    return false;
+}
