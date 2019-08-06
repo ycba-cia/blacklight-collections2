@@ -590,6 +590,28 @@ $moveRight: $tileHeight * ($growFactor - 1);
 .text-success, .facet-values li .selected {
   color: #000000;
 }
+
+//Bookmarks History Login links
+.navbar-default .navbar-nav li a {
+  color: #757575;
+}
+
+//Line below pagination index page
+#sortAndPerPage {
+  border-bottom: 1px solid #858585;
+}
+
+//Line below pagination item page
+.pagination-search-widgets {
+  border-bottom: 1px solid #858585;
+}
+
+//consistent widget border
+.input-group-addon, .search_q, .search-btn, .panel-default, .constraints-container, .constraint-value, .dropdown-toggle,
+ .view-type-list, .view-type-gallery, .view-type-masonry, .thumbnail {
+  border: 1px solid #858585;
+}
+
 //end facet select color overrides
 
 //div::-webkit-scrollbar {
