@@ -170,8 +170,8 @@ module ApplicationHelper
     url ||= path_to_image('empty_square2.png')
     #square = path_to_image('square.png')
     error_img = path_to_image('empty_square2.png')
-    author = document['auth_author_display_ss'][0] ? document['auth_author_display_ss'][0] : ""
-    title_short = document['title_short_ss'][0] ? document['title_short_ss'][0] : ""
+    author = document['auth_author_display_ss'].nil? == false ? document['auth_author_display_ss'][0] : ""
+    title_short = document['title_short_ss'].nil? == false ? document['title_short_ss'][0] : ""
     image_tag url, alt: "#{author} #{title_short}", onerror: "this.src='#{error_img}';"
   end
 
