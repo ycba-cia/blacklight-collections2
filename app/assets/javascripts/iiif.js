@@ -62,10 +62,11 @@ function updateImageData( id ,cds,type) {
                 if (!caption || 0 === caption.length) {
                     caption = "no caption";
                 }
+                var imgalt = String(index+1) + " of " + String(objectImages.length);
                 html += "<div class='tile'>"
                     //+ "<figure class='tile__media' onclick='setMainImage(objectImages[" + index + "], " + index + ");''>"
                     + "<figure class='tile__media' onclick='osdGoToPage("+index+")'>"
-                    +"<img class='tile__img' src='" + data[1]['url'] + "' alt='"+caption+"' />"
+                    +"<img class='tile__img' src='" + data[1]['url'] + "' alt='"+imgalt+"' />"
                     + "<div class='tile__details'>"
                     + "<figcaption class='tile__title'>"+caption+"</figcaption>"
                     + "</div>"
@@ -165,10 +166,11 @@ function renderCdsImages() {
             if (caption.length > 48) {
                 caption = caption.substring(0,48) + "...";
             }
+            var imgalt = String(index+1) + " of " + String(objectImages.length);
             html += "<div class='tile'>"
                 + "<figure class='tile__media' onclick='setMainImage(objectImages[" + index + "], " + index + ");''>"
                 //+ "<figure class='tile__media' onclick='osdGoToPage("+index+")'>"
-                +"<img class='tile__img' src='" + data[1]['url'] + "' alt='"+caption+"' />"
+                +"<img class='tile__img' src='" + data[1]['url'] + "' alt='"+imgalt+"' />"
                 + "<div class='tile__details'>"
                 + "<figcaption class='tile__title'>"+caption+"</figcaption>"
                 + "</div>"
