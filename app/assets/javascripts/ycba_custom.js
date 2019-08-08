@@ -36,3 +36,10 @@ function skip_to_links() {
     link.focus();
     return false;
 }
+
+//overrides
+$(document).on("turbolinks:load",function() {
+    //set h1 with title from head
+    $("h1").text($("head title").text());
+
+});
