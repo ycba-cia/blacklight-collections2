@@ -263,13 +263,20 @@ module ApplicationHelper
   end
 
   def get_aeon_endpoint
-    y = YAML.load_file(Rails.root.join("config","local_env.yml"))
-    return y["AEON_ENDPOINT"]
+    #dev: local_env.yml get parsed into ENV in config/application.rb
+    #heroku: no local_env.yml just set the ENV vars directly
+    #y = YAML.load_file(Rails.root.join("config","local_env.yml"))
+    #return y["AEON_ENDPOINT"]
+    #
+    ENV["AEON_ENDPOINT"]
   end
 
   def get_bib_lookup
-    y = YAML.load_file(Rails.root.join("config","local_env.yml"))
-    return y["BIB_LOOKUP"]
+    #dev: local_env.yml get parsed into ENV in config/application.rb
+    #heroku: no local_env.yml just set the ENV vars directly
+    #y = YAML.load_file(Rails.root.join("config","local_env.yml"))
+    #return y["BIB_LOOKUP"]
+    ENV["BIB_LOOKUP"]
   end
   #aeon methods
   def create_aeon_link(doc,call_number)
