@@ -21,14 +21,14 @@
   font-family: "Mallory Standard Webfont Normal";
   font-style: normal;
   font-weight: normal;
-  src: url("mallory/mallory-book.woff2") format("woff2"), url("mallory/mallory-book.woff") format("woff");
+  src: font-url("mallory/mallory-book.woff2") format("woff2"), font-url("mallory/mallory-book.woff") format("woff");
 }
 
 @font-face {
   font-family: "Mallory Standard Webfont Bold";
   font-style: normal;
   font-weight: bold;
-  src: url("mallory/mallory-bold.woff2") format("woff2"), url("mallory/mallory-bold.woff") format("woff");
+  src: font-url("mallory/mallory-bold.woff2") format("woff2"), font-url("mallory/mallory-bold.woff") format("woff");
 }
 
 div:empty {
