@@ -4,7 +4,7 @@
 <div id="image-section">
 
   <div class="row">
-    <div id="ycba-main-image" class="col-xs-12">
+    <div id="ycba-main-image" class="col-xs-12" aria-live="polite">
       <% if document['isbn_ss'] %>
           <%= image_tag( "/bookcover/isbn/#{document['isbn_ss'][0]}/size/medium", class: 'img-thumbnail center-block', alt: document['title_txt']) %>
       <% end %>
@@ -12,7 +12,7 @@
   </div>
 
   <div class="row">
-    <div id="ycba-main-image-caption" class="col-xs-12" align="center"></div>
+    <div id="ycba-main-image-caption" class="col-xs-12" align="center" aria-live="polite"></div>
   </div>
 
   <div class="row">
