@@ -7,7 +7,7 @@ services:
 - postgresql
 before_script:
 - psql -c 'create database travis_ci_test;' -U postgres
-- cp config/database.yml.travis config/database.yml
+- cp config/database.yml.pipeline.travis config/database.yml
 env:
   global:
   - secure: NmOgLnTJi2KpAPBAWwYAw9X4+SsN3X6IP4qpSDK+fyu30e91wic8o0/WMaNIztOzJO5/uGDydAxlF9p61CrtRFYgy7LXj+ThAa0yhBChxsax3CVdCfJ7fTHA2vnhCEKd/yb+WNk0zGvMARzS+JDT+R8KRFa6/3LJjKcbfEZ8wiwz1MLRiMxhfAj5v7MrXowWHlT0Vfx1fwIFNps6Gf/jO7WBSeqKF16UYhpflwzrAO7BXJERvZ0ur/Mdo2OdIGihn+ekdh87rebU75BKN/UpyRxztP0d5jQzYnB0lU+K2SIe6V9Wk7jMf4+Z7L9DkvnloVaU6D4obGjD3iddC3hXhq9OCmhaWT+GamzZpIMSvSEgLthAYBfSdJkv+uVeMTtQmEGkRBT6pHfvpYPfaKW6+0Yxbqbau9Rl2n6jKy6nlQH4d6yY6qrPdXKnpIZ5wQ53oi5muUOepL1Hj+a8fXPAfsWlVzFDbkBDrI97OfWEeg+0u0y4qxKumK6kUBseedyfn+bnBG8AiY8Cv+jAU8TbKaJjvRo8K/V8vJmL7xSFZh+SyiTuevjdGaIw8b/0mIEJkuNk56w7kBLS8do72VOEJ6daR1FwHT4G7pRaqw8TuqZ7EDWG1jZM/MUe82Yp8YDEnNCT4DbbqOIo3rOR753ECvR695wxXZDqHxLkAHn2FE4=

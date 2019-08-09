@@ -1,0 +1,28 @@
+# SQLite version 3.x
+#   gem install sqlite3
+#
+#   Ensure the SQLite 3 gem is defined in your Gemfile
+#   gem 'sqlite3'
+#
+default: &default
+  adapter: mysql2
+  encoding: utf8
+  username: blcoll_user
+  password: <%= ENV['DBPW1'] %>
+  host: blacklight-collections-db.cqrpdybhswtx.us-east-1.rds.amazonaws.com
+  port: 3306
+
+development:
+  <<: *default
+  database: <%= ENV['DBDB1'] %>
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test:
+  adapter: postgresql
+  database: travis_ci_test
+
+production:
+  <<: *default
+  database: <%= ENV['DBDB1'] %>
