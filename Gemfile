@@ -69,8 +69,12 @@ gem 'devise'
 gem 'devise-guests', '~> 0.6'
 gem 'blacklight-marc', '~> 6.1'
 
-group :test, :production do
+group :test do
   gem 'pg'
+end
+
+group :development, :production do
+  gem 'mysql2', '~> 0.4.10'
 end
 
 # bundle exec rake doc:rails generates the API under doc/api.
