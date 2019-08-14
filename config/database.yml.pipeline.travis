@@ -23,6 +23,7 @@ test:
   adapter: postgresql
   database: travis_ci_test
 
+#ERJ this will get overridden by DATABASE_URL ENV
 production:
   <<: *default
   database: <%= ENV['DBDB1'] %>

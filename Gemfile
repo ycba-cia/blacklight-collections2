@@ -69,11 +69,11 @@ gem 'devise'
 gem 'devise-guests', '~> 0.6'
 gem 'blacklight-marc', '~> 6.1'
 
-group :test do
+group :test, :production do
   gem 'pg'
 end
 
-group :development, :production do
+group :development do
   gem 'mysql2', '~> 0.4.10'
 end
 
