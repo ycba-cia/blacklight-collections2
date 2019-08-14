@@ -27,7 +27,8 @@ module BlacklightCollections2
     #config.assets.paths << Rails.root.join("app", "assets", "fonts")
 
     #ERJ per: https://guides.rubyonrails.org/v4.0/asset_pipeline.html
-    config.assets.initialize_on_precompile = false
+    #
+    #config.assets.initialize_on_precompile = false
 
   end
 end
