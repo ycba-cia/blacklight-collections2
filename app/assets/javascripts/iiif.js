@@ -222,6 +222,9 @@ function setDLMetadata(index) {
         tiffImageInfo = "TIFF image not available";
     }
     console.log(tiffImageInfo);
+    if (suppress_jpeg_dl && tiff==null) {
+        $("#ycba-downloads").hide();
+    }
 
     var dl_url_jpeg = jpeg['url'].split("/").slice(0,-1).join("/").concat("/"+jpeg['url'].split("/")[7]);
     var dl_url_tiff = jpeg['url'].split("/").slice(0,-1).join("/").concat("/6");
@@ -328,8 +331,9 @@ function setMainImage(image, index) {
         } else {
             tiffImageInfo = "TIFF image not available";
         }
-        //WIP 3/8/19 - info, tiff info, deal w/caption metadata, put in partial
-
+        if (suppress_jpeg_dl && tiff_image==null) {
+            $("#ycba-downloads").hide();
+        }
         var tiff_info =  "";
         if (tiff_image) {
             tiff_info += "<a href='" + dl_url_tiff + "' download='" + dl_name + "'>";
