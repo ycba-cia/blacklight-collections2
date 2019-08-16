@@ -1,7 +1,6 @@
 <% if counter = document_counter_with_offset(document_counter) %>
-  <span class="document-counter">
-    <%= t('blacklight.search.documents.counter', counter: counter) %>
-  </span>
+  <span class="document-counter" hidden><%= counter %></span>
+  <%#= t('blacklight.search.documents.counter', counter: counter) %>
 <% end %>
 <% if document.to_h["auth_author_display_ss"]  %>
   <dd class="blacklight-<%= "auth_author_display_ss".parameterize %>"><%= field_value document, "auth_author_display_ss" %></dd>
