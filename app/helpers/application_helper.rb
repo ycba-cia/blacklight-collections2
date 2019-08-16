@@ -147,6 +147,10 @@ module ApplicationHelper
     subject = "[Online Collection] #{field_value(document,'callnumber_txt')}, #{field_value(document,'title_txt')}, #{field_value(document,'author_ss')} "
   end
 
+  def information_link_subject_on_view(document)
+    subject = "[Onview Request] #{field_value(document,'callnumber_txt')}, #{field_value(document,'title_txt')}, #{field_value(document,'author_ss')} "
+  end
+
   def field_value(document, field)
     value = document[field][0] if document[field]
     value ||= ''
@@ -328,7 +332,13 @@ module ApplicationHelper
     aeon += "mfhdID=#{mfhd}&"
     aeon += "EADNumber=#{url}"
 
-    anchor_tag = "<a href='#{aeon}'>Request for use in the YCBA Study Room</a>"
+    onview = location = get_one_value(doc["onview_ss"])
+    if onview == "On view"
+      pdrequest = "mailto:ycba.studyroom@yale.edu?subject=#{information_link_subject_on_view(doc)}"
+      anchor_tag = "<a href='#{pdrequest}'>Request for onview object</a>"
+    else
+      anchor_tag = "<a href='#{aeon}'>Request for use in the YCBA Study Room</a>"
+    end
     return anchor_tag.html_safe
   end
 
