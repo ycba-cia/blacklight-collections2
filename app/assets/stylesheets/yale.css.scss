@@ -489,19 +489,19 @@ $moveRight: $tileHeight * ($growFactor - 1);
   white-space: normal;
 }
 
-.blacklight-citation_txt-closed {
+.blacklight-citation_txt-closed, .blacklight-exhibition_history_ss-closed{
    display: block;
  }
 
-.blacklight-citation_txt-open {
+.blacklight-citation_txt-open, .blacklight-exhibition_history_ss-open {
   display: none;
 }
 
-.blacklight-citation_txt-closed:hover {
+.blacklight-citation_txt-closed:hover, .blacklight-exhibition_history_ss-closed:hover {
   background-color: lightblue;
 }
 
-.blacklight-citation_txt-open:hover {
+.blacklight-citation_txt-open:hover, .blacklight-exhibition_history_ss-open:hover {
   background-color: lightblue;
 }
 

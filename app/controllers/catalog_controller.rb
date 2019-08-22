@@ -152,6 +152,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'topic_ss', :label => 'Subject Terms', link_to_search: 'topic_facet', separator_options: break_separator, helper_method: 'sort_values_and_link_to_facet', if: :display_lido_field?
     config.add_show_field 'topic_subjectPlace_ss', :label => 'Associated Places', link_to_search: true, separator_options: break_separator, if: :display_lido_field?
     config.add_show_field 'topic_subjectActor_ss', :label => 'Associated People', link_to_search: true, separator_options: break_separator, if: :display_lido_field?
+    config.add_show_field 'exhibition_history_ss', :label => 'Exhibition History', helper_method: 'render_exhibitions', if: :display_lido_field?
     config.add_show_field 'citation_txt', :label => 'Publications', helper_method: 'render_citation', if: :display_lido_field?
     config.add_show_field 'url_ss', :label => 'Link', helper_method: 'render_as_link', if: :display_lido_field?
 

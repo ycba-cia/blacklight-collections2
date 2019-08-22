@@ -1,7 +1,8 @@
-function toggle_citation() {
-    //console.log("test toggle_citation");
-    var closed = document.getElementsByClassName("blacklight-citation_txt-closed")[0];
-    var open = document.getElementsByClassName("blacklight-citation_txt-open")[0];
+//function below used for exhibition and citation
+function toggle_show_field(classname) {
+    console.log("test toggle_citation");
+    var closed = document.getElementsByClassName("blacklight-"+classname+"-closed")[0];
+    var open = document.getElementsByClassName("blacklight-"+classname+"-open")[0];
     //kluge
     if (closed.style.display == "") {
         closed.style.display = "block";

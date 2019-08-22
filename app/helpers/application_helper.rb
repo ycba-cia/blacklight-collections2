@@ -74,6 +74,14 @@ module ApplicationHelper
     citations.join(' ').html_safe
   end
 
+  def render_exhibitions options={}
+    exhs = []
+    options[:value].each {  |exh|
+      exhs.append(exh + "</br>")
+    }
+    exhs.join(' ').html_safe
+  end
+
   def combine_topic_subject options={}
     subjects = []
     subjects = subjects + options[:document][:topic_subjectConcept_ss] if options[:document][:topic_subjectConcept_ss]
