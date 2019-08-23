@@ -611,6 +611,10 @@ $moveRight: $tileHeight * ($growFactor - 1);
  .view-type-list, .view-type-gallery, .view-type-masonry, .thumbnail {
   border: 1px solid #858585;
 }
+#splash-image {
+  border: 1px solid #858585;
+  border-radius: 4px;
+}
 
 //end facet select color overrides
 
