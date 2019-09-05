@@ -77,7 +77,7 @@ module ApplicationHelper
   def render_exhibitions options={}
     exhs = []
     options[:value].each {  |exh|
-      exhs.append(exh + "</br>")
+      exhs.append("<p>" + exh + "</p>")
     }
     exhs.join(' ').html_safe
   end
