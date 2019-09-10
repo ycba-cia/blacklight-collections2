@@ -108,6 +108,7 @@ class CatalogController < ApplicationController
     config.add_facet_field 'geographic_ss', :label => 'Associated Places', :limit => 20
     config.add_facet_field 'topic_subjectActor_ss', :label => 'Associated People', :limit => 20
     config.add_facet_field 'onview_ss', :label => 'Currently On View'
+    config.add_facet_field 'exhibition_history_ss', :label => 'Exhibition History', :limit => 20
     config.add_facet_field 'has_image_ss', :label => 'Image Available'
     y = Time.now.year
     config.add_facet_field 'date_entered_is', :label => 'New Additions', query: { past_year: { label: "#{y-1}-#{y}",fq: "date_entered_is:[#{y-1} TO #{y}]"}}
