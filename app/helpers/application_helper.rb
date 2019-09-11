@@ -77,7 +77,7 @@ module ApplicationHelper
   def render_exhibitions options={}
     exhs = []
     options[:value].each {  |exh|
-      exhs.append("<p><a href=\"/?f[exhibition_history_ss][]=#{exh}\">#{exh}</a></p>")
+      exhs.append("<p><a href=\"/?f[exhibition_history_ss][]=#{URI::encode(exh)}\">#{exh}</a></p>")
     }
     exhs.join.html_safe
   end
