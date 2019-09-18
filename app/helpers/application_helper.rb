@@ -76,7 +76,14 @@ module ApplicationHelper
 
   def render_exhibitions options={}
     exhs = []
-    options[:value].each {  |exh|
+    sorted = options[:value].sort_by { |d|
+      if d.match(/(\d{4}\-\d{2}\-\d{2})/)
+        Date.parse d.match(/(\d{4}\-\d{2}\-\d{2})/)[0] if d.match(/(\d{4}\-\d{2}\-\d{2})/)
+      else
+        Date.parse "9999-12-31"
+      end
+    }
+    sorted.each {  |exh|
       exhs.append("<p><a href=\"/?f[exhibition_history_ss][]=#{URI::encode(exh)}\">#{exh}</a></p>")
     }
     exhs.join.html_safe
