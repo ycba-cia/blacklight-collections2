@@ -83,6 +83,7 @@ module ApplicationHelper
         Date.parse "9999-12-31"
       end
     }
+    sorted.reverse!
     sorted.each {  |exh|
       exhs.append("<p><a href=\"/?f[exhibition_history_ss][]=#{URI::encode(exh)}\">#{exh}</a></p>")
     }
