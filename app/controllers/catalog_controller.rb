@@ -127,7 +127,7 @@ class CatalogController < ApplicationController
     #   The ordering of the field names is the order of the display
     # config.add_index_field 'title_t', :label => 'Title'
     #config.add_index_field 'type_txt', :label => 'Type'
-    config.add_index_field 'auth_author_display_ss', :label => 'Creator'
+    config.add_index_field 'author_ss', :label => 'Creator'
     config.add_index_field 'publishDate_txt', label: "Date"
     config.add_index_field 'format_txt', :label => 'Medium'
     config.add_index_field 'collection_txt', :label => 'Collection'

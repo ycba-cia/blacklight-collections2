@@ -53,7 +53,8 @@ module ApplicationHelper
   def link_to_author options={}
     #http://localhost:3000/?f[topic_facet][]=woman #example
     #facet = "topic_facet"
-    options[:value].map { |v| "<a href=\"/?f[author_ss][]=#{v}\">#{v}</a> | " }.join('</br>').chomp(" | ").html_safe
+    full_author = options[:document][:auth_author_display_ss]
+    options[:value].each_with_index.map { |v, i| "<a href=\"/?f[author_ss][]=#{v}\">#{full_author[i]}</a> | " }.join('</br>').chomp(" | ").html_safe
   end
 
   #used with render_related_content? method in catalog_controller.rb

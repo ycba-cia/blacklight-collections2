@@ -2,8 +2,8 @@
   <span class="document-counter" hidden><%= counter %></span>
   <%#= t('blacklight.search.documents.counter', counter: counter) %>
 <% end %>
-<% if document.to_h["auth_author_display_ss"]  %>
-  <dd class="blacklight-<%= "auth_author_display_ss".parameterize %>"><%= field_value document, "auth_author_display_ss" %></dd>
+<% if document.to_h["author_ss"]  %>
+  <dd class="blacklight-<%= "author_ss".parameterize %>"><%= field_value document, "author_ss" %></dd>
 <% end %>
 <% if document.to_h["title_short_ss"] %>
   <dd class="middle-label blacklight-<%= "title_short_ss".parameterize %>"><%= field_value(document, "title_short_ss").gsub(" :","").gsub(" /","") %></dd>
