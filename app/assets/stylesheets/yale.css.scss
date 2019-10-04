@@ -489,19 +489,19 @@ $moveRight: $tileHeight * ($growFactor - 1);
   white-space: normal;
 }
 
-.blacklight-citation_txt-closed, .blacklight-exhibition_history_ss-closed{
+.blacklight-citation_txt-closed, .blacklight-exhibition_history_ss-closed, .blacklight-exhibition_history_acc-closed{
    display: block;
  }
 
-.blacklight-citation_txt-open, .blacklight-exhibition_history_ss-open {
+.blacklight-citation_txt-open, .blacklight-exhibition_history_ss-open, .blacklight-exhibition_history_acc-open {
   display: none;
 }
 
-.blacklight-citation_txt-closed:hover, .blacklight-exhibition_history_ss-closed:hover {
+.blacklight-citation_txt-closed:hover, .blacklight-exhibition_history_ss-closed:hover, .blacklight-exhibition_history_acc-closed:hover{
   background-color: lightblue;
 }
 
-.blacklight-citation_txt-open:hover, .blacklight-exhibition_history_ss-open:hover {
+.blacklight-citation_txt-open:hover, .blacklight-exhibition_history_ss-open:hover, .blacklight-exhibition_history_acc-open:hover {
   background-color: lightblue;
 }
 
@@ -562,6 +562,11 @@ $moveRight: $tileHeight * ($growFactor - 1);
 #download-details a {
   color: #337ab7;
   text-decoration: underline;
+}
+
+dd p a {
+  color: #337ab7;
+  text-decoration: none;
 }
 
 .masonry.document.col-xs-6.col-md-3 {

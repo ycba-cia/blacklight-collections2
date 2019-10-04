@@ -5,9 +5,16 @@
     <% aeon_after="credit_line_acc" %>
     <% document_show_fields(document).each do |field_name, field| -%>
         <% if should_render_show_field? document, field %>
-            <dt class="blacklight-<%= field_name.parameterize %>"><%= render_document_show_field_label document, field: field_name %></dt>
-            <dd class="blacklight-<%= field_name.parameterize %>"><%= doc_presenter.field_value field %></dd>
+
+        <% if "exhibition_history_acc" == field_name %>
+          <dt class="blacklight-<%= field_name.parameterize %>"><%= render_document_show_field_label document, field: field_name %></dt>
+          <dd class="blacklight-<%= field_name.parameterize %>-closed" ondblclick="toggle_show_field('<%= field_name.parameterize %>')"><%= "<double click to display>" %></dd>
+          <dd class="blacklight-<%= field_name.parameterize %>-open" ondblclick="toggle_show_field('<%= field_name.parameterize %>')"><%= "<double click to hide>" %></br><%= doc_presenter.field_value field %></dd>
+        <% else %>
+          <dt class="blacklight-<%= field_name.parameterize %>"><%= render_document_show_field_label document, field: field_name %></dt>
+          <dd class="blacklight-<%= field_name.parameterize %>"><%= doc_presenter.field_value field %></dd>
         <% end -%>
+        <% end %>
     <% end -%>
     <%= render "show_fields" %>
   </dl>
