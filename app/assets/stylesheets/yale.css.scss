@@ -489,19 +489,23 @@ $moveRight: $tileHeight * ($growFactor - 1);
   white-space: normal;
 }
 
-.blacklight-citation_txt-closed, .blacklight-exhibition_history_ss-closed, .blacklight-exhibition_history_acc-closed{
+.blacklight-citation_txt-closed, .blacklight-exhibition_history_ss-closed, .blacklight-exhibition_history_acc-closed,
+  .blacklight-curatorial_comment_ss-closed {
    display: block;
  }
 
-.blacklight-citation_txt-open, .blacklight-exhibition_history_ss-open, .blacklight-exhibition_history_acc-open {
+.blacklight-citation_txt-open, .blacklight-exhibition_history_ss-open, .blacklight-exhibition_history_acc-open,
+  .blacklight-curatorial_comment_ss-open {
   display: none;
 }
 
-.blacklight-citation_txt-closed:hover, .blacklight-exhibition_history_ss-closed:hover, .blacklight-exhibition_history_acc-closed:hover{
+.blacklight-citation_txt-closed:hover, .blacklight-exhibition_history_ss-closed:hover, .blacklight-exhibition_history_acc-closed:hover,
+  .blacklight-curatorial_comment_ss-closed:hover {
   background-color: lightblue;
 }
 
-.blacklight-citation_txt-open:hover, .blacklight-exhibition_history_ss-open:hover, .blacklight-exhibition_history_acc-open:hover {
+.blacklight-citation_txt-open:hover, .blacklight-exhibition_history_ss-open:hover, .blacklight-exhibition_history_acc-open:hover,
+  .blacklight-curatorial_comment_ss-open:hover {
   background-color: lightblue;
 }
 
@@ -732,4 +736,8 @@ a.skip-main:focus, a.skip-main:active {
     text-align:center;
     font-size:1.2em;
     z-index:999;
+}
+
+i {
+  font-style:italic;
 }

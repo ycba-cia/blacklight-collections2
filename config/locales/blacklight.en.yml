@@ -1,3 +1,7 @@
 en:
   blacklight:
     application_name: 'YCBA Collections Search'
+    search:
+      form:
+        search:
+          placeholder: 'Search the collections...'

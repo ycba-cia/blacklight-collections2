@@ -79,6 +79,11 @@ class SolrDocument
     self['exhibition_history_ss']
   end
 
+  #not yet implemented (marc)
+  def onview_acc
+    self['onview_ss']
+  end
+
   # Email uses the semantic field mappings below to generate the body of an email.
   SolrDocument.use_extension(Blacklight::Document::Email)
 

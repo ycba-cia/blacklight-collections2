@@ -145,7 +145,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'publishDate_ss', :label => 'Date', if: :display_lido_field?
     config.add_show_field 'format_ss', :label => 'Medium', if: :display_lido_field?
     config.add_show_field 'physical_ss',  :label => 'Dimensions', if: :display_lido_field?
-    config.add_show_field 'description_ss', :label => 'Inscription(s) /Marks/ Lettering', helper_method: 'render_citation', if: :display_lido_field?
+    config.add_show_field 'description_ss', :label => 'Inscription(s)/Marks/Lettering', helper_method: 'render_citation', if: :display_lido_field?
     config.add_show_field 'credit_line_ss', :label => 'Credit Line', if: :display_lido_field?
     config.add_show_field 'callnumber_ss', helper_method: 'render_aeon_from_call_number', :label => 'Accession Number', if: :display_lido_field?
     config.add_show_field 'type_ss', :label => 'Classification', if: :display_lido_field?
@@ -153,6 +153,8 @@ class CatalogController < ApplicationController
     config.add_show_field 'topic_ss', :label => 'Subject Terms', link_to_search: 'topic_facet', separator_options: break_separator, helper_method: 'sort_values_and_link_to_facet', if: :display_lido_field?
     config.add_show_field 'topic_subjectPlace_ss', :label => 'Associated Places', link_to_search: true, separator_options: break_separator, if: :display_lido_field?
     config.add_show_field 'topic_subjectActor_ss', :label => 'Associated People', link_to_search: true, separator_options: break_separator, if: :display_lido_field?
+    config.add_show_field 'onview_ss', :label => 'Currently On View', if: :display_lido_field?
+    config.add_show_field 'curatorial_comment_ss', :label => 'Curatorial Comment', helper_method: 'combine_curatorial_comments', if: :display_lido_field?
     config.add_show_field 'exhibition_history_ss', :label => 'Exhibition History', helper_method: 'render_exhibitions', if: :display_lido_field?
     config.add_show_field 'citation_txt', :label => 'Publications', helper_method: 'render_citation', if: :display_lido_field?
     config.add_show_field 'url_ss', :label => 'Link', helper_method: 'render_as_link', if: :display_lido_field?
@@ -174,6 +176,8 @@ class CatalogController < ApplicationController
     config.add_show_field 'cartographic_detail_ss', :label => 'Scale', if: :display_marc_field?
     config.add_show_field 'note_acc', accessor: 'note_acc', :label => 'Notes', helper_method: 'render_citation', if: :display_marc_accessor_field?
     config.add_show_field 'marc_contents_ss', label: 'Contents', if: :display_marc_field?
+    #placeholder, onview not indexed presently for marc
+    config.add_show_field 'onview_acc', accessor: 'onview_acc', :label => 'Currently On View', if: :display_marc_field?
     config.add_show_field 'exhibition_history_acc', accessor: 'exhibition_history_acc', :label => 'Exhibition History', helper_method: 'render_exhibitions', if: :display_marc_field?
     config.add_show_field 'topic_acc', accessor: 'topic_acc', :label => 'Subject Terms', link_to_search: 'topic_facet', separator_options: break_separator, helper_method: 'sort_values_and_link_to_topic_no_pipes', if: :display_marc_accessor_field?
     config.add_show_field 'form_genre_ss', :label => 'Form / Genre', link_to_search: true, separator_options: break_separator, if: :display_marc_field?

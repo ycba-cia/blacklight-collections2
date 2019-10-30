@@ -13,7 +13,11 @@
             <dt class="blacklight-<%= field_name.parameterize %>"><%= render_document_show_field_label document, field: field_name %></dt>
             <dd class="blacklight-<%= field_name.parameterize %>-closed" ondblclick="toggle_show_field('<%= field_name.parameterize %>')"><%= "<double click to display>" %></dd>
             <dd class="blacklight-<%= field_name.parameterize %>-open" ondblclick="toggle_show_field('<%= field_name.parameterize %>')"><%= "<double click to hide>" %></br><%= doc_presenter.field_value field %></dd>
-          <% elsif "callnumber_ss" == field_name  %>
+        <% elsif "curatorial_comment_ss" == field_name %>
+          <dt class="blacklight-<%= field_name.parameterize %>"><%= render_document_show_field_label document, field: field_name %></dt>
+          <dd class="blacklight-<%= field_name.parameterize %>-closed" ondblclick="toggle_show_field('<%= field_name.parameterize %>')"><%= "<double click to display>" %></dd>
+          <dd class="blacklight-<%= field_name.parameterize %>-open" ondblclick="toggle_show_field('<%= field_name.parameterize %>')"><%= "<double click to hide>" %></br><%= doc_presenter.field_value field %></dd>
+        <% elsif "callnumber_ss" == field_name  %>
             <dt class="blacklight-<%= field_name.parameterize %>"><%= render_document_show_field_label document, field: field_name %></dt>
             <dd class="blacklight-<%= field_name.parameterize %>"><span title="Object ID: <%= document["id"].gsub("tms:","") %>"><%= doc_presenter.field_value field %></span></dd>
           <% elsif "collection_ss" == field_name %>
