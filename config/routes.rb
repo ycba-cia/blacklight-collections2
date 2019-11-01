@@ -18,6 +18,8 @@ Rails.application.routes.draw do
     concerns :exportable
   end
 
+  get 'print/:id/:size' => 'print#show'
+
   resources :bookmarks do
     concerns :exportable
 

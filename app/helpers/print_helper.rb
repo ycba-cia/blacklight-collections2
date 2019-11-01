@@ -1,0 +1,105 @@
+require 'net/http'
+require 'json'
+
+module PrintHelper
+
+  def print_images(id)
+    markup = ""
+    #test_image = "https://images.britishart.yale.edu/iiif/1b747e8f-7754-482c-b5a2-9e1dc1986f4b/full/full/0/native.jpg"
+    #images = [1]
+
+    images = get_images_from_sources(id)
+    images.each_with_index do |f, i|
+      break if i >= @size.to_i
+      markup += "<div style=\"page-break-after: always\">"
+      markup += "<img class=\"contain\" src=\"#{f}\" width=\"700\" height=\"800\" style=\"object-fit: contain;\">"
+      markup += "</div>"
+      #puts f
+    end
+    #markup += "</br>"
+    markup.html_safe
+  end
+
+  def get_images_from_iiif(id)
+    id = parse_tms_id(id)
+    url = "https://manifests.britishart.yale.edu/manifest/#{id}"
+    uri = URI(url)
+    response = Net::HTTP.get(uri)
+    j = JSON.parse(response)
+    images = Array.new
+    if j["sequences"][0].nil? == false && j["sequences"][0]["canvases"][0].nil? == false
+      j["sequences"][0]["canvases"].each do |c|
+        if c["images"][0].nil? == false && c["images"][0]["resource"].nil? == false
+          images.push(c["images"][0]["resource"]["@id"])
+        end
+      end
+    end
+    images
+  end
+
+  def get_images_from_cds(id)
+    if id.starts_with?("tms")
+      id = id.gsub("tms:","")
+      type = 2
+    end
+    if id.starts_with?("orbis")
+      id = id.gsub("orbis:","")
+      type = 1
+    end
+    url = "https://deliver.odai.yale.edu/info/repository/YCBA/object/#{id}/type/#{type}"
+    uri = URI(url)
+    response = Net::HTTP.get(uri)
+    j = JSON.parse(response)
+    images = Array.new
+    j.each_with_index do |d, i|
+      if j["#{i}"]["derivatives"].nil? == false && j["#{i}"]["derivatives"].size > 0
+        if j["#{i}"]["derivatives"]["3"].nil? == false
+          images.push(j["#{i}"]["derivatives"]["3"]["source"])
+          next
+        end
+        if j["#{i}"]["derivatives"]["2"].nil? == false
+          images.push(j["#{i}"]["derivatives"]["2"]["source"])
+          next
+        end
+        if j["#{i}"]["derivatives"]["1"].nil? == false
+          images.push(j["#{i}"]["derivatives"]["1"]["source"])
+          next
+        end
+      end
+    end
+    images
+  end
+
+  def parse_tms_id(id)
+    id.gsub("tms:","")
+  end
+
+  def get_images_from_sources(id)
+    if id.starts_with?("tms")
+      if manifest_exists?(id)
+        return get_images_from_iiif(id)
+      else
+        # https://deliver.odai.yale.edu/info/repository/YCBA/object/160/type/2
+        return get_images_from_cds(id)
+      end
+    end
+    if id.starts_with?("orbis")
+      # https://deliver.odai.yale.edu/info/repository/YCBA/object/11676042/type/1
+      return get_images_from_cds(id)
+    end
+  end
+
+  def manifest_exists?(id)
+    id = parse_tms_id(id)
+    url = "https://manifests.britishart.yale.edu/manifest/#{id}"
+    uri = URI(url)
+    response = Net::HTTP.get(uri)
+    begin
+      j = JSON.parse(response)
+    rescue
+      return false
+    end
+    return true
+  end
+
+end

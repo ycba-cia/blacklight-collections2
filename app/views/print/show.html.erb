@@ -1,0 +1,20 @@
+<style type="text/css" media="print">
+  .printbutton {
+    visibility: hidden;
+    display: none;
+  }
+</style>
+<input type='button' onClick='window.print()' class='printbutton' value='Print This Page'/>
+&nbsp;
+<input type='button' onClick="location.href='/catalog/<%= @id %>'" class='printbutton' value='Go back'/>
+<header>
+  <div id="header-row" class="row fixer">
+    <span class="div-horizontal">
+    <span id="large-banner" class="col-xs-5" style="padding-left:7%;">
+        <a href="/"><%= show_svg('logo-horizontal.svg') %></a>
+      </span>
+    </span>
+  </div>
+</header>
+<%= print_images(@id) %>
+
