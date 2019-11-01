@@ -42,7 +42,7 @@ class PrintController < ApplicationController
       @item_data += print_fields("Related Content:","resourceURL_ss")
       @item_data += print_fields("Classification:","type_ss")
       @item_data += print_fields("Scale:","cartographic_detail_ss")
-      @item_data += print_fields("Notes:","note_ss")
+      @item_data += print_fields("Notes:","description_ss")
       @item_data += print_fields("Contents:","marc_contents_ss")
       @item_data += print_fields("Currently On View:","onview_ss")
       @item_data += print_newline_fields("Exhibition History:","exhibition_history_ss")
