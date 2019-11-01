@@ -5,6 +5,8 @@ class CatalogController < ApplicationController
 
   include Blacklight::Catalog
 
+  before_action :getID, only: [:show]
+
   #ERJ: for reference https://github.com/projectblacklight/blacklight/wiki/Adding-new-document-actions
 
   def cite
@@ -15,6 +17,10 @@ class CatalogController < ApplicationController
     respond_to do |format|
       format.html
     end
+  end
+
+  def getID
+    @id = params[:id]
   end
 
   configure_blacklight do |config|
@@ -164,14 +170,14 @@ class CatalogController < ApplicationController
     config.add_show_field 'title_acc', :accessor => 'title_acc', :label => 'Title', if: :display_marc_accessor_field?
     config.add_show_field 'title_alt_ss', :label => 'Alternate Title(s)', separator_options: break_separator, if: :display_marc_field?
     config.add_show_field 'edition_ss', label: 'Edition', if: :display_marc_field?
-    config.add_show_field 'publisher_ss', :label => 'Published / Created', separator_options: break_separator, if: :display_marc_field?
+    config.add_show_field 'publisher_ss', :label => 'Published/Created', separator_options: break_separator, if: :display_marc_field?
     config.add_show_field 'physical_acc', accessor: 'physical_acc', label: 'Physical Description', if: :display_marc_accessor_field?
     config.add_show_field 'collection_acc', accessor: 'collection_acc', label: 'Collection', if: :display_marc_accessor_field?
     config.add_show_field 'callnumber_acc', accessor: 'callnumber_acc', helper_method: 'render_aeon_from_call_number', :label => 'Call Number', separator_options: break_separator, if: :display_marc_accessor_field?
     config.add_show_field 'credit_line_acc', accessor: 'credit_line_acc',:label => 'Credit Line', if: :display_marc_accessor_field?
     #aeon inserted here, see _show_marc_html.erb
     config.add_show_field 'orbis_link_acc', accessor: 'orbis_link_acc', :label => 'Full Orbis Record', helper_method: 'render_as_link', if: :display_marc_accessor_field?
-    config.add_show_field 'resourceURL_ss', :label => 'Related content', helper_method: 'render_related_content', if: :render_related_content?, if: :display_marc_field?
+    config.add_show_field 'resourceURL_ss', :label => 'Related Content', helper_method: 'render_related_content', if: :render_related_content?, if: :display_marc_field?
     config.add_show_field 'type_acc', accessor: 'type_acc', :label => 'Classification', if: :display_marc_accessor_field?
     config.add_show_field 'cartographic_detail_ss', :label => 'Scale', if: :display_marc_field?
     config.add_show_field 'note_acc', accessor: 'note_acc', :label => 'Notes', helper_method: 'render_citation', if: :display_marc_accessor_field?
@@ -180,7 +186,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'onview_acc', accessor: 'onview_acc', :label => 'Currently On View', if: :display_marc_field?
     config.add_show_field 'exhibition_history_acc', accessor: 'exhibition_history_acc', :label => 'Exhibition History', helper_method: 'render_exhibitions', if: :display_marc_field?
     config.add_show_field 'topic_acc', accessor: 'topic_acc', :label => 'Subject Terms', link_to_search: 'topic_facet', separator_options: break_separator, helper_method: 'sort_values_and_link_to_topic_no_pipes', if: :display_marc_accessor_field?
-    config.add_show_field 'form_genre_ss', :label => 'Form / Genre', link_to_search: true, separator_options: break_separator, if: :display_marc_field?
+    config.add_show_field 'form_genre_ss', :label => 'Form/Genre', link_to_search: true, separator_options: break_separator, if: :display_marc_field?
     config.add_show_field 'author_additional_ss', :label => 'Contributors', link_to_search: true, separator_options: break_separator, if: :display_marc_field?
     #config.add_show_field 'cite_as', accessor: 'cite_as', :label => 'Cite As', if: :display_marc_accessor_field? #don't display per #18
 

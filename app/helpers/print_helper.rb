@@ -143,7 +143,7 @@ module PrintHelper
       @document[field].each_with_index do |line,i|
         s+= "#{line} | "
       end
-      s.chomp(" | ")
+      s.chomp!(" | ")
       s+= "</dd>"
       return s
     else
