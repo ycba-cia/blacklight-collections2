@@ -102,4 +102,52 @@ module PrintHelper
     return true
   end
 
+  def get_solr_doc(id)
+    url = "#{request.protocol}#{request.host_with_port}/catalog/#{id}.json"
+    uri = URI(url)
+    response = Net::HTTP.get(uri)
+    j = JSON.parse(response)
+    #puts j["response"]["document"]["author_ss"]
+    return j["response"]["document"]
+  end
+
+  def print_fields(label,field)
+    if @document[field].nil? == false
+      s = "<dt>#{label}</dt>"
+      s+= "<dd>#{@document[field][0]}</dd>"
+      return s
+    else
+      return ""
+    end
+  end
+
+  def print_newline_fields(label,field)
+    if @document[field].nil? == false
+      s = "<dt>#{label}</dt>"
+      s+= "<dd>"
+      @document[field].each_with_index do |line,i|
+        s+= "<span>#{line}</span></p>" if i == 0
+        s+= "<p>#{line}</p>" if i > 0
+      end
+      s+= "</dd>"
+      return s
+    else
+      return ""
+    end
+  end
+
+  def print_sep_fields(label,field)
+    if @document[field].nil? == false
+      s = "<dt>#{label}</dt>"
+      s+= "<dd>"
+      @document[field].each_with_index do |line,i|
+        s+= "#{line} | "
+      end
+      s.chomp(" | ")
+      s+= "</dd>"
+      return s
+    else
+      return ""
+    end
+  end
 end

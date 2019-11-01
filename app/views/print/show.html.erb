@@ -4,6 +4,29 @@
     display: none;
   }
 </style>
+<style type="text/css">
+  .printlido {
+    //font-family: "Mallory Standard Webfont Normal";
+    font-size: 12px;
+    width: 740px;
+  }
+
+  .printlido dl {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .printlido dt {
+    text-align: right;
+    width: 20%;
+    margin-bottom: 8px;
+  }
+
+  .printlido dd {
+    margin-left: auto;
+    width: 78%;
+    margin-bottom: 8px;
+  }
+</style>
 <input type='button' onClick='window.print()' class='printbutton' value='Print This Page'/>
 &nbsp;
 <input type='button' onClick="location.href='/catalog/<%= @id %>'" class='printbutton' value='Go back'/>
@@ -17,4 +40,9 @@
   </div>
 </header>
 <%= print_images(@id) %>
+<div class="printlido col-xs-5">
+  <dl class="dl-vertical dl-invert">
+    <%= @item_data.html_safe %>
+  </dl>
+</div>
 
