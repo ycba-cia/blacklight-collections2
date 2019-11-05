@@ -31,7 +31,8 @@
 
   <div class="row">
     <div id="ycba-request-photography" class="col-xs-12" align="center">
-      <%= link_to("Request additional photography", image_request_link(document)) %>
+      <%= link_to("Request additional photography", image_request_link(document)) %>&nbsp;|&nbsp;
+      <%= link_to("Print Object", controller: "print", action: "show", id: @id, size: "1") %>
     </div>
   </div>
 
@@ -53,7 +54,8 @@
 <div id="non-image-section">
   <div class="row">
     <div id="ycba-request-photography" class="col-xs-12" align="center">
-      <%= link_to("Request photography", image_request_link(document)) %>
+      <%= link_to("Request photography", image_request_link(document)) %>&nbsp;|&nbsp;
+      <%= link_to("Print Object", controller: "print", action: "show", id: @id, size: "0") %>
     </div>
   </div>
 </div>
