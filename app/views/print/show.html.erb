@@ -39,8 +39,12 @@
     </span>
   </div>
 </header>
-<br>
-<br>
+<% if @size == "0" %>
+  </br>
+  </br>
+  </br>
+  </br>
+<%end %>
 <%= print_images(@id) %>
 <div class="printlido col-xs-5">
   <dl class="dl-vertical dl-invert">
