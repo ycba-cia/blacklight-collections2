@@ -71,12 +71,11 @@ module ApplicationHelper
   def render_citation options={}
     citations = []
     options[:value].each {  |citation|
-      citations.append("<p>" + citation + "</p>")
+      citations.append("<p>" + citation + "</p></i>")
     }
-    citations.append("</i>")
     citations.join(' ').html_safe
   end
-  
+
   def render_exhibitions options={}
     exhs = []
     sorted = options[:value].sort_by { |d|
