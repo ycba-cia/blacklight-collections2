@@ -1,5 +1,6 @@
 require 'net/http'
 require 'json'
+require 'time'
 
 module ApplicationHelper
 
@@ -72,17 +73,14 @@ module ApplicationHelper
     options[:value].each {  |citation|
       citations.append("<p>" + citation + "</p>")
     }
+    citations.append("</i>")
     citations.join(' ').html_safe
   end
-
+  
   def render_exhibitions options={}
     exhs = []
     sorted = options[:value].sort_by { |d|
-      if d.match(/(\d{4}\-\d{2}\-\d{2})/)
-        Date.parse d.match(/(\d{4}\-\d{2}\-\d{2})/)[0] if d.match(/(\d{4}\-\d{2}\-\d{2})/)
-      else
-        Date.parse "9999-12-31"
-      end
+      extract_date(d)
     }
     sorted.reverse!
     sorted.each {  |exh|
@@ -90,6 +88,21 @@ module ApplicationHelper
     }
     exhs.join.html_safe
   end
+
+  def extract_date(d)
+    if d.match(/(\b\d{1,2}\D{0,3})?\b(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|(Nov|Dec)(?:ember)?)\D?(\d{1,2}\D?)?\D?((19[1-9]\d|20\d{2})|\d{2})/)
+      convert_date(d.match(/(\b\d{1,2}\D{0,3})?\b(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|(Nov|Dec)(?:ember)?)\D?(\d{1,2}\D?)?\D?((19[1-9]\d|20\d{2})|\d{2})/)[0])
+    else
+      Date.parse "9999-12-31"
+    end
+  end
+
+  def convert_date(str)
+    time = Time.parse(str)
+    time2 = time.strftime("%Y-%m-%d")
+    Date.parse(time2)
+  end
+
 
   def combine_topic_subject options={}
     subjects = []
