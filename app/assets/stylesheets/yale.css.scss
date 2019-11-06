@@ -741,32 +741,3 @@ a.skip-main:focus, a.skip-main:active {
 i {
   font-style:italic;
 }
-
-@media print {
-  .printbutton {
-    visibility: hidden;
-    display: none;
-  }
-}
-
-.printlido {
-  //font-family: "Mallory Standard Webfont Normal";
-  font-size: 12px;
-  width: 740px;
-}
-
-.printlido dl {
-  display: flex;
-  flex-wrap: wrap;
-}
-.printlido dt {
-  text-align: right;
-  width: 20%;
-  margin-bottom: 8px;
-}
-
-.printlido dd {
-  margin-left: auto;
-  width: 78%;
-  margin-bottom: 8px;
-}
