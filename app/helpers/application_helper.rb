@@ -63,7 +63,11 @@ module ApplicationHelper
     links = []
     options[:value].each {  |item|
       text, url = item.split("\n")
-      links.append(link_to "#{text}", url, target: '_blank')
+      if text.length==0
+        links.append(link_to "#{url}", url, target: '_blank')
+      else
+        links.append(link_to "#{text}", url, target: '_blank')
+      end
     }
     links.join('<br/>').html_safe
   end
