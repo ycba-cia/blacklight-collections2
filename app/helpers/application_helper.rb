@@ -21,7 +21,7 @@ module ApplicationHelper
     #method specific to call number
     collection = get_one_value(options[:document][:collection_ss])
     values = []
-    if collection=="Paintings and Sculpture" || collection=="Frames"
+    if collection=="Paintings and Sculpture" || collection=="Frames" || collection=="Reference Library"
       options[:value].each do |v|
         values.append(v)
       end
