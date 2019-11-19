@@ -99,26 +99,26 @@ class CatalogController < ApplicationController
 
     config.add_facet_field 'collection_ss', :label => 'Collection', :limit => 20, :collapse => false, :sort => 'count'
     config.add_facet_field 'author_ss', label: 'Creator', :tag => 'author_ss', :ex => 'author_ss', :limit => 20
+    config.add_facet_field 'onview_ss', :label => 'Currently On View'
+    config.add_facet_field 'has_image_ss', :label => 'Image Available'
+    config.add_facet_field 'rights_ss', label: 'Item Rights'
+    config.add_facet_field 'earliestDate_is', :label => 'Date', single: true,range: { segments: false }
+    config.add_facet_field 'type_ss', :label => 'Classification', :limit => 20
     config.add_facet_field 'author_gender_ss', :label => 'Creator Gender'
     config.add_facet_field 'title_collective_ss', :label => 'Collective Title', :limit => 20
     config.add_facet_field 'era_ss', :label => 'Period'
-    config.add_facet_field 'earliestDate_is', :label => 'Date', single: true,range: { segments: false }
     config.add_facet_field 'auth_format_ss', :label => 'Medium', :limit => 20
     config.add_facet_field 'physical_heightValue_is', :label => 'Height [cm]',range: { segments: false }
     config.add_facet_field 'physical_widthValue_is', :label => 'Width [cm]',range: { segments: false }
-    config.add_facet_field 'type_ss', :label => 'Classification', :limit => 20
     config.add_facet_field 'object_name_ss', :label => 'Work Type', :limit => 20
     config.add_facet_field 'genre_name_ss', :label => 'Genre', :limit => 20
     config.add_facet_field 'topic_ss', :label => 'Subject Terms', :limit => 20
     config.add_facet_field 'subject_period_ss', :label => 'Subject Period', :limit => 20
     config.add_facet_field 'geographic_ss', :label => 'Associated Places', :limit => 20
     config.add_facet_field 'topic_subjectActor_ss', :label => 'Associated People', :limit => 20
-    config.add_facet_field 'onview_ss', :label => 'Currently On View'
     config.add_facet_field 'exhibition_history_ss', :label => 'Exhibition History', :limit => 20
-    config.add_facet_field 'has_image_ss', :label => 'Image Available'
     y = Time.now.year
     config.add_facet_field 'date_entered_is', :label => 'New Additions', query: { past_year: { label: "#{y-1}-#{y}",fq: "date_entered_is:[#{y-1} TO #{y}]"}}
-    config.add_facet_field 'rights_ss', label: 'Item Rights'
     config.add_facet_field 'credit_line_ss', :label => 'Credit Line', :limit => 20
     config.add_facet_field 'language_ss', :label => 'Language', :limit => 20 #marc only
 
