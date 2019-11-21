@@ -73,8 +73,22 @@ module ApplicationHelper
   end
 
   def render_citation options={}
+
+    i = -1
+    sorted = options[:value].sort_by { |d|
+      i += 1
+      if options[:document][:citation_sort_ss].nil?
+        "zzzz"
+      elsif options[:document][:citation_sort_ss][i].nil?
+        "zzzz"
+      elsif options[:document][:citation_sort_ss][i] == "Unknown"
+        "zzzz"
+      else
+        options[:document][:citation_sort_ss][i]
+      end
+    }
     citations = []
-    options[:value].each {  |citation|
+    sorted.each {  |citation|
       citations.append("<p>" + citation + "</p></i>")
     }
     citations.join(' ').html_safe
