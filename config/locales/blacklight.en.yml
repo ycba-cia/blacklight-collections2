@@ -4,4 +4,6 @@ en:
     search:
       form:
         search:
-          placeholder: 'Search the collections...'
+          placeholder: 'Enter terms to search'
+      facets:
+        title: 'Refine your search'
