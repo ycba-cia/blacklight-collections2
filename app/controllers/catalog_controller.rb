@@ -24,9 +24,10 @@ class CatalogController < ApplicationController
   end
 
   configure_blacklight do |config|
-    config.view.gallery.partials = [:image_index]
+    #config.view.gallery.partials = [:image_index]
     config.view.masonry.partials = [:compact_index]
     config.view.masonry.default = true
+    config.view.masonry.icon_class = 'glyphicon-th'
     #config.view.slideshow.partials = [:compact_index]
 
     config.index.thumbnail_method = :thumb
