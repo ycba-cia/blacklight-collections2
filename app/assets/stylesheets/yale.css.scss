@@ -741,3 +741,7 @@ a.skip-main:focus, a.skip-main:active {
 i {
   font-style:italic;
 }
+
+.col-md-8, #search-navbar .search-query-form {
+  width: 100%;
+}
