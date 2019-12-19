@@ -27,7 +27,12 @@ module ApplicationHelper
       end
     else
       options[:value].each do |v|
-        values.append(v + " [" + create_aeon_link(options[:document],v.html_safe) + "]")
+        #don't link to aeon if onview per https://github.com/ycba-cia/blacklight-collections2/issues/78
+        if get_one_value(options[:document][:onview_ss]) == "On view"
+          values.append(v)
+        else
+          values.append(v + " [" + create_aeon_link(options[:document],v.html_safe) + "]")
+        end
       end
     end
     values.join('<br/>').html_safe
@@ -381,8 +386,10 @@ module ApplicationHelper
 
     onview = location = get_one_value(doc["onview_ss"])
     if onview == "On view"
-      pdrequest = "mailto:ycba.studyroom@yale.edu?subject=#{information_link_subject_on_view(doc)}"
-      anchor_tag = "<a href='#{pdrequest}'>Request for onview object</a>"
+      #suppress this per https://github.com/ycba-cia/blacklight-collections2/issues/78
+      #pdrequest = "mailto:ycba.studyroom@yale.edu?subject=#{information_link_subject_on_view(doc)}"
+      #anchor_tag = "<a href='#{pdrequest}'>Request for onview object</a>"
+      return ""
     else
       anchor_tag = "<a href='#{aeon}'>Request for use in the YCBA Study Room</a>"
     end
