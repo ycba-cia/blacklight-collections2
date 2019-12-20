@@ -745,3 +745,8 @@ i {
 .col-md-8, #search-navbar .search-query-form {
   width: 100%;
 }
+
+//suppress bookmark section in List view results page
+#documents .document .index-document-functions {
+  display: none;
+}
