@@ -460,4 +460,20 @@ module ApplicationHelper
     return nil if response['response']['docs'].length == 0
     response['response']['docs'][0]["id"]
   end
+
+  def render_ycba_item_header(*args)
+    options = args.extract_options!
+    document = args.first
+    tag = options.fetch(:tag, :h4)
+    fontsize = options.fetch(:fontsize, "12px")
+    document ||= @document
+
+    header = Array.new
+    header.push(content_tag(tag, document["auth_author_display_ss"][0], style: "font-size: #{fontsize}")) if document["auth_author_display_ss"]
+    header.push(content_tag(tag, document["title_short_ss"][0], style: "font-weight: bold; font-size: #{fontsize}")) if document["title_short_ss"]
+    header.push(content_tag(tag, document["publishDate_ss"][0], style: "font-size: #{fontsize}")) if document["publishDate_ss"]
+
+    fullheader = header.join("&nbsp;").html_safe
+    content_tag("div", fullheader, style:"text-align:center", itemprop: "name")
+  end
 end
