@@ -279,7 +279,7 @@ function setMainImage(image, index) {
         prev = 0;
     }
     //console.log('len:'+objectImages.length);
-    var fit = false;
+    var fit = true;
     if (document.getElementById("main-image")!==null) {
         if (document.getElementById("main-image").classList.contains("fitscreen")) {
             fit = true;
