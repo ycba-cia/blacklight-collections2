@@ -223,9 +223,9 @@ module ApplicationHelper
         url = "https://#{cds['host']}/content/repository/YCBA/object/#{cds_id}/type/1/format/1"
       end
     end
-    url ||= path_to_image('empty_square2.png')
+    url ||= path_to_image('not_available1.png')
     #square = path_to_image('square.png')
-    error_img = path_to_image('empty_square2.png')
+    error_img = path_to_image('not_available1.png')
     author = document['auth_author_display_ss'].nil? == false ? document['auth_author_display_ss'][0] : ""
     title_short = document['title_short_ss'].nil? == false ? document['title_short_ss'][0] : ""
     image_tag url, alt: "#{author} #{title_short}", onerror: "this.src='#{error_img}';"
