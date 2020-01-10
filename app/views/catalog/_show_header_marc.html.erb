@@ -5,7 +5,7 @@
 <div id="image-section">
 
   <div class="row">
-    <div id="ycba-main-image" class="col-xs-12" aria-live="polite">
+    <div id="ycba-main-image" class="col-xs-12" aria-live="polite" style="background-color: black">
       <% if document['isbn_ss'] %>
           <%= image_tag( "/bookcover/isbn/#{document['isbn_ss'][0]}/size/medium", class: 'img-thumbnail center-block', alt: document['title_txt']) %>
       <% end %>
@@ -17,34 +17,18 @@
   </div>
 
   <div class="row">
-    <div id="ycba-image-rights" class="col-xs-12" align="center"><%= display_rights(document) %></div>
-    <!--<div id="ycba-thumbnail-controls" class="col-xs-2 pull-right"></div>-->
-  </div>
-
-  <div class="row">
-    <div id="ycba-thumbnail-controls" class="col-xs-12" align="center"></div>
-  </div>
-
-  <div class="row">
-    <!--<div id="ycba-downloads" class="col-xs-12" align="center"></div>-->
-    <%= render partial: "downloads", locals: {document: document} %>
-  </div>
-
-  <div class="row">
-    <div id="ycba-request-photography" class="col-xs-12" align="center">
-      <% if document["collection_ss"][0] != "Reference Library" %>
-        <%= link_to("Request additional photography", image_request_link(document)) %>&nbsp;|&nbsp;
-      <% end %>
+    <div id="ycba-image-rights" class="col-xs-2" align="center"><%= display_rights(document) %></div>
+    <div id="ycba-request-photography" class="col-xs-2" align="center">
+      <%= link_to("Request additional photography", image_request_link(document)) %>
+    </div>
+    <div id="print-object" class="col-xs-2" align="center">
       <%= link_to("Print Object", controller: "print", action: "show", id: @id, size: "1") %>
     </div>
-  </div>
-
-  <!--
-  <div class="row__outer">
-    <div class="imagescroll">
+    <div id="ycba-downloads" class="col-xs-2" align="center">
+      <%= render partial: "downloads", locals: {document: document} %>
     </div>
+    <div id="ycba-thumbnail-controls" class="col-xs-2" align="center"></div>
   </div>
-  -->
 
   <div class="row__outer">
     <div class="imagescroll">
