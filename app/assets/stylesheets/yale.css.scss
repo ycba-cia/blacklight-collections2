@@ -623,6 +623,11 @@ dd p a {
 #splash-image {
   border: 1px solid #858585;
   border-radius: 4px;
+  height: 500px;
+  object-fit: cover;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: inherit;
 }
 
 //end facet select color overrides
