@@ -756,9 +756,13 @@ i {
   display: none;
 }
 
-.carousel-caption {
-  top: 0;
-  bottom: auto;
+//.carousel-caption {
+//  top: 0;
+//  bottom: auto;
+//}
+
+.carousel-control {
+  width: 0%;
 }
 
 #fullheader {
