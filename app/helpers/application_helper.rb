@@ -469,11 +469,11 @@ module ApplicationHelper
     document ||= @document
 
     header = Array.new
-    header.push(content_tag(tag, document["auth_author_display_ss"][0], style: "font-size: #{fontsize}")) if document["auth_author_display_ss"]
+    header.push(content_tag(tag, document["author_ss"][0], style: "font-size: #{fontsize}")) if document["author_ss"]
     header.push(content_tag(tag, document["title_short_ss"][0], style: "font-weight: bold; font-size: #{fontsize}")) if document["title_short_ss"]
     header.push(content_tag(tag, document["publishDate_ss"][0], style: "font-size: #{fontsize}")) if document["publishDate_ss"]
 
     fullheader = header.join(", ").html_safe
-    content_tag("div", fullheader, style:"text-align:center", itemprop: "name")
+    content_tag("div", fullheader, style:"text-align:center", itemprop: "name", id: "fullheader")
   end
 end
