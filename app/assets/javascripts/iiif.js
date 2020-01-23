@@ -16,7 +16,11 @@ function updateImageData( id ,cds,type) {
         var caption_info = [];
         $.each(message.sequences[0].canvases,function(i,v) {
             iiif_info.push(""+ v.images[0].resource.service['@id']+"/info.json");
-            caption_info.push(v.label);
+            var label1 = v.label;
+            if (label1.length > 0) {
+                label1 = label1.charAt(0).toUpperCase() + label1.slice(1);
+            }
+            caption_info.push(label1);
         });
 
         viewer = OpenSeadragon({
@@ -60,7 +64,9 @@ function updateImageData( id ,cds,type) {
                 //console.log(objectImages);
                 var caption = data['metadata']['caption'];
                 if (!caption || 0 === caption.length) {
-                    caption = "no caption";
+                    caption = "";
+                } else {
+                    caption = caption.charAt(0).toUpperCase() + caption.slice(1);
                 }
                 var imgalt = String(index+1) + " of " + String(objectImages.length);
                 html += "<div class='tile'>"
@@ -90,6 +96,9 @@ function fancybox(index) {
         };
         if (derivative['metadata']) {
             caption = derivative['metadata']['caption']
+            if (caption.length > 0) {
+                caption = caption.charAt(0).toUpperCase() + caption.slice(1);
+            }
         }
         var size = 0;
        $.each(derivative, function(index, d) {
@@ -161,7 +170,9 @@ function renderCdsImages() {
             //console.log(objectImages);
             var caption = data['metadata']['caption'];
             if (!caption || 0 === caption.length) {
-                caption = "no caption";
+                caption = "";
+            } else {
+                caption = caption.charAt(0).toUpperCase() + caption.slice(1);
             }
             if (caption.length > 48) {
                 caption = caption.substring(0,48) + "...";
@@ -387,6 +398,9 @@ function setMainImage(image, index) {
     
     if (metadata) {
         var caption = metadata['caption'] || '&nbsp;';
+        if (caption.length > 0) {
+            caption = caption.charAt(0).toUpperCase() + caption.slice(1);
+        }
         if (caption) {
             $("#ycba-main-image-caption").html(caption);
         }

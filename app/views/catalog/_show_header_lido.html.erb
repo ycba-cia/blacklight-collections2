@@ -32,15 +32,16 @@
   </div>
 
   <div class="row">
-    <div id="ycba-request-photography" class="btn btn-primary col-xs-3" align="center">
-      <%= link_to("Request additional photography", image_request_link(document), style: "color: white;", target: "_blank") %>
+    <div id="ycba-downloads-container" align="center">
+      <%= render partial: "downloads", locals: {document: document} %>
     </div>
     <div id="print-object" class="btn btn-primary col-xs-3" align="center">
       <%= link_to("Print Object", "/print/#{@id}/1", style: "color: white;", target: "_blank") %>
     </div>
-    <div id="ycba-downloads-container" align="center">
-      <%= render partial: "downloads", locals: {document: document} %>
+    <div id="ycba-request-photography" class="btn btn-primary col-xs-3" align="center">
+      <%= link_to("Request additional photography", image_request_link(document), style: "color: white;", target: "_blank") %>
     </div>
+
     <div id="ycba-thumbnail-controls" class="col-xs-2" align="center"></div>
   </div>
 
