@@ -290,8 +290,12 @@ body {
   padding-top: 8px;
 }
 
-#ycba-request-photography {
+#ycba-request-photography, #print-object, #ycba-downloads {
   //padding-top: 10px;
+  margin-right: 10px;
+  margin-left: 10px;
+  margin-bottom:4px;
+  white-space: normal;
 }
 
 @media (max-width: 768px) {

@@ -25,24 +25,27 @@
     <div id="ycba-main-image-caption" class="col-xs-12" align="center" aria-live="polite"></div>
   </div>
 
+  <div class="row__outer">
+    <div class="imagescroll">
+      <div class="row__inner" id="ycba-thumbnail-row-inner"></div>
+    </div>
+  </div>
+
   <div class="row">
-    <div id="ycba-image-rights" class="col-xs-2" align="center"><%= display_rights(document) %></div>
-    <div id="ycba-request-photography" class="col-xs-2" align="center">
-      <%= link_to("Request additional photography", image_request_link(document)) %>
+    <div id="ycba-request-photography" class="btn btn-primary col-xs-3" align="center">
+      <%= link_to("Request additional photography", image_request_link(document), style: "color: white;", target: "_blank") %>
     </div>
-    <div id="print-object" class="col-xs-2" align="center">
-      <%= link_to("Print Object", controller: "print", action: "show", id: @id, size: "1") %>
+    <div id="print-object" class="btn btn-primary col-xs-3" align="center">
+      <%= link_to("Print Object", "/print/#{@id}/1", style: "color: white;", target: "_blank") %>
     </div>
-    <div id="ycba-downloads" class="col-xs-2" align="center">
+    <div id="ycba-downloads-container" align="center">
       <%= render partial: "downloads", locals: {document: document} %>
     </div>
     <div id="ycba-thumbnail-controls" class="col-xs-2" align="center"></div>
   </div>
 
-  <div class="row__outer">
-    <div class="imagescroll">
-      <div class="row__inner" id="ycba-thumbnail-row-inner"></div>
-    </div>
+  <div class="row">
+    <div id="ycba-image-rights" class="col-xs-12" align="center"><%= display_rights(document) %></div>
   </div>
 
 </div>
@@ -51,8 +54,8 @@
 <div id="non-image-section">
   <div class="row">
     <div id="ycba-request-photography" class="col-xs-12" align="center">
-      <%= link_to("Request photography", image_request_link(document)) %>&nbsp;|&nbsp;
-      <%= link_to("Print Object", controller: "print", action: "show", id: @id, size: "0") %>
+      <%= link_to("Request photography", image_request_link(document), target: "_blank",) %>&nbsp;|&nbsp;
+      <%= link_to("Print Object", controller: "print", action: "show", id: @id, size: "0", target: "_blank") %>
     </div>
   </div>
 </div>

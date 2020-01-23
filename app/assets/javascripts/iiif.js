@@ -235,22 +235,22 @@ function setDLMetadata(index) {
 
     var tiff_info =  "";
     if (tiff) {
-        tiff_info += "<a href='" + dl_url_tiff + "' download='" + dl_name + "'>";
+        tiff_info += "<a href='" + dl_url_tiff + "' download='" + dl_name + "' target=\"_blank\">";
         tiff_info += "<button id='tiff-dl-button' type='button' class='btn btn-primary btn-sm'>TIFF</button>";
         tiff_info += "</a>";
     } else {
-        tiff_info += "<a href='" + dl_url_tiff + "' download='" + dl_name + "'>";
+        tiff_info += "<a href='" + dl_url_tiff + "' download='" + dl_name + "' target=\"_blank\">";
         tiff_info += "<button id='tiff-dl-button' type='button' class='btn btn-primary btn-sm' disabled>TIFF</button>";
         tiff_info += "</a>";
     }
     $("#tiff-dl-info").text(tiffImageInfo);
     var jpeg_info = "";
     if (suppress_jpeg_dl) {
-        jpeg_info += "<a href='" + dl_url_jpeg + "' download='" + dl_name + "'>";
+        jpeg_info += "<a href='" + dl_url_jpeg + "' download='" + dl_name + "' target=\"_blank\">";
         jpeg_info += "<button id='jpeg-dl-button' type='button' class='btn btn-primary btn-sm' disabled>JPEG</button>";
         jpeg_info += "</a>"
     } else {
-        jpeg_info += "<a href='" + dl_url_jpeg + "' download='" + dl_name + "'>";
+        jpeg_info += "<a href='" + dl_url_jpeg + "' download='" + dl_name + "' target=\"_blank\">";
         jpeg_info += "<button id='jpeg-dl-button' type='button' class='btn btn-primary btn-sm'>JPEG</button>";
         jpeg_info += "</a>"
     }
@@ -336,22 +336,22 @@ function setMainImage(image, index) {
         }
         var tiff_info =  "";
         if (tiff_image) {
-            tiff_info += "<a href='" + dl_url_tiff + "' download='" + dl_name + "'>";
+            tiff_info += "<a href='" + dl_url_tiff + "' download='" + dl_name + "' target=\"_blank\">";
             tiff_info += "<button id='tiff-dl-button' type='button' class='btn btn-primary btn-sm'>TIFF</button>";
             tiff_info += "</a>";
         } else {
-            tiff_info += "<a href='" + dl_url_tiff + "' download='" + dl_name + "'>";
+            tiff_info += "<a href='" + dl_url_tiff + "' download='" + dl_name + "' target=\"_blank\">";
             tiff_info += "<button id='tiff-dl-button' type='button' class='btn btn-primary btn-sm' disabled>TIFF</button>";
             tiff_info += "</a>";
         }
         $("#tiff-dl-info").text(tiffImageInfo);
         var jpeg_info = "";
         if (suppress_jpeg_dl) {
-            jpeg_info += "<a href='" + dl_url_jpeg + "' download='" + dl_name + "'>";
+            jpeg_info += "<a href='" + dl_url_jpeg + "' download='" + dl_name + "' target=\"_blank\">";
             jpeg_info += "<button id='jpeg-dl-button' type='button' class='btn btn-primary btn-sm' disabled>JPEG</button>";
             jpeg_info += "</a>"
         } else {
-            jpeg_info += "<a href='" + dl_url_jpeg + "' download='" + dl_name + "'>";
+            jpeg_info += "<a href='" + dl_url_jpeg + "' download='" + dl_name + "' target=\"_blank\">";
             jpeg_info += "<button id='jpeg-dl-button' type='button' class='btn btn-primary btn-sm'>JPEG</button>";
             jpeg_info += "</a>"
         }
