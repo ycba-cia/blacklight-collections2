@@ -48,7 +48,7 @@
       <% if document["collection_ss"][0] != "Reference Library" %>
         <%= link_to("Request photography", image_request_link(document), target: "_blank") %>&nbsp;|&nbsp;
       <% end %>
-      <%= link_to("Print Object", controller: "print", action: "show", id: @id, size: "0", target: "_blank") %>
+      <%= link_to("Print Object", "/print/#{@id}/1", target: "_blank") %>
     </div>
   </div>
 </div>

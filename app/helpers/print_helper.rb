@@ -30,10 +30,15 @@ module PrintHelper
     if j["sequences"][0].nil? == false && j["sequences"][0]["canvases"][0].nil? == false
       j["sequences"][0]["canvases"].each do |c|
         if c["images"][0].nil? == false && c["images"][0]["resource"].nil? == false
-          images.push(c["images"][0]["resource"]["@id"])
+          i1 = c["images"][0]["resource"]["@id"]
+          i2 = i1.split("/")
+          i2[6] = "700,"
+          i3 = i2.join("/")
+          images.push(i3)
         end
       end
     end
+    #puts images.inspect
     images
   end
 
