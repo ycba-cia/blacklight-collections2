@@ -126,6 +126,18 @@ module PrintHelper
     end
   end
 
+  def print_fields_default_empty(label,field,default)
+    if @document[field].nil?
+      value = default
+    else
+      value = @document[field][0]
+    end
+    s = "<dt>#{label}</dt>"
+    s+= "<dd>#{value}</dd>"
+    return s
+  end
+
+
   def print_newline_fields(label,field)
     if @document[field].nil? == false
       s = "<dt>#{label}</dt>"
