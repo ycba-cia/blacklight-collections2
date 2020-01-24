@@ -79,6 +79,14 @@ class SolrDocument
     self['exhibition_history_ss']
   end
 
+  def dummy_ort_marc_acc
+    self['id']
+  end
+
+  def dummy_ort_lido_acc
+    self['id']
+  end
+
   #not yet implemented (marc)
   def onview_acc
     self['onview_ss']

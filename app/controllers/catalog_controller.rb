@@ -154,6 +154,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'physical_ss',  :label => 'Dimensions', if: :display_lido_field?
     config.add_show_field 'description_ss', :label => 'Inscription(s)/Marks/Lettering', helper_method: 'render_citation', if: :display_lido_field?
     config.add_show_field 'credit_line_ss', :label => 'Credit Line', if: :display_lido_field?
+    config.add_show_field 'dummy_ort_lido_acc', :accessor => 'dummy_ort_lido_acc', :label => 'Copyright Status', helper_method: 'render_copyright_status', if: :display_lido_accessor_field?
     config.add_show_field 'callnumber_ss', helper_method: 'render_aeon_from_call_number', :label => 'Accession Number', if: :display_lido_field?
     config.add_show_field 'type_ss', :label => 'Classification', if: :display_lido_field?
     config.add_show_field 'collection_ss', :label => 'Collection', if: :display_lido_field?
@@ -177,6 +178,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'callnumber_acc', accessor: 'callnumber_acc', helper_method: 'render_aeon_from_call_number', :label => 'Call Number', separator_options: break_separator, if: :display_marc_accessor_field?
     config.add_show_field 'credit_line_acc', accessor: 'credit_line_acc',:label => 'Credit Line', if: :display_marc_accessor_field?
     #aeon inserted here, see _show_marc_html.erb
+    config.add_show_field 'dummy_ort_marc_acc', :accessor => 'dummy_ort_marc_acc', :label => 'Copyright Status', helper_method: 'render_copyright_status', if: :display_marc_accessor_field?
     config.add_show_field 'orbis_link_acc', accessor: 'orbis_link_acc', :label => 'Full Orbis Record', helper_method: 'render_as_link', if: :display_marc_accessor_field?
     config.add_show_field 'resourceURL_ss', :label => 'Related Content', helper_method: 'render_related_content', if: :render_related_content?, if: :display_marc_field?
     config.add_show_field 'type_acc', accessor: 'type_acc', :label => 'Classification', if: :display_marc_accessor_field?
@@ -293,6 +295,12 @@ class CatalogController < ApplicationController
     #NOTE: good diagnostic
     #puts "#{context.accessor} ****> #{doc.send(context.accessor)}"
     display_marc_field?(context, doc) and !doc.send(context.accessor).nil?
+  end
+
+  def display_lido_accessor_field?(context, doc)
+    #NOTE: good diagnostic
+    #puts "#{context.accessor} ****> #{doc.send(context.accessor)}"
+    display_lido_field?(context, doc) and !doc.send(context.accessor).nil?
   end
 
   def render_related_content?(context,doc)

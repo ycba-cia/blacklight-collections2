@@ -60,6 +60,7 @@ module ApplicationHelper
     #http://localhost:3000/?f[topic_facet][]=woman #example
     #facet = "topic_facet"
     full_author = options[:document][:auth_author_display_ss]
+    full_author ||= options[:document][:auth_author_ss]
     options[:value].each_with_index.map { |v, i| "<a href=\"/?f[author_ss][]=#{v}\">#{full_author[i]}</a> | " }.join('</br>').chomp(" | ").html_safe
   end
 
@@ -152,6 +153,20 @@ module ApplicationHelper
       links.append(link_to "#{link}", "#{link}")
     }
     links.join('<br/>').html_safe
+  end
+
+  def render_copyright_status options={}
+    label = "Unknown"
+    label = options[:document]['ort_ss'][0] if options[:document]['ort_ss']
+    #puts "LABEL:#{label}"
+    link = options[:document]['rightsURL_ss']
+    html = ""
+    if link
+      html = link_to(label, link[0], target: "_blank", rel: "nofollow")
+    else
+      html = label
+    end
+    html
   end
 
   def cds_info_url(id, type = 2)
