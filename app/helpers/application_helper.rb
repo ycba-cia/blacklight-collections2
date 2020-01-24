@@ -156,17 +156,12 @@ module ApplicationHelper
   end
 
   def render_copyright_status options={}
-    label = "Unknown"
+    label = "Copyright Information"
     label = options[:document]['ort_ss'][0] if options[:document]['ort_ss']
     #puts "LABEL:#{label}"
-    link = options[:document]['rightsURL_ss']
-    html = ""
-    if link
-      html = link_to(label, link[0], target: "_blank", rel: "nofollow")
-    else
-      html = label
-    end
-    html
+    link = "http://hdl.handle.net/10079/c59zwbm"
+    link = options[:document]['rightsURL_ss'][0] if options[:document]['rightsURL_ss']
+    link_to(label, link, target: "_blank", rel: "nofollow")
   end
 
   def cds_info_url(id, type = 2)
