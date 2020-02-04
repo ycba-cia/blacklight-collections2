@@ -1,7 +1,9 @@
 language: ruby
 rvm:
 - 2.4.4
-before_install: curl -s -L secure.globalsign.com/cacert/gsrsaovsslca2018.crt | sudo tee -a /etc/ssl/certs/ca-certificates.crt
+before_install:
+  - cp config/ciaindex-britishart-yale-edu.pem config/ciaindex-britishart-yale-edu.pem
+  - more config/ciaindex-britishart-yale-edu.pem | sudo tee -a /etc/ssl/certs/ca-certificates.crt
 addons:
   postgresql: '9.6'
   apt:
