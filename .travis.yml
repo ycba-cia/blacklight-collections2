@@ -3,6 +3,9 @@ rvm:
 - 2.4.4
 addons:
   postgresql: '9.6'
+  apt:
+    packages:
+      - ca-certificates
 services:
 - postgresql
 before_script:
