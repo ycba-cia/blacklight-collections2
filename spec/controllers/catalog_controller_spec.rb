@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe CatalogController, :type => :controller do
-  
+=begin
   describe "GET #index" do
     it "responds successfully with an HTTP 200 status code" do
       get :index
@@ -9,5 +9,5 @@ RSpec.describe CatalogController, :type => :controller do
       expect(response).to have_http_status(200)
     end
   end
-
+=end
 end
