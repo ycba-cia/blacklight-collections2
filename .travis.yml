@@ -7,6 +7,9 @@ before_install:
   - rvm reinstall ruby-2.4.4 --with-openssl-dir=/usr/local
 addons:
   postgresql: '9.6'
+  apt:
+    packages:
+      - openssl
 services:
 - postgresql
 before_script:
