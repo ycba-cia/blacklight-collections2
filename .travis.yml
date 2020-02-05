@@ -1,16 +1,8 @@
 language: ruby
 rvm:
 - 2.4.4
-before_install:
-  - sudo apt-get update
-  - sudo apt-get -y install ca-certificates
-  - sudo apt-get -y install openssl
-  - rvm reinstall ruby-2.4.4 
 addons:
   postgresql: '9.6'
-  apt:
-    packages:
-      - openssl
 services:
 - postgresql
 before_script:
