@@ -10,6 +10,7 @@ default: &default
   username: blcoll_user
   password: <%= ENV['DBPW1'] %>
   host: blacklight-collections-db.cqrpdybhswtx.us-east-1.rds.amazonaws.com
+  sslca: config/rds-ca-2019-root.pem
   port: 3306
 
 development:
