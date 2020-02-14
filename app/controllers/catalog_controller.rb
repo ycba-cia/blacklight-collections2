@@ -165,7 +165,6 @@ class CatalogController < ApplicationController
     config.add_show_field 'topic_frameStatus_ss', :label => 'Frame Status', link_to_search: true, separator_options: break_separator, if: :display_lido_field?
     config.add_show_field 'topic_frameOrnament_ss', :label => 'Frame Ornament', separator_options: break_separator, if: :display_lido_field?
     config.add_show_field 'topic_frameFeature_ss', :label => 'Frame Feature', link_to_search: true, separator_options: break_separator, if: :display_lido_field?
-    config.add_show_field 'topic_frameQuality_ss', :label => 'Frame Quality', link_to_search: true, separator_options: break_separator, if: :display_lido_field?
     config.add_show_field 'topic_frameStyle_ss', :label => 'Frame Style', link_to_search: true, separator_options: break_separator, if: :display_lido_field?
     config.add_show_field 'onview_ss', :label => 'Currently On View', if: :display_lido_field?
     config.add_show_field 'curatorial_comment_ss', :label => 'Curatorial Comment', helper_method: 'combine_curatorial_comments', if: :display_lido_field?
