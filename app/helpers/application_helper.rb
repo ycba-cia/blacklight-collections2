@@ -345,6 +345,7 @@ module ApplicationHelper
     ENV["BIB_LOOKUP"]
   end
   #aeon methods
+  #For P&D, IA, and RB when not "on view"
   def create_aeon_link(doc,call_number)
     #aeon = "https://aeon-mssa.library.yale.edu/aeon.dll?" #production
     #aeon = "https://aeon-test-mssa.library.yale.edu/aeon.dll?" #test
@@ -354,6 +355,7 @@ module ApplicationHelper
     action = 10
     form = 20
     value = "GenericRequestMonograph"
+    value = "GenericRequestPD" if get_one_value(doc["collection_ss"]) == "Prints and Drawings"
     site = "YCBA"
     callnumber = call_number
     title = get_one_value(doc["title_ss"]).gsub("'","%27")
@@ -401,7 +403,7 @@ module ApplicationHelper
       #anchor_tag = "<a href='#{pdrequest}'>Request for onview object</a>"
       return ""
     else
-      anchor_tag = "<a href='#{aeon}'>Request for use in the YCBA Study Room</a>"
+      anchor_tag = "<a href='#{aeon}' target='_blank'>Request for use in the YCBA Study Room</a>"
     end
     return anchor_tag.html_safe
   end
