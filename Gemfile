@@ -87,6 +87,6 @@ gem 'blacklight_range_limit', '6.3.1'
 
 gem 'rails_12factor', group: :production
 
-gem 'nokogiri', '~> 1.10.4'
+gem 'nokogiri', '~> 1.10.8'
 
 gem 'bourbon'
