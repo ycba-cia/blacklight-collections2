@@ -101,7 +101,7 @@ class CatalogController < ApplicationController
     config.add_facet_field 'collection_ss', :label => 'Collection', :limit => 20, :collapse => false, :sort => 'count'
     config.add_facet_field 'author_ss', label: 'Creator', :tag => 'author_ss', :ex => 'author_ss', :limit => 20
     config.add_facet_field 'earliestDate_is', :label => 'Date', single: true,range: { segments: false }
-    config.add_facet_field 'onview_ss', :label => 'Currently On View'
+    config.add_facet_field 'detailed_onview_ss', :label => 'Currently On View'
     config.add_facet_field 'rights_ss', label: 'Item Rights'
     config.add_facet_field 'has_image_ss', :label => 'Image Available'
     config.add_facet_field 'type_ss', :label => 'Classification', :limit => 20
@@ -155,7 +155,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'description_ss', :label => 'Inscription(s)/Marks/Lettering', helper_method: 'render_citation', if: :display_lido_field?
     config.add_show_field 'credit_line_ss', :label => 'Credit Line', if: :display_lido_field?
     config.add_show_field 'dummy_ort_lido_acc', :accessor => 'dummy_ort_lido_acc', :label => 'Copyright Status', helper_method: 'render_copyright_status', if: :display_lido_accessor_field?
-    config.add_show_field 'callnumber_ss', helper_method: 'render_aeon_from_call_number', :label => 'Accession Number', if: :display_lido_field?
+    config.add_show_field 'callnumber_ss', :label => 'Accession Number', if: :display_lido_field?
     config.add_show_field 'type_ss', :label => 'Classification', if: :display_lido_field?
     config.add_show_field 'collection_ss', :label => 'Collection', if: :display_lido_field?
     config.add_show_field 'topic_ss', :label => 'Subject Terms', link_to_search: 'topic_facet', separator_options: break_separator, helper_method: 'sort_values_and_link_to_facet', if: :display_lido_field?
@@ -166,7 +166,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'topic_frameOrnament_ss', :label => 'Frame Ornament', separator_options: break_separator, if: :display_lido_field?
     config.add_show_field 'topic_frameFeature_ss', :label => 'Frame Feature', link_to_search: true, separator_options: break_separator, if: :display_lido_field?
     config.add_show_field 'topic_frameStyle_ss', :label => 'Frame Style', link_to_search: true, separator_options: break_separator, if: :display_lido_field?
-    config.add_show_field 'onview_ss', :label => 'Currently On View', if: :display_lido_field?
+    config.add_show_field 'detailed_onview_ss',helper_method: 'render_aeon_from_access', :label => 'Access', if: :display_lido_field?
     config.add_show_field 'curatorial_comment_ss', :label => 'Curatorial Comment', helper_method: 'combine_curatorial_comments', if: :display_lido_field?
     config.add_show_field 'exhibition_history_ss', :label => 'Exhibition History', helper_method: 'render_exhibitions', if: :display_lido_field?
     config.add_show_field 'citation_txt', :label => 'Publications', helper_method: 'render_citation', if: :display_lido_field?
@@ -180,7 +180,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'publisher_ss', :label => 'Published/Created', separator_options: break_separator, if: :display_marc_field?
     config.add_show_field 'physical_acc', accessor: 'physical_acc', label: 'Physical Description', if: :display_marc_accessor_field?
     config.add_show_field 'collection_acc', accessor: 'collection_acc', label: 'Collection', if: :display_marc_accessor_field?
-    config.add_show_field 'callnumber_acc', accessor: 'callnumber_acc', helper_method: 'render_aeon_from_call_number', :label => 'Call Number', separator_options: break_separator, if: :display_marc_accessor_field?
+    config.add_show_field 'callnumber_acc', accessor: 'callnumber_acc', :label => 'Call Number', separator_options: break_separator, if: :display_marc_accessor_field?
     config.add_show_field 'credit_line_acc', accessor: 'credit_line_acc',:label => 'Credit Line', if: :display_marc_accessor_field?
     #aeon inserted here, see _show_marc_html.erb
     config.add_show_field 'dummy_ort_marc_acc', :accessor => 'dummy_ort_marc_acc', :label => 'Copyright Status', helper_method: 'render_copyright_status', if: :display_marc_accessor_field?
@@ -190,8 +190,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'cartographic_detail_ss', :label => 'Scale', if: :display_marc_field?
     config.add_show_field 'note_acc', accessor: 'note_acc', :label => 'Notes', helper_method: 'render_citation', if: :display_marc_accessor_field?
     config.add_show_field 'marc_contents_ss', label: 'Contents', if: :display_marc_field?
-    #placeholder, onview not indexed presently for marc
-    config.add_show_field 'onview_acc', accessor: 'onview_acc', :label => 'Currently On View', if: :display_marc_field?
+    config.add_show_field 'detailed_onview_acc', accessor: 'detailed_onview_acc', helper_method: 'render_aeon_from_access', :label => 'Access', if: :display_marc_accessor_field?
     config.add_show_field 'exhibition_history_acc', accessor: 'exhibition_history_acc', :label => 'Exhibition History', helper_method: 'render_exhibitions', if: :display_marc_field?
     config.add_show_field 'topic_acc', accessor: 'topic_acc', :label => 'Subject Terms', link_to_search: 'topic_facet', separator_options: break_separator, helper_method: 'sort_values_and_link_to_topic_no_pipes', if: :display_marc_accessor_field?
     config.add_show_field 'form_genre_ss', :label => 'Form/Genre', link_to_search: true, separator_options: break_separator, if: :display_marc_field?

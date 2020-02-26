@@ -17,6 +17,7 @@ module ApplicationHelper
     links.join('<br/>').html_safe
   end
 
+  #deprecated
   def render_aeon_from_call_number options={}
     #method specific to call number
     collection = get_one_value(options[:document][:collection_ss])
@@ -31,11 +32,32 @@ module ApplicationHelper
         if get_one_value(options[:document][:onview_ss]) == "On view"
           values.append(v)
         else
-          values.append(v + " [" + create_aeon_link(options[:document],v.html_safe) + "]")
+          values.append(v + " [" + create_aeon_link(options[:document]) + "]")
         end
       end
     end
     values.join('<br/>').html_safe
+  end
+
+  def render_aeon_from_access options={}
+    #method specific to call number
+    detailed_onview_ss = get_one_value(options[:document][:detailed_onview_ss])
+    puts "D:#{detailed_onview_ss}"
+    values = []
+    options[:value].each do |v|
+      if detailed_onview_ss == "Accessible by request in the Study Room"
+        values.append(v + " [" + create_aeon_link(options[:document]) + "]")
+      elsif detailed_onview_ss == "Accessible in the Reference Library"
+        values.append(v + " [" + hours + "]")
+      else
+        values.append(v)
+      end
+    end
+    values.join('<br/>').html_safe
+  end
+
+  def hours
+    link_to "Hours", "https://britishart.yale.edu/about-us/departments/reference-library-and-archives", target: '_blank'
   end
 
   def sort_values_and_link_to_facet options={}
@@ -346,7 +368,7 @@ module ApplicationHelper
   end
   #aeon methods
   #For P&D, IA, and RB when not "on view"
-  def create_aeon_link(doc,call_number)
+  def create_aeon_link(doc)
     #aeon = "https://aeon-mssa.library.yale.edu/aeon.dll?" #production
     #aeon = "https://aeon-test-mssa.library.yale.edu/aeon.dll?" #test
     aeon = get_aeon_endpoint
@@ -357,7 +379,7 @@ module ApplicationHelper
     value = "GenericRequestMonograph"
     value = "GenericRequestPD" if get_one_value(doc["collection_ss"]) == "Prints and Drawings"
     site = "YCBA"
-    callnumber = call_number
+    callnumber = get_one_value(doc["callnumber_ss"])
     title = get_one_value(doc["title_ss"]).gsub("'","%27")
     author = get_one_value(doc["author_ss"]).gsub("'","%27")
     publishdate = get_one_value(doc["publishDateFacet_ss"])
@@ -396,15 +418,8 @@ module ApplicationHelper
     aeon += "mfhdID=#{mfhd}&"
     aeon += "EADNumber=#{url}"
 
-    onview = location = get_one_value(doc["onview_ss"])
-    if onview == "On view"
-      #suppress this per https://github.com/ycba-cia/blacklight-collections2/issues/78
-      #pdrequest = "mailto:ycba.studyroom@yale.edu?subject=#{information_link_subject_on_view(doc)}"
-      #anchor_tag = "<a href='#{pdrequest}'>Request for onview object</a>"
-      return ""
-    else
-      anchor_tag = "<a href='#{aeon}' target='_blank'>Request for use in the YCBA Study Room</a>"
-    end
+    anchor_tag = "<a href='#{aeon}' target='_blank'>Request</a>"
+
     return anchor_tag.html_safe
   end
 
