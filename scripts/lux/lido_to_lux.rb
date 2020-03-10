@@ -57,7 +57,7 @@ REXML::XPath.each(xml, '//lido:event[lido:eventType/lido:term="production"]/lido
   a.push(h) if h.length > 0
 
 }
-solrjson["agent"] = a if a.length > 0
+solrjson["agents"] = a if a.length > 0
 
 a = Array.new
 REXML::XPath.each(xml, '//lido:titleSet[@lido:type="Repository title"]/lido:appellationValue[@lido:pref="preferred"]') { |x|
@@ -89,6 +89,44 @@ REXML::XPath.each(xml, '//lido:descriptiveMetadata/@xml:lang') { |x|
   a.push(x)
 }
 solrjson["language_of_cataloging"] = a if a.length > 0
+
+a = Array.new
+REXML::XPath.each(xml, '//lido:objectRelationWrap/lido:subjectWrap/lido:subjectSet/lido:subject[@lido:type="description"]/lido:subjectPlace') { |x|
+  i = i + 1
+
+  a1 = Array.new
+  x.elements.each('lido:place/lido:namePlaceSet/lido:appellationValue') { |x2|
+    a1.push(x2.text)
+  }
+  a2 = Array.new
+  x.elements.each('lido:place/lido:placeID[@lido:source="TGN"]') { |x2|
+    #puts "url:#{x2.text}"
+    a2.push("http://vocab.getty.edu/page/tgn/#{x2.text}")
+  }
+
+  a3 = Array.new
+  x.elements.each('lido:place/lido:placeID') { |x2|
+    att = x2.attributes["lido:type"]
+    a3.push(att)
+  }
+
+  h = Hash.new
+  h["place"] = a1 if a1.length > 0
+  h["place_URI"] = a2 if a2.length > 0
+  h["place_type"] = a3 if a3.length > 0
+  a.push(h) if h.length > 0
+
+}
+solrjson["places"] = a if a.length > 0
+
+s = REXML::XPath.first(xml, '//lido:event[lido:eventType/lido:term="production"]/lido:eventDate/lido:date/lido:earliestDate')
+solrjson["date_earliest"] = s.text unless s.nil?
+
+s = REXML::XPath.first(xml, '//lido:event[lido:eventType/lido:term="production"]/lido:eventDate/lido:date/lido:latestDate')
+solrjson["date_latest"] = s.text unless s.nil?
+
+s = REXML::XPath.first(xml, '//lido:event[lido:eventType/lido:term="production"]/lido:eventDate/lido:displayDate')
+solrjson["date_display_string"] = s.text unless s.nil?
 
 solrjson = JSON.pretty_generate(solrjson)
 puts solrjson

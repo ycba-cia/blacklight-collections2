@@ -1,0 +1,25 @@
+FIELDS not in example:
+edition
+edition_ss:[* TO *] && recordtype_ss:"lido"
+"numFound": 0
+        <xsl:for-each select="lido:objectIdentificationWrap/lido:displayStateEditionWrap">
+            <xsl:for-each select="displayState|displayEdition">
+                <xsl:element name="edition_ss">
+
+publisher
+lido:event[lido:eventType/lido:term='production']/lido:eventActor/lido:actorInRole/lido:actor/lido:nameActorSet/lido:appellationValue[@lido:pref='preferred']/lido:roleActor/lido:conceptID[@lido:type='Object related role']/lido:term='publisher'
+
+language_of_work
+
+language_of_cataloging
+lido:descriptiveMetadata[@xml:lang='eng']
+eng
+
+?places hierarchy OK? or is redundant to subject_geographic and subject_geographic_type
+?authorities other than TGN
+
+date_type
+
+subject_name_uri
+?500026846 or http://vocab.getty.edu/page/ulan/500026846
+?authorities other than ULAN
