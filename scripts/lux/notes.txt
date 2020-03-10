@@ -23,3 +23,8 @@ date_type
 subject_name_uri
 ?500026846 or http://vocab.getty.edu/page/ulan/500026846
 ?authorities other than ULAN
+
+subject_topic
+change spreadsheet for and add subject_topic_uri?
+?other than AAT?
+?does 3000x pattern hold?
