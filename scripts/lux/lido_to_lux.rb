@@ -221,6 +221,21 @@ solrjson["restrictions_on_item"] = s.text unless s.nil?
 s = REXML::XPath.first(xml, '//lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet/lido:creditLine[../lido:rightsHolder/lido:legalBodyID/@lido:label="Rights Holder"]')
 solrjson["credit_line"] = s.text unless s.nil?
 
+s = REXML::XPath.first(xml, '//lido:recordWrap/lido:recordInfoSet/lido:recordInfoLink[@lido:formatResource="html"]')
+solrjson["URI_to_item_in_local_system"] = s.text.strip unless s.nil?
+
+a = Array.new
+REXML::XPath.each(xml, '//lido:resourceSet/lido:resourceRepresentation/lido:linkResource') { |x|
+  a.push(x.text.strip)
+}
+solrjson["URI_to_image_of_item"] = a if a.length > 0
+
+a = Array.new
+REXML::XPath.each(xml, '//lido:objectRelationWrap/lido:subjectWrap/lido:subjectSet/lido:subject[@lido:type="description"]/lido:subjectPlace/lido:place[@lido:geographicalEntity="geographic location"]/lido:gml/gml:Point/gml:coordinates') { |x|
+  a.push(x.text)
+}
+solrjson["coordinates"] = a if a.length > 0
+
 solrjson = JSON.pretty_generate(solrjson)
 puts solrjson
 output_filename = "output/#{filename.split("/")[1].split(".")[0]}.json"

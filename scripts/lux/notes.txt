@@ -58,3 +58,10 @@ lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet/lido:creditLi
 =public domain
 there is no as in spreadsheet:
 lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet/lido:rightsHolder/lido:legalBodyID[@lido:label='Rights Holder']/lido:legalBodyName/lido:creditLine
+
+supertypes - level 1,2,3?
+
+hierarchies - skip?
+
+coordinates
+in spreadsheet should these go with subject geographic?
