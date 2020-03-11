@@ -14,6 +14,7 @@ language_of_work
 language_of_cataloging
 lido:descriptiveMetadata[@xml:lang='eng']
 eng
+all english? is mapping needed?
 
 ?places hierarchy OK? or is redundant to subject_geographic and subject_geographic_type
 ?authorities other than TGN
@@ -25,6 +26,35 @@ subject_name_uri
 ?authorities other than ULAN
 
 subject_topic
-change spreadsheet for and add subject_topic_uri?
+change spreadsheet for and addsubject_topic_uri?
 ?other than AAT?
 ?does 3000x pattern hold?
+
+subject_geographic
+change spreadsheet and add a URI?
+redundant to places?
+authorities other than TGN?
+is subject_geographic_type used right
+
+collection_within_repository
+not P&D P&S frames as expected, but Painting in the tms:34 example is this ok?
+
+location_within_repository
+"on view or not" in blacklight coboat only
+blacklight has logic based on collection(collection_within_repository required for this)
+
+location_access_contact
+
+restrictions_on_items
+there is:
+lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet/lido:rightsType/lido:term[@lido:label="url"][../lido:conceptID/@lido:label="object copyright"]')
+=link to rights page
+there is no as in spreadsheet:
+lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet/lido:rightsType/lido:conceptID[@lido:label='object copyright']/lido:term[@lido:label='url']
+
+rights
+there is:
+lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet/lido:creditLine[../lido:rightsHolder/lido:legalBodyID/@lido:label="Rights Holder"]')
+=public domain
+there is no as in spreadsheet:
+lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet/lido:rightsHolder/lido:legalBodyID[@lido:label='Rights Holder']/lido:legalBodyName/lido:creditLine

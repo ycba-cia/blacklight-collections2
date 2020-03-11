@@ -5,7 +5,7 @@ require 'json'
 #local properties file
 #use database to only publish deltas?
 
-filename = "testrecords/lido_34test.xml"
+filename = "testrecords/lido_34public.xml"
 file = File.new(filename)
 xml = REXML::Document.new(file)
 solrjson = Hash.new
@@ -61,7 +61,7 @@ solrjson["agents"] = a if a.length > 0
 
 a = Array.new
 REXML::XPath.each(xml, '//lido:titleSet[@lido:type="Repository title"]/lido:appellationValue[@lido:pref="preferred"]') { |x|
-  a.push(x.text)
+  a.push(x.text.strip)
 }
 
 solrjson["title"] = a if a.length > 0
@@ -179,6 +179,47 @@ REXML::XPath.each(xml, '//lido:objectRelationWrap/lido:subjectWrap/lido:subjectS
 
 }
 solrjson["subjects_topic"] = a if a.length > 0
+
+a = Array.new
+REXML::XPath.each(xml, '//lido:objectRelationWrap/lido:subjectWrap/lido:subjectSet/lido:subject[@lido:type="description"]/lido:subjectPlace') { |x|
+  i = i + 1
+
+  a1 = Array.new
+  x.elements.each('lido:displayPlace') { |x2|
+    a1.push(x2.text)
+  }
+  a2 = Array.new
+  x.elements.each('lido:place/lido:placeID[@lido:source="TGN"]') { |x2|
+    #puts "url:#{x2.text}"
+    a2.push("http://vocab.getty.edu/page/tgn/#{x2.text}")
+  }
+
+  a3 = Array.new
+  x.elements.each('lido:place/lido:placeID') { |x2|
+    att = x2.attributes["lido:type"]
+    a3.push(att)
+  }
+
+  h = Hash.new
+  h["subject_geographic"] = a1 if a1.length > 0
+  h["subject_geographic_uri"] = a2 if a2.length > 0
+  h["subject_geographic_type"] = a3 if a3.length > 0
+  a.push(h) if h.length > 0
+
+}
+solrjson["subjects_geographic"] = a if a.length > 0
+
+s = REXML::XPath.first(xml, '//lido:repositoryLocation/lido:partOfPlace/lido:namePlaceSet/lido:appellationValue[@lido:label="Site"]')
+solrjson["repository"] = s.text unless s.nil?
+
+s = REXML::XPath.first(xml, '//lido:objectClassificationWrap/lido:classificationWrap/lido:classification/lido:term')
+solrjson["collection_within_repository"] = s.text unless s.nil?
+
+s = REXML::XPath.first(xml, '//lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet/lido:rightsType/lido:term[@lido:label="url"][../lido:conceptID/@lido:label="object copyright"]')
+solrjson["restrictions_on_item"] = s.text unless s.nil?
+
+s = REXML::XPath.first(xml, '//lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet/lido:creditLine[../lido:rightsHolder/lido:legalBodyID/@lido:label="Rights Holder"]')
+solrjson["credit_line"] = s.text unless s.nil?
 
 solrjson = JSON.pretty_generate(solrjson)
 puts solrjson
