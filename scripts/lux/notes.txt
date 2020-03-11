@@ -14,7 +14,7 @@ language_of_work
 language_of_cataloging
 lido:descriptiveMetadata[@xml:lang='eng']
 eng
-all english? is mapping needed?
+all english? other language mapping needed?
 
 ?places hierarchy OK? or is redundant to subject_geographic and subject_geographic_type
 ?authorities other than TGN
