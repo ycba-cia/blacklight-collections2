@@ -47,11 +47,14 @@ RSpec.describe BookCoverController, type: :controller do
   end
 =end
 
+  #shut off 3/17/2020, not used (see commented out code in book_cover_controller), there is a 1000/day limit anyway
+=begin
   it 'should return expected librarything book cover' do
     isbn = "0316769487"
     devkey = ENV['LIBRARYTHING_DEV_KEY']
     u = "http://covers.librarything.com/devkey/#{devkey}/medium/isbn/#{isbn}"
     expect(BookCoverController.new.instance_eval{librarything_cover_image(isbn)}).to eq(BookCoverController.new.instance_eval{return_image(u)})
   end
+=end
 
 end
