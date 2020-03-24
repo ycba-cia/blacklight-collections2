@@ -76,13 +76,25 @@ def create_json(id,xml_str)
     x.elements.each('lido:displayActorInRole') { |x2|
       a4.push(x2.text.strip) unless x2.text.nil?
     }
+    a5 = Array.new
+    x.elements.each('lido:actorInRole/lido:actor/lido:nameActorSet/lido:appellationValue[@lido:label="Alpha Sort"]') { |x2|
+      a5.push(x2.text.strip) unless x2.text.nil?
+    }
+    a6 = Array.new
+    x.elements.each('lido:actorInRole/lido:actor') { |x2|
+      unless x2.nil? && x2.attributes["lido:type"].nil?
+        a6.push(x2.attributes["lido:type"])
+      end
+    }
 
     h = Hash.new
-    h["agent"] = a1 if a1.length > 0
-    h["agent_identifier_URI"] = a2 if a2.length > 0
-    h["agent_role_URI"] = a3 if a3.length > 0
-    h["agent_display"] = a4 if a4.length > 0
-    h["agent_sort"] = i
+    #h["agent"] = a1[0] if a1.length > 0
+    h["agent_URI"] = a2 if a2.length > 0
+    h["agent_role_URI"] = a3[0] if a3.length > 0
+    h["agent_display"] = a4[0] if a4.length > 0
+    h["agent_weight"] = i
+    h["agent_sortname"] = a5[0] if a5.length > 0
+    h["agent_type"] = a6[0] if a6.length > 0
     #a.push({"agent" => a1,"agent_identifier_URI" => a2},"agent_role_URI" => a3)
     a.push(h) if h.length > 0
   }
@@ -154,17 +166,17 @@ def create_json(id,xml_str)
         s4 = x3.text.strip unless x3.text.nil?
       }
       h = Hash.new
-      h["dimension_type"] = s2 if s2.length > 0
-      h["dimension_unit"] = s3 if s3.length > 0
-      h["dimension_value"] = s4 if s4.length > 0
+      h["measurement_type"] = s2 if s2.length > 0
+      h["measurement_unit"] = s3 if s3.length > 0
+      h["measurement_value"] = s4 if s4.length > 0
       a2.push(h)
     }
     h2 = Hash.new
-    h2["dimension_display"] = s if s.length > 0
-    h2["dimensions"] = a2 if a2.length > 0
+    h2["measurement_display"] = s if s.length > 0
+    h2["measurements"] = a2 if a2.length > 0
     a.push(h2)
   }
-  solrjson["dimensions"] = a if a.length > 0
+  solrjson["measurements"] = a if a.length > 0
 
   a = Array.new
   xml_root.elements.each('lido:descriptiveMetadata') { |x|
@@ -175,10 +187,13 @@ def create_json(id,xml_str)
       else
         lang = "Non-english"
       end
-      a.push(lang)
+      h = Hash.new
+      h["language_display"] = lang
+      h["language_code"] = code
+      a.push(h)
     end
   }
-  solrjson["language_of_cataloging"] = a if a.length > 0
+  solrjson["language"] = a if a.length > 0
 
   a = Array.new
   xml_desc.elements.each('lido:objectRelationWrap/lido:subjectWrap/lido:subjectSet/lido:subject[@lido:type="description"]/lido:subjectPlace') { |x|
@@ -200,10 +215,25 @@ def create_json(id,xml_str)
       end
     }
 
+    a4 = Array.new
+    x.elements.each('lido:place[@lido:geographicalEntity="geographic location"]/lido:gml/gml:Point/gml:coordinates') { |x2|
+      a4.push(x2.text.strip) unless x2.text.nil?
+    }
+
+    a5 = Array.new
+    x.elements.each('lido:place') { |x2|
+      puts x2
+      unless x2.attributes["lido:geographicalEntity"].nil?
+        a5.push(x2.attributes["lido:geographicalEntity"])
+      end
+    }
+
     h = Hash.new
-    h["place"] = a1 if a1.length > 0
+    h["place_display"] = a1 if a1.length > 0
     h["place_URI"] = a2 if a2.length > 0
-    h["place_type"] = a3 if a3.length > 0
+    h["place_lation_type"] = a3 if a3.length > 0
+    h["place_lation"] = a4 if a4.length > 0
+    h["place_type"] = a5 if a5.length > 0
     a.push(h) if h.length > 0
 
   }
@@ -379,6 +409,7 @@ ids ="34, 80, 107, 120, 423, 471, 1480, 40392, 1489, 3579, 4908, 5001, 5054, 598
     "10676,  11502, 11575, 11612, 15115, 15206, 19850, 21889, 21890, 21898, 22010, 24342, 26383, 26451, 28509, " +
     "29334, 34363, 37054, 38435, 39101, 41109, 46623, 51708, 52176, 55318, 59577, 64421, 21891, 22015, 66162"
 ids = "22015"
+ids = "34"
 q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
 #q = "select local_identifier from metadata_record"
 s = @oai_client.query(q)
