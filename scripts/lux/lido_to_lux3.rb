@@ -33,18 +33,25 @@ def create_json(id,xml_str)
   xml_desc = xml_root.elements['lido:descriptiveMetadata']
 
   a = Array.new
+  a2 = Array.new #identifiers
   xml_desc.elements.each('lido:objectIdentificationWrap/lido:repositoryWrap/lido:repositorySet/lido:workID[@lido:type="inventory number"]') { |x|
     a.push(x.text.strip) unless x.text.nil?
   }
-  solrjson["identifier_external"] = a if a.length > 0
+  h = Hash.new
+  h["identifier_value"] = a[0] if a.length > 0 #not-multivalued
+  h["identifier_type"] = "Accession Number"
+  a2.push(h) if h.length > 0
 
 
   a = Array.new
   xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event/lido:eventID[@lido:type="TMS"][../lido:eventType/lido:term/text() = "production"]') { |x|
-    a.push("tms:#{x.text.strip}") unless x.text.nil?
+    a.push(x.text.strip) unless x.text.nil?
   }
-  #
-  solrjson["identifier_internal"] = a if a.length > 0
+  h = Hash.new
+  h["identifier_value"] = a[0] if a.length > 0 #not-multivalued
+  h["identifier_type"] = "TMS ObjectID"
+  a2.push(h)
+  solrjson["identifiers"] = a2 if a2.length > 0
 
   a = Array.new
   i = 0
@@ -85,25 +92,79 @@ def create_json(id,xml_str)
   xml_desc.elements.each('lido:objectIdentificationWrap/lido:titleWrap/lido:titleSet[@lido:type="Repository title"]/lido:appellationValue[@lido:pref="preferred"]') { |x|
     a.push(x.text.strip) unless x.text.nil?
   }
-  solrjson["title"] = a if a.length > 0
+  solrjson["title_display"] = a if a.length > 0
 
   a = Array.new
   xml_desc.elements.each('lido:objectIdentificationWrap/lido:displayStateEditionWrap/displayState|displayEdition') { |x|
     a.push(x.text.strip) unless x.text.nil?
   }
-  solrjson["edition"] = a if a.length > 0
+  solrjson["edition_display"] = a if a.length > 0
+
+=begin
+  a = Array.new
+  xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term="production"]/lido:eventActor') { |x|
+    x.elements.each('lido:actorInRole/lido:actor/lido:nameActorSet/lido:appellationValue[@lido:pref="preferred"]') { |x2|
+      puts x2.text.strip unless x.text.nil?
+    }
+    x.elements.each('lido:actorInRole/lido:roleActor/lido:conceptID') { |x3|
+      puts x3
+      #puts x3.text.strip unless x.text.nil?
+    }
+    a.push(x.text.strip) unless x.text.nil?
+  }
+  solrjson["imprint_display"] = a if a.length > 0
+=end
 
   a = Array.new
   xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event/lido:eventMaterialsTech/lido:materialsTech/lido:termMaterialsTech/lido:term') { |x|
     a.push(x.text.strip) unless x.text.nil?
   }
-  solrjson["materials"] = a if a.length > 0
+  solrjson["materials_display"] = a if a.length > 0
 
+=begin
   a = Array.new
   xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term="production"]/lido:culture/lido:term') { |x|
     a.push(x.text.strip) unless x.text.nil?
   }
   solrjson["culture"] = a if a.length > 0
+=end
+
+  a = Array.new
+  xml_desc.elements.each('lido:objectIdentificationWrap/lido:objectMeasurementsWrap/lido:objectMeasurementsSet') { |x|
+
+    s = String.new
+    x.elements.each('lido:displayObjectMeasurements') { |x2|
+      s =  x2.text.strip unless x2.text.nil?
+    }
+
+    a2 = Array.new
+    x.elements.each('lido:objectMeasurements/lido:measurementsSet') { |x2|
+      s2 = String.new
+      x2.elements.each('lido:measurementType') { |x3|
+        s2 = x3.text.strip unless x3.text.nil?
+      }
+
+      s3 = String.new
+      x2.elements.each('lido:measurementUnit') { |x3|
+        s3 = x3.text.strip unless x3.text.nil?
+      }
+
+      s4 = String.new
+      x2.elements.each('lido:measurementValue') { |x3|
+        s4 = x3.text.strip unless x3.text.nil?
+      }
+      h = Hash.new
+      h["dimension_type"] = s2 if s2.length > 0
+      h["dimension_unit"] = s3 if s3.length > 0
+      h["dimension_value"] = s4 if s4.length > 0
+      a2.push(h)
+    }
+    h2 = Hash.new
+    h2["dimension_display"] = s if s.length > 0
+    h2["dimensions"] = a2 if a2.length > 0
+    a.push(h2)
+  }
+  solrjson["dimensions"] = a if a.length > 0
 
   a = Array.new
   xml_root.elements.each('lido:descriptiveMetadata') { |x|
@@ -296,7 +357,7 @@ def create_json(id,xml_str)
   solrjson["coordinates"] = a if a.length > 0
 
   solrjson = JSON.pretty_generate(solrjson)
-  puts solrjson
+  #puts solrjson
   output_filename = "output/#{filename.split("/")[1].split(".")[0]}.json"
   File.open(output_filename, 'w') { |file| file.write(solrjson) }
 end
@@ -317,7 +378,7 @@ objects = Array.new
 ids ="34, 80, 107, 120, 423, 471, 1480, 40392, 1489, 3579, 4908, 5001, 5054, 5981, 7632, 7935, 8783, 8867, 9836, " +
     "10676,  11502, 11575, 11612, 15115, 15206, 19850, 21889, 21890, 21898, 22010, 24342, 26383, 26451, 28509, " +
     "29334, 34363, 37054, 38435, 39101, 41109, 46623, 51708, 52176, 55318, 59577, 64421, 21891, 22015, 66162"
-ids = "34,5005"
+ids = "22015"
 q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
 #q = "select local_identifier from metadata_record"
 s = @oai_client.query(q)
