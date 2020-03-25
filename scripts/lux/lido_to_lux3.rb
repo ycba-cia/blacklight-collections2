@@ -349,17 +349,39 @@ def create_json(id,xml_str)
   solrjson["subjects_geographic"] = a if a.length > 0
 =end
 
+  a = Array.new
+  h = Hash.new
   s = String.new
   xml_desc.elements.each('lido:objectIdentificationWrap/lido:repositoryWrap/lido:repositorySet/lido:repositoryLocation/lido:partOfPlace/lido:namePlaceSet/lido:appellationValue[@lido:label="Site"]') { |x|
     s = x.text.strip unless x.text.nil?
   }
-  solrjson["repository"] = s if s.length > 0
+  h["repository"] = s if s.length > 0
 
   s = String.new
   xml_desc.elements.each('lido:objectClassificationWrap/lido:classificationWrap/lido:classification/lido:term') { |x|
     s = x.text.strip unless x.text.nil?
   }
-  solrjson["collection_within_repository"] = s if s.length > 0
+  h["collection_within_repository"] = s if s.length > 0
+
+  s = String.new
+  xml_desc.elements.each('lido:objectIdentificationWrap/lido:repositoryWrap/lido:repositorySet/lido:repositoryLocation/lido:partOfPlace/lido:namePlaceSet/lido:appellationValue[@lido:label="On view or not"]') { |x|
+    s = x.text.strip unless x.text.nil?
+  }
+  h["access_in_repository"] = s if s.length > 0
+
+  s = String.new
+  xml_root.elements.each('lido:administrativeMetadata/lido:recordWrap/lido:recordInfoSet/lido:recordInfoLink[@lido:formatResource="html"]') { |x|
+    s = x.text.strip unless x.text.nil?
+  }
+  h["access_in_repository_URI"] = s if s.length > 0
+
+  a2 = Array.new
+  xml_root.elements.each('lido:administrativeMetadata/lido:resourceWrap/lido:resourceSet/lido:resourceRepresentation/lido:linkResource') { |x|
+    a2.push(x.text.strip) unless x.text.nil?
+  }
+  h["access_to_image_URI"] = a2 if a2.length > 0
+  a.push(h) if h.length > 0
+  solrjson["locations"] = a if a.length > 0
 
   a = Array.new
   h = Hash.new
@@ -382,24 +404,6 @@ def create_json(id,xml_str)
   h["rights"] = s if s.length > 0
   a.push(h) if h.length > 0
   solrjson["usage_rights"] = a if s.length > 0
-
-  s = String.new
-  xml_root.elements.each('lido:administrativeMetadata/lido:recordWrap/lido:recordInfoSet/lido:recordInfoLink[@lido:formatResource="html"]') { |x|
-    s = x.text.strip unless x.text.nil?
-  }
-  solrjson["URI_to_item_in_local_system"] = s if s.length > 0
-
-  a = Array.new
-  xml_root.elements.each('lido:administrativeMetadata/lido:resourceWrap/lido:resourceSet/lido:resourceRepresentation/lido:linkResource') { |x|
-    a.push(x.text.strip) unless x.text.nil?
-  }
-  solrjson["URI_to_image_of_item"] = a if a.length > 0
-
-  a = Array.new
-  xml_root.elements.each('lido:administrativeMetadata/lido:resourceWrap/lido:resourceSet/lido:resourceRepresentation/lido:linkResource') { |x|
-    a.push(x.text.strip) unless x.text.nil?
-  }
-  solrjson["URI_to_image_of_item"] = a if a.length > 0
 
 =begin
   a = Array.new
@@ -433,7 +437,7 @@ ids ="34, 80, 107, 120, 423, 471, 1480, 40392, 1489, 3579, 4908, 5001, 5054, 598
     "29334, 34363, 37054, 38435, 39101, 41109, 46623, 51708, 52176, 55318, 59577, 64421, 21891, 22015, 66162"
 ids = "22015"
 ids = "34"
-ids = "22015,80" #rights
+ids = "22015,80,34"
 q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
 #q = "select local_identifier from metadata_record"
 s = @oai_client.query(q)
