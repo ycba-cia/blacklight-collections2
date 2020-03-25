@@ -92,9 +92,9 @@ def create_json(id,xml_str)
     h["agent_URI"] = a2 if a2.length > 0
     h["agent_role_URI"] = a3[0] if a3.length > 0
     h["agent_display"] = a4[0] if a4.length > 0
-    h["agent_weight"] = i
+    h["agent_relevance"] = i
     h["agent_sortname"] = a5[0] if a5.length > 0
-    h["agent_type"] = a6[0] if a6.length > 0
+    h["agent_type_display"] = a6[0] if a6.length > 0
     #a.push({"agent" => a1,"agent_identifier_URI" => a2},"agent_role_URI" => a3)
     a.push(h) if h.length > 0
   }
@@ -104,13 +104,13 @@ def create_json(id,xml_str)
   xml_desc.elements.each('lido:objectIdentificationWrap/lido:titleWrap/lido:titleSet[@lido:type="Repository title"]/lido:appellationValue[@lido:pref="preferred"]') { |x|
     a.push(x.text.strip) unless x.text.nil?
   }
-  solrjson["title_display"] = a if a.length > 0
+  solrjson["title_display"] = a[0] if a.length > 0
 
   a = Array.new
   xml_desc.elements.each('lido:objectIdentificationWrap/lido:displayStateEditionWrap/displayState|displayEdition') { |x|
     a.push(x.text.strip) unless x.text.nil?
   }
-  solrjson["edition_display"] = a if a.length > 0
+  solrjson["edition_display"] = a[0] if a.length > 0
 
 =begin
   a = Array.new
@@ -222,42 +222,43 @@ def create_json(id,xml_str)
 
     a5 = Array.new
     x.elements.each('lido:place') { |x2|
-      puts x2
       unless x2.attributes["lido:geographicalEntity"].nil?
         a5.push(x2.attributes["lido:geographicalEntity"])
       end
     }
 
     h = Hash.new
-    h["place_display"] = a1 if a1.length > 0
+    h["place_display"] = a1[0] if a1.length > 0
     h["place_URI"] = a2 if a2.length > 0
-    h["place_lation_type"] = a3 if a3.length > 0
-    h["place_lation"] = a4 if a4.length > 0
-    h["place_type"] = a5 if a5.length > 0
+    h["place_lation_type"] = a3[0] if a3.length > 0
+    h["place_lation"] = a4[0] if a4.length > 0
+    h["place_type"] = a5[0] if a5.length > 0
     a.push(h) if h.length > 0
 
   }
   solrjson["places"] = a if a.length > 0
 
+  a = Array.new
   s = String.new
+  h = Hash.new
   xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term="production"]/lido:eventDate/lido:date/lido:earliestDate') { |x|
     s = x.text.strip unless x.text.nil?
   }
-  solrjson["date_earliest"] = s if s.length > 0
-
+  h["date_earliest"] = s if s.length > 0
   s = String.new
   xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term="production"]/lido:eventDate/lido:date/lido:latestDate') { |x|
     s = x.text.strip unless x.text.nil?
   }
-  solrjson["date_latest"] = s if s.length > 0
-
+  h["date_latest"] = s if s.length > 0
   s = String.new
   xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term="production"]/lido:eventDate/lido:displayDate') { |x|
     s = x.text.strip unless x.text.nil?
   }
-  solrjson["date_display_string"] = s if s.length > 0
+  h["date_display"] = s if s.length > 0
+  a.push(h) if h.length > 0
+  solrjson["dates"] = a if a.length > 0
 
-  a = Array.new
+  a = Array.new #for both subject topic and subject name
   xml_desc.elements.each('lido:objectRelationWrap/lido:subjectWrap/lido:subjectSet/lido:subject[@lido:type="description"]/lido:subjectActor') { |x|
     i = i + 1
     #puts "X:#{x}"
@@ -273,13 +274,17 @@ def create_json(id,xml_str)
     }
 
     h = Hash.new
-    h["subject_name"] = a1 if a1.length > 0
-    h["subject_name_URI"] = a2 if a2.length > 0
+    h["subject_heading_display"] = a1[0] if a1.length > 0
+    h["subject_URI"] = a2[0] if a2.length > 0
+    h2 = Hash.new
+    h2["facet_display"] = a1[0] if a1.length > 0
+    h2["facet_type"] = "name"
+    h["subject_facets"] = h2 if h2.length > 0
     a.push(h) if h.length > 0
   }
-  solrjson["subjects_name"] = a if a.length > 0
+  #solrjson["subjects_name"] = a if a.length > 0
 
-  a = Array.new
+  #a = Array.new
   xml_desc.elements.each('lido:objectRelationWrap/lido:subjectWrap/lido:subjectSet/lido:subject[@lido:type="description"]/lido:subjectConcept') { |x|
 
     i = i + 1
@@ -302,13 +307,18 @@ def create_json(id,xml_str)
     }
 
     h = Hash.new
-    h["subject_topic"] = a1 if a1.length > 0
-    h["subject_topic_URI"] = a2 if a2.length > 0
+    h["subject_heading_display"] = a1[0] if a1.length > 0
+    h["subject_URI"] = a2[0] if a2.length > 0
+    h2 = Hash.new
+    h2["facet_display"] = a1[0] if a1.length > 0
+    h2["facet_type"] = "topic"
+    h["subject_facets"] = h2 if h2.length > 0
     a.push(h) if h.length > 0
 
   }
-  solrjson["subjects_topic"] = a if a.length > 0
+  solrjson["subjects"] = a if a.length > 0
 
+=begin
   a = Array.new
   xml_desc.elements.each('lido:objectRelationWrap/lido:subjectWrap/lido:subjectSet/lido:subject[@lido:type="description"]/lido:subjectPlace') { |x|
     i = i + 1
@@ -337,6 +347,7 @@ def create_json(id,xml_str)
 
   }
   solrjson["subjects_geographic"] = a if a.length > 0
+=end
 
   s = String.new
   xml_desc.elements.each('lido:objectIdentificationWrap/lido:repositoryWrap/lido:repositorySet/lido:repositoryLocation/lido:partOfPlace/lido:namePlaceSet/lido:appellationValue[@lido:label="Site"]') { |x|
@@ -409,7 +420,7 @@ ids ="34, 80, 107, 120, 423, 471, 1480, 40392, 1489, 3579, 4908, 5001, 5054, 598
     "10676,  11502, 11575, 11612, 15115, 15206, 19850, 21889, 21890, 21898, 22010, 24342, 26383, 26451, 28509, " +
     "29334, 34363, 37054, 38435, 39101, 41109, 46623, 51708, 52176, 55318, 59577, 64421, 21891, 22015, 66162"
 ids = "22015"
-ids = "34"
+#ids = "34"
 q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
 #q = "select local_identifier from metadata_record"
 s = @oai_client.query(q)
