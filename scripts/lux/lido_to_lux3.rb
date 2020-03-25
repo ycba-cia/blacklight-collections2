@@ -282,9 +282,8 @@ def create_json(id,xml_str)
     h["subject_facets"] = h2 if h2.length > 0
     a.push(h) if h.length > 0
   }
-  #solrjson["subjects_name"] = a if a.length > 0
 
-  #a = Array.new
+  #reuse array from above subject name block
   xml_desc.elements.each('lido:objectRelationWrap/lido:subjectWrap/lido:subjectSet/lido:subject[@lido:type="description"]/lido:subjectConcept') { |x|
 
     i = i + 1
@@ -317,37 +316,6 @@ def create_json(id,xml_str)
 
   }
   solrjson["subjects"] = a if a.length > 0
-
-=begin
-  a = Array.new
-  xml_desc.elements.each('lido:objectRelationWrap/lido:subjectWrap/lido:subjectSet/lido:subject[@lido:type="description"]/lido:subjectPlace') { |x|
-    i = i + 1
-
-    a1 = Array.new
-    x.elements.each('lido:displayPlace') { |x2|
-      a1.push(x2.text) unless x2.text.nil?
-    }
-    a2 = Array.new
-    x.elements.each('lido:place/lido:placeID[@lido:source="TGN"]') { |x2|
-      #puts "url:#{x2.text}"
-      a2.push("http://vocab.getty.edu/page/tgn/#{x2.text}") unless x2.text.nil?
-    }
-
-    a3 = Array.new
-    x.elements.each('lido:place/lido:placeID') { |x2|
-      att = x2.attributes["lido:type"] unless x2.attributes["lido:type"].nil?
-      a3.push(att)
-    }
-
-    h = Hash.new
-    h["subject_geographic"] = a1 if a1.length > 0
-    h["subject_geographic_uri"] = a2 if a2.length > 0
-    h["subject_geographic_type"] = a3 if a3.length > 0
-    a.push(h) if h.length > 0
-
-  }
-  solrjson["subjects_geographic"] = a if a.length > 0
-=end
 
   a = Array.new
   h = Hash.new
@@ -404,14 +372,6 @@ def create_json(id,xml_str)
   h["rights"] = s if s.length > 0
   a.push(h) if h.length > 0
   solrjson["usage_rights"] = a if s.length > 0
-
-=begin
-  a = Array.new
-  xml_desc.elements.each('lido:objectRelationWrap/lido:subjectWrap/lido:subjectSet/lido:subject[@lido:type="description"]/lido:subjectPlace/lido:place[@lido:geographicalEntity="geographic location"]/lido:gml/gml:Point/gml:coordinates') { |x|
-    a.push(x.text.strip) unless x.text.nil?
-  }
-  solrjson["coordinates"] = a if a.length > 0
-=end
 
   solrjson = JSON.pretty_generate(solrjson)
   #puts solrjson
