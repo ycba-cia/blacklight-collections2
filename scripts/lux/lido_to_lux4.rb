@@ -126,20 +126,23 @@ def create_json(id,xml_str)
   }
   solrjson["edition_display"] = a[0] if a.length > 0
 
-=begin
+
   a = Array.new
+  test = String.new
   xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term="production"]/lido:eventActor') { |x|
+    #x.elements.each('lido:displayActorInRole') { |x2|
+    #  a.push(x2.text.strip) unless x2.text.nil?
+    #}
     x.elements.each('lido:actorInRole/lido:actor/lido:nameActorSet/lido:appellationValue[@lido:pref="preferred"]') { |x2|
-      puts x2.text.strip unless x.text.nil?
+      a.push(x2.text.strip) unless x2.text.nil?
     }
-    x.elements.each('lido:actorInRole/lido:roleActor/lido:conceptID') { |x3|
-      puts x3
-      #puts x3.text.strip unless x.text.nil?
+    x.elements.each('lido:actorInRole/lido:roleActor/lido:term[../lido:conceptID[@lido:type="Object related role"]]') { |x2|
+      test = x2.text.strip unless x2.text.nil?
     }
-    a.push(x.text.strip) unless x.text.nil?
+    #a.push(x.text.strip) unless x.text.nil?
   }
-  solrjson["imprint_display"] = a if a.length > 0
-=end
+  solrjson["imprint_display"] = a[0] if a.length > 0 && test=="publisher"
+
 
   a = Array.new
   a1 = Array.new
@@ -429,9 +432,9 @@ end
 #DRIVER
 objects = Array.new
 #ids ="34, 80, 107, 120, 423, 471, 1480, 40392, 1489, 3579, 4908, 5001, 5054, 5981, 7632, 7935, 8783, 8867, 9836, " +
-    "10676,  11502, 11575, 11612, 15115, 15206, 19850, 21889, 21890, 21898, 22010, 24342, 26383, 26451, 28509, " +
-    "29334, 34363, 37054, 38435, 39101, 41109, 46623, 51708, 52176, 55318, 59577, 64421, 21891, 22015, 66162"
-ids = "5005"
+#    "10676,  11502, 11575, 11612, 15115, 15206, 19850, 21889, 21890, 21898, 22010, 24342, 26383, 26451, 28509, " +
+#    "29334, 34363, 37054, 38435, 39101, 41109, 46623, 51708, 52176, 55318, 59577, 64421, 21891, 22015, 66162"
+ids = "21891"
 #ids = "34"
 #ids = "22015,80,34"
 q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
