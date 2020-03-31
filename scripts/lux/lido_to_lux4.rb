@@ -142,10 +142,21 @@ def create_json(id,xml_str)
 =end
 
   a = Array.new
-  xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event/lido:eventMaterialsTech/lido:materialsTech/lido:termMaterialsTech/lido:term') { |x|
-    a.push(x.text.strip) unless x.text.nil?
+  a1 = Array.new
+  h = Hash.new
+  xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event/lido:eventMaterialsTech/lido:displayMaterialsTech') { |x|
+    a1.push(x.text.strip) unless x.text.nil?
   }
-  solrjson["materials_display"] = a if a.length > 0
+  h["materials_display"] = a1[0] if a1.length > 0
+  #solrjson["materials_display"] = a if a.length > 0
+
+  a1 = Array.new
+  xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event/lido:eventMaterialsTech/lido:materialsTech/lido:termMaterialsTech/lido:term') { |x|
+    a1.push(x.text.strip) unless x.text.nil?
+  }
+  h["materials"] = a1 if a1.length > 0
+  a.push(h)
+  solrjson["materials"] = a if a.length > 0
 
 =begin
   a = Array.new
@@ -191,6 +202,17 @@ def create_json(id,xml_str)
     a.push(h2)
   }
   solrjson["measurements"] = a if a.length > 0
+
+  a = Array.new
+  s = String.new
+  xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:displayEvent[../lido:event/lido:eventType/lido:term="Curatorial comment"]') { |x|
+    s = x.text.strip unless x.text.nil?
+  }
+  h = Hash.new
+  h["note_display"] = s if s.length > 0
+  h["note_type"] = "curatorial comment" if s.length > 0
+  a.push(h)
+  solrjson["note"] = a if a.length > 0
 
   a = Array.new
   xml_root.elements.each('lido:descriptiveMetadata') { |x|
@@ -409,7 +431,7 @@ objects = Array.new
 #ids ="34, 80, 107, 120, 423, 471, 1480, 40392, 1489, 3579, 4908, 5001, 5054, 5981, 7632, 7935, 8783, 8867, 9836, " +
     "10676,  11502, 11575, 11612, 15115, 15206, 19850, 21889, 21890, 21898, 22010, 24342, 26383, 26451, 28509, " +
     "29334, 34363, 37054, 38435, 39101, 41109, 46623, 51708, 52176, 55318, 59577, 64421, 21891, 22015, 66162"
-ids = "22015"
+ids = "5005"
 #ids = "34"
 #ids = "22015,80,34"
 q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
