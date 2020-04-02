@@ -67,10 +67,8 @@ def create_json(id,xml_str)
 
   a = Array.new
   i = 0
-  #xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term="production"]/lido:eventActor') { |x|
   xml_desc.elements.each('lido:eventWrap/lido:eventSet') { |x|
     i = i + 1
-
 
     a1 = Array.new
     x.elements.each('lido:event/lido:eventType/lido:term') { |x2|
@@ -78,81 +76,74 @@ def create_json(id,xml_str)
     }
     next if a1.length > 0 && a1[0] == "Curatorial comment"
 
-    #a1 = Array.new
-    #x.elements.each('lido:actorInRole/lido:actor/lido:nameActorSet/lido:appellationValue[@lido:pref="preferred"]') { |x2|
-    #  a1.push(x2.text.strip) unless x2.text.nil?
-    #}
-    #
     a2 = Array.new
-    x.elements.each('lido:event/lido:eventActor/lido:actorInRole/lido:actor/lido:actorID[@lido:type="url"]') { |x2|
-      #puts "url:#{x2.text}"
-      a2.push(x2.text.strip) unless x2.text.nil?
-    }
-
-    a3 = Array.new
-    x.elements.each('lido:event/lido:eventActor/lido:actorInRole/lido:roleActor') { |x2|
-      x2.elements.each('lido:conceptID') { |x3|
+    x.elements.each('lido:event/lido:eventActor') { |x2|
+      a3 = Array.new
+      x2.elements.each('lido:displayActorInRole') { |x3|
+        a3.push(x3.text.strip) unless x3.text.nil?
+      }
+      a4 = Array.new
+      x2.elements.each('lido:actorInRole/lido:actor/lido:nameActorSet/lido:appellationValue[@lido:label="Alpha Sort"]') { |x3|
+        a4.push(x3.text.strip) unless x3.text.nil?
+      }
+      a5 = Array.new
+      x2.elements.each('lido:actorInRole/lido:actor/lido:actorID[@lido:type="url"]') { |x3|
+        a5.push(x3.text.strip) unless x3.text.nil?
+      }
+      a6 = Array.new
+      x2.elements.each('lido:actorInRole/lido:roleActor') { |x3|
+        x3.elements.each('lido:conceptID') { |x4|
+          group = a1[0]
+          type = x4.attributes["lido:type"]
+          source = x4.attributes["lido:source"]
+          label = x4.attributes["lido:label"]
+          x3.elements.each('lido:term') { |x4|
+            unless x4.text.nil?
+              a6.push(x4.text.strip) if group=="production" && type=="Object related role" && source=="AAT"
+              a6.push(x4.text.strip) if group=="exhibition" && label=="exhibition related constituent role" && source=="AAT"
+              a6.push(x4.text.strip) if group=="publication event" && type=="Publication related role" && source=="AAT"
+              a6.push(x4.text.strip) if group=="acquisition" && label=="Acquisition related role" && source=="AAT"
+            end
+          }
+        }
+      }
+      a7 = Array.new
+      x2.elements.each('lido:actorInRole/lido:roleActor/lido:conceptID') { |x3|
+        #puts "X2:#{x2.text.nil?}"
         group = a1[0]
         type = x3.attributes["lido:type"]
         source = x3.attributes["lido:source"]
         label = x3.attributes["lido:label"]
-        x2.elements.each('lido:term') { |x3|
-          unless x3.text.nil?
-            a3.push(x3.text.strip) if group=="production" && type=="Object related role" && source=="AAT"
-            a3.push(x3.text.strip) if group=="exhibition" && label=="exhibition related constituent role" && source=="AAT"
-            a3.push(x3.text.strip) if group=="publication event" && type=="Publication related role" && source=="AAT"
-            a3.push(x3.text.strip) if group=="acquisition" && label=="Acquisition related role" && source=="AAT"
-          end
-        }
+        #puts "group #{group}"
+        #puts "type: #{type}"
+        #puts "source: #{source}"
+        #puts "label: #{label}"
+        unless x3.text.nil?
+          aat_uri = normalize_aat(x3.text.strip)
+          a7.push(aat_uri) if group=="production" && type=="Object related role" && source=="AAT"
+          a7.push(aat_uri) if group=="exhibition" && label=="exhibition related constituent role" && source=="AAT"
+          a7.push(aat_uri) if group=="publication event" && type=="Publication related role" && source=="AAT"
+          a7.push(aat_uri) if group=="acquisition" && label=="Acquisition related role" && source=="AAT"
+        end
       }
-
+      a8 = Array.new
+      x2.elements.each('lido:actorInRole/lido:actor') { |x3|
+        unless x3.nil? && x3.attributes["lido:type"].nil?
+          a8.push(x3.attributes["lido:type"])
+        end
+      }
+      h = Hash.new
+      h["agent_display"] = a3[0] if a3.length > 0
+      h["agent_sortname"] = a4[0] if a4.length > 0
+      h["agent_URI"] = a5 if a5.length > 0
+      h["agent_role_display"] = a6[0] if a6.length > 0
+      h["agent_role_URI"] = a7[0] if a7.length > 0
+      h["agent_type_display"] = a8[0] if a8.length > 0
+      h["agent_type_URI"] = a8[0] if a8.length > 0
+      h["agent_relevance"] = i
+      a2.push(h) if h.length > 0
     }
-    a4 = Array.new
-    x.elements.each('lido:event/lido:eventActor/lido:displayActorInRole') { |x2|
-      a4.push(x2.text.strip) unless x2.text.nil?
-    }
-    a5 = Array.new
-    x.elements.each('lido:event/lido:eventActor/lido:actorInRole/lido:actor/lido:nameActorSet/lido:appellationValue[@lido:label="Alpha Sort"]') { |x2|
-      a5.push(x2.text.strip) unless x2.text.nil?
-    }
-    a6 = Array.new
-    x.elements.each('lido:event/lido:eventActor/lido:actorInRole/lido:actor') { |x2|
-      unless x2.nil? && x2.attributes["lido:type"].nil?
-        a6.push(x2.attributes["lido:type"])
-      end
-    }
-
-    a7 = Array.new
-    x.elements.each('lido:event/lido:eventActor/lido:actorInRole/lido:roleActor/lido:conceptID') { |x2|
-      #puts "X2:#{x2.text.nil?}"
-      group = a1[0]
-      type = x2.attributes["lido:type"]
-      source = x2.attributes["lido:source"]
-      label = x2.attributes["lido:label"]
-      #puts "group #{group}"
-      #puts "type: #{type}"
-      #puts "source: #{source}"
-      #puts "label: #{label}"
-      unless x2.text.nil?
-        aat_uri = normalize_aat(x2.text.strip)
-        a7.push(aat_uri) if group=="production" && type=="Object related role" && source=="AAT"
-        a7.push(aat_uri) if group=="exhibition" && label=="exhibition related constituent role" && source=="AAT"
-        a7.push(aat_uri) if group=="publication event" && type=="Publication related role" && source=="AAT"
-        a7.push(aat_uri) if group=="acquisition" && label=="Acquisition related role" && source=="AAT"
-      end
-    }
-
-    h = Hash.new
-    h["agent_display"] = a4 if a4.length > 0
-    h["agent_sortname"] = a5 if a5.length > 0
-    h["agent_URI"] = a2 if a2.length > 0
-    h["agent_role_display"] = a3 if a3.length > 0
-    h["agent_role_URI"] = a7 if a7.length > 0
-    h["agent_type_display"] = a6 if a6.length > 0
-    h["agent_relevance"] = i
-    h["agent_group"] = a1[0] if a1.length > 0 #for testing
-    #a.push({"agent" => a1,"agent_identifier_URI" => a2},"agent_role_URI" => a3)
-    a.push(h) if h.length > 0
+    a.push(a2) if a2.length > 0
   }
   solrjson["agents"] = a if a.length > 0
 
