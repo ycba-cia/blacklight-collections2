@@ -9,7 +9,7 @@ y = YAML.load_file("#{rails_root}/config/local_env.yml")
 oai_hostname = "oaipmh-prod.ctsmybupmova.us-east-1.rds.amazonaws.com"
 oai_username = "oaipmhuser"
 oai_password = y["oaipmh-prod"]
-oai_databasename = "oaipmh2"
+oai_databasename = "oaipmh"
 sslca = "#{rails_root}/#{y['awscert']}"
 #puts "PW:#{oai_password}"
 puts "SSLCA:#{sslca}"
@@ -90,10 +90,22 @@ def create_json(id,xml_str)
     }
 
     a3 = Array.new
-    x.elements.each('lido:event/lido:eventActor/lido:actorInRole/lido:roleActor[lido:conceptID/@lido:type="Object related role"]/lido:term') { |x2|
-      #puts "X2:#{x2.text.nil?}"
-      #TODO start here thu
-      a3.push(x2.text.strip) unless x2.text.nil?
+    x.elements.each('lido:event/lido:eventActor/lido:actorInRole/lido:roleActor') { |x2|
+      x2.elements.each('lido:conceptID') { |x3|
+        group = a1[0]
+        type = x3.attributes["lido:type"]
+        source = x3.attributes["lido:source"]
+        label = x3.attributes["lido:label"]
+        x2.elements.each('lido:term') { |x3|
+          unless x3.text.nil?
+            a3.push(x3.text.strip) if group=="production" && type=="Object related role" && source=="AAT"
+            a3.push(x3.text.strip) if group=="exhibition" && label=="exhibition related constituent role" && source=="AAT"
+            a3.push(x3.text.strip) if group=="publication event" && type=="Publication related role" && source=="AAT"
+            a3.push(x3.text.strip) if group=="acquisition" && label=="Acquisition related role" && source=="AAT"
+          end
+        }
+      }
+
     }
     a4 = Array.new
     x.elements.each('lido:event/lido:eventActor/lido:displayActorInRole') { |x2|
@@ -104,7 +116,7 @@ def create_json(id,xml_str)
       a5.push(x2.text.strip) unless x2.text.nil?
     }
     a6 = Array.new
-    x.elements.each('lido:actorInRole/lido:actor') { |x2|
+    x.elements.each('lido:event/lido:eventActor/lido:actorInRole/lido:actor') { |x2|
       unless x2.nil? && x2.attributes["lido:type"].nil?
         a6.push(x2.attributes["lido:type"])
       end
@@ -117,10 +129,10 @@ def create_json(id,xml_str)
       type = x2.attributes["lido:type"]
       source = x2.attributes["lido:source"]
       label = x2.attributes["lido:label"]
-      puts "group #{group}"
-      puts "type: #{type}"
-      puts "source: #{source}"
-      puts "label: #{label}"
+      #puts "group #{group}"
+      #puts "type: #{type}"
+      #puts "source: #{source}"
+      #puts "label: #{label}"
       unless x2.text.nil?
         aat_uri = normalize_aat(x2.text.strip)
         a7.push(aat_uri) if group=="production" && type=="Object related role" && source=="AAT"
@@ -131,12 +143,12 @@ def create_json(id,xml_str)
     }
 
     h = Hash.new
-    h["agent_display"] = a4[0] if a4.length > 0
-    h["agent_sortname"] = a5[0] if a5.length > 0
+    h["agent_display"] = a4 if a4.length > 0
+    h["agent_sortname"] = a5 if a5.length > 0
     h["agent_URI"] = a2 if a2.length > 0
-    h["agent_role_display"] = a3[0] if a3.length > 0
-    h["agent_role_URI"] = a7[0] if a7.length > 0
-    h["agent_type_display"] = a6[0] if a6.length > 0
+    h["agent_role_display"] = a3 if a3.length > 0
+    h["agent_role_URI"] = a7 if a7.length > 0
+    h["agent_type_display"] = a6 if a6.length > 0
     h["agent_relevance"] = i
     h["agent_group"] = a1[0] if a1.length > 0 #for testing
     #a.push({"agent" => a1,"agent_identifier_URI" => a2},"agent_role_URI" => a3)
