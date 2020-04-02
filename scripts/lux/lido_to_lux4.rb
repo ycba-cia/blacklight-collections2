@@ -18,6 +18,16 @@ puts "oaipmh ping:#{@oai_client.ping}"
 #TODO: configure the streaming query in the driver
 
 #METHODS
+def get_place_role(s)
+  a = ""
+  a = "depicted or about" if s == "subjectPlace"
+  a
+end
+def get_measurement_authority(s)
+  a = ""
+  a = "http://id.loc.gov/authorities/subjects/sh2008006746" if s == "cm"
+  a
+end
 def normalize_aat(s)
   s = "30000000" + s if s.length == 1
   s = "3000000" + s if s.length == 2
@@ -243,6 +253,7 @@ def create_json(id,xml_str)
       h["measurement_type"] = s2 if s2.length > 0
       h["measurement_unit"] = s3 if s3.length > 0
       h["measurement_value"] = s4 if s4.length > 0
+      h["measurement_URI"] = get_measurement_authority(s3) if get_measurement_authority(s3).length > 0
       a2.push(h)
     }
     h2 = Hash.new
@@ -260,7 +271,15 @@ def create_json(id,xml_str)
   h = Hash.new
   h["note_display"] = s if s.length > 0
   h["note_type"] = "curatorial comment" if s.length > 0
-  a.push(h)
+  a.push(h) if h.length > 0
+  s = String.new
+  xml_root.elements.each('lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet/lido:creditLine[../../lido:rightsWorkSet/lido:rightsType/lido:conceptID/@lido:label="object ownership"]') { |x|
+    s = x.text.strip unless x.text.nil?
+  }
+  h = Hash.new
+  h["note_display"] = s if s.length > 0
+  h["note_type"] = "credit line" if s.length > 0
+  a.push(h) if h.length > 0
   solrjson["note"] = a if a.length > 0
 
   a = Array.new
@@ -315,9 +334,9 @@ def create_json(id,xml_str)
     h = Hash.new
     h["place_display"] = a1[0] if a1.length > 0
     h["place_URI"] = a2 if a2.length > 0
-    h["place_lation_type"] = a3[0] if a3.length > 0
+    h["place_role_display"] = get_place_role(a3[0]) if get_place_role(a3[0]).length > 0
     h["place_lation"] = a4[0] if a4.length > 0
-    h["place_type"] = a5[0] if a5.length > 0
+    h["place_type_display"] = a5[0] if a5.length > 0
     a.push(h) if h.length > 0
 
   }
@@ -339,7 +358,8 @@ def create_json(id,xml_str)
   xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term="production"]/lido:eventDate/lido:displayDate') { |x|
     s = x.text.strip unless x.text.nil?
   }
-  h["date_display"] = s if s.length > 0
+  h["date_display"] = s if s.length > 0 if s.length > 0
+  h["date_role_display"] = "created"
   a.push(h) if h.length > 0
   solrjson["dates"] = a if a.length > 0
 
