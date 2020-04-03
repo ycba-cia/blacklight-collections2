@@ -18,9 +18,29 @@ puts "oaipmh ping:#{@oai_client.ping}"
 #TODO: configure the streaming query in the driver
 
 #METHODS
+def get_access_contact
+  "ycbaonline@yale.edu"
+end
+def get_date_role_authority(s)
+  a = ""
+  a = "http://vocab.getty.edu/page/aat/300435447" if s == "created"
+  a
+end
+def get_agent_type_authority(s)
+  a = ""
+  a = "http://vocab.getty.edu/page/aat/300024979" if s == "person"
+  a = "http://vocab.getty.edu/page/aat/300025969" if s == "corporation"
+  a
+end
 def get_place_role(s)
   a = ""
   a = "depicted or about" if s == "subjectPlace"
+  a
+end
+def get_measurement_type_authority(s)
+  a = ""
+  a = "http://vocab.getty.edu/page/aat/300055647" if s == "width"
+  a = "http://vocab.getty.edu/page/aat/300055644" if s == "height"
   a
 end
 def get_measurement_authority(s)
@@ -149,7 +169,7 @@ def create_json(id,xml_str)
       h["agent_role_display"] = a6[0] if a6.length > 0
       h["agent_role_URI"] = a7[0] if a7.length > 0
       h["agent_type_display"] = a8[0] if a8.length > 0
-      #h["agent_type_URI"] = a8[0] if a8.length > 0
+      h["agent_type_URI"] = get_agent_type_authority(a8[0]) if a8.length > 0
       h["agent_relevance"] = i
       a2.push(h) if h.length > 0
     }
@@ -164,7 +184,7 @@ def create_json(id,xml_str)
   }
   h = Hash.new
   h["title_display"] = a1[0] if a1.length > 0
-  h["title_type"] = "preferred"
+  h["title_type"] = "preferred" if a1.length > 0
   a.push(h)
   a1 = Array.new
   xml_desc.elements.each('lido:objectIdentificationWrap/lido:titleWrap/lido:titleSet/lido:appellationValue[@lido:pref="alternate"]') { |x|
@@ -172,7 +192,7 @@ def create_json(id,xml_str)
   }
   h = Hash.new
   h["title_display"] = a1[0] if a1.length > 0
-  h["title_type"] = "alternate"
+  h["title_type"] = "alternate" if a1.length > 0
   a.push(h)
   solrjson["titles"] = a if a.length > 0
 
@@ -251,9 +271,10 @@ def create_json(id,xml_str)
       }
       h = Hash.new
       h["measurement_type"] = s2 if s2.length > 0
+      h["measurement_type_URI"] = get_measurement_type_authority(s2) if s2.length > 0
       h["measurement_unit"] = s3 if s3.length > 0
+      h["measurement_unit_URI"] = get_measurement_authority(s3) if get_measurement_authority(s3).length > 0
       h["measurement_value"] = s4 if s4.length > 0
-      h["measurement_URI"] = get_measurement_authority(s3) if get_measurement_authority(s3).length > 0
       a2.push(h)
     }
     h2 = Hash.new
@@ -273,7 +294,8 @@ def create_json(id,xml_str)
   h["note_type"] = "curatorial comment" if s.length > 0
   a.push(h) if h.length > 0
   s = String.new
-  xml_root.elements.each('lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet/lido:creditLine[../../lido:rightsWorkSet/lido:rightsType/lido:conceptID/@lido:label="object ownership"]') { |x|
+  #xml_root.elements.each('lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet/lido:creditLine[../../lido:rightsWorkSet/lido:rightsType/lido:conceptID/@lido:label="object ownership"]') { |x|
+  xml_root.elements.each('lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet[lido:rightsType/lido:conceptID/@lido:label="object ownership"]/lido:creditLine') { |x|
     s = x.text.strip unless x.text.nil?
   }
   h = Hash.new
@@ -336,7 +358,7 @@ def create_json(id,xml_str)
     h["place_URI"] = a2 if a2.length > 0
     h["place_role_display"] = get_place_role(a3[0]) if get_place_role(a3[0]).length > 0
     h["place_lation"] = a4[0] if a4.length > 0
-    h["place_type_display"] = a5[0] if a5.length > 0
+    #h["place_type_display"] = a5[0] if a5.length > 0 #suppressed until better metadata
     a.push(h) if h.length > 0
 
   }
@@ -359,7 +381,8 @@ def create_json(id,xml_str)
     s = x.text.strip unless x.text.nil?
   }
   h["date_display"] = s if s.length > 0 if s.length > 0
-  h["date_role_display"] = "created"
+  h["date_role_display"] = "created" if s.length > 0
+  h["date_role_URI"] = get_date_role_authority(h["date_role_display"]) if s.length > 0
   a.push(h) if h.length > 0
   solrjson["dates"] = a if a.length > 0
 
@@ -389,6 +412,7 @@ def create_json(id,xml_str)
     h2 = Hash.new
     h2["facet_display"] = a1[0] if a1.length > 0
     h2["facet_type"] = "person"
+    h2["facet_URI"] = a2[0] if a2.length > 0
     h2["facet_role_display"] = "depicted or about"
     h["subject_facets"] = h2 if h2.length > 0
     a.push(h) if h.length > 0
@@ -457,6 +481,7 @@ def create_json(id,xml_str)
     a2.push(x.text.strip) unless x.text.nil?
   }
   h["access_to_image_URI"] = a2 if a2.length > 0
+  h["access_contact_in_repository"] = get_access_contact
   a.push(h) if h.length > 0
   solrjson["locations"] = a if a.length > 0
 
@@ -501,11 +526,11 @@ end
 
 #DRIVER
 objects = Array.new
-ids ="34, 80, 107, 120, 423, 471, 1480, 40392, 1489, 3579, 4908, 5001, 5054, 5981, 7632, 7935, 8783, 8867, 9836, " +
-    "10676,  11502, 11575, 11612, 15115, 15206, 19850, 21889, 21890, 21898, 22010, 24342, 26383, 26451, 28509, " +
-    "29334, 34363, 37054, 38435, 39101, 41109, 46623, 51708, 52176, 55318, 59577, 64421, 21891, 22015, 66162"
+#ids ="34, 80, 107, 120, 423, 471, 1480, 40392, 1489, 3579, 4908, 5001, 5054, 5981, 7632, 7935, 8783, 8867, 9836, " +
+#    "10676,  11502, 11575, 11612, 15115, 15206, 19850, 21889, 21890, 21898, 22010, 24342, 26383, 26451, 28509, " +
+#    "29334, 34363, 37054, 38435, 39101, 41109, 46623, 51708, 52176, 55318, 59577, 64421, 21891, 22015, 66162"
 #ids = "21891"
-#ids = "107"
+ids = "34,80"
 #ids = "22015,5005,34"
 q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
 #q = "select local_identifier from metadata_record"
