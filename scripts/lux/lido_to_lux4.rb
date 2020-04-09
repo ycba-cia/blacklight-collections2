@@ -18,6 +18,39 @@ puts "oaipmh ping:#{@oai_client.ping}"
 #TODO: configure the streaming query in the driver
 
 #METHODS
+def get_primary_supertype(s)
+  d2 = Array.new
+  d2.push("Painting")
+  d2.push("Brass Rubbing")
+  d2.push("Drawing & Watercolor")
+  d2.push("Drawing & Watercolor-Architectural")
+  d2.push("Drawing & Watercolor-Miniature")
+  d2.push("Drawing & Watercolor-Sketchbook")
+  d2.push("Photograph")
+  d2.push("Poster")
+  d2.push("Print")
+  d2.push("Print-printing-plate")
+  d3 = Array.new
+  d3.push("Ceramic")
+  d3.push("Model")
+  d3.push("Painted Object")
+  d3.push("Sculpture")
+  d3.push("Silver")
+  d3.push("Wedgwood")
+  d3.push("Paint Box")
+
+  d1 = "X-Dimensional Object"
+  d1 = "Two-Dimensional Object" if d2.include?(s)
+  d1 = "Three-Dimensional Object" if d3.include?(s)
+  d1
+end
+def get_collection(s)
+  c = ""
+  c = "Frames" if s == "ycba:frames"
+  c = "Prints and Drawings" if s == "ycba:pd"
+  c = "Paintings and Sculpture" if s == "ycba:ps"
+  c
+end
 def get_access_contact
   "ycbaonline@yale.edu"
 end
@@ -59,7 +92,7 @@ def normalize_aat(s)
   s = "3" + s if s.length == 8
   "http://vocab.getty.edu/page/aat/#{s}"
 end
-def create_json(id,xml_str)
+def create_json(id,xml_str,set_spec)
   filename = "testrecords/lido_#{id}_public.xml"
   #file = File.new(filename)
   #xml = REXML::Document.new(file)
@@ -83,6 +116,11 @@ def create_json(id,xml_str)
   h["identifier_display"] = "YCBA #{a[0]}" if a.length > 0 #not-multivalued
   h["identifier_type"] = "Accession Number"
   a2.push(h) if h.length > 0
+  h = Hash.new
+  h["identifier_value"] = a[0] if a.length > 0 #not-multivalued
+  h["identifier_display"] = "YCBA_#{a[0]}" if a.length > 0 #not-multivalued
+  h["identifier_type"] = "system"
+  a2.push(h) if h.length > 0
 
 
   a = Array.new
@@ -98,7 +136,7 @@ def create_json(id,xml_str)
   a = Array.new
   i = 0
   xml_desc.elements.each('lido:eventWrap/lido:eventSet') { |x|
-    i = i + 1
+    #i = i + 1
 
     a1 = Array.new
     x.elements.each('lido:event/lido:eventType/lido:term') { |x2|
@@ -163,6 +201,7 @@ def create_json(id,xml_str)
         end
       }
       h = Hash.new
+      i = i + 1
       h["agent_display"] = a3[0] if a3.length > 0
       h["agent_sortname"] = a4[0] if a4.length > 0
       h["agent_URI"] = a5 if a5.length > 0
@@ -170,7 +209,7 @@ def create_json(id,xml_str)
       h["agent_role_URI"] = a7[0] if a7.length > 0
       h["agent_type_display"] = a8[0] if a8.length > 0
       h["agent_type_URI"] = get_agent_type_authority(a8[0]) if a8.length > 0
-      h["agent_relevance"] = i
+      h["agent_sort"] = i
       a2.push(h) if h.length > 0
     }
     a.push(a2) if a2.length > 0
@@ -458,11 +497,7 @@ def create_json(id,xml_str)
   }
   h["repository"] = s if s.length > 0
 
-  s = String.new
-  xml_desc.elements.each('lido:objectClassificationWrap/lido:classificationWrap/lido:classification/lido:term') { |x|
-    s = x.text.strip unless x.text.nil?
-  }
-  h["collection_within_repository"] = s if s.length > 0
+  h["collection_in_repository"] = get_collection(set_spec) if set_spec.length > 0
 
   s = String.new
   xml_desc.elements.each('lido:objectIdentificationWrap/lido:repositoryWrap/lido:repositorySet/lido:repositoryLocation/lido:partOfPlace/lido:namePlaceSet/lido:appellationValue[@lido:label="On view or not"]') { |x|
@@ -507,6 +542,34 @@ def create_json(id,xml_str)
   a.push(h) if h.length > 0
   solrjson["usage_rights"] = a if s.length > 0
 
+  a = Array.new
+  a2 = Array.new
+  xml_desc.elements.each('lido:objectClassificationWrap/lido:classificationWrap/lido:classification/lido:term') { |x|
+    a.push(x.text.strip) unless x.text.nil?
+  }
+  a.each do |x|
+    h = Hash.new
+    h["supertype"] = get_primary_supertype(x)
+    h["supertype_level"] = 1
+    a2.push(h)
+    h = Hash.new
+    h["supertype"] = x
+    h["supertype_level"] = 2
+    a2.push(h)
+
+  end
+  a = Array.new
+  xml_desc.elements.each('lido:objectClassificationWrap/lido:objectWorkTypeWrap/lido:objectWorkType/lido:term') { |x|
+    a.push(x.text.strip) unless x.text.nil?
+  }
+  a.each do |x|
+    h = Hash.new
+    h["supertype"] = x
+    h["supertype_level"] = 3
+    a2.push(h)
+  end
+  solrjson["supertypes"] = a2 if a2.length > 0
+
   solrjson = JSON.pretty_generate(solrjson)
   #puts solrjson
   output_filename = "output/#{filename.split("/")[1].split(".")[0]}.json"
@@ -521,16 +584,22 @@ def get_xml_from_db(id)
   s.each do |row|
     xml_str = row["xml"]
   end
-  create_json(id,xml_str)
+  q = "select set_spec from record_set_map where local_identifier = #{id}"
+  s = @oai_client.query(q)
+  set_spec = ""
+  s.each do |row|
+    set_spec = row["set_spec"] if row["set_spec"] != "ycba:incomplete"
+  end
+  create_json(id,xml_str,set_spec)
 end
 
 #DRIVER
 objects = Array.new
-#ids ="34, 80, 107, 120, 423, 471, 1480, 40392, 1489, 3579, 4908, 5001, 5054, 5981, 7632, 7935, 8783, 8867, 9836, " +
-#    "10676,  11502, 11575, 11612, 15115, 15206, 19850, 21889, 21890, 21898, 22010, 24342, 26383, 26451, 28509, " +
-#    "29334, 34363, 37054, 38435, 39101, 41109, 46623, 51708, 52176, 55318, 59577, 64421, 21891, 22015, 66162"
+ids ="34, 80, 107, 120, 423, 471, 1480, 40392, 1489, 3579, 4908, 5001, 5054, 5981, 7632, 7935, 8783, 8867, 9836, " +
+    "10676,  11502, 11575, 11612, 15115, 15206, 19850, 21889, 21890, 21898, 22010, 24342, 26383, 26451, 28509, " +
+    "29334, 34363, 37054, 38435, 39101, 41109, 46623, 51708, 52176, 55318, 59577, 64421, 21891, 22015, 66162"
 #ids = "21891"
-ids = "34,80"
+#ids = "34,80"
 #ids = "22015,5005,34"
 q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
 #q = "select local_identifier from metadata_record"
