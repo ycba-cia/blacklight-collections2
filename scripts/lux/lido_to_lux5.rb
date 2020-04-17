@@ -206,6 +206,7 @@ def create_json(id,xml_str,set_spec)
       h["agent_sortname"] = (a4.length > 0 ? a4[0] : "")
       h["agent_URI"] = (a5.length > 0 ? a5 : [""])
       h["agent_role_display"] = (a6.length > 0 ? a6[0] : "")
+      h["agent_role_code"] = ""
       h["agent_role_URI"] = (a7.length > 0 ? a7 : [""])
       h["agent_type_display"] = (a8.length > 0 ? a8[0] : "")
       h["agent_type_URI"] = (a8.length > 0 ? [get_agent_type_authority(a8[0])] : [""])
@@ -220,6 +221,7 @@ def create_json(id,xml_str,set_spec)
     h["agent_sortname"] = ""
     h["agent_URI"] = [""]
     h["agent_role_display"] = ""
+    h["agent_role_code"] = ""
     h["agent_role_URI"] = [""]
     h["agent_type_display"] = ""
     h["agent_type_URI"] = [""]
@@ -397,11 +399,19 @@ def create_json(id,xml_str,set_spec)
       end
       h = Hash.new
       h["language_display"] = lang
-      h["language_code"] = code
+      h["language_code"] = (code.nil? ? "" : code)
+      h["language_URI"] = [""]
       a.push(h)
     end
   }
-  solrjson["language"] = a if a.length > 0
+  if a.length == 0
+    h = Hash.new
+    h["language_display"] = ""
+    h["language_code"] = ""
+    h["language_URI"] = [""]
+    a.push(h)
+  end
+  solrjson["language"] = a
 
   a = Array.new
   xml_desc.elements.each('lido:objectRelationWrap/lido:subjectWrap/lido:subjectSet/lido:subject[@lido:type="description"]/lido:subjectPlace') { |x|
@@ -436,35 +446,62 @@ def create_json(id,xml_str,set_spec)
     }
 
     h = Hash.new
-    h["place_display"] = a1[0] if a1.length > 0
-    h["place_URI"] = a2 if a2.length > 0
-    h["place_role_display"] = get_place_role(a3[0]) if get_place_role(a3[0]).length > 0
-    h["place_lation"] = a4[0] if a4.length > 0
+    h["place_display"] = (a1.length > 0 ? a1[0] : "")
+    h["place_URI"] = (a2.length > 0 ? a2 : [""])
+    h["place_role_display"] = (get_place_role(a3[0]).length > 0 ? get_place_role(a3[0]) : "")
+    h["place_role_code"] = ""
+    h["place_role_URI"] = ""
+    h["place_type_display"] = ""
+    h["place_type_URI"] = ""
+    h["place_lation"] = (a4.length > 0 ? a4[0] : "")
+    h["place_lation_role_display"] = ""
+    h["place_lation_role_code"] = ""
+    h["place_lation_role_URI"] = ""
+    h["place_lation_uncertainty"] = ""
+    h["place_lation_uncertainty_type"] = ""
     #h["place_type_display"] = a5[0] if a5.length > 0 #suppressed until better metadata
     a.push(h) if h.length > 0
 
   }
+  if a.length==0
+    h = Hash.new
+    h["place_display"] = ""
+    h["place_URI"] = ""
+    h["place_role_display"] = ""
+    h["place_role_code"] = ""
+    h["place_role_URI"] = ""
+    h["place_type_display"] = ""
+    h["place_type_URI"] = ""
+    h["place_lation"] = ""
+    h["place_lation_role_display"] = ""
+    h["place_lation_role_code"] = ""
+    h["place_lation_role_URI"] = ""
+    h["place_lation_uncertainty"] = ""
+    h["place_lation_uncertainty_type"] = ""
+    a.push(h) if h.length > 0
+  end
   solrjson["places"] = a if a.length > 0
 
   a = Array.new
   s = String.new
   h = Hash.new
-  xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term="production"]/lido:eventDate/lido:date/lido:earliestDate') { |x|
-    s = x.text.strip unless x.text.nil?
-  }
-  h["date_earliest"] = s if s.length > 0
-  s = String.new
-  xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term="production"]/lido:eventDate/lido:date/lido:latestDate') { |x|
-    s = x.text.strip unless x.text.nil?
-  }
-  h["date_latest"] = s if s.length > 0
   s = String.new
   xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term="production"]/lido:eventDate/lido:displayDate') { |x|
     s = x.text.strip unless x.text.nil?
   }
-  h["date_display"] = s if s.length > 0 if s.length > 0
-  h["date_role_display"] = "created" if s.length > 0
-  h["date_role_URI"] = get_date_role_authority(h["date_role_display"]) if s.length > 0
+  h["date_display"] = (s.length > 0 ? s : "")
+  xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term="production"]/lido:eventDate/lido:date/lido:earliestDate') { |x|
+    s = x.text.strip unless x.text.nil?
+  }
+  h["date_earliest"] = (s.length > 0 ? s : "")
+  s = String.new
+  xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term="production"]/lido:eventDate/lido:date/lido:latestDate') { |x|
+    s = x.text.strip unless x.text.nil?
+  }
+  h["date_latest"] = (s.length > 0 ? s : "")
+  h["date_role_display"] = (h["date_display"].length > 0 ? "created" : "")
+  h["date_role_code"] = ""
+  h["date_role_URI"] = (h["date_role_display"].length > 0 ? get_date_role_authority(h["date_role_display"]) : "")
   a.push(h) if h.length > 0
   solrjson["dates"] = a if a.length > 0
 
@@ -488,14 +525,17 @@ def create_json(id,xml_str,set_spec)
     }
 
     h = Hash.new
-    h["subject_heading_display"] = a1[0] if a1.length > 0
-    h["subject_heading_sortname"] = a1[0] if a1.length > 0
-    h["subject_URI"] = a2[0] if a2.length > 0
+    h["subject_heading_display"] = (a1.length > 0 ? a1[0] : "")
+    h["subject_heading_sortname"] = (a1.length > 0 ? a1[0] : "")
+    h["subject_URI"] = (a2.length > 0 ? a2 : [""])
     h2 = Hash.new
-    h2["facet_display"] = a1[0] if a1.length > 0
-    h2["facet_type"] = "person"
-    h2["facet_URI"] = a2[0] if a2.length > 0
-    h2["facet_role_display"] = "depicted or about"
+    h2["facet_display"] = (a1.length > 0 ? a1[0] : "")
+    h2["facet_type"] = (a1.length > 0 ? "person" : "")
+    h2["facet_URI"] = (a2.length > 0 ? a2 : [""])
+    h2["facet_role_display"] = (a1.length > 0 ? "depicted or about" : "")
+    h2["facet_role_code"] = ""
+    h2["facet_role_URI"] = [""]
+    h2["facet_role_lation"] = ""
     h["subject_facets"] = h2 if h2.length > 0
     a.push(h) if h.length > 0
   }
@@ -520,16 +560,37 @@ def create_json(id,xml_str,set_spec)
     }
 
     h = Hash.new
-    h["subject_heading_display"] = a1[0] if a1.length > 0
-    h["subject_URI"] = a2[0] if a2.length > 0
+    h["subject_heading_display"] = (a1.length > 0 ? a1[0] : "")
+    h["subject_heading_sortname"] = (a1.length > 0 ? a1[0] : "")
+    h["subject_URI"] = (a2.length > 0 ? a2 : [""])
     h2 = Hash.new
-    h2["facet_display"] = a1[0] if a1.length > 0
-    h2["facet_type"] = "topic"
-    h2["facet_role_display"] = "depicted or about"
+    h2["facet_display"] = (a1.length > 0 ? a1[0] : "")
+    h2["facet_type"] = (a1.length > 0 ? "topic" : "")
+    h2["facet_URI"] = (a2.length > 0 ? a2 : [""])
+    h2["facet_role_display"] = (a1.length > 0 ? "depicted or about" : "")
+    h2["facet_role_code"] = ""
+    h2["facet_role_URI"] = [""]
+    h2["facet_role_lation"] = ""
     h["subject_facets"] = h2 if h2.length > 0
     a.push(h) if h.length > 0
 
   }
+  if a.length == 0
+    h = Hash.new
+    h["subject_heading_display"] = ""
+    h["subject_heading_sortname"] = ""
+    h["subject_URI"] = [""]
+    h2 = Hash.new
+    h2["facet_display"] = ""
+    h2["facet_type"] = ""
+    h2["facet_URI"] = [""]
+    h2["facet_role_display"] = ""
+    h2["facet_role_code"] = ""
+    h2["facet_role_URI"] = [""]
+    h2["facet_role_lation"] = ""
+    h["subject_facets"] = h2
+    a.push(h)
+  end
   solrjson["subjects"] = a if a.length > 0
 
   a = Array.new
@@ -538,28 +599,29 @@ def create_json(id,xml_str,set_spec)
   xml_desc.elements.each('lido:objectIdentificationWrap/lido:repositoryWrap/lido:repositorySet/lido:repositoryLocation/lido:partOfPlace/lido:namePlaceSet/lido:appellationValue[@lido:label="Site"]') { |x|
     s = x.text.strip unless x.text.nil?
   }
-  h["repository"] = s if s.length > 0
+  h["repository"] = (s.length > 0 ? s : "")
 
-  h["collection_in_repository"] = get_collection(set_spec) if set_spec.length > 0
+  h["collection_in_repository"] = (set_spec.length > 0 ? get_collection(set_spec) : "")
 
   s = String.new
   xml_desc.elements.each('lido:objectIdentificationWrap/lido:repositoryWrap/lido:repositorySet/lido:repositoryLocation/lido:partOfPlace/lido:namePlaceSet/lido:appellationValue[@lido:label="On view or not"]') { |x|
     s = x.text.strip unless x.text.nil?
   }
-  h["access_in_repository"] = s if s.length > 0
+  h["access_in_repository"] = (s.length > 0 ? s : "")
 
   s = String.new
   xml_root.elements.each('lido:administrativeMetadata/lido:recordWrap/lido:recordInfoSet/lido:recordInfoLink[@lido:formatResource="html"]') { |x|
     s = x.text.strip unless x.text.nil?
   }
-  h["access_in_repository_URI"] = s if s.length > 0
+  h["access_in_repository_URI"] = (s.length > 0 ? s : [""])
+
+  h["access_contact_in_repository"] = get_access_contact
 
   a2 = Array.new
   xml_root.elements.each('lido:administrativeMetadata/lido:resourceWrap/lido:resourceSet/lido:resourceRepresentation/lido:linkResource') { |x|
     a2.push(x.text.strip) unless x.text.nil?
   }
-  h["access_to_image_URI"] = a2 if a2.length > 0
-  h["access_contact_in_repository"] = get_access_contact
+  h["access_to_image_URI"] = (a2.length > 0 ? a2 : [""])
   a.push(h) if h.length > 0
   solrjson["locations"] = a if a.length > 0
 
@@ -627,7 +689,7 @@ def test_empty
 <lido:conceptID lido:type="URI">http://www.cidoc-crm.org/crm-concepts/#E22</lido:conceptID>
 <lido:term xml:lang="eng">Man-Made Object</lido:term>
 </lido:category>
-<lido:descriptiveMetadata xml:lang="eng"></lido:descriptiveMetadata></lido:lido>'
+<lido:descriptiveMetadata></lido:descriptiveMetadata></lido:lido>'
   set_spec = "ycba:ps"
   return id,xml_str,set_spec
 end
@@ -658,7 +720,7 @@ objects = Array.new
 #ids = "21891"
 #ids = "34,80"
 #ids = "22015,5005,34"
-ids = "34"
+ids = "5005"
 
 q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
 #q = "select local_identifier from metadata_record"
