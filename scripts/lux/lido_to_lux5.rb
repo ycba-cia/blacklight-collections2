@@ -394,13 +394,14 @@ def create_json(id,xml_str,set_spec)
       code = x.attributes["xml:lang"]
       if code == "eng"
         lang = "English"
+        uri = "http://id.loc.gov/vocabulary/languages/eng"
       else
         lang = "Non-english"
       end
       h = Hash.new
       h["language_display"] = lang
       h["language_code"] = (code.nil? ? "" : code)
-      h["language_URI"] = [""]
+      h["language_URI"] = [uri]
       a.push(h)
     end
   }
