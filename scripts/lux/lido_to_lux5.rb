@@ -625,27 +625,36 @@ def create_json(id,xml_str,set_spec)
   a.push(h) if h.length > 0
   solrjson["locations"] = a if a.length > 0
 
+  #TODO
   a = Array.new
   h = Hash.new
   s = String.new
   xml_root.elements.each('lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet/lido:rightsType/lido:term[@lido:label="url"][../lido:conceptID/@lido:label="object copyright"]') { |x|
     s = x.text.strip unless x.text.nil?
   }
-  h["rightsURI"] = s if s.length > 0
+  h["rightsURI"] = (s.length > 0 ? [s] : [""])
 
   s = String.new
   xml_root.elements.each('lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet/lido:rightsHolder/lido:legalBodyName/lido:appellationValue[../../lido:legalBodyID/@lido:label="Rights Holder"]') { |x|
     s = x.text.strip unless x.text.nil?
   }
-  h["rights_notes"] = s if s.length > 0
+  h["rights_notes"] = (s.length > 0 ? [s] : [""])
 
   s = String.new
   xml_root.elements.each('lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet/lido:rightsType/lido:term[not(@*)][../lido:conceptID/@lido:label="object copyright"]') { |x|
     s = x.text.strip unless x.text.nil?
   }
-  h["rights"] = s if s.length > 0
+  h["rights"] = (s.length > 0 ? s : "")
   a.push(h) if h.length > 0
-  solrjson["usage_rights"] = a if s.length > 0
+  if h.length == 0
+    h = Hash.new
+    h["rightsURI"] = [""]
+    h["rights_notes"] = [""]
+    h["rights"] = ""
+    a.push(h) if h.length > 0
+  end
+
+  solrjson["usage_rights"] = a
 
   a = Array.new
   a2 = Array.new
@@ -673,7 +682,27 @@ def create_json(id,xml_str,set_spec)
     h["supertype_level"] = 3
     a2.push(h)
   end
-  solrjson["supertypes"] = a2 if a2.length > 0
+  if a2.length == 0
+    h = Hash.new
+    h["supertype"] = ""
+    h["supertype_level"] = ""
+    a2.push(h)
+  end
+  solrjson["supertypes"] = a2
+
+  a = Array.new
+  h = Hash.new
+  h["hierarchy_type"] = ""
+  h["root_internal_identifier"] = ""
+  h["descendant_count"] = ""
+  h["maximun_depth"] = ""
+  h["sibling_count"] = ""
+  h["ancestor_internal_identifiers"] = ""
+  h["ancestor_URIs"] = ""
+  h["ancestor_display_names"] = ""
+  a.push(h)
+  solrjson["hierarchies"] = a
+
 
   solrjson = JSON.pretty_generate(solrjson)
   #puts solrjson
@@ -708,19 +737,19 @@ def get_xml_from_db(id)
   s.each do |row|
     set_spec = row["set_spec"] if row["set_spec"] != "ycba:incomplete"
   end
-  #id,xml_str,set_spec = test_empty
+  #id,xml_str,set_spec = test_empty #for testing empty field (hijacks id's)
   create_json(id,xml_str,set_spec)
 end
 
 #DRIVER
 objects = Array.new
-#ids ="34, 80, 107, 120, 423, 471, 1480, 40392, 1489, 3579, 4908, 5001, 5054, 5981, 7632, 7935, 8783, 8867, 9836, " +
-#    "10676,  11502, 11575, 11612, 15115, 15206, 19850, 21889, 21890, 21898, 22010, 24342, 26383, 26451, 28509, " +
-#    "29334, 34363, 37054, 38435, 39101, 41109, 46623, 51708, 52176, 55318, 59577, 64421, 21891, 22015, 66162"
+ids ="34, 80, 107, 120, 423, 471, 1480, 40392, 1489, 3579, 4908, 5001, 5054, 5981, 7632, 7935, 8783, 8867, 9836, " +
+    "10676,  11502, 11575, 11612, 15115, 15206, 19850, 21889, 21890, 21898, 22010, 24342, 26383, 26451, 28509, " +
+    "29334, 34363, 37054, 38435, 39101, 41109, 46623, 51708, 52176, 55318, 59577, 64421, 21891, 22015, 66162"
 #ids = "21891"
 #ids = "34,80"
 #ids = "22015,5005,34"
-ids = "5005"
+#ids = "80"
 
 q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
 #q = "select local_identifier from metadata_record"
