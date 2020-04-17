@@ -202,19 +202,31 @@ def create_json(id,xml_str,set_spec)
       }
       h = Hash.new
       i = i + 1
-      h["agent_display"] = a3[0] if a3.length > 0
-      h["agent_sortname"] = a4[0] if a4.length > 0
-      h["agent_URI"] = a5 if a5.length > 0
-      h["agent_role_display"] = a6[0] if a6.length > 0
-      h["agent_role_URI"] = a7[0] if a7.length > 0
-      h["agent_type_display"] = a8[0] if a8.length > 0
-      h["agent_type_URI"] = get_agent_type_authority(a8[0]) if a8.length > 0
-      h["agent_sort"] = i
+      h["agent_display"] = (a3.length > 0 ? a3[0] : "")
+      h["agent_sortname"] = (a4.length > 0 ? a4[0] : "")
+      h["agent_URI"] = (a5.length > 0 ? a5 : [""])
+      h["agent_role_display"] = (a6.length > 0 ? a6[0] : "")
+      h["agent_role_URI"] = (a7.length > 0 ? a7 : [""])
+      h["agent_type_display"] = (a8.length > 0 ? a8[0] : "")
+      h["agent_type_URI"] = (a8.length > 0 ? [get_agent_type_authority(a8[0])] : [""])
+      h["agent_sort"] = (a3.length > 0 ? i : "")
       a2.push(h) if h.length > 0
     }
     a.push(a2) if a2.length > 0
   }
-  solrjson["agents"] = a if a.length > 0
+  if a.length == 0
+    h = Hash.new
+    h["agent_display"] = ""
+    h["agent_sortname"] = ""
+    h["agent_URI"] = [""]
+    h["agent_role_display"] = ""
+    h["agent_role_URI"] = [""]
+    h["agent_type_display"] = ""
+    h["agent_type_URI"] = [""]
+    h["agent_sort"] = ""
+    a.push([h])
+  end
+  solrjson["agents"] = a
 
   a = Array.new
   a1 = Array.new
@@ -224,7 +236,7 @@ def create_json(id,xml_str,set_spec)
   h = Hash.new
   h["title_display"] = a1[0] if a1.length > 0
   h["title_type"] = "preferred" if a1.length > 0
-  a.push(h)
+  a.push(h) if h.length > 0
   a1 = Array.new
   xml_desc.elements.each('lido:objectIdentificationWrap/lido:titleWrap/lido:titleSet/lido:appellationValue[@lido:pref="alternate"]') { |x|
     a1.push(x.text.strip) unless x.text.nil?
@@ -232,15 +244,20 @@ def create_json(id,xml_str,set_spec)
   h = Hash.new
   h["title_display"] = a1[0] if a1.length > 0
   h["title_type"] = "alternate" if a1.length > 0
-  a.push(h)
-  solrjson["titles"] = a if a.length > 0
+  a.push(h) if h.length > 0
+  if a.length == 0
+    h = Hash.new
+    h["title_display"] = ""
+    h["title_type"] = ""
+    a.push(h)
+  end
+  solrjson["titles"] = a
 
   a = Array.new
   xml_desc.elements.each('lido:objectIdentificationWrap/lido:displayStateEditionWrap/displayState|displayEdition') { |x|
     a.push(x.text.strip) unless x.text.nil?
   }
-  solrjson["edition_display"] = a[0] if a.length > 0
-
+  solrjson["edition_display"] = (a.length > 0 ? a[0] : "")
 
   a = Array.new
   test = String.new
@@ -256,8 +273,7 @@ def create_json(id,xml_str,set_spec)
     }
     #a.push(x.text.strip) unless x.text.nil?
   }
-  solrjson["imprint_display"] = a[0] if a.length > 0 && test=="publisher"
-
+  solrjson["imprint_display"] = (a.length > 0 && test=="publisher" ? a[0] : "")
 
   a = Array.new
   a1 = Array.new
@@ -265,14 +281,13 @@ def create_json(id,xml_str,set_spec)
   xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event/lido:eventMaterialsTech/lido:displayMaterialsTech') { |x|
     a1.push(x.text.strip) unless x.text.nil?
   }
-  h["materials_display"] = a1[0] if a1.length > 0
-  #solrjson["materials_display"] = a if a.length > 0
+  h["materials_display"] = (a1.length > 0 ? a1[0] : "")
 
   a1 = Array.new
   xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event/lido:eventMaterialsTech/lido:materialsTech/lido:termMaterialsTech/lido:term') { |x|
     a1.push(x.text.strip) unless x.text.nil?
   }
-  h["materials"] = a1 if a1.length > 0
+  h["materials"] = (a1.length > 0 ? a1 : [""])
   a.push(h)
   solrjson["materials"] = a if a.length > 0
 
@@ -309,19 +324,41 @@ def create_json(id,xml_str,set_spec)
         s4 = x3.text.strip unless x3.text.nil?
       }
       h = Hash.new
-      h["measurement_type"] = s2 if s2.length > 0
-      h["measurement_type_URI"] = get_measurement_type_authority(s2) if s2.length > 0
-      h["measurement_unit"] = s3 if s3.length > 0
-      h["measurement_unit_URI"] = get_measurement_authority(s3) if get_measurement_authority(s3).length > 0
-      h["measurement_value"] = s4 if s4.length > 0
+      h["measurement_type"] = (s2.length > 0 ? s2 : "")
+      h["measurement_type_URI"] = (s2.length > 0 ? [get_measurement_type_authority(s2)] : [""])
+      h["measurement_unit"] = (s3.length > 0 ? s3 : "")
+      h["measurement_unit_URI"] = (s3.length > 0 ? [get_measurement_authority(s3)] : [""])
+      h["measurement_value"] = (s4.length > 0 ? s4 : "")
       a2.push(h)
     }
     h2 = Hash.new
-    h2["measurement_display"] = s if s.length > 0
+    h2["measurement_display"] = (s.length > 0 ? s : "")
+    if a2.length == 0
+      h = Hash.new
+      h["measurement_type"] = ""
+      h["measurement_type_URI"] = [""]
+      h["measurement_unit"] = ""
+      h["measurement_unit_URI"] = [""]
+      h["measurement_value"] = ""
+      a2.push(h)
+    end
     h2["measurements"] = a2 if a2.length > 0
+
     a.push(h2)
   }
-  solrjson["measurements"] = a if a.length > 0
+  if a.length == 0
+    h2 = Hash.new
+    h2["measurement_display"] = ""
+    h = Hash.new
+    h["measurement_type"] = ""
+    h["measurement_type_URI"] = [""]
+    h["measurement_unit"] = ""
+    h["measurement_unit_URI"] = [""]
+    h["measurement_value"] = ""
+    h2["measurements"] = [h]
+    a.push(h2)
+  end
+  solrjson["measurements"] = a
 
   a = Array.new
   s = String.new
@@ -341,7 +378,13 @@ def create_json(id,xml_str,set_spec)
   h["note_display"] = s if s.length > 0
   h["note_type"] = "credit line" if s.length > 0
   a.push(h) if h.length > 0
-  solrjson["note"] = a if a.length > 0
+  if a.length == 0
+    h = Hash.new
+    h["note_display"] = ""
+    h["note_type"] = ""
+    a.push(h)
+  end
+  solrjson["note"] = a
 
   a = Array.new
   xml_root.elements.each('lido:descriptiveMetadata') { |x|
@@ -603,7 +646,7 @@ def get_xml_from_db(id)
   s.each do |row|
     set_spec = row["set_spec"] if row["set_spec"] != "ycba:incomplete"
   end
-  id,xml_str,set_spec = test_empty
+  #id,xml_str,set_spec = test_empty
   create_json(id,xml_str,set_spec)
 end
 
@@ -615,7 +658,7 @@ objects = Array.new
 #ids = "21891"
 #ids = "34,80"
 #ids = "22015,5005,34"
-ids = "5005"
+ids = "34"
 
 q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
 #q = "select local_identifier from metadata_record"
