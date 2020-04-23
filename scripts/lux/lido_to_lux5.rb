@@ -30,7 +30,9 @@ def get_primary_supertype(s)
   d2.push("Poster")
   d2.push("Print")
   d2.push("Print-printing-plate")
+  d2.push("Paper conservation object record")
   d3 = Array.new
+  d3.push("Frame")
   d3.push("Ceramic")
   d3.push("Model")
   d3.push("Painted Object")
@@ -38,10 +40,13 @@ def get_primary_supertype(s)
   d3.push("Silver")
   d3.push("Wedgwood")
   d3.push("Paint Box")
+  am = Array.new
+  am.push("Manuscript")
 
   d1 = "X-Dimensional Object"
   d1 = "Two-Dimensional Object" if d2.include?(s)
   d1 = "Three-Dimensional Object" if d3.include?(s)
+  d1 = "Archives and Manuscripts" if am.include?(s)
   d1
 end
 def get_collection(s)
