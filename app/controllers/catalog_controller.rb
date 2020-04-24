@@ -215,7 +215,7 @@ class CatalogController < ApplicationController
     # solr request handler? The one set in config[:default_solr_parameters][:qt],
     # since we aren't specifying it otherwise.
 
-    config.add_search_field 'all_fields', label: 'All Fields'
+    config.add_search_field 'all_fields', label: 'All Fields >'
 
 
     # Now we see how to over-ride Solr request handler defaults, in this
@@ -231,16 +231,16 @@ class CatalogController < ApplicationController
       # Solr parameter de-referencing like $title_qf.
       # See: http://wiki.apache.org/solr/LocalParams
       field.solr_local_parameters = {
-        qf: 'title_txt',
-        pf: 'title_txt'
+        type: 'dismax',
+        qf: 'title_txt'
       }
     end
 
     config.add_search_field('Creator') do |field|
       #field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
       field.solr_local_parameters = {
-        qf: 'author_txt',
-        pf: 'author_txt'
+        type: 'dismax',
+        qf: 'author_txt'
       }
     end
 
@@ -251,15 +251,15 @@ class CatalogController < ApplicationController
       #field.solr_parameters = { :'spellcheck.dictionary' => 'subject' }
       #field.qt = 'search'
       field.solr_local_parameters = {
-        qf: 'topic_txt',
-        pf: 'topic_txt'
+        type: 'dismax',
+        qf: 'topic_txt'
       }
     end
 
     config.add_search_field('call number') do |field|
       field.solr_local_parameters = {
-          qf: 'callnumber_txt',
-          pf: 'callnumber_txt'
+          type: 'dismax',
+          qf: 'callnumber_txt'
       }
     end
 
