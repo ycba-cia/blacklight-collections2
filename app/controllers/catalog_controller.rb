@@ -230,17 +230,17 @@ class CatalogController < ApplicationController
       # syntax, as eg {! qf=$title_qf }. This is neccesary to use
       # Solr parameter de-referencing like $title_qf.
       # See: http://wiki.apache.org/solr/LocalParams
-      field.solr_local_parameters = {
-        type: 'dismax',
-        qf: 'title_txt'
+      field.solr_parameters = {
+        qf: ['title_txt^10'],
+        pf: ['title_txt^20']
       }
     end
 
     config.add_search_field('Creator') do |field|
       #field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
-      field.solr_local_parameters = {
-        type: 'dismax',
-        qf: 'author_txt'
+      field.solr_parameters = {
+        qf: ['author_txt^10'],
+        pf: ['author_txt^20']
       }
     end
 
@@ -250,16 +250,15 @@ class CatalogController < ApplicationController
     config.add_search_field('Subject Terms') do |field|
       #field.solr_parameters = { :'spellcheck.dictionary' => 'subject' }
       #field.qt = 'search'
-      field.solr_local_parameters = {
-        type: 'dismax',
-        qf: 'topic_txt'
+      field.solr_parameters = {
+          qf: ['topic_txt^10'],
+          pf: ['topic_txt^20']
       }
     end
 
     config.add_search_field('call number') do |field|
-      field.solr_local_parameters = {
-          type: 'dismax',
-          qf: 'callnumber_txt'
+      field.solr_parameters = {
+          qf: ['callnumber_txt^10']
       }
     end
 
