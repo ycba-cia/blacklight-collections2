@@ -4,7 +4,7 @@ require 'yaml'
 require 'mysql2'
 
 #CONFIG
-rails_root = "/Users/ermadmix/Documents/RubymineProjects/blacklight-collections2"
+rails_root = y["rails-root"]
 y = YAML.load_file("#{rails_root}/config/local_env.yml")
 oai_hostname = "oaipmh-prod.ctsmybupmova.us-east-1.rds.amazonaws.com"
 oai_username = "oaipmhuser"
