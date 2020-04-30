@@ -4,8 +4,9 @@ require 'yaml'
 require 'mysql2'
 
 #CONFIG
-rails_root = y["rails-root"]
+
 y = YAML.load_file("#{rails_root}/config/local_env.yml")
+rails_root = y["rails-root"]
 oai_hostname = "oaipmh-prod.ctsmybupmova.us-east-1.rds.amazonaws.com"
 oai_username = "oaipmhuser"
 oai_password = y["oaipmh-prod"]
