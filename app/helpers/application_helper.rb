@@ -272,7 +272,7 @@ module ApplicationHelper
       if doc['recordtype_ss'][0].to_s == 'marc'
         url = "https://libapp.library.yale.edu/OAI_BAC/src/OAIOrbisTool.jsp?verb=GetRecord&identifier=oai:orbis.library.yale.edu:"+get_bib_from_handle(doc)+"&metadataPrefix=marc21"
       elsif doc['recordtype_ss'][0].to_s == 'lido'
-        url = "http://collections.britishart.yale.edu/oaicatmuseum/OAIHandler?verb=GetRecord&identifier=oai:tms.ycba.yale.edu:" + doc['recordID_ss'][0] +"&metadataPrefix=lido" if doc['recordID_ss']
+        url = "http://harvester-bl.britishart.yale.edu/oaicatmuseum/OAIHandler?verb=GetRecord&identifier=oai:tms.ycba.yale.edu:" + doc['recordID_ss'][0] +"&metadataPrefix=lido" if doc['recordID_ss']
       elsif doc['recordtype_ss'][0].to_s == 'mods'
         url = "" #8/8/17 some rare books have this but not supported
       else
