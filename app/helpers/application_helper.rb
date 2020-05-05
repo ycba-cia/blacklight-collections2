@@ -56,6 +56,16 @@ module ApplicationHelper
     values.join('<br/>').html_safe
   end
 
+  def render_aeon_from_access_callnumber(document,collection,callnumber)
+    value = ""
+    if collection == "bacrb"
+      value = "Accessible by request in the Study Room [" + create_aeon_link_callnumber(document,callnumber) + "]"
+    elsif collection == "bacref" || collection == "bacia"
+      value = "Accessible in the Reference Library [" + hours + "]"
+    end
+    value.html_safe
+  end
+
   def hours
     link_to "Hours", "https://britishart.yale.edu/about-us/departments/reference-library-and-archives", target: '_blank'
   end
@@ -240,6 +250,69 @@ module ApplicationHelper
     value ||= ''
   end
 
+  def get_mfhd_base
+    #dev: local_env.yml get parsed into ENV in config/application.rb
+    #heroku: no local_env.yml just set the ENV vars directly
+    #y = YAML.load_file(Rails.root.join("config","local_env.yml"))
+    #return y["AEON_ENDPOINT"]
+    #
+    ENV["MFHD_BASE"]
+  end
+
+  def get_holdings(document)
+    mfhd = get_mfhd_base + document[:id].split(":")[1]
+
+    doc = Nokogiri::HTML(open(mfhd))
+
+    collections = doc.xpath('//record_list/holding[mfhd_loc_code="bacrb" or mfhd_loc_code="bacref" or mfhd_loc_code="bacia"]/mfhd_loc_code/text()').to_a
+    collections = collections.map { |n|
+      n.to_s.strip.gsub("'","''")
+    }
+    collections = [] if collections.nil?
+    #puts collections.inspect
+
+    callnumbers = doc.xpath('//record_list/holding[mfhd_loc_code="bacrb" or mfhd_loc_code="bacref" or mfhd_loc_code="bacia"]/mfhd_callno/text()').to_a
+    callnumbers = callnumbers.map { |n|
+      n.to_s.strip.gsub("'","''")
+    }
+    callnumbers = [] if callnumbers.nil?
+    #puts callnumbers.inspect
+
+    creditlines = doc.xpath('//record_list/holding[mfhd_loc_code="bacrb" or mfhd_loc_code="bacref" or mfhd_loc_code="bacia"]/mfhd_583_field/text()').to_a
+    creditlines = creditlines.map { |n|
+      n.to_s.strip.gsub("'","''")
+    }
+    creditlines = [] if creditlines.nil?
+    #puts creditlines.inspect
+
+    access = collections.each_with_index.map { |coll,i|
+      render_aeon_from_access_callnumber(document,coll,callnumbers[i])
+    }
+    access = [] if access.nil?
+    #puts access.inspect
+
+    collections_title = []
+    collections.map { |coll|
+        collections_title.push("Rare Books and Manuscripts") if coll == "bacrb"
+        collections_title.push("Reference Library") if coll == "bacref"
+        collections_title.push("Institutional Archives") if coll == "bacia"
+    }
+    collections_title = [] if collections_title.nil?
+    #puts collections_title
+
+    html = ""
+
+    collections.each_with_index { |coll, i|
+    html += "<span>Collection:  #{collections_title[i]}</span></br>"
+    html += "<span>Callnumber:  #{callnumbers[i]}</span></br>"
+    html += "<span>Credit Line:  #{creditlines[i]}</span></br>"
+    html += "<span>#{access[i]}</span></br>"
+    html+= "</br>"
+    }
+    html = "<span>Not Available<span>" if html.length==0
+    return html.html_safe
+  end
+
   private
 
   def thumb(document, options)
@@ -380,6 +453,57 @@ module ApplicationHelper
     value = "GenericRequestPD" if get_one_value(doc["collection_ss"]) == "Prints and Drawings"
     site = "YCBA"
     callnumber = get_one_value(doc["callnumber_ss"])
+    title = get_one_value(doc["title_ss"]).gsub("'","%27")
+    author = get_one_value(doc["author_ss"]).gsub("'","%27")
+    publishdate = get_one_value(doc["publishDateFacet_ss"])
+    physical = get_one_value(doc["physical_ss"])
+    location = map_collection(doc["collection_ss"])
+    url = get_one_value(doc["url_ss"])
+    mfhd = get_mfhd(doc["url_ss"])
+
+    #for Prints and Drawings only
+    collection = get_one_value(doc["collection_ss"])
+    if collection == "Prints and Drawings"
+      physical = get_one_value(doc["format_ss"])
+      location = get_one_value(doc["location_ss"])
+      mfhd = ""
+    end
+
+    #puts "callnumber:#{callnumber}"
+    #puts "title:#{title}"
+    #puts "author:#{author}"
+    #puts "publishdate:#{publishdate}"
+    #puts "physical:#{physical}"
+    #puts "location:#{location}"
+    #puts "url:#{url}"
+    #puts "mfhd:#{mfhd}"
+
+    aeon += "Action=#{action}&"
+    aeon += "Form=#{form}&"
+    aeon += "Value=#{value}&"
+    aeon += "Site=#{site}&"
+    aeon += "CallNumber=#{callnumber}&"
+    aeon += "ItemTitle=#{title}&"
+    aeon += "ItemAuthor=#{author}&"
+    aeon += "ItemDate=#{publishdate}&"
+    aeon += "Format=#{physical}&"
+    aeon += "Location=#{location}&"
+    aeon += "mfhdID=#{mfhd}&"
+    aeon += "EADNumber=#{url}"
+
+    anchor_tag = "<a href='#{aeon}' target='_blank'>Request</a>"
+
+    return anchor_tag.html_safe
+  end
+
+  def create_aeon_link_callnumber(doc,callnumber)
+    aeon = get_aeon_endpoint
+    #
+    #start here,get fields, get mfhd and apply a link underline styling, and try for P&D as well
+    action = 10
+    form = 20
+    value = "GenericRequestMonograph"
+    site = "YCBA"
     title = get_one_value(doc["title_ss"]).gsub("'","%27")
     author = get_one_value(doc["author_ss"]).gsub("'","%27")
     publishdate = get_one_value(doc["publishDateFacet_ss"])
