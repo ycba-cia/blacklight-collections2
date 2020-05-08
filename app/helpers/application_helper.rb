@@ -337,7 +337,13 @@ module ApplicationHelper
   end
 
   def doc_thumbnail(document)
-    document['thumbnail_ss'][0] if document['thumbnail_ss'] and document['thumbnail_ss'][0]
+    if document['thumbnail_ss'] and document['thumbnail_ss'][0]
+      url = document['thumbnail_ss'][0]
+      url.gsub!("http","https") if url.start_with?("http:")
+    else
+      return nil
+    end
+    url
   end
 
   def get_export_url_xml(doc)
