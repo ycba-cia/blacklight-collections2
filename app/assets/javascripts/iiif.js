@@ -64,7 +64,7 @@ function updateImageData( id ,cds,type) {
                 //console.log(objectImages);
                 var caption = data['metadata']['caption'];
                 if (!caption || 0 === caption.length) {
-                    caption = "";
+                    caption = "&nbsp;";
                 } else {
                     caption = caption.charAt(0).toUpperCase() + caption.slice(1);
                 }
@@ -170,7 +170,7 @@ function renderCdsImages() {
             //console.log(objectImages);
             var caption = data['metadata']['caption'];
             if (!caption || 0 === caption.length) {
-                caption = "";
+                caption = "&nbsp;";
             } else {
                 caption = caption.charAt(0).toUpperCase() + caption.slice(1);
             }
