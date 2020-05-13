@@ -58,9 +58,9 @@ module ApplicationHelper
 
   def render_aeon_from_access_callnumber(document,collection,callnumber)
     value = ""
-    if collection == "bacrb"
+    if collection.start_with?("bacrb")
       value = "Accessible by request in the Study Room [" + create_aeon_link_callnumber(document,callnumber) + "]"
-    elsif collection == "bacref" || collection == "bacia"
+    elsif collection.start_with?("bacref") || collection.start_with?("bacia")
       value = "Accessible in the Reference Library [" + hours + "]"
     end
     value.html_safe
@@ -264,21 +264,21 @@ module ApplicationHelper
 
     doc = Nokogiri::HTML(open(mfhd))
 
-    collections = doc.xpath('//record_list/holding[mfhd_loc_code="bacrb" or mfhd_loc_code="bacref" or mfhd_loc_code="bacia"]/mfhd_loc_code/text()').to_a
+    collections = doc.xpath('//record_list/holding[starts-with(mfhd_loc_code,"bacrb") or starts-with(mfhd_loc_code,"bacref") or starts-with(mfhd_loc_code,"bacia")]/mfhd_loc_code/text()').to_a
     collections = collections.map { |n|
       n.to_s.strip.gsub("'","''")
     }
     collections = [] if collections.nil?
     #puts collections.inspect
 
-    callnumbers = doc.xpath('//record_list/holding[mfhd_loc_code="bacrb" or mfhd_loc_code="bacref" or mfhd_loc_code="bacia"]/mfhd_callno/text()').to_a
+    callnumbers = doc.xpath('//record_list/holding[starts-with(mfhd_loc_code,"bacrb") or starts-with(mfhd_loc_code,"bacref") or starts-with(mfhd_loc_code,"bacia")]/mfhd_callno/text()').to_a
     callnumbers = callnumbers.map { |n|
       n.to_s.strip.gsub("'","''")
     }
     callnumbers = [] if callnumbers.nil?
     #puts callnumbers.inspect
 
-    creditlines = doc.xpath('//record_list/holding[mfhd_loc_code="bacrb" or mfhd_loc_code="bacref" or mfhd_loc_code="bacia"]/mfhd_583_field/text()').to_a
+    creditlines = doc.xpath('//record_list/holding[starts-with(mfhd_loc_code,"bacrb") or starts-with(mfhd_loc_code,"bacref") or starts-with(mfhd_loc_code,"bacia")]/mfhd_583_field/text()').to_a
     creditlines = creditlines.map { |n|
       n.to_s.strip.gsub("'","''")
     }
@@ -293,9 +293,9 @@ module ApplicationHelper
 
     collections_title = []
     collections.map { |coll|
-        collections_title.push("Rare Books and Manuscripts") if coll == "bacrb"
-        collections_title.push("Reference Library") if coll == "bacref"
-        collections_title.push("Institutional Archives") if coll == "bacia"
+        collections_title.push("Rare Books and Manuscripts") if coll.start_with?("bacrb")
+        collections_title.push("Reference Library") if coll.start_with?("bacref")
+        collections_title.push("Institutional Archives") if coll.start_with?("bacia")
     }
     collections_title = [] if collections_title.nil?
     #puts collections_title
@@ -303,9 +303,9 @@ module ApplicationHelper
     html = ""
 
     collections.each_with_index { |coll, i|
-    html += "<span>Collection:  #{collections_title[i]}</span></br>"
-    html += "<span>Callnumber:  #{callnumbers[i]}</span></br>"
-    html += "<span>Credit Line:  #{creditlines[i]}</span></br>"
+    html += "<span>#{collections_title[i]}</span></br>"
+    html += "<span>#{callnumbers[i]}</span></br>"
+    html += "<span>#{creditlines[i]}</span></br>" if creditlines[i]!="NA"
     html += "<span>#{access[i]}</span></br>"
     html+= "</br>"
     }
