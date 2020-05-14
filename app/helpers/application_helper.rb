@@ -56,10 +56,10 @@ module ApplicationHelper
     values.join('<br/>').html_safe
   end
 
-  def render_aeon_from_access_callnumber(document,collection,callnumber)
+  def render_aeon_from_access_callnumber(document,collection,callnumber,mfhd_id)
     value = ""
     if collection.start_with?("bacrb")
-      value = "Accessible by request in the Study Room [" + create_aeon_link_callnumber(document,callnumber) + "]"
+      value = "Accessible by request in the Study Room [" + create_aeon_link_callnumber(document,callnumber,mfhd_id) + "]"
     elsif collection.start_with?("bacref") || collection.start_with?("bacia")
       value = "Accessible in the Reference Library [" + hours + "]"
     end
@@ -264,6 +264,13 @@ module ApplicationHelper
 
     doc = Nokogiri::HTML(open(mfhd))
 
+    mfhd_ids = doc.xpath('//record_list/holding[starts-with(mfhd_loc_code,"bacrb") or starts-with(mfhd_loc_code,"bacref") or starts-with(mfhd_loc_code,"bacia")]/mfhd_id/text()').to_a
+    mfhd_ids = mfhd_ids.map { |n|
+      n.to_s.strip.gsub("'","''")
+    }
+    mfhd_ids = [] if mfhd_ids.nil?
+    #puts mfhd_ids.inspect
+
     collections = doc.xpath('//record_list/holding[starts-with(mfhd_loc_code,"bacrb") or starts-with(mfhd_loc_code,"bacref") or starts-with(mfhd_loc_code,"bacia")]/mfhd_loc_code/text()').to_a
     collections = collections.map { |n|
       n.to_s.strip.gsub("'","''")
@@ -286,7 +293,7 @@ module ApplicationHelper
     #puts creditlines.inspect
 
     access = collections.each_with_index.map { |coll,i|
-      render_aeon_from_access_callnumber(document,coll,callnumbers[i])
+      render_aeon_from_access_callnumber(document,coll,callnumbers[i],mfhd_ids[i])
     }
     access = [] if access.nil?
     #puts access.inspect
@@ -450,7 +457,7 @@ module ApplicationHelper
     ENV["BIB_LOOKUP"]
   end
   #aeon methods
-  #For P&D, IA, and RB when not "on view"
+  #For P&D when not "on view"
   def create_aeon_link(doc)
     #aeon = "https://aeon-mssa.library.yale.edu/aeon.dll?" #production
     #aeon = "https://aeon-test-mssa.library.yale.edu/aeon.dll?" #test
@@ -506,7 +513,7 @@ module ApplicationHelper
     return anchor_tag.html_safe
   end
 
-  def create_aeon_link_callnumber(doc,callnumber)
+  def create_aeon_link_callnumber(doc,callnumber,mfhd_id)
     aeon = get_aeon_endpoint
     #
     #start here,get fields, get mfhd and apply a link underline styling, and try for P&D as well
@@ -520,7 +527,6 @@ module ApplicationHelper
     physical = get_one_value(doc["physical_ss"])
     location = map_collection(doc["collection_ss"])
     url = get_one_value(doc["url_ss"])
-    mfhd = get_mfhd(doc["url_ss"])
 
     #for Prints and Drawings only
     collection = get_one_value(doc["collection_ss"])
@@ -549,7 +555,7 @@ module ApplicationHelper
     aeon += "ItemDate=#{publishdate}&"
     aeon += "Format=#{physical}&"
     aeon += "Location=#{location}&"
-    aeon += "mfhdID=#{mfhd}&"
+    aeon += "mfhdID=#{mfhd_id}&"
     aeon += "EADNumber=#{url}"
 
     anchor_tag = "<a href='#{aeon}' target='_blank'>Request</a>"
