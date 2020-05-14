@@ -179,10 +179,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'edition_ss', label: 'Edition', if: :display_marc_field?
     config.add_show_field 'publisher_ss', :label => 'Published/Created', separator_options: break_separator, if: :display_marc_field?
     config.add_show_field 'physical_acc', accessor: 'physical_acc', label: 'Physical Description', if: :display_marc_accessor_field?
-    config.add_show_field 'collection_acc', accessor: 'collection_acc', label: 'Collection', if: :display_marc_accessor_field?
-    config.add_show_field 'callnumber_acc', accessor: 'callnumber_acc', :label => 'Call Number', separator_options: break_separator, if: :display_marc_accessor_field?
-    config.add_show_field 'credit_line_acc', accessor: 'credit_line_acc',:label => 'Credit Line', if: :display_marc_accessor_field?
-    #aeon inserted here, see _show_marc_html.erb
+    #holdings inserted here, see _show_marc_html.erb
     config.add_show_field 'dummy_ort_marc_acc', :accessor => 'dummy_ort_marc_acc', :label => 'Copyright Status', helper_method: 'render_copyright_status', if: :display_marc_accessor_field?
     config.add_show_field 'orbis_link_acc', accessor: 'orbis_link_acc', :label => 'Full Orbis Record', helper_method: 'render_as_link', if: :display_marc_accessor_field?
     config.add_show_field 'resourceURL_ss', :label => 'Related Content', helper_method: 'render_related_content', if: :render_related_content?, if: :display_marc_field?
@@ -190,7 +187,6 @@ class CatalogController < ApplicationController
     config.add_show_field 'cartographic_detail_ss', :label => 'Scale', if: :display_marc_field?
     config.add_show_field 'note_acc', accessor: 'note_acc', :label => 'Notes', helper_method: 'render_citation', if: :display_marc_accessor_field?
     config.add_show_field 'marc_contents_ss', label: 'Contents', if: :display_marc_field?
-    config.add_show_field 'detailed_onview_acc', accessor: 'detailed_onview_acc', helper_method: 'render_aeon_from_access', :label => 'Access', if: :display_marc_accessor_field?
     config.add_show_field 'exhibition_history_acc', accessor: 'exhibition_history_acc', :label => 'Exhibition History', helper_method: 'render_exhibitions', if: :display_marc_field?
     config.add_show_field 'topic_acc', accessor: 'topic_acc', :label => 'Subject Terms', link_to_search: 'topic_facet', separator_options: break_separator, helper_method: 'sort_values_and_link_to_topic_no_pipes', if: :display_marc_accessor_field?
     config.add_show_field 'form_genre_ss', :label => 'Form/Genre', link_to_search: true, separator_options: break_separator, if: :display_marc_field?

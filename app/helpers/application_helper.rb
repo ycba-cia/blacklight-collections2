@@ -309,7 +309,11 @@ module ApplicationHelper
     html += "<span>#{access[i]}</span></br>"
     html+= "</br>"
     }
-    html = "<span>Not Available<span>" if html.length==0
+    html = html[0...-5]
+    if html.length==0
+      html += "<span>#{document[:collection_ss][0]}</span></br>"
+      html += "<span>Not Available<span></br>"
+    end
     return html.html_safe
   end
 
