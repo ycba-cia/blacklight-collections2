@@ -102,7 +102,7 @@ class CatalogController < ApplicationController
     config.add_facet_field 'author_ss', label: 'Creator', :tag => 'author_ss', :ex => 'author_ss', :limit => 20
     config.add_facet_field 'earliestDate_is', :label => 'Date', single: true,range: { segments: false }
     config.add_facet_field 'detailed_onview_ss', :label => 'Currently On View'
-    config.add_facet_field 'rights_ss', label: 'Item Rights'
+    config.add_facet_field 'rights_ss', helper_method: 'rights_helper',label: 'Item Rights'
     config.add_facet_field 'has_image_ss', :label => 'Image Available'
     config.add_facet_field 'type_ss', :label => 'Classification', :limit => 20
     config.add_facet_field 'author_gender_ss', :label => 'Creator Gender'
