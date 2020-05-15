@@ -491,14 +491,28 @@ $moveRight: $tileHeight * ($growFactor - 1);
   white-space: normal;
 }
 
-.blacklight-citation_txt-closed, .blacklight-exhibition_history_ss-closed, .blacklight-exhibition_history_acc-closed,
-  .blacklight-curatorial_comment_ss-closed {
+.blacklight-citation_txt-closed, .blacklight-exhibition_history_ss-closed {
    display: block;
  }
 
-.blacklight-citation_txt-open, .blacklight-exhibition_history_ss-open, .blacklight-exhibition_history_acc-open,
-  .blacklight-curatorial_comment_ss-open {
+.blacklight-citation_txt-open, .blacklight-exhibition_history_ss-open {
   display: none;
+}
+
+.blacklight-curatorial_comment_ss-closed {
+  display: none;
+}
+
+.blacklight-curatorial_comment_ss-open {
+  display: block;
+}
+
+.blacklight-exhibition_history_acc-closed {
+  display: none;
+}
+
+.blacklight-exhibition_history_acc-open {
+  display: block;
 }
 
 .blacklight-citation_txt-closed:hover, .blacklight-exhibition_history_ss-closed:hover, .blacklight-exhibition_history_acc-closed:hover,
