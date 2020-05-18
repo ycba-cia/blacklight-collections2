@@ -4,6 +4,8 @@ var objectImages = [];
 
 function updateImageData( id ,cds,type) {
     $("#osd-hook").empty();
+    objectImages = [];
+    viewer = [];
     var manifest = "https://manifests.britishart.yale.edu/manifest/" + id;
     $.ajax({
         type: "GET",
@@ -117,7 +119,7 @@ function fancybox(index) {
 }
 
 function cdsData(url,type) {
-    console.log("URL:"+url);
+    console.log("URL:"+url + "  " + type);
     if (objectImages.length == 0) {
         $.ajax({
             type: "GET",
@@ -129,7 +131,6 @@ function cdsData(url,type) {
                 var d = value['derivatives'];
                 var derivatives = [];
                 derivatives['metadata'] = value['metadata'];
-                //alert("got data");
                 $.each(d, function (index, value) {
                     var image = [];
                     image['format'] = value['format'];
@@ -153,7 +154,6 @@ function cdsData(url,type) {
 
 function renderCdsImages() {
     html = "";
-
     if (objectImages.length > 0) {
         var data = objectImages[0];
         setMainImage(data,0);
