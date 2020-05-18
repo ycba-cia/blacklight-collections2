@@ -6,14 +6,18 @@ module ApplicationHelper
 
   def rights_helper options={}
     popup = ""
-    popup = "unknown" if options == "unknown"
-    popup = "public domain" if options == "public domain"
-    popup = "under copyright" if options == "under copyright"
-    popup = "rights reserved" if options == "rights reserved"
+    popup = "Copyright undetermined" if options == "unknown"
+    popup = "Works that have no known copyright" if options == "public domain"
+    popup = "Works that are in copyright" if options == "under copyright"
+    popup = "Works that are not in copyright, but works or their images have other restrictions" if options == "rights reserved"
+    options = "Unknown" if options == "unknown"
+    options = "Public Domain" if options == "public domain"
+    options = "Under Copyright" if options == "under copyright"
+    options = "Rights Reserved" if options == "rights reserved"
     options = "<span title=\"#{popup}\">#{options}</span>"
     options.html_safe
   end
-  
+
   def render_as_link options={}
     options[:document] # the original document
     options[:field] # the field to render
