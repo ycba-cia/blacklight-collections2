@@ -3,6 +3,12 @@ require 'json'
 require 'yaml'
 require 'mysql2'
 
+#validation method
+# /Users/ermadmix/Documents/github_clones/json-schema-validation/ruby run_validation.rb 80
+
+#synch method
+#aws s3 --profile spinup-0010d8-ycba-records sync /app/blacklight-collections2/scripts/lux/output s3://spinup-0010d8-ycba-records
+
 #CONFIG
 rails_root = "/Users/ermadmix/Documents/RubymineProjects/blacklight-collections2"
 y = YAML.load_file("#{rails_root}/config/local_env.yml")
@@ -118,15 +124,9 @@ def create_json(id,xml_str,set_spec)
   }
   h = Hash.new
   h["identifier_value"] = a[0] if a.length > 0 #not-multivalued
-  h["identifier_display"] = "YCBA #{a[0]}" if a.length > 0 #not-multivalued
+  h["identifier_display"] = a[0] if a.length > 0 #not-multivalued
   h["identifier_type"] = "Accession Number"
   a2.push(h) if h.length > 0
-  h = Hash.new
-  h["identifier_value"] = a[0] if a.length > 0 #not-multivalued
-  h["identifier_display"] = "YCBA_#{a[0]}" if a.length > 0 #not-multivalued
-  h["identifier_type"] = "system"
-  a2.push(h) if h.length > 0
-
 
   a = Array.new
   xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event/lido:eventID[@lido:type="TMS"][../lido:eventType/lido:term/text() = "production"]') { |x|
@@ -134,7 +134,18 @@ def create_json(id,xml_str,set_spec)
   }
   h = Hash.new
   h["identifier_value"] = a[0] if a.length > 0 #not-multivalued
-  h["identifier_type"] = "TMS ObjectID"
+  h["identifier_display"] = a[0] if a.length > 0 #not-multivalued
+  h["identifier_type"] = "system"
+  a2.push(h) if h.length > 0
+  h = Hash.new
+  h["identifier_value"] = a[0] if a.length > 0 #not-multivalued
+  h["identifier_display"] = a[0] if a.length > 0 #not-multivalued
+  h["identifier_type"] = "TMS Object Identifier"
+  a2.push(h)
+  h = Hash.new
+  h["identifier_value"] = "tms:#{a[0]}" if a.length > 0 #not-multivalued
+  h["identifier_display"] = "tms:#{a[0]}" if a.length > 0 #not-multivalued
+  h["identifier_type"] = "YCBA Blacklight Identifier"
   a2.push(h)
   solrjson["identifiers"] = a2 if a2.length > 0
 
@@ -391,7 +402,7 @@ def create_json(id,xml_str,set_spec)
     h["note_type"] = ""
     a.push(h)
   end
-  solrjson["note"] = a
+  solrjson["notes"] = a
 
   a = Array.new
   xml_root.elements.each('lido:descriptiveMetadata') { |x|
@@ -417,7 +428,7 @@ def create_json(id,xml_str,set_spec)
     h["language_URI"] = [""]
     a.push(h)
   end
-  solrjson["language"] = a
+  solrjson["languages"] = a
 
   a = Array.new
   xml_desc.elements.each('lido:objectRelationWrap/lido:subjectWrap/lido:subjectSet/lido:subject[@lido:type="description"]/lido:subjectPlace') { |x|
@@ -749,13 +760,13 @@ end
 
 #DRIVER
 objects = Array.new
-ids ="34, 80, 107, 120, 423, 471, 1480, 40392, 1489, 3579, 4908, 5001, 5054, 5981, 7632, 7935, 8783, 8867, 9836, " +
-    "10676,  11502, 11575, 11612, 15115, 15206, 19850, 21889, 21890, 21898, 22010, 24342, 26383, 26451, 28509, " +
-    "29334, 34363, 37054, 38435, 39101, 41109, 46623, 51708, 52176, 55318, 59577, 64421, 21891, 22015, 66162"
+#ids ="34, 80, 107, 120, 423, 471, 1480, 40392, 1489, 3579, 4908, 5001, 5054, 5981, 7632, 7935, 8783, 8867, 9836, " +
+#    "10676,  11502, 11575, 11612, 15115, 15206, 19850, 21889, 21890, 21898, 22010, 24342, 26383, 26451, 28509, " +
+#    "29334, 34363, 37054, 38435, 39101, 41109, 46623, 51708, 52176, 55318, 59577, 64421, 21891, 22015, 66162"
 #ids = "21891"
 #ids = "34,80"
 #ids = "22015,5005,34"
-#ids = "80"
+ids = "80"
 
 q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
 #q = "select local_identifier from metadata_record"
