@@ -132,6 +132,7 @@ def create_json(id,xml_str,set_spec)
   xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event/lido:eventID[@lido:type="TMS"][../lido:eventType/lido:term/text() = "production"]') { |x|
     a.push(x.text.strip) unless x.text.nil?
   }
+  blacklight_id = "tms:#{a[0]}" #for access_in_repository_URI
   h = Hash.new
   h["identifier_value"] = a[0] if a.length > 0 #not-multivalued
   h["identifier_display"] = a[0] if a.length > 0 #not-multivalued
@@ -160,7 +161,7 @@ def create_json(id,xml_str,set_spec)
     }
     next if a1.length > 0 && a1[0] == "Curatorial comment"
 
-    a2 = Array.new
+    #a2 = Array.new #removed to flatten
     x.elements.each('lido:event/lido:eventActor') { |x2|
       a3 = Array.new
       x2.elements.each('lido:displayActorInRole') { |x3|
@@ -226,10 +227,11 @@ def create_json(id,xml_str,set_spec)
       h["agent_role_URI"] = (a7.length > 0 ? a7 : [""])
       h["agent_type_display"] = (a8.length > 0 ? a8[0] : "")
       h["agent_type_URI"] = (a8.length > 0 ? [get_agent_type_authority(a8[0])] : [""])
-      h["agent_sort"] = (a3.length > 0 ? i : "")
-      a2.push(h) if h.length > 0
+      h["agent_sort"] = (a3.length > 0 ? "#{i.to_s}" : "")
+      #a2.push(h) if h.length > 0
+      a.push(h) if h.length > 0
     }
-    a.push(a2) if a2.length > 0
+    #a.push(a2) if a2.length > 0
   }
   if a.length == 0
     h = Hash.new
@@ -242,7 +244,8 @@ def create_json(id,xml_str,set_spec)
     h["agent_type_display"] = ""
     h["agent_type_URI"] = [""]
     h["agent_sort"] = ""
-    a.push([h])
+    #a.push([h])
+    a.push(h)
   end
   solrjson["agents"] = a
 
@@ -469,13 +472,13 @@ def create_json(id,xml_str,set_spec)
     h["place_role_code"] = ""
     h["place_role_URI"] = ""
     h["place_type_display"] = ""
-    h["place_type_URI"] = ""
-    h["place_lation"] = (a4.length > 0 ? a4[0] : "")
-    h["place_lation_role_display"] = ""
-    h["place_lation_role_code"] = ""
-    h["place_lation_role_URI"] = ""
-    h["place_lation_uncertainty"] = ""
-    h["place_lation_uncertainty_type"] = ""
+    h["place_type_URI"] = [""]
+    h["place_latlon"] = (a4.length > 0 ? a4[0] : "")
+    h["place_latlon_role_display"] = ""
+    h["place_latlon_role_code"] = ""
+    h["place_latlon_role_URI"] = [""]
+    h["place_latlon_uncertainty"] = ""
+    h["place_latlon_uncertainty_type"] = ""
     #h["place_type_display"] = a5[0] if a5.length > 0 #suppressed until better metadata
     a.push(h) if h.length > 0
 
@@ -483,18 +486,18 @@ def create_json(id,xml_str,set_spec)
   if a.length==0
     h = Hash.new
     h["place_display"] = ""
-    h["place_URI"] = ""
+    h["place_URI"] = [""]
     h["place_role_display"] = ""
     h["place_role_code"] = ""
     h["place_role_URI"] = ""
     h["place_type_display"] = ""
-    h["place_type_URI"] = ""
-    h["place_lation"] = ""
-    h["place_lation_role_display"] = ""
-    h["place_lation_role_code"] = ""
-    h["place_lation_role_URI"] = ""
-    h["place_lation_uncertainty"] = ""
-    h["place_lation_uncertainty_type"] = ""
+    h["place_type_URI"] = [""]
+    h["place_latlon"] = ""
+    h["place_latlon_role_display"] = ""
+    h["place_latlon_role_code"] = ""
+    h["place_latlon_role_URI"] = [""]
+    h["place_latlon_uncertainty"] = ""
+    h["place_latlon_uncertainty_type"] = ""
     a.push(h) if h.length > 0
   end
   solrjson["places"] = a if a.length > 0
@@ -587,8 +590,8 @@ def create_json(id,xml_str,set_spec)
     h2["facet_role_display"] = (a1.length > 0 ? "depicted or about" : "")
     h2["facet_role_code"] = ""
     h2["facet_role_URI"] = [""]
-    h2["facet_role_lation"] = ""
-    h["subject_facets"] = h2 if h2.length > 0
+    h2["facet_latlon"] = ""
+    h["subject_facets"] = [h2] if h2.length > 0
     a.push(h) if h.length > 0
 
   }
@@ -604,8 +607,8 @@ def create_json(id,xml_str,set_spec)
     h2["facet_role_display"] = ""
     h2["facet_role_code"] = ""
     h2["facet_role_URI"] = [""]
-    h2["facet_role_lation"] = ""
-    h["subject_facets"] = h2
+    h2["facet_latlon"] = ""
+    h["subject_facets"] = [h2]
     a.push(h)
   end
   solrjson["subjects"] = a if a.length > 0
@@ -626,11 +629,12 @@ def create_json(id,xml_str,set_spec)
   }
   h["access_in_repository"] = (s.length > 0 ? s : "")
 
-  s = String.new
+  a2 = Array.new
   xml_root.elements.each('lido:administrativeMetadata/lido:recordWrap/lido:recordInfoSet/lido:recordInfoLink[@lido:formatResource="html"]') { |x|
-    s = x.text.strip unless x.text.nil?
+    a2.push(x.text.strip) unless x.text.nil?
   }
-  h["access_in_repository_URI"] = (s.length > 0 ? s : [""])
+  a2.push("https://ycba-collections-dev.herokuapp.com/catalog/#{blacklight_id}") #TODO replace URL here
+  h["access_in_repository_URI"] = (a2.length > 0 ? a2 : [""])
 
   h["access_contact_in_repository"] = get_access_contact
 
@@ -642,14 +646,14 @@ def create_json(id,xml_str,set_spec)
   a.push(h) if h.length > 0
   solrjson["locations"] = a if a.length > 0
 
-  #TODO
+
   a = Array.new
   h = Hash.new
   s = String.new
   xml_root.elements.each('lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet/lido:rightsType/lido:term[@lido:label="url"][../lido:conceptID/@lido:label="object copyright"]') { |x|
     s = x.text.strip unless x.text.nil?
   }
-  h["rightsURI"] = (s.length > 0 ? [s] : [""])
+  h["rights_URI"] = (s.length > 0 ? [s] : [""])
 
   s = String.new
   xml_root.elements.each('lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet/lido:rightsHolder/lido:legalBodyName/lido:appellationValue[../../lido:legalBodyID/@lido:label="Rights Holder"]') { |x|
@@ -665,7 +669,7 @@ def create_json(id,xml_str,set_spec)
   a.push(h) if h.length > 0
   if h.length == 0
     h = Hash.new
-    h["rightsURI"] = [""]
+    h["rights_URI"] = [""]
     h["rights_notes"] = [""]
     h["rights"] = ""
     a.push(h) if h.length > 0
@@ -681,11 +685,11 @@ def create_json(id,xml_str,set_spec)
   a.each do |x|
     h = Hash.new
     h["supertype"] = get_primary_supertype(x)
-    h["supertype_level"] = 1
+    h["supertype_level"] = "1"
     a2.push(h)
     h = Hash.new
     h["supertype"] = x
-    h["supertype_level"] = 2
+    h["supertype_level"] = "2"
     a2.push(h)
 
   end
@@ -696,7 +700,7 @@ def create_json(id,xml_str,set_spec)
   a.each do |x|
     h = Hash.new
     h["supertype"] = x
-    h["supertype_level"] = 3
+    h["supertype_level"] = "3"
     a2.push(h)
   end
   if a2.length == 0
@@ -712,11 +716,11 @@ def create_json(id,xml_str,set_spec)
   h["hierarchy_type"] = ""
   h["root_internal_identifier"] = ""
   h["descendant_count"] = ""
-  h["maximun_depth"] = ""
+  h["maximum_depth"] = ""
   h["sibling_count"] = ""
-  h["ancestor_internal_identifiers"] = ""
-  h["ancestor_URIs"] = ""
-  h["ancestor_display_names"] = ""
+  h["ancestor_internal_identifiers"] = [""]
+  h["ancestor_URIs"] = [""]
+  h["ancestor_display_names"] = [""]
   a.push(h)
   solrjson["hierarchies"] = a
 
