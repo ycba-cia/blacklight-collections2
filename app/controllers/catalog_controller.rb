@@ -182,7 +182,7 @@ class CatalogController < ApplicationController
     #holdings inserted here, see _show_marc_html.erb
     config.add_show_field 'dummy_ort_marc_acc', :accessor => 'dummy_ort_marc_acc', :label => 'Copyright Status', helper_method: 'render_copyright_status', if: :display_marc_accessor_field?
     config.add_show_field 'orbis_link_acc', accessor: 'orbis_link_acc', :label => 'Full Orbis Record', helper_method: 'render_as_link', if: :display_marc_accessor_field?
-    config.add_show_field 'resourceURL_ss', :label => 'Related Content', helper_method: 'render_related_content', if: :render_related_content?, if: :display_marc_field?
+    config.add_show_field 'resourceURL_ss', :label => 'Related Content', helper_method: 'render_related_content', if: :render_related_content?
     config.add_show_field 'type_acc', accessor: 'type_acc', :label => 'Classification', if: :display_marc_accessor_field?
     config.add_show_field 'cartographic_detail_ss', :label => 'Scale', if: :display_marc_field?
     config.add_show_field 'note_acc', accessor: 'note_acc', :label => 'Notes', helper_method: 'render_citation', if: :display_marc_accessor_field?
@@ -306,10 +306,12 @@ class CatalogController < ApplicationController
     return false if display_marc_field?(context, doc) == false
     return false if doc['resourceURL_ss'].nil?
     text_to_suppress = "View a digitized version"
+    text_to_suppress2 = "View a selection of digital images in the Yale Center for British"
     links = []
     doc['resourceURL_ss'].each {  |item|
       text, url = item.split("\n")
       return false if text.start_with?(text_to_suppress)
+      return false if text.start_with?(text_to_suppress2)
     }
     #NOTE: good diagnostic
     #puts "RELATED:#{doc['resourceURL_ss']}"
