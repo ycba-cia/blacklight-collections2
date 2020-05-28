@@ -11,6 +11,7 @@ require 'mysql2'
 
 #CONFIG
 rails_root = "/Users/ermadmix/Documents/RubymineProjects/blacklight-collections2"
+#rails_root = "/app/blacklight-collections2"
 y = YAML.load_file("#{rails_root}/config/local_env.yml")
 oai_hostname = "oaipmh-prod.ctsmybupmova.us-east-1.rds.amazonaws.com"
 oai_username = "oaipmhuser"
@@ -555,8 +556,8 @@ def create_json(id,xml_str,set_spec)
     h2["facet_role_display"] = (a1.length > 0 ? "depicted or about" : "")
     h2["facet_role_code"] = ""
     h2["facet_role_URI"] = [""]
-    h2["facet_role_lation"] = ""
-    h["subject_facets"] = h2 if h2.length > 0
+    h2["facet_latlon"] = ""
+    h["subject_facets"] = [h2] if h2.length > 0
     a.push(h) if h.length > 0
   }
 
@@ -764,7 +765,7 @@ end
 
 #DRIVER
 objects = Array.new
-#ids ="34, 80, 107, 120, 423, 471, 1480, 40392, 1489, 3579, 4908, 5001, 5054, 5981, 7632, 7935, 8783, 8867, 9836, " +
+#ids ="34, 80, 107, 120, 423, 471, 1480, 40392, 1489, 3579, 4908, 5001, 5005, 5054, 5981, 7632, 7935, 8783, 8867, 9836, " +
 #    "10676,  11502, 11575, 11612, 15115, 15206, 19850, 21889, 21890, 21898, 22010, 24342, 26383, 26451, 28509, " +
 #    "29334, 34363, 37054, 38435, 39101, 41109, 46623, 51708, 52176, 55318, 59577, 64421, 21891, 22015, 66162"
 #ids = "21891"
