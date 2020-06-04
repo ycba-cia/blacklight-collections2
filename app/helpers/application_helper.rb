@@ -276,7 +276,11 @@ module ApplicationHelper
   def get_holdings(document)
     mfhd = get_mfhd_base + document[:id].split(":")[1]
 
-    doc = Nokogiri::HTML(open(mfhd))
+    begin
+      doc = Nokogiri::HTML(open(mfhd))
+    rescue
+      return "<span>Unable to reach service.  Holdings currently not available<span></br>".html_safe
+    end
 
     mfhd_ids = doc.xpath('//record_list/holding[starts-with(mfhd_loc_code,"bacrb") or starts-with(mfhd_loc_code,"bacref") or starts-with(mfhd_loc_code,"bacia")]/mfhd_id/text()').to_a
     mfhd_ids = mfhd_ids.map { |n|
