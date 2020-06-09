@@ -6,7 +6,7 @@ module ApplicationHelper
 
   def rights_helper options={}
     popup = ""
-    popup = "Copyright undetermined" if options == "unknown"
+    popup = "Copyright yet to be determined" if options == "unknown"
     popup = "Works that have no known copyright" if options == "public domain"
     popup = "Works that are in copyright" if options == "under copyright"
     popup = "Works that are not in copyright, but works or their images have other restrictions" if options == "rights reserved"
@@ -16,6 +16,10 @@ module ApplicationHelper
     options = "Rights Reserved" if options == "rights reserved"
     options = "<span title=\"#{popup}\">#{options}</span>"
     options.html_safe
+  end
+
+  def capitalize options={}
+    options.upcase_first
   end
 
   def render_as_link options={}
