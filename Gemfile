@@ -90,3 +90,5 @@ gem 'rails_12factor', group: :production
 gem 'nokogiri', '~> 1.10.8'
 
 gem 'bourbon'
+
+gem 'newrelic_rpm'
