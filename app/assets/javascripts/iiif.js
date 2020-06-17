@@ -138,7 +138,7 @@ function cdsData(url,type) {
                     image['id'] = value['contentId'];
                     image['width'] = value['pixelsX'];
                     image['height'] = value['pixelsY'];
-                    image['url'] = value['url'];
+                    image['url'] = value['url'].replace(/^http:\/\//i, 'https://');
                     derivatives[index] = image;
                     //console.log("IMG:"+image['url']);
                 });
