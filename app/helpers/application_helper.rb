@@ -78,14 +78,20 @@ module ApplicationHelper
     value = ""
     if collection.start_with?("bacrb")
       value = "Accessible by request in the Study Room [" + create_aeon_link_callnumber(document,callnumber,mfhd_id) + "]"
-    elsif collection.start_with?("bacref") || collection.start_with?("bacia")
+    elsif collection.start_with?("bacref")
       value = "Accessible in the Reference Library [" + hours + "]"
+    elsif collection.start_with?("bacia")
+      value = "Accessible by appointment in the Study Room [" + bacia_email + "]"
     end
     value.html_safe
   end
 
   def hours
     link_to "Hours", "https://britishart.yale.edu/about-us/departments/reference-library-and-archives", target: '_blank'
+  end
+
+  def bacia_email
+    mail_to "ycba.institutionalarchives@yale.edu", "Email"
   end
 
   def sort_values_and_link_to_facet options={}
