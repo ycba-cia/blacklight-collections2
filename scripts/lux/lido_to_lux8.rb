@@ -259,7 +259,8 @@ def create_json(id,xml_str,set_spec)
     a.push(h)
   end
   a_sorted = a.sort_by { |k| k["agent_display"].start_with?("Production") ? "AA#{k["agent_display"]}" : k["agent_display"] }
-  solrjson["agents"] = a_sorted
+  a_sorted2 = a_sorted.each_with_index { |k,i| k["agent_sort"] = i+1 }
+  solrjson["agents"] = a_sorted2
 
   a = Array.new
   a1 = Array.new
