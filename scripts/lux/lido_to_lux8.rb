@@ -221,7 +221,7 @@ def create_json(id,xml_str,set_spec)
         end
       }
       group = (a1.length > 0 ? a1[0].split.map(&:capitalize).join(' ') : "Event")
-      role = (a6.length > 0 ? a6[0] : "Agent")
+      role = (a6.length > 0 ? a6[0].split.map(&:capitalize).join(' ') : "Agent")
       name = (a3.length > 0 ? a3[0] : "Unidentified Agent")
       #puts "G:#{group}"
       #puts "R:#{role}"
@@ -229,8 +229,8 @@ def create_json(id,xml_str,set_spec)
       a9.push(group+" -- "+role+" -- "+name)
       h = Hash.new
       i = i + 1
-      h["agent_display"] = (a3.length > 0 ? a3[0] : "") #replaced by 3-tuple
-      h["agent_display_full"] = (a9.length > 0 ? a9[0] : "") #3-tuple a9
+      #h["agent_display"] = (a3.length > 0 ? a3[0] : "") #replaced by 3-tuple
+      h["agent_display"] = (a9.length > 0 ? a9[0] : "") #3-tuple a9
       h["agent_sortname"] = (a4.length > 0 ? a4[0] : "")
       h["agent_URI"] = (a5.length > 0 ? a5 : [""])
       h["agent_role_display"] = (a6.length > 0 ? a6[0] : "")
@@ -258,7 +258,7 @@ def create_json(id,xml_str,set_spec)
     #a.push([h])
     a.push(h)
   end
-  a_sorted = a.sort_by { |k| k["agent_display_full"].start_with?("Production") ? "AA#{k["agent_display_full"]}" : k["agent_display_full"] }
+  a_sorted = a.sort_by { |k| k["agent_display"].start_with?("Production") ? "AA#{k["agent_display"]}" : k["agent_display"] }
   solrjson["agents"] = a_sorted
 
   a = Array.new
