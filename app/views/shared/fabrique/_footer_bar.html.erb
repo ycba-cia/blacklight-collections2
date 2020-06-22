@@ -1,9 +1,9 @@
-<div  class="footer-bar ">
-  <div class="footer-bar__outer-constrainer">
-    <div class="footer-bar__inner-constrainer">
-      <div class="footer-bar__grid-container">
-        <div class="footer-bar__wrapper">
-          <a class="footer-bar__logo" href="https://yale.edu/" target="_blank">
+<div class="x-footer-bar">
+  <div class="x-footer-bar__outer-constrainer">
+    <div class="x-footer-bar__inner-constrainer">
+      <div class="x-footer-bar__grid-container">
+        <div class="x-footer-bar__wrapper">
+          <a class="x-footer-bar__logo" href="/" target="_blank">
             <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
               <title>Yale</title>
 
@@ -16,7 +16,7 @@
             </svg>
 
           </a>
-          <div class="footer-bar__links">
+          <div class="x-footer-bar__links">
             <% @footer_bar_links.each do |link| %>
                 <%= render partial: "shared/fabrique/footer_link", locals: {link: link} %>
             <% end %>
