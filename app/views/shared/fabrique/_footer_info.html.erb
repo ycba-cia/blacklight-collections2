@@ -33,6 +33,9 @@
               <% if item[:definition_list] %>
                 <%= render partial: "shared/fabrique/definition_list", locals: {list: item[:definition_list]} %>
               <% end %>
+              <% if item[:follow_buttons] %>
+                <%= render partial: "shared/fabrique/follow_buttons", locals: {list: item[:definition_list]} %>
+              <% end %>
             </div>
           <% end %>
         </div>

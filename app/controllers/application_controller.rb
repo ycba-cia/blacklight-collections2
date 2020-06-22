@@ -15,10 +15,13 @@ class ApplicationController < ActionController::Base
   def set_fabrique
     #question how to manage changes here when deployed to heroku?
     #set footer_bar variables
+    site = "https://dev-britishart-yale-edu-d8.pantheonsite.io"
+    #site = "https://britishart.yale.edu"
+    site = ENV["SITE"]
     @footer_bar_links = Array.new
-    @footer_bar_links.push({:href=>"?", :title=>"Privacy & cookies"})
-    @footer_bar_links.push({:href=>"?", :title=>"Terms of use"})
-    @footer_bar_links.push({:href=>"?", :title=>"Colofon"})
+    @footer_bar_links.push({:href=>"", :title=>"Privacy and cookies"})
+    @footer_bar_links.push({:href=>"https://usability.yale.edu/web-accessibility/accessibility-yale/accessibility-statement-page", :title=>"Accessibility at Yale"})
+    @footer_bar_links.push({:href=>"#{site}/contact-us", :title=>"Contact us"})
 
 =begin
     @footeritems = Array.new
@@ -40,38 +43,34 @@ class ApplicationController < ActionController::Base
 =end
 
     @footeritems = [{text:"1080 Chapel Street<br/>New Haven, Connecticut",
-                     link_list:[["Plan your visit","?"]]},
+                     link_list:[["Closure notice","#{site}/closure-notice"]]},
                     {text:"Admission is free",
-                     definition_list:[["Tue &mdash; Sat","10am &mdash; 5pm"],
-                                ["Sunday","12am &mdash; 5pm"],
-                                ["Monday","Closed"]]},
-                    {link_list:[["Tours","?"],
-                                ["City & region","?"],
-                                ["Directions & parking","?"],
-                                ["Accessibility","?"]]},
+                     #definition_list:[["Tue &mdash; Sat","10am &mdash; 5pm"],
+                     #           ["Sunday","12am &mdash; 5pm"],
+                     #           ["Monday","Closed"]]},
+                    },
+                    {link_list:[["Tours","#{site}/tours"],
+                                ["City and region","#{site}/city-and-region"],
+                                ["Directions and parking","#{site}/directions-and-parking"],
+                                ["Accessibility","#{site}/accessibility"]]},
                     {follow_buttons:"true"},
-                    {title:"What's on",
-                     link_list:[["Now & upcoming","?"],
-                                ["Past","?"]]},
+                    {title:"Exhibitions and programs",
+                     link_list:[["Now and upcoming","#{site}/exhibitions-programs"],
+                                ["Past exhibitions","#{site}/exhibitions-programs-past"]]},
                     {title:"Collections",
-                     link_list:[["Search the collections","?"],
-                                ["Highlights","?"],
-                                ["How to use the collection","?"]]},
-                    {title:"Research & Learning",
-                     link_list:[["Yale Students","?"],
-                                ["Scholars","?"],
-                                ["K-12 Teachers","?"],
-                                ["Community","?"],
-                                ["Colleges & Universities","?"],
-                                ["Publications & recordings","?"],
-                                ["Library & study room","?"]]},
+                     link_list:[["Search the collections","https://collections.britishart.yale.edu"],
+                      #          ["Highlights","?"],
+                      #          ["How to use the collection","?"]]},
+                    ]},
+                    {title:"Research and Learning",
+                     link_list:[["Community","#{site}/community"],
+                                ["K—12 teachers","#{site}/k-12-teachers"],
+                                ["Publications","#{site}/publications"],
+                                ["Study Room","#{site}/study-room"]]},
                     {title:"About us",
-                     link_list:[["Our story","?"],
-                                ["Paul Mellon Centre","?"],
-                                ["Architecture","?"],
-                                ["Staff & departments","?"],
-                                ["News & press","?"],
-                                ["Get involved","?"],
-                                ["Contact","?"]]}]
+                     link_list:[["Achitecture","#{site}/architecture"],
+                                ["News and Press","#{site}/news-and-press"],
+                                ["Videos","#{site}/videos"],
+                                ["Contact us","#{site}/contact-us"]]}]
   end
 end
