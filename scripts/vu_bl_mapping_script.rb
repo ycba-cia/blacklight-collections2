@@ -7,18 +7,23 @@
 
 require 'csv'
 
-scripts = ["scripts/lido.csv","scripts/marc.csv"]
+scripts = ["scripts/lido3.csv","scripts/marc3.csv"]
 
 scripts.each do |type|
   CSV.foreach(type).with_index do |row, i|
     next if i == 0
-    #break if i > 10
+    #break if i > 2
     vufind_id = row[0].to_s.split(" ")[0]
     oai_id = row[0].to_s.split(" ")[1]
-    puts "#{vufind_id}-#{oai_id}"
+    exists = InterfaceMapping.where(vufind_id: vufind_id).count
+    if exists == 1
+      puts "exists #{vufind_id} - #{oai_id}"
+      next
+    end
     i = InterfaceMapping.new
     i.vufind_id = vufind_id
     i.oai_id = oai_id
     i.save
+    puts "adding #{vufind_id} - #{oai_id}"
   end
 end

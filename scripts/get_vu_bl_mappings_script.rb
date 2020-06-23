@@ -4,7 +4,10 @@ sources = ["lido","marc"]
 #sources = ["marc"] #test one source
 
 
-@solr = RSolr.connect :url => "http://discover.odai.yale.edu/vufind-solr/biblio"
+#@solr = RSolr.connect :url => "http://discover.odai.yale.edu/vufind-solr/biblio"
+
+#ssh -L 8380:vm-odaiprd-01.its.yale.edu:8380 bac6-dev.its.yale.edu -l ermadmix
+@solr = RSolr.connect :url => "http://localhost:8380/solr/biblio"
 
 def process_lido
   start = 0
@@ -30,7 +33,7 @@ def process_lido
     start +=pagelength
     puts start
   end
-  File.open("lido2.csv", "w+") do |f|
+  File.open("lido3.csv", "w+") do |f|
     list.each { |line| f.puts(line) }
   end
 end
@@ -59,7 +62,7 @@ def process_marc
     start +=pagelength
     puts start
   end
-  File.open("marc2.csv", "w+") do |f|
+  File.open("marc3.csv", "w+") do |f|
     list.each { |line| f.puts(line) }
   end
 end
