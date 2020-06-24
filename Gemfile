@@ -92,3 +92,5 @@ gem 'nokogiri', '~> 1.10.8'
 gem 'bourbon'
 
 gem 'newrelic_rpm'
+
+gem "rack", ">= 2.2.3"
