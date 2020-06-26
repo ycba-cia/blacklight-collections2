@@ -555,6 +555,7 @@ $moveRight: $tileHeight * ($growFactor - 1);
   text-align: right;
   width: 20%;
   margin-bottom: 8px;
+  overflow: hidden;
 }
 
 .lido dd {
@@ -765,6 +766,8 @@ i {
 
 .col-md-8, #search-navbar .search-query-form {
   width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 //suppress bookmark section in List view results page
