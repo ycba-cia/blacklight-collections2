@@ -7,5 +7,17 @@ class VufindController < ApplicationController
     path = "/catalog/orbis:#{oai_id.split(":")[2]}" if oai_id.include?("orbis")
     path = "/catalog/tms:#{oai_id.split(":")[2]}" if oai_id.include?("tms")
     redirect_to path, status: 301
-    end
   end
+
+  def oaicat
+    params = request.query_parameters
+    str = params.to_query
+    url = "https://harvester-bl.britishart.yale.edu/oaicatmuseum/OAIHandler?#{str}"
+
+    #message = "<p>Harvester has moved to a new endpoint: #{url}</p>"
+    #render html: message.html_safe
+
+    redirect_to url
+  end
+end
+

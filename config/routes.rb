@@ -35,6 +35,10 @@ Rails.application.routes.draw do
 
   get 'vufind/Record/:vufind_id' => 'vufind#show'
 
+  get 'vufind/Search/Results' => 'catalog#index'
+
+  get 'oaicatmuseum/OAIHandler' => 'vufind#oaicat'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
