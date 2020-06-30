@@ -8,11 +8,11 @@ module PrintHelper
     #test_image = "https://images.britishart.yale.edu/iiif/1b747e8f-7754-482c-b5a2-9e1dc1986f4b/full/full/0/native.jpg"
     #images = [1]
 
-    images = get_images_from_sources(id)
+    images,pixels = get_images_from_sources(id)
     images.each_with_index do |f, i|
       break if i >= @size.to_i
       markup += "<div style=\"page-break-after: always\">"
-      markup += "<img class=\"contain\" src=\"#{f}\" width=\"700\" height=\"800\" style=\"object-fit: contain;\">"
+      markup += "<img class=\"contain\" src=\"#{f}\" width=\"#{pixels[i][0]}\" height=\"#{pixels[i][1]}\" style=\"object-fit: contain;\">"
       markup += "</div>"
       #puts f
     end
@@ -27,6 +27,7 @@ module PrintHelper
     response = Net::HTTP.get(uri)
     j = JSON.parse(response)
     images = Array.new
+    pixels = Array.new
     if j["sequences"][0].nil? == false && j["sequences"][0]["canvases"][0].nil? == false
       j["sequences"][0]["canvases"].each do |c|
         if c["images"][0].nil? == false && c["images"][0]["resource"].nil? == false
@@ -35,11 +36,12 @@ module PrintHelper
           i2[6] = "700,"
           i3 = i2.join("/")
           images.push(i3)
+          pixels.push(["700","800"])
         end
       end
     end
     #puts images.inspect
-    images
+    return images,pixels
   end
 
   def get_images_from_cds(id)
@@ -56,23 +58,27 @@ module PrintHelper
     response = Net::HTTP.get(uri)
     j = JSON.parse(response)
     images = Array.new
+    pixels = Array.new
     j.each_with_index do |d, i|
       if j["#{i}"]["derivatives"].nil? == false && j["#{i}"]["derivatives"].size > 0
         if j["#{i}"]["derivatives"]["3"].nil? == false
           images.push(j["#{i}"]["derivatives"]["3"]["source"])
+          pixels.push(["700","800"])
           next
         end
         if j["#{i}"]["derivatives"]["2"].nil? == false
           images.push(j["#{i}"]["derivatives"]["2"]["source"])
+          pixels.push([j["#{i}"]["derivatives"]["2"]["pixelsX"],j["#{i}"]["derivatives"]["2"]["pixelsY"]])
           next
         end
         if j["#{i}"]["derivatives"]["1"].nil? == false
           images.push(j["#{i}"]["derivatives"]["1"]["source"])
+          pixels.push([j["#{i}"]["derivatives"]["1"]["pixelsX"],j["#{i}"]["derivatives"]["1"]["pixelsY"]])
           next
         end
       end
     end
-    images
+    return images,pixels
   end
 
   def parse_tms_id(id)
@@ -118,7 +124,7 @@ module PrintHelper
 
   def print_fields(label,field)
     if @document[field].nil? == false
-      s = "<dt>#{label}</dt>"
+      s = "<dt style=\"overflow: hidden;\">#{label}</dt>"
       s+= "<dd>#{@document[field][0]}</dd>"
       return s
     else
