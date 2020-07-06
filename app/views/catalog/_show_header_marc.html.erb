@@ -29,9 +29,11 @@
     <div id="print-object" class="btn btn-primary col-xs-3" align="center">
       <%= link_to("Print Object", "/print/#{@id}/1", style: "color: white;", target: "_blank") %>
     </div>
-    <div id="ycba-request-photography" class="btn btn-primary col-xs-3" align="center">
-      <%= link_to("Request additional photography", image_request_link(document), style: "color: white;", target: "_blank") %>
-    </div>
+    <% if document["collection_ss"][0] == "Rare Books and Manuscripts" %>
+      <div id="ycba-request-photography" class="btn btn-primary col-xs-3" align="center">
+        <%= link_to("Request additional photography", image_request_link(document), style: "color: white;", target: "_blank") %>
+      </div>
+    <% end %>
 
     <div id="ycba-thumbnail-controls" class="col-xs-2" align="center"></div>
   </div>
@@ -45,7 +47,7 @@
 <div id="non-image-section">
   <div class="row">
     <div id="ycba-request-photography" class="col-xs-12" align="center">
-      <% if document["collection_ss"][0] != "Reference Library" %>
+      <% if document["collection_ss"][0] == "Rare Books and Manuscripts" %>
         <%= link_to("Request photography", image_request_link(document), target: "_blank") %>&nbsp;|&nbsp;
       <% end %>
       <%= link_to("Print Object", "/print/#{@id}/1", target: "_blank") %>

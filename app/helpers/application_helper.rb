@@ -252,6 +252,7 @@ module ApplicationHelper
 
   def image_request_link(document)
     url = "https://britishart.yale.edu/request-images?"
+    url = "https://britishart.yale.edu/request-images-rare-books-and-manuscripts?" if field_value(document,'collection_txt') == "Rare Books and Manuscripts"
     url += "id=#{field_value(document,'recordID_ss')}&"
     url += "num=#{field_value(document,'callnumber_txt')}&"
     url += "collection=#{field_value(document,'collection_txt')}&"
