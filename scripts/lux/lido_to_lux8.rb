@@ -64,12 +64,12 @@ def get_collection(s)
   c
 end
 def get_access_contact
-  "ycbaonline@yale.edu"
+  ["ycbaonline@yale.edu"]
 end
 def get_date_role_authority(s)
   a = ""
   a = "http://vocab.getty.edu/page/aat/300435447" if s == "created"
-  a
+  [a]
 end
 def get_agent_type_authority(s)
   a = ""
@@ -259,7 +259,7 @@ def create_json(id,xml_str,set_spec)
     a.push(h)
   end
   a_sorted = a.sort_by { |k| k["agent_display"].start_with?("Production") ? "AA#{k["agent_display"]}" : k["agent_display"] }
-  a_sorted2 = a_sorted.each_with_index { |k,i| k["agent_sort"] = i+1 }
+  a_sorted2 = a_sorted.each_with_index { |k,i| k["agent_sort"] = (i+1).to_s }
   solrjson["agents"] = a_sorted2
 
   a = Array.new
@@ -465,7 +465,7 @@ def create_json(id,xml_str,set_spec)
     h["place_URI"] = (a2.length > 0 ? a2 : [""])
     h["place_role_display"] = (get_place_role(a3[0]).length > 0 ? get_place_role(a3[0]) : "")
     h["place_role_code"] = ""
-    h["place_role_URI"] = ""
+    h["place_role_URI"] = [""]
     h["place_type_display"] = ""
     h["place_type_URI"] = [""]
     h["place_latlon"] = (a4.length > 0 ? a4[0] : "")
@@ -484,7 +484,7 @@ def create_json(id,xml_str,set_spec)
     h["place_URI"] = [""]
     h["place_role_display"] = ""
     h["place_role_code"] = ""
-    h["place_role_URI"] = ""
+    h["place_role_URI"] = [""]
     h["place_type_display"] = ""
     h["place_type_URI"] = [""]
     h["place_latlon"] = ""
@@ -516,7 +516,7 @@ def create_json(id,xml_str,set_spec)
   h["date_latest"] = (s.length > 0 ? s : "")
   h["date_role_display"] = (h["date_display"].length > 0 ? "created" : "")
   h["date_role_code"] = ""
-  h["date_role_URI"] = (h["date_role_display"].length > 0 ? get_date_role_authority(h["date_role_display"]) : "")
+  h["date_role_URI"] = (h["date_role_display"].length > 0 ? get_date_role_authority(h["date_role_display"]) : [""])
   a.push(h) if h.length > 0
   solrjson["dates"] = a if a.length > 0
 
@@ -590,6 +590,69 @@ def create_json(id,xml_str,set_spec)
     a.push(h) if h.length > 0
 
   }
+
+  #reuse array from above subject name block
+  xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term="production"]/lido:culture') { |x|
+
+    i = i + 1
+    #puts "X:#{x}"
+
+    a1 = Array.new
+    x.elements.each('lido:term') { |x2|
+      a1.push(x2.text.strip) unless x2.text.nil?
+    }
+    a2 = Array.new
+    x.elements.each('lido:conceptID[@lido:source="AAT"]') { |x2|
+      #puts "url:#{x2.text}"
+      unless x2.text.nil?
+        s = x2.text.strip
+        a2.push(normalize_aat(s))
+      end
+    }
+
+    h = Hash.new
+    h["subject_heading_display"] = (a1.length > 0 ? a1[0] : "")
+    h["subject_heading_sortname"] = (a1.length > 0 ? a1[0] : "")
+    h["subject_URI"] = (a2.length > 0 ? a2 : [""])
+    h2 = Hash.new
+    h2["facet_display"] = (a1.length > 0 ? a1[0] : "")
+    h2["facet_type"] = (a1.length > 0 ? "culture" : "")
+    h2["facet_URI"] = (a2.length > 0 ? a2 : [""])
+    h2["facet_role_display"] = (a1.length > 0 ? "expression" : "")
+    h2["facet_role_code"] = ""
+    h2["facet_role_URI"] = [""]
+    h2["facet_latlon"] = ""
+    h["subject_facets"] = [h2] if h2.length > 0
+    a.push(h) if h.length > 0
+  }
+
+  xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term="production"]/lido:periodName') { |x|
+
+    i = i + 1
+    #puts "X:#{x}"
+
+    a1 = Array.new
+    x.elements.each('lido:term') { |x2|
+      a1.push(x2.text.strip) unless x2.text.nil?
+    }
+
+    h = Hash.new
+    h["subject_heading_display"] = (a1.length > 0 ? a1[0] : "")
+    h["subject_heading_sortname"] = (a1.length > 0 ? a1[0] : "")
+    h["subject_URI"] = [""]
+    h2 = Hash.new
+    h2["facet_display"] = (a1.length > 0 ? a1[0] : "")
+    h2["facet_type"] = (a1.length > 0 ? "period" : "")
+    h2["facet_URI"] = [""]
+    h2["facet_role_display"] = ""
+    h2["facet_role_code"] = ""
+    h2["facet_role_URI"] = [""]
+    h2["facet_latlon"] = ""
+    h["subject_facets"] = [h2] if h2.length > 0
+    a.push(h) if h.length > 0
+  }
+
+
   if a.length == 0
     h = Hash.new
     h["subject_heading_display"] = ""
@@ -614,15 +677,15 @@ def create_json(id,xml_str,set_spec)
   xml_desc.elements.each('lido:objectIdentificationWrap/lido:repositoryWrap/lido:repositorySet/lido:repositoryLocation/lido:partOfPlace/lido:namePlaceSet/lido:appellationValue[@lido:label="Site"]') { |x|
     s = x.text.strip unless x.text.nil?
   }
-  h["repository"] = (s.length > 0 ? s : "")
+  h["repository"] = (s.length > 0 ? [s] : [""])
 
-  h["collection_in_repository"] = (set_spec.length > 0 ? get_collection(set_spec) : "")
+  h["collection_in_repository"] = (set_spec.length > 0 ? [get_collection(set_spec)] : [""])
 
   s = String.new
   xml_desc.elements.each('lido:objectIdentificationWrap/lido:repositoryWrap/lido:repositorySet/lido:repositoryLocation/lido:partOfPlace/lido:namePlaceSet/lido:appellationValue[@lido:label="On view or not"]') { |x|
     s = x.text.strip unless x.text.nil?
   }
-  h["access_in_repository"] = (s.length > 0 ? s : "")
+  h["access_in_repository"] = (s.length > 0 ? [s] : [""])
 
   a2 = Array.new
   xml_root.elements.each('lido:administrativeMetadata/lido:recordWrap/lido:recordInfoSet/lido:recordInfoLink[@lido:formatResource="html"]') { |x|
@@ -651,8 +714,9 @@ def create_json(id,xml_str,set_spec)
   h["rights_URI"] = (s.length > 0 ? [s] : [""])
 
   s = String.new
-  xml_root.elements.each('lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet/lido:rightsHolder/lido:legalBodyName/lido:appellationValue[../../lido:legalBodyID/@lido:label="Rights Holder"]') { |x|
-    s = x.text.strip unless x.text.nil?
+  xml_root.elements.each('lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet/lido:creditLine[../lido:rightsType/lido:conceptID/@lido:label="object copyright"]') { |x|
+
+      s = x.text.strip unless x.text.nil?
   }
   h["rights_notes"] = (s.length > 0 ? [s] : [""])
 
@@ -660,13 +724,13 @@ def create_json(id,xml_str,set_spec)
   xml_root.elements.each('lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet/lido:rightsType/lido:term[not(@*)][../lido:conceptID/@lido:label="object copyright"]') { |x|
     s = x.text.strip unless x.text.nil?
   }
-  h["rights"] = (s.length > 0 ? s : "")
+  h["rights"] = (s.length > 0 ? [s] : [""])
   a.push(h) if h.length > 0
   if h.length == 0
     h = Hash.new
     h["rights_URI"] = [""]
     h["rights_notes"] = [""]
-    h["rights"] = ""
+    h["rights"] = [""]
     a.push(h) if h.length > 0
   end
 
@@ -759,13 +823,13 @@ end
 
 #DRIVER
 objects = Array.new
-#ids ="34, 80, 107, 120, 423, 471, 1480, 40392, 1489, 3579, 4908, 5001, 5005, 5054, 5981, 7632, 7935, 8783, 8867, 9836, " +
-#    "10676,  11502, 11575, 11612, 15115, 15206, 19850, 21889, 21890, 21898, 22010, 24342, 26383, 26451, 28509, " +
-#    "29334, 34363, 37054, 38435, 39101, 41109, 46623, 51708, 52176, 55318, 59577, 64421, 21891, 22015, 66162"
+ids ="34, 80, 107, 120, 423, 471, 1480, 40392, 1489, 3579, 4908, 5001, 5005, 5054, 5981, 7632, 7935, 8783, 8867, 9836, " +
+    "10676,  11502, 11575, 11612, 15115, 15206, 19850, 21889, 21890, 21898, 22010, 24342, 26383, 26451, 28509, " +
+    "29334, 34363, 37054, 38435, 39101, 41109, 46623, 51708, 52176, 55318, 59577, 64421, 21891, 22015, 66162"
 #ids = "66161"
-#ids = "34,80"
+#ids = "34,80,841"
 #ids = "22015,5005,34"
-ids = "841"
+#ids = "3176"
 
 q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
 #q = "select local_identifier from metadata_record"
