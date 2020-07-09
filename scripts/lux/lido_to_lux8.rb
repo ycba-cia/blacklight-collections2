@@ -10,8 +10,8 @@ require 'mysql2'
 #aws s3 --profile spinup-0010d8-ycba-records sync /app/blacklight-collections2/scripts/lux/output s3://spinup-0010d8-ycba-records
 
 #CONFIG
-rails_root = "/Users/ermadmix/Documents/RubymineProjects/blacklight-collections2"
-#rails_root = "/app/blacklight-collections2"
+#rails_root = "/Users/ermadmix/Documents/RubymineProjects/blacklight-collections2"
+rails_root = "/app/blacklight-collections2"
 y = YAML.load_file("#{rails_root}/config/local_env.yml")
 oai_hostname = "oaipmh-prod.ctsmybupmova.us-east-1.rds.amazonaws.com"
 oai_username = "oaipmhuser"
@@ -688,10 +688,10 @@ def create_json(id,xml_str,set_spec)
   h["access_in_repository"] = (s.length > 0 ? [s] : [""])
 
   a2 = Array.new
-  xml_root.elements.each('lido:administrativeMetadata/lido:recordWrap/lido:recordInfoSet/lido:recordInfoLink[@lido:formatResource="html"]') { |x|
-    a2.push(x.text.strip) unless x.text.nil?
-  }
-  a2.push("https://ycba-collections-dev.herokuapp.com/catalog/#{blacklight_id}") #TODO replace URL here
+  #xml_root.elements.each('lido:administrativeMetadata/lido:recordWrap/lido:recordInfoSet/lido:recordInfoLink[@lido:formatResource="html"]') { |x|
+  #  a2.push(x.text.strip) unless x.text.nil?
+  #}
+  a2.push("https://collections.britishart.yale.edu/catalog/#{blacklight_id}") #TODO replace URL here
   h["access_in_repository_URI"] = (a2.length > 0 ? a2 : [""])
 
   h["access_contact_in_repository"] = get_access_contact
@@ -786,7 +786,7 @@ def create_json(id,xml_str,set_spec)
 
   solrjson = JSON.pretty_generate(solrjson)
   #puts solrjson
-  output_filename = "output/#{filename.split("/")[1].split(".")[0]}.json"
+  output_filename = "output2/#{filename.split("/")[1].split(".")[0]}.json"
   File.open(output_filename, 'w') { |file| file.write(solrjson) }
 end
 
