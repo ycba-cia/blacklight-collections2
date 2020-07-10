@@ -12,8 +12,11 @@
         <% elsif aeon_before == field_name && doc_presenter.field_value(field).length>0 %>
           <dt class="blacklight-<%= "holdings" %>"><%= "Holdings:" %></dt>
           <dd class="blacklight-<%= "export" %>"><%= get_holdings(@document) %></dd>
-          <dt class="blacklight-<%= field_name.parameterize %>"><%= render_document_show_field_label document, field: field_name %></dt>
-          <dd class="blacklight-<%= field_name.parameterize %>"><%= doc_presenter.field_value field %></dd>
+          <% unless document["collection_ss"][0] == "Reference Library" %>
+            <!--Don't show Copyright Status if REF (dependent on aeon_before) -->
+            <dt class="blacklight-<%= field_name.parameterize %>"><%= render_document_show_field_label document, field: field_name %></dt>
+            <dd class="blacklight-<%= field_name.parameterize %>"><%= doc_presenter.field_value field %></dd>
+          <% end %>
         <% elsif doc_presenter.field_value(field).length>0 %>
           <dt class="blacklight-<%= field_name.parameterize %>"><%= render_document_show_field_label document, field: field_name %></dt>
           <dd class="blacklight-<%= field_name.parameterize %>"><%= doc_presenter.field_value field %></dd>
