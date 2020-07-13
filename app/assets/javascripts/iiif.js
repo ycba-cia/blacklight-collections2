@@ -6,6 +6,11 @@ function updateImageData( id ,cds,type) {
     $("#osd-hook").empty();
     objectImages = [];
     viewer = [];
+
+    $("#non-image-section").hide();
+    $("#image-section").hide();
+    $("#ycba-downloads").hide();
+
     var manifest = "https://manifests.britishart.yale.edu/manifest/" + id;
     $.ajax({
         type: "GET",
@@ -54,8 +59,8 @@ function updateImageData( id ,cds,type) {
 
         $("#ycba-thumbnail-controls").empty().append(
             "<a target='_blank' class='' href='http://mirador.britishart.yale.edu/?manifest=" + manifest + "'><img src='https://manifests.britishart.yale.edu/logo-iiif.png' class='img-responsive' alt='IIIF Manifest'></a>");
-
-        $("#non-image-section").hide();
+        
+        $("#image-section").show();
         
         cdsData(cds,"osd");
         setDLMetadata(0);
@@ -157,10 +162,7 @@ function renderCdsImages() {
     if (objectImages.length > 0) {
         var data = objectImages[0];
         setMainImage(data,0);
-        $("#non-image-section").hide();
     } else {
-        $("#image-section").hide();
-        $("#non-image-section").show();
     }
 
 
@@ -189,6 +191,12 @@ function renderCdsImages() {
         });
         html += "";
         $("#ycba-thumbnail-row-inner").append(html);
+    }
+
+    if (objectImages.length > 0) {
+        $("#image-section").show();
+    } else {
+        $("#non-image-section").show();
     }
 }
 
@@ -233,8 +241,8 @@ function setDLMetadata(index) {
         tiffImageInfo = "TIFF image not available";
     }
     console.log(tiffImageInfo);
-    if (suppress_jpeg_dl && tiff==null) {
-        $("#ycba-downloads").hide();
+    if (tiff || suppress_jpeg_dl == false) {
+        $("#ycba-downloads").show();
     }
 
     var dl_url_jpeg = jpeg['url'].split("/").slice(0,-1).join("/").concat("/"+jpeg['url'].split("/")[7]);
@@ -342,8 +350,8 @@ function setMainImage(image, index) {
         } else {
             tiffImageInfo = "TIFF image not available";
         }
-        if (suppress_jpeg_dl && tiff_image==null) {
-            $("#ycba-downloads").hide();
+        if (suppress_jpeg_dl==false || tiff_image) {
+            $("#ycba-downloads").show();
         }
         var tiff_info =  "";
         if (tiff_image) {
