@@ -251,14 +251,33 @@ module ApplicationHelper
   end
 
   def image_request_link(document)
-    url = "https://britishart.yale.edu/request-images?"
-    url = "https://britishart.yale.edu/request-images-rare-books-and-manuscripts?" if field_value(document,'collection_txt') == "Rare Books and Manuscripts"
-    url += "id=#{field_value(document,'recordID_ss')}&"
-    url += "num=#{field_value(document,'callnumber_txt')}&"
-    url += "collection=#{field_value(document,'collection_txt')}&"
-    url += "creator=#{field_value(document,'author_ss')}&"
-    url += "title=#{field_value(document,'title_txt')}&"
-    url += "url=#{field_value(document,'url_txt')}"
+    if field_value(document,'collection_txt') == "Rare Books and Manuscripts"
+      url = "https://britishart.yale.edu/request-images-rare-books-and-manuscripts?"
+
+      doc = get_mfhd_doc(document)
+      callnumbers = doc.xpath('//record_list/holding[starts-with(mfhd_loc_code,"bacrb")]/mfhd_callno/text()').to_a
+      callnumbers = callnumbers.map { |n|
+        n.to_s.strip.gsub("'","''")
+      }
+      callnumber = ""
+      callnumber = callnumbers[0] if callnumbers.length == 1
+      id = document[:id].split(":")[1]
+
+      url += "id=#{id}&"
+      url += "num=#{callnumber}&"
+      url += "collection=#{field_value(document,'collection_txt')}&"
+      url += "creator=#{field_value(document,'author_ss')}&"
+      url += "title=#{field_value(document,'title_txt')}&"
+      url += "url=#{field_value(document,'url_txt')}"
+    else
+      url = "https://britishart.yale.edu/request-images?"
+      url += "id=#{field_value(document,'recordID_ss')}&"
+      url += "num=#{field_value(document,'callnumber_txt')}&"
+      url += "collection=#{field_value(document,'collection_txt')}&"
+      url += "creator=#{field_value(document,'author_ss')}&"
+      url += "title=#{field_value(document,'title_txt')}&"
+      url += "url=#{field_value(document,'url_txt')}"
+    end
     url
   end
 
@@ -284,11 +303,19 @@ module ApplicationHelper
     ENV["MFHD_BASE"]
   end
 
-  def get_holdings(document)
+  def get_mfhd_doc(document)
     mfhd = get_mfhd_base + document[:id].split(":")[1]
 
     begin
-      doc = Nokogiri::HTML(open(mfhd))
+      @doc ||= Nokogiri::HTML(open(mfhd))
+    rescue
+      return "<span>Unable to reach service.  Holdings currently not available<span></br>".html_safe
+    end
+  end
+
+  def get_holdings(document)
+    begin
+      doc = get_mfhd_doc(document)
     rescue
       return "<span>Unable to reach service.  Holdings currently not available<span></br>".html_safe
     end
