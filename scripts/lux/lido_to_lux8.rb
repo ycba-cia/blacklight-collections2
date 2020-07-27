@@ -64,7 +64,7 @@ def get_collection(s)
   c
 end
 def get_access_contact
-  ["ycbaonline@yale.edu"]
+  "ycbaonline@yale.edu"
 end
 def get_date_role_authority(s)
   a = ""
@@ -118,6 +118,8 @@ def create_json(id,xml_str,set_spec)
     return
   end
   xml_desc = xml_root.elements['lido:descriptiveMetadata']
+
+  solrjson["last_modified"] = Time.now.getutc
 
   a = Array.new
   a2 = Array.new #identifiers
@@ -215,9 +217,15 @@ def create_json(id,xml_str,set_spec)
         end
       }
       a8 = Array.new
+      a10 = Array.new
       x2.elements.each('lido:actorInRole/lido:actor') { |x3|
         unless x3.nil? && x3.attributes["lido:type"].nil?
           a8.push(x3.attributes["lido:type"])
+        end
+        unless x3.nil?
+          x3.elements.each('lido:nationalityActor/lido:term') { |x4|
+            a10.push(x4.text.strip) unless x4.text.nil?
+          }
         end
       }
       group = (a1.length > 0 ? a1[0].split.map(&:capitalize).join(' ') : "Event")
@@ -237,6 +245,7 @@ def create_json(id,xml_str,set_spec)
       h["agent_role_code"] = ""
       h["agent_role_URI"] = (a7.length > 0 ? a7 : [""])
       h["agent_type_display"] = (a8.length > 0 ? a8[0] : "")
+      h["agent_culture_display"]= (a10.length > 0 ? a10 : [""])
       h["agent_type_URI"] = (a8.length > 0 ? [get_agent_type_authority(a8[0])] : [""])
       h["agent_sort"] = (a3.length > 0 ? "#{i.to_s}" : "")
       #a2.push(h) if h.length > 0
@@ -254,6 +263,7 @@ def create_json(id,xml_str,set_spec)
     h["agent_role_URI"] = [""]
     h["agent_type_display"] = ""
     h["agent_type_URI"] = [""]
+    h["agent_culture_display"] = [""]
     h["agent_sort"] = ""
     #a.push([h])
     a.push(h)
@@ -323,6 +333,11 @@ def create_json(id,xml_str,set_spec)
       s =  x2.text.strip unless x2.text.nil?
     }
 
+    s5 = String.new
+    x.elements.each('lido:objectMeasurements/lido:extentMeasurements') { |x2|
+      s5 =  x2.text.strip unless x2.text.nil?
+    }
+
     x.elements.each('lido:objectMeasurements/lido:measurementsSet') { |x2|
       s2 = String.new
       x2.elements.each('lido:measurementType') { |x3|
@@ -339,6 +354,7 @@ def create_json(id,xml_str,set_spec)
         s4 = x3.text.strip unless x3.text.nil?
       }
       h = Hash.new
+      h["measurement_element"] = (s5.length > 0 ? s5 : "")
       h["measurement_display"] = (s.length > 0 ? s : "")
       h["measurement_type"] = (s2.length > 0 ? s2 : "")
       h["measurement_type_URI"] = (s2.length > 0 ? [get_measurement_type_authority(s2)] : [""])
@@ -351,6 +367,7 @@ def create_json(id,xml_str,set_spec)
   }
   if a.length == 0
     h = Hash.new
+    h["measurement_element"]  = ""
     h["measurement_display"] = ""
     h["measurement_type"] = ""
     h["measurement_type_URI"] = [""]
@@ -509,15 +526,28 @@ def create_json(id,xml_str,set_spec)
     s = x.text.strip unless x.text.nil?
   }
   h["date_earliest"] = (s.length > 0 ? s : "")
+  h["year_earliest"] = [h["date_earliest"]]
   s = String.new
   xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term="production"]/lido:eventDate/lido:date/lido:latestDate') { |x|
     s = x.text.strip unless x.text.nil?
   }
   h["date_latest"] = (s.length > 0 ? s : "")
+  h["year_latest"] = [h["date_latest"]]
   h["date_role_display"] = (h["date_display"].length > 0 ? "created" : "")
   h["date_role_code"] = ""
   h["date_role_URI"] = (h["date_role_display"].length > 0 ? get_date_role_authority(h["date_role_display"]) : [""])
   a.push(h) if h.length > 0
+  if a.length==0
+    h = Hash.new
+    h["date_display"] = ""
+    h["date_earliest"] = ""
+    h["year_earliest"] = [""]
+    h["date_latest"] = ""
+    h["year_latest"] = [""]
+    h["date_role_display"] = ""
+    h["date_role_code"] = ""
+    h["date_role_URI"] = ""
+  end
   solrjson["dates"] = a if a.length > 0
 
   a = Array.new #for both subject topic and subject name
@@ -580,7 +610,7 @@ def create_json(id,xml_str,set_spec)
     h["subject_URI"] = (a2.length > 0 ? a2 : [""])
     h2 = Hash.new
     h2["facet_display"] = (a1.length > 0 ? a1[0] : "")
-    h2["facet_type"] = (a1.length > 0 ? "topic" : "")
+    h2["facet_type"] = (a1.length > 0 ? "genre" : "")
     h2["facet_URI"] = (a2.length > 0 ? a2 : [""])
     h2["facet_role_display"] = (a1.length > 0 ? "depicted or about" : "")
     h2["facet_role_code"] = ""
@@ -677,9 +707,9 @@ def create_json(id,xml_str,set_spec)
   xml_desc.elements.each('lido:objectIdentificationWrap/lido:repositoryWrap/lido:repositorySet/lido:repositoryLocation/lido:partOfPlace/lido:namePlaceSet/lido:appellationValue[@lido:label="Site"]') { |x|
     s = x.text.strip unless x.text.nil?
   }
-  h["repository"] = (s.length > 0 ? [s] : [""])
+  h["campus_division"] = (s.length > 0 ? [s] : [""])
 
-  h["collection_in_repository"] = (set_spec.length > 0 ? [get_collection(set_spec)] : [""])
+  h["collections"] = (set_spec.length > 0 ? [get_collection(set_spec)] : [""])
 
   s = String.new
   xml_desc.elements.each('lido:objectIdentificationWrap/lido:repositoryWrap/lido:repositorySet/lido:repositoryLocation/lido:partOfPlace/lido:namePlaceSet/lido:appellationValue[@lido:label="On view or not"]') { |x|
@@ -825,14 +855,14 @@ end
 objects = Array.new
 #ids ="34, 80, 107, 120, 423, 471, 1480, 40392, 1489, 3579, 4908, 5001, 5005, 5054, 5981, 7632, 7935, 8783, 8867, 9836, " +
 #    "10676,  11502, 11575, 11612, 15115, 15206, 19850, 21889, 21890, 21898, 22010, 24342, 26383, 26451, 28509, " +
-#    "29334, 34363, 37054, 38435, 39101, 41109, 46623, 51708, 52176, 55318, 59577, 64421, 21891, 22015, 66162"
+#    "29334, 34363, 37054, 38435, 39101, 41109, 46623, 51708, 52176, 55318, 59577, 64421, 21891, 22015, 66162, 11575"
 #ids = "66161"
 #ids = "34,80,841"
 #ids = "22015,5005,34"
-#ids = "3176"
+ids = "1480,11575"
 
 #q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
-q = "select local_identifier from metadata_record"
+q = "select local_identifier from metadata_record limit 65000"
 s = @oai_client.query(q)
 i = 0
 s.each do |row|
