@@ -19,8 +19,8 @@ class ApplicationController < ActionController::Base
     #site = "https://britishart.yale.edu"
     site = ENV["SITE"]
     @footer_bar_links = Array.new
-    @footer_bar_links.push({:href=>"", :title=>"Privacy and cookies"})
-    @footer_bar_links.push({:href=>"https://usability.yale.edu/web-accessibility/accessibility-yale/accessibility-statement-page", :title=>"Accessibility at Yale"})
+    @footer_bar_links.push({:href=>"/", :title=>"Privacy and cookies"})
+    @footer_bar_links.push({:href=>"https://usability.yale.edu/web-accessibility/accessibility-yale", :title=>"Accessibility at Yale"})
     @footer_bar_links.push({:href=>"#{site}/contact-us", :title=>"Contact us"})
 
 =begin
