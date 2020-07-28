@@ -156,6 +156,40 @@ module ApplicationHelper
     citations.join(' ').html_safe
   end
 
+  def render_tms_citation options={}
+
+    i = -1
+    sorted = options[:value].sort_by { |d|
+      i += 1
+      if options[:document][:citation_sort_ss].nil? || options[:document][:citation_sort_ss][i].nil? || options[:document][:citation_sort_ss][i] == "Unknown"
+        "zzzz"
+      else
+        options[:document][:citation_sort_ss][i]
+      end
+    }
+
+    i = -1
+    if options[:document][:citationURL_ss]
+      sorted_links = options[:document][:citationURL_ss].sort_by  { |d|
+        i += 1
+        if options[:document][:citation_sort_ss].nil? || options[:document][:citation_sort_ss][i].nil? || options[:document][:citation_sort_ss][i] == "Unknown"
+          "zzzz"
+        else
+          options[:document][:citation_sort_ss][i]
+        end
+      }
+    end
+
+    sorted_with_links = sorted.each_with_index.map {  |v,i|
+      if sorted_links.nil? || sorted_links[i].nil? || sorted_links[i] == "-"
+        "<p>#{v}</i><p>"
+      else
+        "<p><a target=\"_blank\" href=\"#{sorted_links[i]}\">#{v}</i></a></p>"
+      end
+    }
+    sorted_with_links.join(' ').html_safe
+  end
+
   def render_exhibitions options={}
     exhs = []
     sorted = options[:value].sort_by { |d|
@@ -395,6 +429,7 @@ module ApplicationHelper
         url = "https://#{cds['host']}/content/repository/YCBA/object/#{cds_id}/type/1/format/1"
       end
     end
+    #puts "URL:#{url}"
     url ||= path_to_image('not_available1.png')
     #square = path_to_image('square.png')
     error_img = path_to_image('not_available1.png')
