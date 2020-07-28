@@ -78,7 +78,8 @@ group :development do
 end
 
 # bundle exec rake doc:rails generates the API under doc/api.
-gem 'sdoc', '~> 0.4.0', group: :doc
+#gem 'sdoc', '~> 0.4.0', group: :doc
+gem 'sdoc', '~> 1.1' #update dependency for json 2.3.1 (below)
 
 gem 'blacklight-gallery'
 gem 'marc'
@@ -94,3 +95,5 @@ gem 'bourbon'
 gem 'newrelic_rpm'
 
 gem "rack", ">= 2.2.3"
+
+gem "json", ">= 2.3.0"
