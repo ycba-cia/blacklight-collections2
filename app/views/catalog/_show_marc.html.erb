@@ -7,8 +7,8 @@
         <% if should_render_show_field? document, field %>
         <% if "exhibition_history_acc" == field_name && doc_presenter.field_value(field).length>0 %>
           <dt class="blacklight-<%= field_name.parameterize %>"><%= render_document_show_field_label document, field: field_name %></dt>
-          <dd class="blacklight-<%= field_name.parameterize %>-closed" ondblclick="toggle_show_field('<%= field_name.parameterize %>')"><%= "<double click to display>" %></dd>
-          <dd class="blacklight-<%= field_name.parameterize %>-open" ondblclick="toggle_show_field('<%= field_name.parameterize %>')"><%= "<double click to hide>" %></br><%= doc_presenter.field_value field %></dd>
+          <dd class="blacklight-<%= field_name.parameterize %>-closed" ondblclick="toggle_show_field('<%= field_name.parameterize %>')"><div class="bl-inner-<%= field_name.parameterize %>-closed"><%= "<double click to display>" %></div></dd>
+          <dd class="blacklight-<%= field_name.parameterize %>-open" ondblclick="toggle_show_field('<%= field_name.parameterize %>')"><div class="bl-inner-<%= field_name.parameterize %>-open"><%= "<double click to hide>" %></div></br><%= doc_presenter.field_value field %></dd>
         <% elsif aeon_before == field_name && doc_presenter.field_value(field).length>0 %>
           <dt class="blacklight-<%= "holdings" %>"><%= "Holdings:" %></dt>
           <dd class="blacklight-<%= "export" %>"><%= get_holdings(@document) %></dd>

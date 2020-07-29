@@ -515,13 +515,13 @@ $moveRight: $tileHeight * ($growFactor - 1);
   display: block;
 }
 
-.blacklight-citation_txt-closed:hover, .blacklight-exhibition_history_ss-closed:hover, .blacklight-exhibition_history_acc-closed:hover,
-  .blacklight-curatorial_comment_ss-closed:hover {
+.bl-inner-citation_txt-closed:hover, .bl-inner-exhibition_history_ss-closed:hover, .bl-inner-exhibition_history_acc-closed:hover,
+.bl-inner-curatorial_comment_ss-closed:hover {
   background-color: lightblue;
 }
 
-.blacklight-citation_txt-open:hover, .blacklight-exhibition_history_ss-open:hover, .blacklight-exhibition_history_acc-open:hover,
-  .blacklight-curatorial_comment_ss-open:hover {
+.bl-inner-citation_txt-open:hover, .bl-inner-exhibition_history_ss-open:hover, .bl-inner-exhibition_history_acc-open:hover,
+.bl-inner-curatorial_comment_ss-open:hover {
   background-color: lightblue;
 }
 
