@@ -10,8 +10,8 @@ require 'mysql2'
 #aws s3 --profile spinup-0010d8-ycba-records sync /app/blacklight-collections2/scripts/lux/output s3://spinup-0010d8-ycba-records
 
 #CONFIG
-#rails_root = "/Users/ermadmix/Documents/RubymineProjects/blacklight-collections2"
-rails_root = "/app/blacklight-collections2"
+rails_root = "/Users/ermadmix/Documents/RubymineProjects/blacklight-collections2"
+#rails_root = "/app/blacklight-collections2"
 y = YAML.load_file("#{rails_root}/config/local_env.yml")
 oai_hostname = "oaipmh-prod.ctsmybupmova.us-east-1.rds.amazonaws.com"
 oai_username = "oaipmhuser"
@@ -119,7 +119,7 @@ def create_json(id,xml_str,set_spec)
   end
   xml_desc = xml_root.elements['lido:descriptiveMetadata']
 
-  solrjson["last_modified"] = Time.now.getutc
+  solrjson["last_modified"] = Time.now.to_datetime.rfc3339
 
   a = Array.new
   a2 = Array.new #identifiers
@@ -526,13 +526,13 @@ def create_json(id,xml_str,set_spec)
     s = x.text.strip unless x.text.nil?
   }
   h["date_earliest"] = (s.length > 0 ? s : "")
-  h["year_earliest"] = [h["date_earliest"]]
+  h["year_earliest"] = h["date_earliest"]
   s = String.new
   xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term="production"]/lido:eventDate/lido:date/lido:latestDate') { |x|
     s = x.text.strip unless x.text.nil?
   }
   h["date_latest"] = (s.length > 0 ? s : "")
-  h["year_latest"] = [h["date_latest"]]
+  h["year_latest"] = h["date_latest"]
   h["date_role_display"] = (h["date_display"].length > 0 ? "created" : "")
   h["date_role_code"] = ""
   h["date_role_URI"] = (h["date_role_display"].length > 0 ? get_date_role_authority(h["date_role_display"]) : [""])
@@ -541,9 +541,9 @@ def create_json(id,xml_str,set_spec)
     h = Hash.new
     h["date_display"] = ""
     h["date_earliest"] = ""
-    h["year_earliest"] = [""]
+    h["year_earliest"] = ""
     h["date_latest"] = ""
-    h["year_latest"] = [""]
+    h["year_latest"] = ""
     h["date_role_display"] = ""
     h["date_role_code"] = ""
     h["date_role_URI"] = ""
@@ -748,23 +748,41 @@ def create_json(id,xml_str,set_spec)
 
       s = x.text.strip unless x.text.nil?
   }
-  h["rights_notes"] = (s.length > 0 ? [s] : [""])
+  h["credit_line_display"] = (s.length > 0 ? s : "")
+
+  h["rights_notes"] = [""]
+  h["provenance"] = ""
 
   s = String.new
   xml_root.elements.each('lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet/lido:rightsType/lido:term[not(@*)][../lido:conceptID/@lido:label="object copyright"]') { |x|
     s = x.text.strip unless x.text.nil?
   }
-  h["rights"] = (s.length > 0 ? [s] : [""])
+  h["rights_display"] = (s.length > 0 ? s : "")
+
+  h["rights_type"] = "usage"
+
+  s = String.new
+  xml_root.elements.each('lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet[lido:rightsType/lido:conceptID/@lido:label="object copyright"]/lido:creditLine') { |x|
+    s = x.text.strip unless x.text.nil?
+  }
+  h["credit_line_display"] = (s.length > 0 ? s : "")
+
+
   a.push(h) if h.length > 0
   if h.length == 0
     h = Hash.new
-    h["rights_URI"] = [""]
+    h["rights_display"] = ""
     h["rights_notes"] = [""]
+    h["rights_type"] = ""
+    h["credit_line_display"] = ""
+    h["provenance"] = ""
+    h["rights_URI"] = [""]
+
     h["rights"] = [""]
     a.push(h) if h.length > 0
   end
 
-  solrjson["usage_rights"] = a
+  solrjson["rights"] = a
 
   a = Array.new
   a2 = Array.new
@@ -859,10 +877,10 @@ objects = Array.new
 #ids = "66161"
 #ids = "34,80,841"
 #ids = "22015,5005,34"
-ids = "1480,11575"
+ids = "1475,80"
 
-#q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
-q = "select local_identifier from metadata_record limit 65000"
+q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
+#q = "select local_identifier from metadata_record limit 65000"
 s = @oai_client.query(q)
 i = 0
 s.each do |row|
