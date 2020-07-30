@@ -10,8 +10,8 @@ require 'mysql2'
 #aws s3 --profile spinup-0010d8-ycba-records sync /app/blacklight-collections2/scripts/lux/output s3://spinup-0010d8-ycba-records
 
 #CONFIG
-rails_root = "/Users/ermadmix/Documents/RubymineProjects/blacklight-collections2"
-#rails_root = "/app/blacklight-collections2"
+#rails_root = "/Users/ermadmix/Documents/RubymineProjects/blacklight-collections2"
+rails_root = "/app/blacklight-collections2"
 y = YAML.load_file("#{rails_root}/config/local_env.yml")
 oai_hostname = "oaipmh-prod.ctsmybupmova.us-east-1.rds.amazonaws.com"
 oai_username = "oaipmhuser"
@@ -525,13 +525,13 @@ def create_json(id,xml_str,set_spec)
   xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term="production"]/lido:eventDate/lido:date/lido:earliestDate') { |x|
     s = x.text.strip unless x.text.nil?
   }
-  h["date_earliest"] = (s.length > 0 ? s : "")
+  h["date_earliest"] = (s.length > 0 && s!="0" ? s : "")
   h["year_earliest"] = h["date_earliest"]
   s = String.new
   xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term="production"]/lido:eventDate/lido:date/lido:latestDate') { |x|
     s = x.text.strip unless x.text.nil?
   }
-  h["date_latest"] = (s.length > 0 ? s : "")
+  h["date_latest"] = (s.length > 0 && s!="0" ? s : "")
   h["year_latest"] = h["date_latest"]
   h["date_role_display"] = (h["date_display"].length > 0 ? "created" : "")
   h["date_role_code"] = ""
@@ -873,14 +873,15 @@ end
 objects = Array.new
 #ids ="34, 80, 107, 120, 423, 471, 1480, 40392, 1489, 3579, 4908, 5001, 5005, 5054, 5981, 7632, 7935, 8783, 8867, 9836, " +
 #    "10676,  11502, 11575, 11612, 15115, 15206, 19850, 21889, 21890, 21898, 22010, 24342, 26383, 26451, 28509, " +
-#    "29334, 34363, 37054, 38435, 39101, 41109, 46623, 51708, 52176, 55318, 59577, 64421, 21891, 22015, 66162, 11575"
+#    "29334, 34363, 37054, 38435, 39101, 41109, 46623, 51708, 52176, 55318, 59577, 64421, 21891, 22015, 66162, 11575, 24058"
 #ids = "66161"
 #ids = "34,80,841"
 #ids = "22015,5005,34"
-ids = "1475,80"
+#ids = "1475,80"
+#ids = "24058"
 
-q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
-#q = "select local_identifier from metadata_record limit 65000"
+#q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
+q = "select local_identifier from metadata_record limit 65000"
 s = @oai_client.query(q)
 i = 0
 s.each do |row|
