@@ -53,18 +53,19 @@
 </header>-->
 
 <header>
+  <div id="ycba-home-page" style="display: none;">Yale Center for British Art Home Page</div>
   <div id="header-row" class="row fixer">
     <span class="div-horizontal">
-      <span class="col-xs-3 home-fonth" style="padding-left:12%;" onclick="location.href='https://britishart.yale.edu';"><a href="https://britishart.yale.edu"><< YCBA Home</a></span>
+      <span class="col-xs-3 home-fonth" style="padding-left:12%;" onclick="location.href='https://britishart.yale.edu';"><a aria-labelledby="ycba-home-page" href="https://britishart.yale.edu"><< YCBA Home</a></span>
       <span id="large-banner" class="col-xs-5" style="padding-left:7%;">
-        <a href="https://britishart.yale.edu"><%= show_svg('logo-horizontal.svg') %></a>
+        <a aria-labelledby="ycba-home-page" href="https://britishart.yale.edu"><%= show_svg('logo-horizontal.svg') %></a>
       </span>
     </span>
     <span class="div-vertical">
       <span class="col-xs-5 vert-wrapper">
         <%= show_svg('logo-vertical.svg') %>
       </span>
-      <span class="col-xs-3 home-fontv" onclick="location.href='https://britishart.yale.edu';"><< YCBA Home</span>
+      <span aria-labelledby="ycba-home-page" class="col-xs-3 home-fontv" onclick="location.href='https://britishart.yale.edu';"><< YCBA Home</span>
     </span>
   </div>
 </header>
