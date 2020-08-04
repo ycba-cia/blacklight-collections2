@@ -2,6 +2,7 @@
   <span class="document-counter" hidden><%= counter %></span>
   <%#= t('blacklight.search.documents.counter', counter: counter) %>
 <% end %>
+<dl>
 <% if document.to_h["author_ss"]  %>
   <dd class="blacklight-<%= "author_ss".parameterize %>"><%= field_value document, "author_ss" %></dd>
 <% end %>
@@ -11,3 +12,4 @@
 <% if document.to_h["publishDate_txt"] %>
   <dd class="blacklight-<%= "publishDate_txt".parameterize %>"><%= field_value document, "publishDate_txt" %></dd>
 <% end %>
+</dl>
