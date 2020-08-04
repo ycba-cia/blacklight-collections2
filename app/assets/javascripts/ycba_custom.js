@@ -26,12 +26,19 @@ function skip_to_results() {
     return false;
 }
 
+function skip_to_splash_image() {
+    var splash = $("div.item.active > a").first();
+    splash.focus();
+    return false;
+}
+
 function skip_to_osd() {
     //var zoomin = document.querySelector('[title="Zoom in"]');
     $("div[title|='Zoom in']").focus();
     return false;
 }
 
+#deprecated
 function skip_to_links() {
     var link = $("#ycba-image-rights > a").first();
     link.focus();

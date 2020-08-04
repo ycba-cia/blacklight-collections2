@@ -52,6 +52,18 @@
 </div>
 </header>-->
 
+<div id="skip-div">
+  <% if request.url.include?("catalog")==false %>
+    <% if request.query_parameters["search_field"].nil?  %>
+      <a class="skip-main" href="#" onclick="return skip_to_splash_image();">Skip to splash images</a>
+    <% else %>
+      <a class="skip-main" href="#" onclick="return skip_to_results();">Skip to results</a>
+    <% end %>
+  <% else %>
+    <a class="skip-main" href="#" onclick="return skip_to_osd();">Skip to image navigation (if applicable)</a>
+  <% end %>
+</div>
+
 <header>
   <div id="ycba-home-page" style="display: none;">Yale Center for British Art Home Page</div>
   <div id="header-row" class="row fixer">
@@ -69,15 +81,6 @@
     </span>
   </div>
 </header>
-
-<div id="skip-div">
-  <% if request.url.include?("catalog")==false %>
-    <a class="skip-main" href="#" onclick="return skip_to_results();">Skip to results section</a>
-  <% else %>
-    <a class="skip-main" href="#" onclick="return skip_to_osd();">Skip to image navigation (if applicable)</a>
-    <a class="skip-main" href="#" onclick="return skip_to_links();">Skip to image links</a>
-  <% end %>
-</div>
 
 <div id="search-navbar" class="navbar navbar-default navbar-static-top downer" role="navigation">
   <div class="container">
