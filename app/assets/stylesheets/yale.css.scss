@@ -779,6 +779,23 @@ i {
 //  top: 0;
 //  bottom: auto;
 //}
+.carousel-caption {
+  position: relative;
+  left: auto;
+  right: auto;
+  color: black;
+}
+.carousel-control {
+  color: black;
+}
+.carousel .carousel-indicators li {
+  border-color: black;
+}
+.carousel .carousel-indicators .active {
+  background-color: black;
+}
+
+
 
 .carousel-control {
   width: 0%;
