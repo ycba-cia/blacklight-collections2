@@ -38,7 +38,7 @@ function skip_to_osd() {
     return false;
 }
 
-#deprecated
+//deprecated
 function skip_to_links() {
     var link = $("#ycba-image-rights > a").first();
     link.focus();
