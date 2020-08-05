@@ -821,3 +821,8 @@ i {
   filter: alpha(opacity=20);
   opacity: .8;
 }
+
+//in the "You searched for:" section
+#appliedParams .btn:hover {
+  background-color: #bfbfbf;
+}
