@@ -78,7 +78,7 @@ function updateImageData( id ,cds,type) {
                 var imgalt = String(index+1) + " of " + String(objectImages.length);
                 html += "<div class='tile'>"
                     //+ "<figure class='tile__media' onclick='setMainImage(objectImages[" + index + "], " + index + ");''>"
-                    + "<figure class='tile__media' onclick='osdGoToPage("+index+")'>"
+                    + "<figure tabindex='0' class='tile__media' onclick='osdGoToPage("+index+")'>"
                     +"<img class='tile__img' src='" + data[1]['url'] + "' alt='"+imgalt+"' />"
                     + "<div class='tile__details'>"
                     + "<figcaption class='tile__title'>"+caption+"</figcaption>"
@@ -87,6 +87,14 @@ function updateImageData( id ,cds,type) {
             });
             html += "";
             $("#ycba-thumbnail-row-inner").append(html);
+            $(".tile__media").keypress(function (e) {
+                var key = e.which;
+                if(key == 13)  // the enter key code
+                {
+                    $(this).click();
+                    return false;
+                }
+            });
         }
     }).error(function(context) {
         //alert("noway");
@@ -181,7 +189,7 @@ function renderCdsImages() {
             }
             var imgalt = String(index+1) + " of " + String(objectImages.length);
             html += "<div class='tile'>"
-                + "<figure class='tile__media' onclick='setMainImage(objectImages[" + index + "], " + index + ");''>"
+                + "<figure tabindex='0' class='tile__media' onclick='setMainImage(objectImages[" + index + "], " + index + ");''>"
                 //+ "<figure class='tile__media' onclick='osdGoToPage("+index+")'>"
                 +"<img class='tile__img' src='" + data[1]['url'] + "' alt='"+imgalt+"' />"
                 + "<div class='tile__details'>"
@@ -191,6 +199,14 @@ function renderCdsImages() {
         });
         html += "";
         $("#ycba-thumbnail-row-inner").append(html);
+        $(".tile__media").keypress(function (e) {
+            var key = e.which;
+            if(key == 13)  // the enter key code
+            {
+                $(this).click();
+                return false;
+            }
+        });
     }
 
     if (objectImages.length > 0) {
