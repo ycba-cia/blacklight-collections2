@@ -40,16 +40,28 @@ function updateImageData( id ,cds,type) {
         //accessibility
         var zoomin = document.querySelector('[title="Zoom in"]');
         zoomin.setAttribute("tabindex",0);
+        zoomin.setAttribute("aria-label","Zoom in");
+        remove_attribute_from_elements(zoomin.getElementsByTagName("img"),"alt");
         var zoomin = document.querySelector('[title="Zoom out"]');
         zoomin.setAttribute("tabindex",0);
+        zoomin.setAttribute("aria-label","Zoom out");
+        remove_attribute_from_elements(zoomin.getElementsByTagName("img"),"alt");
         var zoomin = document.querySelector('[title="Go home"]');
         zoomin.setAttribute("tabindex",0);
+        zoomin.setAttribute("aria-label","Go home");
+        remove_attribute_from_elements(zoomin.getElementsByTagName("img"),"alt");
         var zoomin = document.querySelector('[title="Toggle full page"]');
         zoomin.setAttribute("tabindex",0);
+        zoomin.setAttribute("aria-label","Toggle full page");
+        remove_attribute_from_elements(zoomin.getElementsByTagName("img"),"alt");
         var zoomin = document.querySelector('[title="Previous page"]');
         zoomin.setAttribute("tabindex",0);
+        zoomin.setAttribute("aria-label","Previous page");
+        remove_attribute_from_elements(zoomin.getElementsByTagName("img"),"alt");
         var zoomin = document.querySelector('[title="Next page"]');
         zoomin.setAttribute("tabindex",0);
+        zoomin.setAttribute("aria-label","Next page");
+        remove_attribute_from_elements(zoomin.getElementsByTagName("img"),"alt");
 
         $("#osd-caption").empty().append(caption_info[0]);
         viewer.addHandler('page', function(event) {
@@ -100,6 +112,12 @@ function updateImageData( id ,cds,type) {
         //alert("noway");
         cdsData(cds,"cds");
     });
+}
+
+function remove_attribute_from_elements(e,a) {
+    for (var i=0, max=e.length; i < max; i++) {
+        e[i].removeAttribute(a);
+    }
 }
 
 function fancybox(index) {
