@@ -1,0 +1,10 @@
+<!-- this monkey patch partial taken from current master of blacklight (not the tagged 6.23.0) to comply to accessibility on 8/6/2020-->
+<% if show_pagination? and @response.total_pages > 1 %>
+  <div class="row record-padding">
+    <div class="col-md-12">
+      <nav class="pagination" role="region" aria-label="pagination links">
+        <%= paginate @response, :outer_window => 2, :theme => 'blacklight' %>
+      </nav>
+    </div>
+  </div>
+<% end %>
