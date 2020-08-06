@@ -52,6 +52,7 @@
 </div>
 </header>-->
 
+<nav>
 <div id="skip-div">
   <% if request.url.include?("catalog")==false %>
     <% if request.query_parameters["search_field"].nil?  %>
@@ -63,6 +64,7 @@
     <a class="skip-main" href="#" onclick="return skip_to_osd();">Skip to image navigation (if applicable)</a>
   <% end %>
 </div>
+</nav>
 
 <header>
   <div id="ycba-home-page" style="display: none;">Yale Center for British Art Home Page</div>
@@ -82,6 +84,7 @@
   </div>
 </header>
 
+<section>
 <div id="search-navbar" class="navbar navbar-default navbar-static-top downer" role="navigation">
   <div class="container">
 	  <h3>Welcome to YCBA Collections Online</h3>
@@ -100,3 +103,4 @@
     </div>-->
   </div>
 </div>
+</section>
