@@ -639,10 +639,10 @@ dd p a {
  .view-type-list, .view-type-gallery, .view-type-masonry, .thumbnail {
   border: 1px solid #858585;
 }
-#splash-image {
+.splash-image {
   border: 1px solid #858585;
   border-radius: 4px;
-  height: 500px;
+  height: 500px !important;
   object-fit: cover;
   margin-left: auto;
   margin-right: auto;
