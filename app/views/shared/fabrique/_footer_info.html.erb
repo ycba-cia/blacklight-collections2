@@ -22,7 +22,7 @@
           <% @footeritems.each do |item| %>
             <div class="x-footer__column">
               <% if item[:title] %>
-                <h6 class="x-footer__column-title"><%= item[:title].html_safe %></h6>
+                <div class="x-footer__column-title"><%= item[:title].html_safe %></div>
               <% end %>
               <% if item[:text] %>
                 <p class="x-footer__column-text"><%= item[:text].html_safe %></p>
