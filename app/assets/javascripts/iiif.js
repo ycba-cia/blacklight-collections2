@@ -40,26 +40,32 @@ function updateImageData( id ,cds,type) {
         //accessibility
         var zoomin = document.querySelector('[title="Zoom in"]');
         zoomin.setAttribute("tabindex",0);
+        zoomin.setAttribute("role","button");
         zoomin.setAttribute("aria-label","Zoom in");
         remove_attribute_from_elements(zoomin.getElementsByTagName("img"),"alt");
         var zoomin = document.querySelector('[title="Zoom out"]');
         zoomin.setAttribute("tabindex",0);
+        zoomin.setAttribute("role","button");
         zoomin.setAttribute("aria-label","Zoom out");
         remove_attribute_from_elements(zoomin.getElementsByTagName("img"),"alt");
         var zoomin = document.querySelector('[title="Go home"]');
         zoomin.setAttribute("tabindex",0);
+        zoomin.setAttribute("role","button");
         zoomin.setAttribute("aria-label","Go home");
         remove_attribute_from_elements(zoomin.getElementsByTagName("img"),"alt");
         var zoomin = document.querySelector('[title="Toggle full page"]');
         zoomin.setAttribute("tabindex",0);
+        zoomin.setAttribute("role","button");
         zoomin.setAttribute("aria-label","Toggle full page");
         remove_attribute_from_elements(zoomin.getElementsByTagName("img"),"alt");
         var zoomin = document.querySelector('[title="Previous page"]');
         zoomin.setAttribute("tabindex",0);
+        zoomin.setAttribute("role","button");
         zoomin.setAttribute("aria-label","Previous page");
         remove_attribute_from_elements(zoomin.getElementsByTagName("img"),"alt");
         var zoomin = document.querySelector('[title="Next page"]');
         zoomin.setAttribute("tabindex",0);
+        zoomin.setAttribute("role","button");
         zoomin.setAttribute("aria-label","Next page");
         remove_attribute_from_elements(zoomin.getElementsByTagName("img"),"alt");
 
