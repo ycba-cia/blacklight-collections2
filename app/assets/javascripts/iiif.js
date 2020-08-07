@@ -69,6 +69,13 @@ function updateImageData( id ,cds,type) {
         zoomin.setAttribute("aria-label","Next page");
         remove_attribute_from_elements(zoomin.getElementsByTagName("img"),"alt");
 
+        var parent_element = document.getElementById("osd-hook");
+        parent_element.removeAttribute("aria-live");
+        var element = parent_element.getElementsByTagName("label"), index;
+        for (index = element.length - 1; index >= 0; index--) {
+            element[index].parentNode.removeChild(element[index]);
+        }
+
         $("#osd-caption").empty().append(caption_info[0]);
         viewer.addHandler('page', function(event) {
             $("#osd-caption").empty().append(caption_info[event.page]);
