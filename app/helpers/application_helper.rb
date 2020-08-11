@@ -1,6 +1,7 @@
 require 'net/http'
 require 'json'
 require 'time'
+require 'uri'
 
 module ApplicationHelper
 
@@ -197,7 +198,8 @@ module ApplicationHelper
     }
     sorted.reverse!
     sorted.each {  |exh|
-      exhs.append("<p><a href=\"/?f[exhibition_history_ss][]=#{URI::encode(exh)}\">#{exh}</a></p>")
+      param = URI::encode(exh).gsub("&","%26")
+      exhs.append("<p><a href=\"/?f[exhibition_history_ss][]=#{param}\">#{exh}</a></p>")
     }
     exhs.join.html_safe
   end
