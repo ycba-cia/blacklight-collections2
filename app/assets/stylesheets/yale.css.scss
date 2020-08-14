@@ -843,3 +843,18 @@ i {
   padding-top: 5px;
   padding-bottom: 5px;
 }
+
+#select_search_field:focus {
+  //background-color: blue;
+  box-shadow: 0 0 10px #719ECE;
+}
+
+.carousel-control.left {
+  background-image: none;
+  bottom: -500px;
+}
+
+.carousel-control.right {
+  background-image: none;
+  bottom: -500px;
+}
