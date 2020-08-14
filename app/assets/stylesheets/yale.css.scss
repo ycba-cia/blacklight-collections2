@@ -862,3 +862,11 @@ i {
   background-image: none;
   bottom: -500px;
 }
+
+.carousel-control.left:focus {
+  box-shadow: 0 0 2px 2px #719ECE;
+}
+
+.carousel-control.right:focus {
+  box-shadow: 0 0 2px 2px #719ECE;
+}
