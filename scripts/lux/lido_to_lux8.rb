@@ -453,25 +453,24 @@ def create_json(id,xml_str,set_spec)
   solrjson["notes"] = a
 
   #consider vending ISO 639 zxx "no linguistic content" language code
-=begin
-  xml_root.elements.each('lido:descriptiveMetadata') { |x|
+  a = Array.new
+  xml_desc.elements.each('lido:objectIdentificationWrap/lido:titleWrap/lido:titleSet/lido:appellationValue[@lido:pref="preferred"]') { |x|
     unless x.nil? && x.attributes["xml:lang"].nil?
       code = x.attributes["xml:lang"]
       if code == "eng"
         lang = "English"
         uri = "http://id.loc.gov/vocabulary/languages/eng"
       else
-        lang = "Non-english"
+        lang = "Non-english or no linguistic content"
       end
       h = Hash.new
       h["language_display"] = lang
       h["language_code"] = (code.nil? ? "" : code)
-      h["language_URI"] = [uri]
+      h["language_URI"] = (uri.nil? ? [""] : [uri])
       a.push(h)
     end
   }
-=end
-   a = Array.new
+
   if a.length == 0
     h = Hash.new
     h["language_display"] = ""
@@ -981,7 +980,7 @@ end
 
 #DRIVER
 objects = Array.new
-ids ="34, 80, 107, 120, 423, 471, 1480, 40392, 1489, 3579, 4908, 5001, 5005, 5054, 5981, 7632, 7935, 8783, 8867, 9836, " +
+#ids ="34, 80, 107, 120, 423, 471, 1480, 40392, 1489, 3579, 4908, 5001, 5005, 5054, 5981, 7632, 7935, 8783, 8867, 9836, " +
     "10676,  11502, 11575, 11612, 15115, 15206, 19850, 21889, 21890, 21898, 22010, 24342, 26383, 26451, 28509, " +
     "29334, 34363, 37054, 38435, 39101, 41109, 46623, 51708, 52176, 55318, 59577, 64421, 21891, 22015, 66162, 11575, 24058"
 #ids = "66161"
@@ -989,7 +988,7 @@ ids ="34, 80, 107, 120, 423, 471, 1480, 40392, 1489, 3579, 4908, 5001, 5005, 505
 #ids = "22015,5005,34"
 #ids = "1475,80"
 #ids = "24058"
-#ids = "34,80,107"
+ids = "34,80,107"
 
 #q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
 q = "select local_identifier from metadata_record order by local_identifier asc"
