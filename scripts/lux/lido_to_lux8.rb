@@ -992,7 +992,7 @@ ids ="34, 80, 107, 120, 423, 471, 1480, 40392, 1489, 3579, 4908, 5001, 5005, 505
 #ids = "34,80,107"
 
 #q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
-q = "select local_identifier from metadata_record limit 75000 order by local_identifier asc"
+q = "select local_identifier from metadata_record order by local_identifier asc"
 s = @oai_client.query(q)
 i = 0
 s.each do |row|
