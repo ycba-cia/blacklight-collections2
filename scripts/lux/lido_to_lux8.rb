@@ -2,6 +2,7 @@ require 'rexml/document'
 require 'json'
 require 'yaml'
 require 'mysql2'
+require 'open-uri'
 
 #validation method
 # /Users/ermadmix/Documents/github_clones/json-schema-validation/ruby run_validation.rb 80
@@ -10,8 +11,8 @@ require 'mysql2'
 #aws s3 --profile spinup-0010d8-ycba-records sync /app/blacklight-collections2/scripts/lux/output s3://spinup-0010d8-ycba-records
 
 #CONFIG
-#rails_root = "/Users/ermadmix/Documents/RubymineProjects/blacklight-collections2"
-rails_root = "/app/blacklight-collections2"
+rails_root = "/Users/ermadmix/Documents/RubymineProjects/blacklight-collections2"
+#rails_root = "/app/blacklight-collections2"
 y = YAML.load_file("#{rails_root}/config/local_env.yml")
 oai_hostname = "oaipmh-prod.ctsmybupmova.us-east-1.rds.amazonaws.com"
 oai_username = "oaipmhuser"
@@ -50,17 +51,38 @@ def get_primary_supertype(s)
   am = Array.new
   am.push("Manuscript")
 
-  d1 = "X-Dimensional Object"
-  d1 = "Two-Dimensional Object" if d2.include?(s)
-  d1 = "Three-Dimensional Object" if d3.include?(s)
+  d1 = "X-Dimensional Objects"
+  d1 = "Two-Dimensional Objects" if d2.include?(s)
+  d1 = "Three-Dimensional Objects" if d3.include?(s)
   d1 = "Archives and Manuscripts" if am.include?(s)
   d1
 end
+
+def get_images(id)
+  url = "https://deliver.odai.yale.edu/info/repository/YCBA/object/#{id.gsub("tms:","")}/type/2"
+  #puts url
+  json = open(url).read
+  j = JSON.parse(json)
+  i = 0
+  images = Array.new
+  has_manifest = false
+  while true
+    image = j["#{i}"]
+    break if image.nil?
+    best_image = image.dig("derivatives","6","url") || image.dig("derivatives","3","url") || image.dig("derivatives","2","url") || image.dig("derivatives","1","url")
+    has_manifest = true if image.dig("derivatives","7","url")
+    images.push(best_image) unless best_image.nil?
+    i += 1
+  end
+  images.push(url)
+  images.push("https://manifests.britishart.yale.edu/manifest/#{id.gsub("tms:","")}") if has_manifest
+  images
+end
 def get_collection(s)
   c = ""
-  c = "Frames" if s == "ycba:frames"
-  c = "Prints and Drawings" if s == "ycba:pd"
-  c = "Paintings and Sculpture" if s == "ycba:ps"
+  c = "Frames (YCBA)" if s == "ycba:frames"
+  c = "Prints and Drawings (YCBA)" if s == "ycba:pd"
+  c = "Paintings and Sculpture (YCBA)" if s == "ycba:ps"
   c
 end
 def get_access_contact
@@ -279,7 +301,7 @@ def create_json(id,xml_str,set_spec)
   }
   h = Hash.new
   h["title_display"] = a1[0] if a1.length > 0
-  h["title_type"] = "preferred" if a1.length > 0
+  h["title_type"] = "primary" if a1.length > 0
   a.push(h) if h.length > 0
   a1 = Array.new
   xml_desc.elements.each('lido:objectIdentificationWrap/lido:titleWrap/lido:titleSet/lido:appellationValue[@lido:pref="alternate"]') { |x|
@@ -610,7 +632,7 @@ def create_json(id,xml_str,set_spec)
     h["subject_URI"] = (a2.length > 0 ? a2 : [""])
     h2 = Hash.new
     h2["facet_display"] = (a1.length > 0 ? a1[0] : "")
-    h2["facet_type"] = (a1.length > 0 ? "genre" : "")
+    h2["facet_type"] = (a1.length > 0 ? "topic" : "")
     h2["facet_URI"] = (a2.length > 0 ? a2 : [""])
     h2["facet_role_display"] = (a1.length > 0 ? "depicted or about" : "")
     h2["facet_role_code"] = ""
@@ -656,6 +678,7 @@ def create_json(id,xml_str,set_spec)
     a.push(h) if h.length > 0
   }
 
+  #reuse array from above subject name block
   xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term="production"]/lido:periodName') { |x|
 
     i = i + 1
@@ -672,7 +695,7 @@ def create_json(id,xml_str,set_spec)
     h["subject_URI"] = [""]
     h2 = Hash.new
     h2["facet_display"] = (a1.length > 0 ? a1[0] : "")
-    h2["facet_type"] = (a1.length > 0 ? "period" : "")
+    h2["facet_type"] = (a1.length > 0 ? "date" : "")
     h2["facet_URI"] = [""]
     h2["facet_role_display"] = ""
     h2["facet_role_code"] = ""
@@ -682,6 +705,99 @@ def create_json(id,xml_str,set_spec)
     a.push(h) if h.length > 0
   }
 
+=begin
+  if a.length == 0
+    h = Hash.new
+    h["subject_heading_display"] = ""
+    h["subject_heading_sortname"] = ""
+    h["subject_URI"] = [""]
+    h2 = Hash.new
+    h2["facet_display"] = ""
+    h2["facet_type"] = ""
+    h2["facet_URI"] = [""]
+    h2["facet_role_display"] = ""
+    h2["facet_role_code"] = ""
+    h2["facet_role_URI"] = [""]
+    h2["facet_latlon"] = ""
+    h["subject_facets"] = [h2]
+    a.push(h)
+  end
+  solrjson["subjects"] = a if a.length > 0
+=end
+
+  #reuse array from above subject name block
+  xml_desc.elements.each('lido:objectClassificationWrap/lido:objectWorkTypeWrap/lido:objectWorkType[lido:conceptID/@lido:type="Object name"]') { |x|
+
+    a1 = Array.new
+    x.elements.each('lido:term') { |x2|
+      a1.push(x2.text.strip) unless x2.text.nil?
+    }
+
+    h = Hash.new
+    h["subject_heading_display"] = (a1.length > 0 ? a1[0] : "")
+    h["subject_heading_sortname"] = (a1.length > 0 ? a1[0] : "")
+    h["subject_URI"] = [""]
+    h2 = Hash.new
+    h2["facet_display"] = (a1.length > 0 ? a1[0] : "")
+    h2["facet_type"] = (a1.length > 0 ? "form" : "")
+    h2["facet_URI"] = [""]
+    h2["facet_role_display"] = ""
+    h2["facet_role_code"] = ""
+    h2["facet_role_URI"] = [""]
+    h2["facet_latlon"] = ""
+    h["subject_facets"] = [h2] if h2.length > 0
+    a.push(h) if h.length > 0
+  }
+
+  #reuse array from above subject name block
+  xml_desc.elements.each('lido:objectClassificationWrap/lido:objectWorkTypeWrap/lido:objectWorkType[lido:conceptID/@lido:type="Genre"]') { |x|
+
+    a1 = Array.new
+    x.elements.each('lido:term') { |x2|
+      a1.push(x2.text.strip) unless x2.text.nil?
+    }
+
+    h = Hash.new
+    h["subject_heading_display"] = (a1.length > 0 ? a1[0] : "")
+    h["subject_heading_sortname"] = (a1.length > 0 ? a1[0] : "")
+    h["subject_URI"] = [""]
+    h2 = Hash.new
+    h2["facet_display"] = (a1.length > 0 ? a1[0] : "")
+    h2["facet_type"] = (a1.length > 0 ? "genre" : "")
+    h2["facet_URI"] = [""]
+    h2["facet_role_display"] = ""
+    h2["facet_role_code"] = ""
+    h2["facet_role_URI"] = [""]
+    h2["facet_latlon"] = ""
+    h["subject_facets"] = [h2] if h2.length > 0
+    a.push(h) if h.length > 0
+  }
+
+  #reuse array from above subject name block
+  xml_desc.elements.each('lido:objectRelationWrap/lido:subjectWrap/lido:subjectSet/lido:subject[@lido:type="description"]/lido:subjectPlace/lido:displayPlace') { |x|
+
+    a1 = Array.new
+    a1.push(x.text.strip) unless x.text.nil?
+    #x.elements.each('lido:term') { |x2|
+    #  a1.push(x2.text.strip) unless x2.text.nil?
+    #}
+
+
+    h = Hash.new
+    h["subject_heading_display"] = (a1.length > 0 ? a1[0] : "")
+    h["subject_heading_sortname"] = (a1.length > 0 ? a1[0] : "")
+    h["subject_URI"] = [""]
+    h2 = Hash.new
+    h2["facet_display"] = (a1.length > 0 ? a1[0] : "")
+    h2["facet_type"] = (a1.length > 0 ? "place" : "")
+    h2["facet_URI"] = [""]
+    h2["facet_role_display"] = ""
+    h2["facet_role_code"] = ""
+    h2["facet_role_URI"] = [""]
+    h2["facet_latlon"] = ""
+    h["subject_facets"] = [h2] if h2.length > 0
+    a.push(h) if h.length > 0
+  }
 
   if a.length == 0
     h = Hash.new
@@ -726,11 +842,15 @@ def create_json(id,xml_str,set_spec)
 
   h["access_contact_in_repository"] = get_access_contact
 
-  a2 = Array.new
-  xml_root.elements.each('lido:administrativeMetadata/lido:resourceWrap/lido:resourceSet/lido:resourceRepresentation/lido:linkResource') { |x|
-    a2.push(x.text.strip) unless x.text.nil?
-  }
-  h["access_to_image_URI"] = (a2.length > 0 ? a2 : [""])
+  #a2 = Array.new
+  #xml_root.elements.each('lido:administrativeMetadata/lido:resourceWrap/lido:resourceSet/lido:resourceRepresentation/lido:linkResource') { |x|
+  #  a2.push(x.text.strip) unless x.text.nil?
+  #}
+  #h["access_to_image_URI"] = (a2.length > 0 ? a2 : [""])
+
+  images = get_images(blacklight_id)
+  h["access_to_image_URI"] = (images.length > 0 ? images : [""])
+
   a.push(h) if h.length > 0
   solrjson["locations"] = a if a.length > 0
 
@@ -879,9 +999,10 @@ objects = Array.new
 #ids = "22015,5005,34"
 #ids = "1475,80"
 #ids = "24058"
+ids = "34,80,107"
 
-#q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
-q = "select local_identifier from metadata_record limit 65000"
+q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
+#q = "select local_identifier from metadata_record limit 65000"
 s = @oai_client.query(q)
 i = 0
 s.each do |row|
