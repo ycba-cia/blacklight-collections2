@@ -3,6 +3,8 @@ require 'json'
 require 'yaml'
 require 'mysql2'
 require 'open-uri'
+require 'active_support/inflector'
+require 'logger'
 
 #validation method
 # /Users/ermadmix/Documents/github_clones/json-schema-validation/ruby run_validation.rb 80
@@ -10,9 +12,13 @@ require 'open-uri'
 #synch method
 #aws s3 --profile spinup-0010d8-ycba-records sync /app/blacklight-collections2/scripts/lux/output s3://spinup-0010d8-ycba-records
 
+#logging
+@log = Logger.new('lux.log')
+@log.level = Logger::INFO
+
 #CONFIG
-rails_root = "/Users/ermadmix/Documents/RubymineProjects/blacklight-collections2"
-#rails_root = "/app/blacklight-collections2"
+#rails_root = "/Users/ermadmix/Documents/RubymineProjects/blacklight-collections2"
+rails_root = "/app/blacklight-collections2"
 y = YAML.load_file("#{rails_root}/config/local_env.yml")
 oai_hostname = "oaipmh-prod.ctsmybupmova.us-east-1.rds.amazonaws.com"
 oai_username = "oaipmhuser"
@@ -126,6 +132,11 @@ def normalize_aat(s)
   s = "30" + s if s.length == 7
   s = "3" + s if s.length == 8
   "http://vocab.getty.edu/page/aat/#{s}"
+end
+#note changes underlying string
+def cap_first_letter(s)
+  s[0] = s[0].upcase
+  s
 end
 def create_json(id,xml_str,set_spec)
   filename = "testrecords/lido_#{id}_public.xml"
@@ -441,7 +452,8 @@ def create_json(id,xml_str,set_spec)
   end
   solrjson["notes"] = a
 
-  a = Array.new
+  #consider vending ISO 639 zxx "no linguistic content" language code
+=begin
   xml_root.elements.each('lido:descriptiveMetadata') { |x|
     unless x.nil? && x.attributes["xml:lang"].nil?
       code = x.attributes["xml:lang"]
@@ -458,6 +470,8 @@ def create_json(id,xml_str,set_spec)
       a.push(h)
     end
   }
+=end
+   a = Array.new
   if a.length == 0
     h = Hash.new
     h["language_display"] = ""
@@ -592,7 +606,7 @@ def create_json(id,xml_str,set_spec)
     }
 
     h = Hash.new
-    h["subject_heading_display"] = (a1.length > 0 ? a1[0] : "")
+    h["subject_heading_display"] = (a1.length > 0 ? cap_first_letter(a1[0]) : "")
     h["subject_heading_sortname"] = (a1.length > 0 ? a1[0] : "")
     h["subject_URI"] = (a2.length > 0 ? a2 : [""])
     h2 = Hash.new
@@ -627,7 +641,7 @@ def create_json(id,xml_str,set_spec)
     }
 
     h = Hash.new
-    h["subject_heading_display"] = (a1.length > 0 ? a1[0] : "")
+    h["subject_heading_display"] = (a1.length > 0 ? cap_first_letter(a1[0]) : "")
     h["subject_heading_sortname"] = (a1.length > 0 ? a1[0] : "")
     h["subject_URI"] = (a2.length > 0 ? a2 : [""])
     h2 = Hash.new
@@ -663,7 +677,7 @@ def create_json(id,xml_str,set_spec)
     }
 
     h = Hash.new
-    h["subject_heading_display"] = (a1.length > 0 ? a1[0] : "")
+    h["subject_heading_display"] = (a1.length > 0 ? cap_first_letter(a1[0]) : "")
     h["subject_heading_sortname"] = (a1.length > 0 ? a1[0] : "")
     h["subject_URI"] = (a2.length > 0 ? a2 : [""])
     h2 = Hash.new
@@ -690,7 +704,7 @@ def create_json(id,xml_str,set_spec)
     }
 
     h = Hash.new
-    h["subject_heading_display"] = (a1.length > 0 ? a1[0] : "")
+    h["subject_heading_display"] = (a1.length > 0 ? cap_first_letter(a1[0]) : "")
     h["subject_heading_sortname"] = (a1.length > 0 ? a1[0] : "")
     h["subject_URI"] = [""]
     h2 = Hash.new
@@ -705,26 +719,6 @@ def create_json(id,xml_str,set_spec)
     a.push(h) if h.length > 0
   }
 
-=begin
-  if a.length == 0
-    h = Hash.new
-    h["subject_heading_display"] = ""
-    h["subject_heading_sortname"] = ""
-    h["subject_URI"] = [""]
-    h2 = Hash.new
-    h2["facet_display"] = ""
-    h2["facet_type"] = ""
-    h2["facet_URI"] = [""]
-    h2["facet_role_display"] = ""
-    h2["facet_role_code"] = ""
-    h2["facet_role_URI"] = [""]
-    h2["facet_latlon"] = ""
-    h["subject_facets"] = [h2]
-    a.push(h)
-  end
-  solrjson["subjects"] = a if a.length > 0
-=end
-
   #reuse array from above subject name block
   xml_desc.elements.each('lido:objectClassificationWrap/lido:objectWorkTypeWrap/lido:objectWorkType[lido:conceptID/@lido:type="Object name"]') { |x|
 
@@ -734,7 +728,7 @@ def create_json(id,xml_str,set_spec)
     }
 
     h = Hash.new
-    h["subject_heading_display"] = (a1.length > 0 ? a1[0] : "")
+    h["subject_heading_display"] = (a1.length > 0 ? cap_first_letter(a1[0]) : "")
     h["subject_heading_sortname"] = (a1.length > 0 ? a1[0] : "")
     h["subject_URI"] = [""]
     h2 = Hash.new
@@ -758,7 +752,7 @@ def create_json(id,xml_str,set_spec)
     }
 
     h = Hash.new
-    h["subject_heading_display"] = (a1.length > 0 ? a1[0] : "")
+    h["subject_heading_display"] = (a1.length > 0 ? cap_first_letter(a1[0]) : "")
     h["subject_heading_sortname"] = (a1.length > 0 ? a1[0] : "")
     h["subject_URI"] = [""]
     h2 = Hash.new
@@ -778,13 +772,9 @@ def create_json(id,xml_str,set_spec)
 
     a1 = Array.new
     a1.push(x.text.strip) unless x.text.nil?
-    #x.elements.each('lido:term') { |x2|
-    #  a1.push(x2.text.strip) unless x2.text.nil?
-    #}
-
 
     h = Hash.new
-    h["subject_heading_display"] = (a1.length > 0 ? a1[0] : "")
+    h["subject_heading_display"] = (a1.length > 0 ? cap_first_letter(a1[0]) : "")
     h["subject_heading_sortname"] = (a1.length > 0 ? a1[0] : "")
     h["subject_URI"] = [""]
     h2 = Hash.new
@@ -915,7 +905,7 @@ def create_json(id,xml_str,set_spec)
     h["supertype_level"] = "1"
     a2.push(h)
     h = Hash.new
-    h["supertype"] = x
+    h["supertype"] = cap_first_letter(x.pluralize)
     h["supertype_level"] = "2"
     a2.push(h)
 
@@ -926,7 +916,7 @@ def create_json(id,xml_str,set_spec)
   }
   a.each do |x|
     h = Hash.new
-    h["supertype"] = x
+    h["supertype"] = cap_first_letter(x.pluralize)
     h["supertype_level"] = "3"
     a2.push(h)
   end
@@ -972,7 +962,7 @@ def test_empty
 end
 
 def get_xml_from_db(id)
-  puts "Getting xml for #{id}"
+  @log.info "Getting xml for #{id}"
   q = "select xml from metadata_record where local_identifier = #{id}"
   s = @oai_client.query(q)
   xml_str = ""
@@ -991,27 +981,27 @@ end
 
 #DRIVER
 objects = Array.new
-#ids ="34, 80, 107, 120, 423, 471, 1480, 40392, 1489, 3579, 4908, 5001, 5005, 5054, 5981, 7632, 7935, 8783, 8867, 9836, " +
-#    "10676,  11502, 11575, 11612, 15115, 15206, 19850, 21889, 21890, 21898, 22010, 24342, 26383, 26451, 28509, " +
-#    "29334, 34363, 37054, 38435, 39101, 41109, 46623, 51708, 52176, 55318, 59577, 64421, 21891, 22015, 66162, 11575, 24058"
+ids ="34, 80, 107, 120, 423, 471, 1480, 40392, 1489, 3579, 4908, 5001, 5005, 5054, 5981, 7632, 7935, 8783, 8867, 9836, " +
+    "10676,  11502, 11575, 11612, 15115, 15206, 19850, 21889, 21890, 21898, 22010, 24342, 26383, 26451, 28509, " +
+    "29334, 34363, 37054, 38435, 39101, 41109, 46623, 51708, 52176, 55318, 59577, 64421, 21891, 22015, 66162, 11575, 24058"
 #ids = "66161"
 #ids = "34,80,841"
 #ids = "22015,5005,34"
 #ids = "1475,80"
 #ids = "24058"
-ids = "34,80,107"
+#ids = "34,80,107"
 
-q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
-#q = "select local_identifier from metadata_record limit 65000"
+#q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
+q = "select local_identifier from metadata_record limit 75000 order by local_identifier asc"
 s = @oai_client.query(q)
 i = 0
 s.each do |row|
   i = i + 1
-  objects.push(row["local_identifier"])
+  objects.push(row["local_identifier"].to_i)
 end
-puts "#{i.to_s} objects loaded to process"
-objects.each_with_index { |id, i|
-  puts "At index #{i}" if i % 1000 == 0
+@log.info "#{i.to_s} objects loaded to process"
+objects.sort.each_with_index { |id, i|
+  @log.info "At index #{i}" if i % 1000 == 0
   get_xml_from_db(id)
 }
 
