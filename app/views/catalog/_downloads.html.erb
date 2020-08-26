@@ -13,7 +13,7 @@
       </div>
       <div id="download-details" class="modal-body">
         <!--jquery content here-->
-        <% if copyrighted?(document) %>
+        <% if copyrighted?(document) && document["ort_ss"] %>
           <div class="row">
             <div class="col-xs-12"><%= document["ort_ss"][0].to_s %></div>
           </div>
