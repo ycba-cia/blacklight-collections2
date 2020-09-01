@@ -32,36 +32,81 @@ puts "oaipmh ping:#{@oai_client.ping}"
 #TODO: configure the streaming query in the driver
 
 #METHODS
-def get_primary_supertype(s)
-  d2 = Array.new
-  d2.push("Painting")
-  d2.push("Brass Rubbing")
-  d2.push("Drawing & Watercolor")
-  d2.push("Drawing & Watercolor-Architectural")
-  d2.push("Drawing & Watercolor-Miniature")
-  d2.push("Drawing & Watercolor-Sketchbook")
-  d2.push("Photograph")
-  d2.push("Poster")
-  d2.push("Print")
-  d2.push("Print-printing-plate")
-  d2.push("Paper conservation object record")
-  d3 = Array.new
-  d3.push("Frame")
-  d3.push("Ceramic")
-  d3.push("Model")
-  d3.push("Painted Object")
-  d3.push("Sculpture")
-  d3.push("Silver")
-  d3.push("Wedgwood")
-  d3.push("Paint Box")
-  am = Array.new
-  am.push("Manuscript")
-
-  d1 = "X-Dimensional Objects"
-  d1 = "Two-Dimensional Objects" if d2.include?(s)
-  d1 = "Three-Dimensional Objects" if d3.include?(s)
-  d1 = "Archives and Manuscripts" if am.include?(s)
-  d1
+def map_supertype2(classification)
+  case classification
+  when "Brass Rubbing"
+    s2 = "Prints"
+  when "Ceramic"
+    s2 = "Decorative Arts"
+  when "Drawing & Watercolor"
+    s2 = "Drawings"
+  when "Drawing & Watercolor-Architectural"
+    s2 = "Drawings"
+  when "Drawing & Watercolor-Miniature"
+    s2 = "Drawings"
+  when "Drawing & Watercolor-Sketchbook"
+    s2 = "Drawings"
+  when "Frame"
+    s2 = "Decorative Arts"
+  when "Manuscript"
+    s2 = "Manuscripts"
+  when "Model"
+    s2 = "Models"
+  when "Paint Box"
+    s2 = "Tools and Equipment"
+  when "Painted Object"
+    s2 = "Tools and Equipment"
+  when "Painting"
+    s2 = "Paintings"
+  when "Photograph"
+    s2 = "Photographs"
+  when "Poster"
+    s2 = "Prints"
+  when "Print"
+    s2 = "Prints"
+  when "Print-printing-plate"
+    s2 = "Tools and Equipment"
+  when "Rare Book"
+    s2 = "Books"
+  when "Sculpture"
+    s2 = "Sculptures"
+  when "Silver"
+    s2 = "Decorative Arts"
+  when "Wedgewood"
+    s2 = "Sculptures"
+  else
+    s2 = ""
+  end
+  s2
+end
+def map_supertype1(supertype2)
+  case supertype2
+  when "Prints"
+    s1 = "Two-Dimensional Objects"
+  when "Decorative Arts"
+    s1 = "Three-Dimensional Objects"
+  when "Drawings"
+    s1 = "Two-Dimensional Objects"
+  when "Manuscripts"
+    s1 = "Archival and Manuscript Material"
+  when "Models"
+    s1 = "Three-Dimensional Objects"
+  when "Tools and Equipment"
+    s1 = "Three-Dimensional Objects"
+  when "Paintings"
+    s1 = "Two-Dimensional Objects"
+  when "Photographs"
+    s1 = "Two-Dimensional Objects"
+  when "Prints"
+    s1 = "Two-Dimensional Objects"
+  when "Books"
+    s1 = "Texts"
+  when "Sculptures"
+    s1 = "Three-Dimensional Objects"
+  else
+    s1 = ""
+  end
+  s1
 end
 
 def get_images(id)
@@ -928,18 +973,21 @@ def create_json(id,xml_str,set_spec)
     a.push(x.text.strip) unless x.text.nil?
   }
   a.each do |x|
+    s = map_supertype2(x)
     h = Hash.new
-    h["supertype"] = get_primary_supertype(x)
+    h["supertype"] = map_supertype1(s)
     h["supertype_level"] = "1"
     a2.push(h)
     h = Hash.new
-    h["supertype"] = cap_first_letter(x.pluralize)
+    h["supertype"] = s
     h["supertype_level"] = "2"
     a2.push(h)
 
   end
+#for v7 - don't vend supertype 3
+=begin
   a = Array.new
-  xml_desc.elements.each('lido:objectClassificationWrap/lido:objectWorkTypeWrap/lido:objectWorkType/lido:term') { |x|
+  xml_desc.elements.each('lido:objectClassificationWrap/lido:objectWorkTypeWrap/lido:objectWorkType/lido:term[../lido:conceptID/@lido:type="Object name"]') { |x|
     a.push(x.text.strip) unless x.text.nil?
   }
   a.each do |x|
@@ -948,6 +996,7 @@ def create_json(id,xml_str,set_spec)
     h["supertype_level"] = "3"
     a2.push(h)
   end
+=end
   if a2.length == 0
     h = Hash.new
     h["supertype"] = ""
