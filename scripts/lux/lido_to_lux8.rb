@@ -17,8 +17,8 @@ require 'logger'
 @log.level = Logger::INFO
 
 #CONFIG
-#rails_root = "/Users/ermadmix/Documents/RubymineProjects/blacklight-collections2"
-rails_root = "/app/blacklight-collections2"
+rails_root = "/Users/ermadmix/Documents/RubymineProjects/blacklight-collections2"
+#rails_root = "/app/blacklight-collections2"
 y = YAML.load_file("#{rails_root}/config/local_env.yml")
 oai_hostname = "oaipmh-prod.ctsmybupmova.us-east-1.rds.amazonaws.com"
 oai_username = "oaipmhuser"
@@ -71,6 +71,7 @@ def get_images(id)
   j = JSON.parse(json)
   i = 0
   images = Array.new
+  manifests = Array.new
   has_manifest = false
   while true
     image = j["#{i}"]
@@ -80,9 +81,9 @@ def get_images(id)
     images.push(best_image) unless best_image.nil?
     i += 1
   end
-  images.push(url)
-  images.push("https://manifests.britishart.yale.edu/manifest/#{id.gsub("tms:","")}") if has_manifest
-  images
+  manifests.push(url)
+  manifests.push("https://manifests.britishart.yale.edu/manifest/#{id.gsub("tms:","")}") if has_manifest
+  return images,manifests
 end
 def get_collection(s)
   c = ""
@@ -138,6 +139,12 @@ def cap_first_letter(s)
   s[0] = s[0].upcase
   s
 end
+def wktize(s)
+  return "POINT(#{s.gsub(",","")})"
+end
+def wkttype(s)
+  return "point"
+end
 def create_json(id,xml_str,set_spec)
   filename = "testrecords/lido_#{id}_public.xml"
   #file = File.new(filename)
@@ -152,7 +159,7 @@ def create_json(id,xml_str,set_spec)
   end
   xml_desc = xml_root.elements['lido:descriptiveMetadata']
 
-  solrjson["last_modified"] = Time.now.to_datetime.rfc3339
+  solrjson["last_modified"] = Time.now.utc.iso8601
 
   a = Array.new
   a2 = Array.new #identifiers
@@ -162,7 +169,8 @@ def create_json(id,xml_str,set_spec)
   h = Hash.new
   h["identifier_value"] = a[0] if a.length > 0 #not-multivalued
   h["identifier_display"] = a[0] if a.length > 0 #not-multivalued
-  h["identifier_type"] = "Accession Number"
+  h["identifier_type"] = "accession number"
+  h["identifier_label"] = "Accession Number"
   a2.push(h) if h.length > 0
 
   a = Array.new
@@ -174,16 +182,19 @@ def create_json(id,xml_str,set_spec)
   h["identifier_value"] = a[0] if a.length > 0 #not-multivalued
   h["identifier_display"] = a[0] if a.length > 0 #not-multivalued
   h["identifier_type"] = "system"
+  h["identifier_label"] = "System"
   a2.push(h) if h.length > 0
   h = Hash.new
   h["identifier_value"] = a[0] if a.length > 0 #not-multivalued
   h["identifier_display"] = a[0] if a.length > 0 #not-multivalued
-  h["identifier_type"] = "TMS Object Identifier"
+  h["identifier_type"] = "TMS object identifier"
+  h["identifier_label"] = "TMS Object Identifier"
   a2.push(h)
   h = Hash.new
   h["identifier_value"] = "tms:#{a[0]}" if a.length > 0 #not-multivalued
   h["identifier_display"] = "tms:#{a[0]}" if a.length > 0 #not-multivalued
-  h["identifier_type"] = "YCBA Blacklight Identifier"
+  h["identifier_type"] = "YCBA blacklight identifier"
+  h["identifier_label"] = "YCBA Blacklight Identifier"
   a2.push(h)
   solrjson["identifiers"] = a2 if a2.length > 0
 
@@ -274,7 +285,7 @@ def create_json(id,xml_str,set_spec)
       h["agent_display"] = (a9.length > 0 ? a9[0] : "") #3-tuple a9
       h["agent_sortname"] = (a4.length > 0 ? a4[0] : "")
       h["agent_URI"] = (a5.length > 0 ? a5 : [""])
-      h["agent_role_display"] = (a6.length > 0 ? a6[0] : "")
+      h["agent_role_label"] = (a6.length > 0 ? a6[0] : "")
       h["agent_role_code"] = ""
       h["agent_role_URI"] = (a7.length > 0 ? a7 : [""])
       h["agent_type_display"] = (a8.length > 0 ? a8[0] : "")
@@ -291,7 +302,7 @@ def create_json(id,xml_str,set_spec)
     h["agent_display"] = ""
     h["agent_sortname"] = ""
     h["agent_URI"] = [""]
-    h["agent_role_display"] = ""
+    h["agent_role_label"] = ""
     h["agent_role_code"] = ""
     h["agent_role_URI"] = [""]
     h["agent_type_display"] = ""
@@ -313,6 +324,7 @@ def create_json(id,xml_str,set_spec)
   h = Hash.new
   h["title_display"] = a1[0] if a1.length > 0
   h["title_type"] = "primary" if a1.length > 0
+  h["title_label"] = "Primary" if a1.length > 0
   a.push(h) if h.length > 0
   a1 = Array.new
   xml_desc.elements.each('lido:objectIdentificationWrap/lido:titleWrap/lido:titleSet/lido:appellationValue[@lido:pref="alternate"]') { |x|
@@ -321,6 +333,7 @@ def create_json(id,xml_str,set_spec)
   h = Hash.new
   h["title_display"] = a1[0] if a1.length > 0
   h["title_type"] = "alternate" if a1.length > 0
+  h["title_label"] = "Alternate" if a1.length > 0
   a.push(h) if h.length > 0
   if a.length == 0
     h = Hash.new
@@ -388,6 +401,7 @@ def create_json(id,xml_str,set_spec)
       }
       h = Hash.new
       h["measurement_element"] = (s5.length > 0 ? s5 : "")
+      h["measurement_label"] = (s5.length > 0 ? s5 : "")
       h["measurement_display"] = (s.length > 0 ? s : "")
       h["measurement_type"] = (s2.length > 0 ? s2 : "")
       h["measurement_type_URI"] = (s2.length > 0 ? [get_measurement_type_authority(s2)] : [""])
@@ -434,6 +448,7 @@ def create_json(id,xml_str,set_spec)
   h = Hash.new
   h["note_display"] = s if s.length > 0
   h["note_type"] = "curatorial comment" if s.length > 0
+  h["note_label"] = "Curatorial Comment" if s.length > 0
   a.push(h) if h.length > 0
   s = String.new
   #xml_root.elements.each('lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet/lido:creditLine[../../lido:rightsWorkSet/lido:rightsType/lido:conceptID/@lido:label="object ownership"]') { |x|
@@ -443,6 +458,7 @@ def create_json(id,xml_str,set_spec)
   h = Hash.new
   h["note_display"] = s if s.length > 0
   h["note_type"] = "credit line" if s.length > 0
+  h["note_label"] = "Credit Line" if s.length > 0
   a.push(h) if h.length > 0
   if a.length == 0
     h = Hash.new
@@ -515,17 +531,13 @@ def create_json(id,xml_str,set_spec)
     h = Hash.new
     h["place_display"] = (a1.length > 0 ? a1[0] : "")
     h["place_URI"] = (a2.length > 0 ? a2 : [""])
-    h["place_role_display"] = (get_place_role(a3[0]).length > 0 ? get_place_role(a3[0]) : "")
+    h["place_role_label"] = (get_place_role(a3[0]).length > 0 ? get_place_role(a3[0]) : "")
     h["place_role_code"] = ""
     h["place_role_URI"] = [""]
     h["place_type_display"] = ""
     h["place_type_URI"] = [""]
-    h["place_latlon"] = (a4.length > 0 ? a4[0] : "")
-    h["place_latlon_role_display"] = ""
-    h["place_latlon_role_code"] = ""
-    h["place_latlon_role_URI"] = [""]
-    h["place_latlon_uncertainty"] = ""
-    h["place_latlon_uncertainty_type"] = ""
+    h["place_coordinates_display"] = (a4.length > 0 ? wktize(a4[0]) : "")
+    h["place_coordinates_type"] = (a4.length > 0 ? wkttype(a4[0]) : "")
     #h["place_type_display"] = a5[0] if a5.length > 0 #suppressed until better metadata
     a.push(h) if h.length > 0
 
@@ -534,17 +546,13 @@ def create_json(id,xml_str,set_spec)
     h = Hash.new
     h["place_display"] = ""
     h["place_URI"] = [""]
-    h["place_role_display"] = ""
+    h["place_role_label"] = ""
     h["place_role_code"] = ""
     h["place_role_URI"] = [""]
     h["place_type_display"] = ""
     h["place_type_URI"] = [""]
-    h["place_latlon"] = ""
-    h["place_latlon_role_display"] = ""
-    h["place_latlon_role_code"] = ""
-    h["place_latlon_role_URI"] = [""]
-    h["place_latlon_uncertainty"] = ""
-    h["place_latlon_uncertainty_type"] = ""
+    h["place_coordinates_display"] = ""
+    h["place_coordinates_type"] = ""
     a.push(h) if h.length > 0
   end
   solrjson["places"] = a if a.length > 0
@@ -568,9 +576,9 @@ def create_json(id,xml_str,set_spec)
   }
   h["date_latest"] = (s.length > 0 && s!="0" ? s : "")
   h["year_latest"] = h["date_latest"]
-  h["date_role_display"] = (h["date_display"].length > 0 ? "created" : "")
+  h["date_role_label"] = (h["date_display"].length > 0 ? "created" : "")
   h["date_role_code"] = ""
-  h["date_role_URI"] = (h["date_role_display"].length > 0 ? get_date_role_authority(h["date_role_display"]) : [""])
+  h["date_role_URI"] = (h["date_role_label"].length > 0 ? get_date_role_authority(h["date_role_label"]) : [""])
   a.push(h) if h.length > 0
   if a.length==0
     h = Hash.new
@@ -579,7 +587,7 @@ def create_json(id,xml_str,set_spec)
     h["year_earliest"] = ""
     h["date_latest"] = ""
     h["year_latest"] = ""
-    h["date_role_display"] = ""
+    h["date_role_label"] = ""
     h["date_role_code"] = ""
     h["date_role_URI"] = ""
   end
@@ -611,11 +619,13 @@ def create_json(id,xml_str,set_spec)
     h2 = Hash.new
     h2["facet_display"] = (a1.length > 0 ? a1[0] : "")
     h2["facet_type"] = (a1.length > 0 ? "person" : "")
+    h2["facet_type_label"] = (a1.length > 0 ? "Person" : "")
     h2["facet_URI"] = (a2.length > 0 ? a2 : [""])
     h2["facet_role_display"] = (a1.length > 0 ? "depicted or about" : "")
     h2["facet_role_code"] = ""
     h2["facet_role_URI"] = [""]
-    h2["facet_latlon"] = ""
+    h2["facet_coordinates_display"] = ""
+    h2["facet_coordinates_type"] = ""
     h["subject_facets"] = [h2] if h2.length > 0
     a.push(h) if h.length > 0
   }
@@ -646,11 +656,13 @@ def create_json(id,xml_str,set_spec)
     h2 = Hash.new
     h2["facet_display"] = (a1.length > 0 ? a1[0] : "")
     h2["facet_type"] = (a1.length > 0 ? "topic" : "")
+    h2["facet_type_label"] = (a1.length > 0 ? "Topic" : "")
     h2["facet_URI"] = (a2.length > 0 ? a2 : [""])
     h2["facet_role_display"] = (a1.length > 0 ? "depicted or about" : "")
     h2["facet_role_code"] = ""
     h2["facet_role_URI"] = [""]
-    h2["facet_latlon"] = ""
+    h2["facet_coordinates_display"] = ""
+    h2["facet_coordinates_type"] = ""
     h["subject_facets"] = [h2] if h2.length > 0
     a.push(h) if h.length > 0
 
@@ -682,11 +694,13 @@ def create_json(id,xml_str,set_spec)
     h2 = Hash.new
     h2["facet_display"] = (a1.length > 0 ? a1[0] : "")
     h2["facet_type"] = (a1.length > 0 ? "culture" : "")
+    h2["facet_type_label"] = (a1.length > 0 ? "Culture" : "")
     h2["facet_URI"] = (a2.length > 0 ? a2 : [""])
     h2["facet_role_display"] = (a1.length > 0 ? "expression" : "")
     h2["facet_role_code"] = ""
     h2["facet_role_URI"] = [""]
-    h2["facet_latlon"] = ""
+    h2["facet_coordinates_display"] = ""
+    h2["facet_coordinates_type"] = ""
     h["subject_facets"] = [h2] if h2.length > 0
     a.push(h) if h.length > 0
   }
@@ -709,11 +723,13 @@ def create_json(id,xml_str,set_spec)
     h2 = Hash.new
     h2["facet_display"] = (a1.length > 0 ? a1[0] : "")
     h2["facet_type"] = (a1.length > 0 ? "date" : "")
+    h2["facet_type_label"] = (a1.length > 0 ? "Date" : "")
     h2["facet_URI"] = [""]
     h2["facet_role_display"] = ""
     h2["facet_role_code"] = ""
     h2["facet_role_URI"] = [""]
-    h2["facet_latlon"] = ""
+    h2["facet_coordinates_display"] = ""
+    h2["facet_coordinates_type"] = ""
     h["subject_facets"] = [h2] if h2.length > 0
     a.push(h) if h.length > 0
   }
@@ -733,11 +749,13 @@ def create_json(id,xml_str,set_spec)
     h2 = Hash.new
     h2["facet_display"] = (a1.length > 0 ? a1[0] : "")
     h2["facet_type"] = (a1.length > 0 ? "form" : "")
+    h2["facet_type_label"] = (a1.length > 0 ? "Form" : "")
     h2["facet_URI"] = [""]
     h2["facet_role_display"] = ""
     h2["facet_role_code"] = ""
     h2["facet_role_URI"] = [""]
-    h2["facet_latlon"] = ""
+    h2["facet_coordinates_display"] = ""
+    h2["facet_coordinates_type"] = ""
     h["subject_facets"] = [h2] if h2.length > 0
     a.push(h) if h.length > 0
   }
@@ -757,20 +775,30 @@ def create_json(id,xml_str,set_spec)
     h2 = Hash.new
     h2["facet_display"] = (a1.length > 0 ? a1[0] : "")
     h2["facet_type"] = (a1.length > 0 ? "genre" : "")
+    h2["facet_type_label"] = (a1.length > 0 ? "Genre" : "")
     h2["facet_URI"] = [""]
     h2["facet_role_display"] = ""
     h2["facet_role_code"] = ""
     h2["facet_role_URI"] = [""]
-    h2["facet_latlon"] = ""
+    h2["facet_coordinates_display"] = ""
+    h2["facet_coordinates_type"] = ""
     h["subject_facets"] = [h2] if h2.length > 0
     a.push(h) if h.length > 0
   }
 
   #reuse array from above subject name block
-  xml_desc.elements.each('lido:objectRelationWrap/lido:subjectWrap/lido:subjectSet/lido:subject[@lido:type="description"]/lido:subjectPlace/lido:displayPlace') { |x|
+  xml_desc.elements.each('lido:objectRelationWrap/lido:subjectWrap/lido:subjectSet/lido:subject[@lido:type="description"]/lido:subjectPlace') { |x|
 
     a1 = Array.new
-    a1.push(x.text.strip) unless x.text.nil?
+    #a1.push(x.text.strip) unless x.text.nil?
+    x.elements.each('lido:displayPlace') { |x2|
+      a1.push(x2.text.strip) unless x2.text.nil?
+    }
+
+    a2 = Array.new
+    x.elements.each('lido:place/lido:gml/gml:Point/gml:coordinates') { |x2|
+      a2.push(x2.text.strip) unless x2.text.nil?
+    }
 
     h = Hash.new
     h["subject_heading_display"] = (a1.length > 0 ? cap_first_letter(a1[0]) : "")
@@ -779,11 +807,14 @@ def create_json(id,xml_str,set_spec)
     h2 = Hash.new
     h2["facet_display"] = (a1.length > 0 ? a1[0] : "")
     h2["facet_type"] = (a1.length > 0 ? "place" : "")
+    h2["facet_type_label"] = (a1.length > 0 ? "Place" : "")
     h2["facet_URI"] = [""]
     h2["facet_role_display"] = ""
     h2["facet_role_code"] = ""
     h2["facet_role_URI"] = [""]
-    h2["facet_latlon"] = ""
+    h2["facet_latlon"] = (a2.length > 0 ? a2[0] : "")
+    h2["facet_coordinates_display"] = (a2.length > 0 ? wktize(a2[0]) : "")
+    h2["facet_coordinates_type"] = (a2.length > 0 ? wkttype(a2[0]) : "")
     h["subject_facets"] = [h2] if h2.length > 0
     a.push(h) if h.length > 0
   }
@@ -796,11 +827,13 @@ def create_json(id,xml_str,set_spec)
     h2 = Hash.new
     h2["facet_display"] = ""
     h2["facet_type"] = ""
+    h2["facet_type_label"] = ""
     h2["facet_URI"] = [""]
     h2["facet_role_display"] = ""
     h2["facet_role_code"] = ""
     h2["facet_role_URI"] = [""]
-    h2["facet_latlon"] = ""
+    hh2["facet_coordinates_display"] = ""
+    h2["facet_coordinates_type"] = ""
     h["subject_facets"] = [h2]
     a.push(h)
   end
@@ -837,8 +870,9 @@ def create_json(id,xml_str,set_spec)
   #}
   #h["access_to_image_URI"] = (a2.length > 0 ? a2 : [""])
 
-  images = get_images(blacklight_id)
-  h["access_to_image_URI"] = (images.length > 0 ? images : [""])
+  images,manifests = get_images(blacklight_id)
+  h["access_to_primary_image_URI"] = (images.length > 0 ? images[0] : "")
+  h["access_to_digital_assets_URI"] = (manifests.length > 0 ? manifests : [""])
 
   a.push(h) if h.length > 0
   solrjson["locations"] = a if a.length > 0
@@ -852,13 +886,6 @@ def create_json(id,xml_str,set_spec)
   }
   h["rights_URI"] = (s.length > 0 ? [s] : [""])
 
-  s = String.new
-  xml_root.elements.each('lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet/lido:creditLine[../lido:rightsType/lido:conceptID/@lido:label="object copyright"]') { |x|
-
-      s = x.text.strip unless x.text.nil?
-  }
-  h["credit_line_display"] = (s.length > 0 ? s : "")
-
   h["rights_notes"] = [""]
   h["provenance"] = ""
 
@@ -869,6 +896,7 @@ def create_json(id,xml_str,set_spec)
   h["rights_display"] = (s.length > 0 ? s : "")
 
   h["rights_type"] = "usage"
+  h["rights_type_label"] = "Usage"
 
   s = String.new
   xml_root.elements.each('lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet[lido:rightsType/lido:conceptID/@lido:label="object copyright"]/lido:creditLine') { |x|
@@ -883,6 +911,7 @@ def create_json(id,xml_str,set_spec)
     h["rights_display"] = ""
     h["rights_notes"] = [""]
     h["rights_type"] = ""
+    h["rights_type_label"] = ""
     h["credit_line_display"] = ""
     h["provenance"] = ""
     h["rights_URI"] = [""]
@@ -988,10 +1017,10 @@ objects = Array.new
 #ids = "22015,5005,34"
 #ids = "1475,80"
 #ids = "24058"
-ids = "34,80,107"
+ids = "34,80,107,11575"
 
-#q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
-q = "select local_identifier from metadata_record order by local_identifier asc"
+q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
+#q = "select local_identifier from metadata_record order by local_identifier asc"
 s = @oai_client.query(q)
 i = 0
 s.each do |row|
