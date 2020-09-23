@@ -945,8 +945,8 @@ def create_json(id,xml_str,set_spec)
   #h["access_to_image_URI"] = (a2.length > 0 ? a2 : [""])
 
   images,manifests = get_images(blacklight_id)
-  #h["access_to_primary_image_URI"] = (images.length > 0 ? images[0] : "")
-  #h["access_to_digital_assets_URI"] = (manifests.length > 0 ? manifests : [""])
+  ##h["access_to_primary_image_URI"] = (images.length > 0 ? images[0] : "")
+  ##h["access_to_digital_assets_URI"] = (manifests.length > 0 ? manifests : [""])
 
   a.push(h) if h.length > 0
   solrjson["locations"] = a if a.length > 0
@@ -958,37 +958,35 @@ def create_json(id,xml_str,set_spec)
   xml_root.elements.each('lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet/lido:rightsType/lido:term[@lido:label="url"][../lido:conceptID/@lido:label="object copyright"]') { |x|
     s = x.text.strip unless x.text.nil?
   }
-  h["rights_URI"] = (s.length > 0 ? [s] : [""])
+  h["original_rights_URI"] = (s.length > 0 ? [s] : [""])
 
-  h["rights_notes"] = [""]
+  h["original_rights_notes"] = [""]
 
   s = String.new
   xml_root.elements.each('lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet/lido:rightsType/lido:term[not(@*)][../lido:conceptID/@lido:label="object copyright"]') { |x|
     s = x.text.strip unless x.text.nil?
   }
-  h["rights_display"] = (s.length > 0 ? s : "")
+  h["original_rights_status_display"] = (s.length > 0 ? s : "")
 
-  h["rights_type"] = "usage"
-  h["rights_type_label"] = "Usage"
+  h["original_rights_type"] = "usage"
+  h["original_rights_type_label"] = "Usage"
 
   s = String.new
   xml_root.elements.each('lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet[lido:rightsType/lido:conceptID/@lido:label="object copyright"]/lido:creditLine') { |x|
     s = x.text.strip unless x.text.nil?
   }
-  h["credit_line_display"] = (s.length > 0 ? s : "")
+  h["original_rights_copyright_credit_display"] = (s.length > 0 ? s : "")
 
 
   a.push(h) if h.length > 0
   if h.length == 0
     h = Hash.new
-    h["rights_display"] = ""
-    h["rights_notes"] = [""]
-    h["rights_type"] = ""
-    h["rights_type_label"] = ""
-    h["credit_line_display"] = ""
-    h["rights_URI"] = [""]
-
-    h["rights"] = [""]
+    h["original_rights_status_display"] = ""
+    h["original_rights_notes"] = [""]
+    h["original_rights_type"] = ""
+    h["original_rights_type_label"] = ""
+    h["original_rights_copyright_credit_display"] = ""
+    h["originak_rights_URI"] = [""]
     a.push(h) if h.length > 0
   end
 
@@ -1097,7 +1095,7 @@ objects = Array.new
 #ids = "1475,80"
 #ids = "24058"
 #ids = "34,80,107,11575"
-ids = "34"
+ids = "34,80"
 
 q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
 #q = "select local_identifier from metadata_record order by local_identifier asc"
