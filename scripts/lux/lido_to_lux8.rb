@@ -17,8 +17,8 @@ require 'logger'
 @log.level = Logger::INFO
 
 #CONFIG
-#rails_root = "/Users/ermadmix/Documents/RubymineProjects/blacklight-collections2"
-rails_root = "/app/blacklight-collections2"
+rails_root = "/Users/ermadmix/Documents/RubymineProjects/blacklight-collections2"
+#rails_root = "/app/blacklight-collections2"
 y = YAML.load_file("#{rails_root}/config/local_env.yml")
 oai_hostname = "oaipmh-prod.ctsmybupmova.us-east-1.rds.amazonaws.com"
 oai_username = "oaipmhuser"
@@ -96,8 +96,6 @@ def map_supertype1(supertype2)
   when "Paintings"
     s1 = "Two-Dimensional Objects"
   when "Photographs"
-    s1 = "Two-Dimensional Objects"
-  when "Prints"
     s1 = "Two-Dimensional Objects"
   when "Books"
     s1 = "Texts"
@@ -185,10 +183,10 @@ def cap_first_letter(s)
   s
 end
 def wktize(s)
-  return "POINT (#{s.gsub(", "," ").gsub(","," ")})"
+  return ["POINT (#{s.gsub(", "," ").gsub(","," ")})"]
 end
 def wkttype(s)
-  return "point"
+  return ["point"]
 end
 def create_json(id,xml_str,set_spec)
   filename = "testrecords/lido_#{id}_public.xml"
@@ -204,7 +202,15 @@ def create_json(id,xml_str,set_spec)
   end
   xml_desc = xml_root.elements['lido:descriptiveMetadata']
 
-  solrjson["last_modified"] = Time.now.utc.iso8601
+  #solrjson["last_modified"] = Time.now.utc.iso8601
+
+  h = Hash.new
+  h["metadata_last_modified"] = Time.now.utc.iso8601
+  h["metadata_rights_status_display"] = "No Copyright"
+  h["metadata_rights_type"] = ""
+  h["metadata_rights_type_label"] = ""
+  h["metadata_rights_URI"] = ["https://creativecommons.org/publicdomain/zero/1.0/"]
+  solrjson["record"] = h
 
   a = Array.new
   a2 = Array.new #identifiers
@@ -242,6 +248,53 @@ def create_json(id,xml_str,set_spec)
   h["identifier_label"] = "YCBA Blacklight Identifier"
   a2.push(h)
   solrjson["identifiers"] = a2 if a2.length > 0
+
+  h = Hash.new
+  a = Array.new
+  xml_desc.elements.each('lido:objectClassificationWrap/lido:classificationWrap/lido:classification/lido:term') { |x|
+    a.push(x.text.strip) unless x.text.nil?
+  }
+  a2 = Array.new
+  a.each do |x|
+    level2 = map_supertype2(x)
+    level1 = map_supertype1(level2)
+    a2.push([level1,level2])
+  end
+  h["supertypes"] = a2
+
+  a = Array.new
+  xml_desc.elements.each('lido:objectIdentificationWrap/lido:displayStateEditionWrap/displayState|displayEdition') { |x|
+    a.push(x.text.strip) unless x.text.nil?
+  }
+  h["edition_display"] = (a.length > 0 ? a[0] : "")
+
+  a = Array.new
+  test = String.new
+  xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term="production"]/lido:eventActor') { |x|
+    x.elements.each('lido:actorInRole/lido:actor/lido:nameActorSet/lido:appellationValue[@lido:pref="preferred"]') { |x2|
+      a.push(x2.text.strip) unless x2.text.nil?
+    }
+    x.elements.each('lido:actorInRole/lido:roleActor/lido:term[../lido:conceptID[@lido:type="Object related role"]]') { |x2|
+      test = x2.text.strip unless x2.text.nil?
+    }
+  }
+  h["imprint_display"] = (a.length > 0 && test=="publisher" ? a[0] : "")
+
+  a = Array.new
+  xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event/lido:eventMaterialsTech/lido:materialsTech/lido:termMaterialsTech/lido:term') { |x|
+    a.push(x.text.strip) unless x.text.nil?
+  }
+  h["materials_display"] = (a.length > 0 ? a : [""])
+
+  h["provenance_display"] = [""]
+
+  s = String.new
+  xml_root.elements.each('lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet[lido:rightsType/lido:conceptID/@lido:label="object ownership"]/lido:creditLine') { |x|
+    s = x.text.strip unless x.text.nil?
+  }
+  h["acquisition_source_display"] = s.length > 0 ? [s] : [""]
+
+  solrjson["basic_descriptors"] = h
 
   a = Array.new
   i = 0
@@ -389,34 +442,6 @@ def create_json(id,xml_str,set_spec)
   solrjson["titles"] = a
 
   a = Array.new
-  xml_desc.elements.each('lido:objectIdentificationWrap/lido:displayStateEditionWrap/displayState|displayEdition') { |x|
-    a.push(x.text.strip) unless x.text.nil?
-  }
-  solrjson["edition_display"] = (a.length > 0 ? a[0] : "")
-
-  a = Array.new
-  test = String.new
-  xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term="production"]/lido:eventActor') { |x|
-    #x.elements.each('lido:displayActorInRole') { |x2|
-    #  a.push(x2.text.strip) unless x2.text.nil?
-    #}
-    x.elements.each('lido:actorInRole/lido:actor/lido:nameActorSet/lido:appellationValue[@lido:pref="preferred"]') { |x2|
-      a.push(x2.text.strip) unless x2.text.nil?
-    }
-    x.elements.each('lido:actorInRole/lido:roleActor/lido:term[../lido:conceptID[@lido:type="Object related role"]]') { |x2|
-      test = x2.text.strip unless x2.text.nil?
-    }
-    #a.push(x.text.strip) unless x.text.nil?
-  }
-  solrjson["imprint_display"] = (a.length > 0 && test=="publisher" ? a[0] : "")
-
-  a = Array.new
-  xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event/lido:eventMaterialsTech/lido:materialsTech/lido:termMaterialsTech/lido:term') { |x|
-    a.push(x.text.strip) unless x.text.nil?
-  }
-  solrjson["materials_display"] = (a.length > 0 ? a : [""])
-
-  a = Array.new
   xml_desc.elements.each('lido:objectIdentificationWrap/lido:objectMeasurementsWrap/lido:objectMeasurementsSet') { |x|
 
     s = String.new
@@ -498,16 +523,6 @@ def create_json(id,xml_str,set_spec)
   h["note_type"] = "curatorial comment" if s.length > 0
   h["note_label"] = "Curatorial Comment" if s.length > 0
   a.push(h) if h.length > 0
-  s = String.new
-  #xml_root.elements.each('lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet/lido:creditLine[../../lido:rightsWorkSet/lido:rightsType/lido:conceptID/@lido:label="object ownership"]') { |x|
-  xml_root.elements.each('lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet[lido:rightsType/lido:conceptID/@lido:label="object ownership"]/lido:creditLine') { |x|
-    s = x.text.strip unless x.text.nil?
-  }
-  h = Hash.new
-  h["note_display"] = s if s.length > 0
-  h["note_type"] = "credit line" if s.length > 0
-  h["note_label"] = "Credit Line" if s.length > 0
-  a.push(h) if h.length > 0
   if a.length == 0
     h = Hash.new
     h["note_display"] = ""
@@ -584,8 +599,8 @@ def create_json(id,xml_str,set_spec)
     h["place_role_URI"] = [""]
     h["place_type_display"] = ""
     h["place_type_URI"] = [""]
-    h["place_coordinates_display"] = (a4.length > 0 ? wktize(a4[0]) : "")
-    h["place_coordinates_type"] = (a4.length > 0 ? wkttype(a4[0]) : "")
+    h["place_coordinates_display"] = (a4.length > 0 ? wktize(a4[0]) : [""])
+    h["place_coordinates_type"] = (a4.length > 0 ? wkttype(a4[0]) : [""])
     #h["place_type_display"] = a5[0] if a5.length > 0 #suppressed until better metadata
     a.push(h) if h.length > 0
 
@@ -599,8 +614,8 @@ def create_json(id,xml_str,set_spec)
     h["place_role_URI"] = [""]
     h["place_type_display"] = ""
     h["place_type_URI"] = [""]
-    h["place_coordinates_display"] = ""
-    h["place_coordinates_type"] = ""
+    h["place_coordinates_display"] = [""]
+    h["place_coordinates_type"] = [""]
     a.push(h) if h.length > 0
   end
   solrjson["places"] = a if a.length > 0
@@ -935,7 +950,6 @@ def create_json(id,xml_str,set_spec)
   h["rights_URI"] = (s.length > 0 ? [s] : [""])
 
   h["rights_notes"] = [""]
-  h["provenance"] = ""
 
   s = String.new
   xml_root.elements.each('lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet/lido:rightsType/lido:term[not(@*)][../lido:conceptID/@lido:label="object copyright"]') { |x|
@@ -961,7 +975,6 @@ def create_json(id,xml_str,set_spec)
     h["rights_type"] = ""
     h["rights_type_label"] = ""
     h["credit_line_display"] = ""
-    h["provenance"] = ""
     h["rights_URI"] = [""]
 
     h["rights"] = [""]
@@ -970,6 +983,8 @@ def create_json(id,xml_str,set_spec)
 
   solrjson["rights"] = a
 
+#for v8 - move supertype to basic descriptors
+=begin
   a = Array.new
   a2 = Array.new
   xml_desc.elements.each('lido:objectClassificationWrap/lido:classificationWrap/lido:classification/lido:term') { |x|
@@ -987,6 +1002,7 @@ def create_json(id,xml_str,set_spec)
     a2.push(h)
 
   end
+=end
 #for v7 - don't vend supertype 3
 =begin
   a = Array.new
@@ -1072,8 +1088,8 @@ objects = Array.new
 #ids = "34,80,107,11575"
 ids = "34"
 
-#q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
-q = "select local_identifier from metadata_record order by local_identifier asc"
+q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
+#q = "select local_identifier from metadata_record order by local_identifier asc"
 s = @oai_client.query(q)
 i = 0
 s.each do |row|
