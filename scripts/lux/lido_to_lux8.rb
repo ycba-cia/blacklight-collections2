@@ -183,10 +183,18 @@ def cap_first_letter(s)
   s
 end
 def wktize(s)
-  return ["POINT (#{s.gsub(", "," ").gsub(","," ")})"]
+  a = Array.new
+  s.each do |x|
+    a.push("POINT (#{x.gsub(", "," ").gsub(","," ")})")
+  end
+  a
 end
 def wkttype(s)
-  return ["point"]
+  a = Array.new
+  s.each do |x|
+    a.push("point")
+  end
+  a
 end
 def create_json(id,xml_str,set_spec)
   filename = "testrecords/lido_#{id}_public.xml"
@@ -373,10 +381,12 @@ def create_json(id,xml_str,set_spec)
       group = (a1.length > 0 ? a1[0].split.map(&:capitalize).join(' ') : "Event")
       role = (a6.length > 0 ? a6[0].split.map(&:capitalize).join(' ') : "Agent")
       name = (a3.length > 0 ? a3[0] : "Unidentified Agent")
+      #v8 -deprecated group -- role -- name
       #puts "G:#{group}"
       #puts "R:#{role}"
       #puts "D:#{name}"
-      a9.push(group+" -- "+role+" -- "+name)
+      #a9.push(group+" -- "+role+" -- "+name)
+      a9.push(name)
       h = Hash.new
       i = i + 1
       #h["agent_display"] = (a3.length > 0 ? a3[0] : "") #replaced by 3-tuple
@@ -390,6 +400,7 @@ def create_json(id,xml_str,set_spec)
       h["agent_culture_display"]= (a10.length > 0 ? a10 : [""])
       h["agent_type_URI"] = (a8.length > 0 ? [get_agent_type_authority(a8[0])] : [""])
       h["agent_sort"] = (a3.length > 0 ? "#{i.to_s}" : "")
+      h["agent_context_display"] = [group]
       #a2.push(h) if h.length > 0
       a.push(h) if h.length > 0
     }
@@ -407,6 +418,7 @@ def create_json(id,xml_str,set_spec)
     h["agent_type_URI"] = [""]
     h["agent_culture_display"] = [""]
     h["agent_sort"] = ""
+    h["agent_context_display"] = [""]
     #a.push([h])
     a.push(h)
   end
@@ -599,8 +611,8 @@ def create_json(id,xml_str,set_spec)
     h["place_role_URI"] = [""]
     h["place_type_display"] = ""
     h["place_type_URI"] = [""]
-    h["place_coordinates_display"] = (a4.length > 0 ? wktize(a4[0]) : [""])
-    h["place_coordinates_type"] = (a4.length > 0 ? wkttype(a4[0]) : [""])
+    h["place_coordinates_display"] = (a4.length > 0 ? wktize(a4) : [""])
+    h["place_coordinates_type"] = (a4.length > 0 ? wkttype(a4) : [""])
     #h["place_type_display"] = a5[0] if a5.length > 0 #suppressed until better metadata
     a.push(h) if h.length > 0
 
@@ -678,7 +690,7 @@ def create_json(id,xml_str,set_spec)
     h = Hash.new
     h["subject_heading_display"] = (a1.length > 0 ? cap_first_letter(a1[0]) : "")
     h["subject_heading_sortname"] = (a1.length > 0 ? a1[0] : "")
-    h["subject_URI"] = (a2.length > 0 ? a2 : [""])
+    h["subject_heading_URI"] = (a2.length > 0 ? a2 : [""])
     h2 = Hash.new
     h2["facet_display"] = (a1.length > 0 ? a1[0] : "")
     h2["facet_type"] = (a1.length > 0 ? "person" : "")
@@ -687,8 +699,8 @@ def create_json(id,xml_str,set_spec)
     h2["facet_role_label"] = (a1.length > 0 ? "depicted or about" : "")
     h2["facet_role_code"] = ""
     h2["facet_role_URI"] = [""]
-    h2["facet_coordinates_display"] = ""
-    h2["facet_coordinates_type"] = ""
+    h2["facet_coordinates_display"] = [""]
+    h2["facet_coordinates_type"] = [""]
     h["subject_facets"] = [h2] if h2.length > 0
     a.push(h) if h.length > 0
   }
@@ -715,7 +727,7 @@ def create_json(id,xml_str,set_spec)
     h = Hash.new
     h["subject_heading_display"] = (a1.length > 0 ? cap_first_letter(a1[0]) : "")
     h["subject_heading_sortname"] = (a1.length > 0 ? a1[0] : "")
-    h["subject_URI"] = (a2.length > 0 ? a2 : [""])
+    h["subject_heading_URI"] = (a2.length > 0 ? a2 : [""])
     h2 = Hash.new
     h2["facet_display"] = (a1.length > 0 ? a1[0] : "")
     h2["facet_type"] = (a1.length > 0 ? "topic" : "")
@@ -724,8 +736,8 @@ def create_json(id,xml_str,set_spec)
     h2["facet_role_label"] = (a1.length > 0 ? "depicted or about" : "")
     h2["facet_role_code"] = ""
     h2["facet_role_URI"] = [""]
-    h2["facet_coordinates_display"] = ""
-    h2["facet_coordinates_type"] = ""
+    h2["facet_coordinates_display"] = [""]
+    h2["facet_coordinates_type"] = [""]
     h["subject_facets"] = [h2] if h2.length > 0
     a.push(h) if h.length > 0
 
@@ -753,7 +765,7 @@ def create_json(id,xml_str,set_spec)
     h = Hash.new
     h["subject_heading_display"] = (a1.length > 0 ? cap_first_letter(a1[0]) : "")
     h["subject_heading_sortname"] = (a1.length > 0 ? a1[0] : "")
-    h["subject_URI"] = (a2.length > 0 ? a2 : [""])
+    h["subject_heading_URI"] = (a2.length > 0 ? a2 : [""])
     h2 = Hash.new
     h2["facet_display"] = (a1.length > 0 ? a1[0] : "")
     h2["facet_type"] = (a1.length > 0 ? "culture" : "")
@@ -762,8 +774,8 @@ def create_json(id,xml_str,set_spec)
     h2["facet_role_label"] = (a1.length > 0 ? "expression" : "")
     h2["facet_role_code"] = ""
     h2["facet_role_URI"] = [""]
-    h2["facet_coordinates_display"] = ""
-    h2["facet_coordinates_type"] = ""
+    h2["facet_coordinates_display"] = [""]
+    h2["facet_coordinates_type"] = [""]
     h["subject_facets"] = [h2] if h2.length > 0
     a.push(h) if h.length > 0
   }
@@ -782,7 +794,7 @@ def create_json(id,xml_str,set_spec)
     h = Hash.new
     h["subject_heading_display"] = (a1.length > 0 ? cap_first_letter(a1[0]) : "")
     h["subject_heading_sortname"] = (a1.length > 0 ? a1[0] : "")
-    h["subject_URI"] = [""]
+    h["subject_heading_URI"] = [""]
     h2 = Hash.new
     h2["facet_display"] = (a1.length > 0 ? a1[0] : "")
     h2["facet_type"] = (a1.length > 0 ? "date" : "")
@@ -791,8 +803,8 @@ def create_json(id,xml_str,set_spec)
     h2["facet_role_label"] = ""
     h2["facet_role_code"] = ""
     h2["facet_role_URI"] = [""]
-    h2["facet_coordinates_display"] = ""
-    h2["facet_coordinates_type"] = ""
+    h2["facet_coordinates_display"] = [""]
+    h2["facet_coordinates_type"] = [""]
     h["subject_facets"] = [h2] if h2.length > 0
     a.push(h) if h.length > 0
   }
@@ -808,7 +820,7 @@ def create_json(id,xml_str,set_spec)
     h = Hash.new
     h["subject_heading_display"] = (a1.length > 0 ? cap_first_letter(a1[0]) : "")
     h["subject_heading_sortname"] = (a1.length > 0 ? a1[0] : "")
-    h["subject_URI"] = [""]
+    h["subject_heading_URI"] = [""]
     h2 = Hash.new
     h2["facet_display"] = (a1.length > 0 ? a1[0] : "")
     h2["facet_type"] = (a1.length > 0 ? "form" : "")
@@ -817,8 +829,8 @@ def create_json(id,xml_str,set_spec)
     h2["facet_role_label"] = ""
     h2["facet_role_code"] = ""
     h2["facet_role_URI"] = [""]
-    h2["facet_coordinates_display"] = ""
-    h2["facet_coordinates_type"] = ""
+    h2["facet_coordinates_display"] = [""]
+    h2["facet_coordinates_type"] = [""]
     h["subject_facets"] = [h2] if h2.length > 0
     a.push(h) if h.length > 0
   }
@@ -834,7 +846,7 @@ def create_json(id,xml_str,set_spec)
     h = Hash.new
     h["subject_heading_display"] = (a1.length > 0 ? cap_first_letter(a1[0]) : "")
     h["subject_heading_sortname"] = (a1.length > 0 ? a1[0] : "")
-    h["subject_URI"] = [""]
+    h["subject_heading_URI"] = [""]
     h2 = Hash.new
     h2["facet_display"] = (a1.length > 0 ? a1[0] : "")
     h2["facet_type"] = (a1.length > 0 ? "genre" : "")
@@ -843,8 +855,8 @@ def create_json(id,xml_str,set_spec)
     h2["facet_role_label"] = ""
     h2["facet_role_code"] = ""
     h2["facet_role_URI"] = [""]
-    h2["facet_coordinates_display"] = ""
-    h2["facet_coordinates_type"] = ""
+    h2["facet_coordinates_display"] = [""]
+    h2["facet_coordinates_type"] = [""]
     h["subject_facets"] = [h2] if h2.length > 0
     a.push(h) if h.length > 0
   }
@@ -866,7 +878,7 @@ def create_json(id,xml_str,set_spec)
     h = Hash.new
     h["subject_heading_display"] = (a1.length > 0 ? cap_first_letter(a1[0]) : "")
     h["subject_heading_sortname"] = (a1.length > 0 ? a1[0] : "")
-    h["subject_URI"] = [""]
+    h["subject_heading_URI"] = [""]
     h2 = Hash.new
     h2["facet_display"] = (a1.length > 0 ? a1[0] : "")
     h2["facet_type"] = (a1.length > 0 ? "place" : "")
@@ -875,9 +887,8 @@ def create_json(id,xml_str,set_spec)
     h2["facet_role_label"] = ""
     h2["facet_role_code"] = ""
     h2["facet_role_URI"] = [""]
-    h2["facet_latlon"] = (a2.length > 0 ? a2[0] : "")
-    h2["facet_coordinates_display"] = (a2.length > 0 ? wktize(a2[0]) : "")
-    h2["facet_coordinates_type"] = (a2.length > 0 ? wkttype(a2[0]) : "")
+    h2["facet_coordinates_display"] = (a2.length > 0 ? wktize(a2) : [""])
+    h2["facet_coordinates_type"] = (a2.length > 0 ? wkttype(a2) : [""])
     h["subject_facets"] = [h2] if h2.length > 0
     a.push(h) if h.length > 0
   }
@@ -886,7 +897,7 @@ def create_json(id,xml_str,set_spec)
     h = Hash.new
     h["subject_heading_display"] = ""
     h["subject_heading_sortname"] = ""
-    h["subject_URI"] = [""]
+    h["subject_heading_URI"] = [""]
     h2 = Hash.new
     h2["facet_display"] = ""
     h2["facet_type"] = ""
@@ -895,8 +906,8 @@ def create_json(id,xml_str,set_spec)
     h2["facet_role_label"] = ""
     h2["facet_role_code"] = ""
     h2["facet_role_URI"] = [""]
-    hh2["facet_coordinates_display"] = ""
-    h2["facet_coordinates_type"] = ""
+    hh2["facet_coordinates_display"] = [""]
+    h2["facet_coordinates_type"] = [""]
     h["subject_facets"] = [h2]
     a.push(h)
   end
@@ -934,8 +945,8 @@ def create_json(id,xml_str,set_spec)
   #h["access_to_image_URI"] = (a2.length > 0 ? a2 : [""])
 
   images,manifests = get_images(blacklight_id)
-  h["access_to_primary_image_URI"] = (images.length > 0 ? images[0] : "")
-  h["access_to_digital_assets_URI"] = (manifests.length > 0 ? manifests : [""])
+  #h["access_to_primary_image_URI"] = (images.length > 0 ? images[0] : "")
+  #h["access_to_digital_assets_URI"] = (manifests.length > 0 ? manifests : [""])
 
   a.push(h) if h.length > 0
   solrjson["locations"] = a if a.length > 0
