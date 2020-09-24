@@ -59,15 +59,19 @@ module ApplicationHelper
   end
 
   def render_aeon_from_access options={}
+    #notice during covid
+    pd_rb_ia = "<br/><i>Note: As a COVID-19 precaution,the Study Room is closed until further notice.</i>"
+    ref = "<br/><i>Note: As a COVID-19 precaution,the Reference Library is closed until further notice.</i>"
+
     #method specific to call number
     detailed_onview_ss = get_one_value(options[:document][:detailed_onview_ss])
     puts "D:#{detailed_onview_ss}"
     values = []
     options[:value].each do |v|
       if detailed_onview_ss == "Accessible by request in the Study Room"
-        values.append(v + " [" + create_aeon_link(options[:document]) + "]")
+        values.append(v + " [" + create_aeon_link(options[:document]) + "]" + pd_rb_ia)
       elsif detailed_onview_ss == "Accessible in the Reference Library"
-        values.append(v + " [" + hours + "]")
+        values.append(v + " [" + hours + "]" + ref)
       else
         values.append(v)
       end
@@ -76,13 +80,17 @@ module ApplicationHelper
   end
 
   def render_aeon_from_access_callnumber(document,collection,callnumber,mfhd_id)
+    #notice during covid
+    pd_rb_ia = "<br/><i>Note: As a COVID-19 precaution,the Study Room is closed until further notice.</i>"
+    ref = "<br/><i>Note: As a COVID-19 precaution,the Reference Library is closed until further notice.</i>"
+
     value = ""
     if collection.start_with?("bacrb")
-      value = "Accessible by request in the Study Room [" + create_aeon_link_callnumber(document,callnumber,mfhd_id) + "]"
+      value = "Accessible by request in the Study Room [" + create_aeon_link_callnumber(document,callnumber,mfhd_id) + "]" + pd_rb_ia
     elsif collection.start_with?("bacref")
-      value = "Accessible in the Reference Library [" + hours + "]"
+      value = "Accessible in the Reference Library [" + hours + "]" + ref
     elsif collection.start_with?("bacia")
-      value = "Accessible by appointment in the Study Room [" + bacia_email + "]"
+      value = "Accessible by appointment in the Study Room [" + bacia_email + "]" + pd_rb_ia
     end
     value.html_safe
   end
