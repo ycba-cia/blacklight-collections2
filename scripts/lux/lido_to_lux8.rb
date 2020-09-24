@@ -17,8 +17,8 @@ require 'logger'
 @log.level = Logger::INFO
 
 #CONFIG
-rails_root = "/Users/ermadmix/Documents/RubymineProjects/blacklight-collections2"
-#rails_root = "/app/blacklight-collections2"
+#rails_root = "/Users/ermadmix/Documents/RubymineProjects/blacklight-collections2"
+rails_root = "/app/blacklight-collections2"
 y = YAML.load_file("#{rails_root}/config/local_env.yml")
 oai_hostname = "oaipmh-prod.ctsmybupmova.us-east-1.rds.amazonaws.com"
 oai_username = "oaipmhuser"
@@ -72,7 +72,7 @@ def map_supertype2(classification)
     s2 = "Sculptures"
   when "Silver"
     s2 = "Decorative Arts"
-  when "Wedgewood"
+  when "Wedgwood"
     s2 = "Sculptures"
   else
     s2 = ""
@@ -199,6 +199,10 @@ def wkttype(s)
   end
   a
 end
+def get_citation_type(s)
+  s = "publication" if s == "publication event"
+  s
+end
 def create_json(id,xml_str,set_spec)
   filename = "testrecords/lido_#{id}_public.xml"
   #file = File.new(filename)
@@ -217,7 +221,7 @@ def create_json(id,xml_str,set_spec)
 
   h = Hash.new
   h["metadata_last_modified"] = Time.now.utc.iso8601
-  h["metadata_rights_status_display"] = "No Copyright"
+  h["metadata_rights_status_display"] = "CC0 1.0 Universal (CC0 1.0) Public Domain Dedication"
   h["metadata_rights_type"] = ""
   h["metadata_rights_type_label"] = ""
   h["metadata_rights_URI"] = ["https://creativecommons.org/publicdomain/zero/1.0/"]
@@ -308,6 +312,7 @@ def create_json(id,xml_str,set_spec)
   solrjson["basic_descriptors"] = h
 
   a = Array.new
+  cits = Array.new
   i = 0
   xml_desc.elements.each('lido:eventWrap/lido:eventSet') { |x|
     #i = i + 1
@@ -317,6 +322,19 @@ def create_json(id,xml_str,set_spec)
       a1.push(x2.text.strip) unless x2.text.nil?
     }
     next if a1.length > 0 && a1[0] == "Curatorial comment"
+
+    a11 = Array.new
+    x.elements.each('lido:event/lido:eventName/lido:appellationValue') { |x2|
+      a11.push(x2.text.strip) unless x2.text.nil?
+    }
+    a11.each_with_index { |x2,ii|
+      h = Hash.new
+      h["citation_string_display"] = x2.gsub("^","")
+      h["citation_identifier_type"] = ""
+      h["citation_URI"] = [""]
+      h["citation_type"] = get_citation_type(a1[ii])
+      cits.push(h)
+    }
 
     #a2 = Array.new #removed to flatten
     x.elements.each('lido:event/lido:eventActor') { |x2|
@@ -429,6 +447,16 @@ def create_json(id,xml_str,set_spec)
   a_sorted2 = a_sorted.each_with_index { |k,i| k["agent_sort"] = (i+1).to_s }
   solrjson["agents"] = a_sorted2
 
+  if cits.length == 0
+    h = Hash.new
+    h["citation_string_display"] = ""
+    h["citation_identifier_type"] = ""
+    h["citation_URI"] = [""]
+    h["citation_type"] = ""
+    cits.push(h)
+  end
+  solrjson["citations"] = cits
+
   a = Array.new
   a1 = Array.new
   xml_desc.elements.each('lido:objectIdentificationWrap/lido:titleWrap/lido:titleSet[@lido:type="Repository title"]/lido:appellationValue[@lido:pref="preferred"]') { |x|
@@ -486,7 +514,7 @@ def create_json(id,xml_str,set_spec)
       }
       h = Hash.new
       h["measurement_element"] = (s5.length > 0 ? s5 : "")
-      h["measurement_label"] = (s5.length > 0 ? s5 : "")
+      h["measurement_label"] = "Dimensions"
       h["measurement_display"] = (s.length > 0 ? s : "")
       h["measurement_type"] = (s2.length > 0 ? s2 : "")
       h["measurement_type_URI"] = (s2.length > 0 ? [get_measurement_type_authority(s2)] : [""])
@@ -542,6 +570,7 @@ def create_json(id,xml_str,set_spec)
     h = Hash.new
     h["note_display"] = ""
     h["note_type"] = ""
+    h["note_label"] = ""
     a.push(h)
   end
   solrjson["notes"] = a
@@ -989,8 +1018,8 @@ def create_json(id,xml_str,set_spec)
     h2["asset_rights_notes"] = [""]
     h2["asset_rights_type"] = "usage"
     h2["asset_rights_type_label"] = "Usage"
-    h2["asset_type"] = "images"
-    h2["asset_URI"] = image
+    h2["asset_type"] = "image"
+    h2["asset_URI"] = [image]
     h2["asset_flag"] = i == 0 ? "primary image" : ""
     h2["asset_caption_display"] = captions[i]
     a2.push(h2)
@@ -1057,6 +1086,7 @@ def create_json(id,xml_str,set_spec)
     a2.push(h)
   end
 =end
+=begin
   if a2.length == 0
     h = Hash.new
     h["supertype"] = ""
@@ -1064,6 +1094,7 @@ def create_json(id,xml_str,set_spec)
     a2.push(h)
   end
   solrjson["supertypes"] = a2
+=end
 
   a = Array.new
   h = Hash.new
@@ -1118,19 +1149,19 @@ end
 
 #DRIVER
 objects = Array.new
-#ids ="34, 80, 107, 120, 423, 471, 1480, 40392, 1489, 3579, 4908, 5001, 5005, 5054, 5981, 7632, 7935, 8783, 8867, 9836, " +
-#    "10676,  11502, 11575, 11612, 15115, 15206, 19850, 21889, 21890, 21898, 22010, 24342, 26383, 26451, 28509, " +
-#    "29334, 34363, 37054, 38435, 39101, 41109, 46623, 51708, 52176, 55318, 59577, 64421, 21891, 22015, 66162, 11575, 24058"
+ids ="34, 80, 107, 120, 423, 471, 1480, 40392, 1489, 3579, 4908, 5001, 5005, 5054, 5981, 7632, 7935, 8783, 8867, 9836, " +
+    "10676,  11502, 11575, 11612, 15115, 15206, 19850, 21889, 21890, 21898, 22010, 24342, 26383, 26451, 28509, " +
+    "29334, 34363, 37054, 38435, 39101, 41109, 46623, 51708, 52176, 55318, 59577, 64421, 21891, 22015, 66162, 11575, 24058"
 #ids = "66161"
 #ids = "34,80,841"
 #ids = "22015,5005,34"
 #ids = "1475,80"
 #ids = "24058"
 #ids = "34,80,107,11575"
-ids = "34,80"
+#ids = "34,80"
 
-q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
-#q = "select local_identifier from metadata_record order by local_identifier asc"
+#q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
+q = "select local_identifier from metadata_record order by local_identifier asc"
 s = @oai_client.query(q)
 i = 0
 s.each do |row|
