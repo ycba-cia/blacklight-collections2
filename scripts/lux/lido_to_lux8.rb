@@ -115,6 +115,7 @@ def get_images(id)
   i = 0
   images = Array.new
   manifests = Array.new
+  captions = Array.new
   has_manifest = false
   while true
     image = j["#{i}"]
@@ -122,11 +123,13 @@ def get_images(id)
     best_image = image.dig("derivatives","6","url") || image.dig("derivatives","3","url") || image.dig("derivatives","2","url") || image.dig("derivatives","1","url")
     has_manifest = true if image.dig("derivatives","7","url")
     images.push(best_image) unless best_image.nil?
+    caption = image.dig("metadata","caption") || ""
+    captions.push(caption)
     i += 1
   end
   manifests.push(url)
   manifests.push("https://manifests.britishart.yale.edu/manifest/#{id.gsub("tms:","")}") if has_manifest
-  return images,manifests
+  return images,manifests,captions
 end
 def get_collection(s)
   c = ""
@@ -944,7 +947,7 @@ def create_json(id,xml_str,set_spec)
   #}
   #h["access_to_image_URI"] = (a2.length > 0 ? a2 : [""])
 
-  images,manifests = get_images(blacklight_id)
+  images,manifests,captions = get_images(blacklight_id)
   ##h["access_to_primary_image_URI"] = (images.length > 0 ? images[0] : "")
   ##h["access_to_digital_assets_URI"] = (manifests.length > 0 ? manifests : [""])
 
@@ -953,6 +956,7 @@ def create_json(id,xml_str,set_spec)
 
 
   a = Array.new
+  a2 = Array.new #for digital_assets
   h = Hash.new
   s = String.new
   xml_root.elements.each('lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet/lido:rightsType/lido:term[@lido:label="url"][../lido:conceptID/@lido:label="object copyright"]') { |x|
@@ -967,6 +971,7 @@ def create_json(id,xml_str,set_spec)
     s = x.text.strip unless x.text.nil?
   }
   h["original_rights_status_display"] = (s.length > 0 ? s : "")
+  asset_rights_status_display = (s.length > 0 ? s : "")
 
   h["original_rights_type"] = "usage"
   h["original_rights_type_label"] = "Usage"
@@ -977,6 +982,19 @@ def create_json(id,xml_str,set_spec)
   }
   h["original_rights_copyright_credit_display"] = (s.length > 0 ? s : "")
 
+  images.each_with_index do |image,i|
+    #puts image
+    h2 = Hash.new
+    h2["asset_rights_status_display"] = asset_rights_status_display
+    h2["asset_rights_notes"] = [""]
+    h2["asset_rights_type"] = "usage"
+    h2["asset_rights_type_label"] = "Usage"
+    h2["asset_type"] = "images"
+    h2["asset_URI"] = image
+    h2["asset_flag"] = i == 0 ? "primary image" : ""
+    h2["asset_caption_display"] = captions[i]
+    a2.push(h2)
+  end
 
   a.push(h) if h.length > 0
   if h.length == 0
@@ -986,11 +1004,25 @@ def create_json(id,xml_str,set_spec)
     h["original_rights_type"] = ""
     h["original_rights_type_label"] = ""
     h["original_rights_copyright_credit_display"] = ""
-    h["originak_rights_URI"] = [""]
+    h["original_rights_URI"] = [""]
     a.push(h) if h.length > 0
   end
 
+  if a2.length == 0
+    h2 = Hash.new
+    h2["asset_rights_status_display"] = ""
+    h2["asset_rights_notes"] = [""]
+    h2["asset_rights_type"] = ""
+    h2["asset_rights_type_label"] = ""
+    h2["asset_type"] = ""
+    h2["asset_URI"] = [""]
+    h2["asset_flag"] = ""
+    h2["asset_caption_display"] = ""
+    a2.push(h2) if h2.length > 0
+  end
+
   solrjson["rights"] = a
+  solrjson["digital_assets"] = a2
 
 #for v8 - move supertype to basic descriptors
 =begin
