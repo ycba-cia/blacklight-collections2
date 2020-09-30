@@ -174,10 +174,10 @@ class CatalogController < ApplicationController
 
     #marc fields in detailed view (note: accessors needed when field both in marc and lido, and special display_marc_accessor_field method to not show empty fields)
     config.add_show_field 'author_acc', :accessor => 'author_acc',  :label => 'Creator', helper_method: 'link_to_author', separator_options: break_separator, if: :display_marc_accessor_field?
-    config.add_show_field 'title_acc', :accessor => 'title_acc', :label => 'Title', if: :display_marc_accessor_field?
-    config.add_show_field 'title_alt_ss', :label => 'Alternate Title(s)', separator_options: break_separator, if: :display_marc_field?
-    config.add_show_field 'edition_ss', label: 'Edition', if: :display_marc_field?
-    config.add_show_field 'publisher_ss', :label => 'Published/Created', separator_options: break_separator, if: :display_marc_field?
+    config.add_show_field 'title_acc', :accessor => 'title_acc', :label => 'Title', helper_method: 'add_alt_title', if: :display_marc_accessor_field?
+    config.add_show_field 'title_alt_ss', :label => 'Alternate Title(s)', helper_method: 'add_alt_title_alt', separator_options: break_separator, if: :display_marc_field?
+    config.add_show_field 'edition_ss', label: 'Edition', helper_method: 'add_alt_edition', if: :display_marc_field?
+    config.add_show_field 'publisher_ss', :label => 'Published/Created', helper_method: 'add_alt_publisher', separator_options: break_separator, if: :display_marc_field?
     config.add_show_field 'physical_acc', accessor: 'physical_acc', label: 'Physical Description', if: :display_marc_accessor_field?
     #holdings inserted here, see _show_marc_html.erb
     config.add_show_field 'dummy_ort_marc_acc', :accessor => 'dummy_ort_marc_acc', :label => 'Copyright Status', helper_method: 'render_copyright_status', if: :display_marc_accessor_field?
@@ -185,7 +185,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'resourceURL_ss', :label => 'Related Content', helper_method: 'render_related_content', if: :render_related_content?
     config.add_show_field 'type_acc', accessor: 'type_acc', :label => 'Classification', if: :display_marc_accessor_field?
     config.add_show_field 'cartographic_detail_ss', :label => 'Scale', if: :display_marc_field?
-    config.add_show_field 'note_acc', accessor: 'note_acc', :label => 'Notes', helper_method: 'render_citation', if: :display_marc_accessor_field?
+    config.add_show_field 'note_acc', accessor: 'note_acc', :label => 'Notes', helper_method: 'add_alt_description', if: :display_marc_accessor_field?
     config.add_show_field 'marc_contents_ss', label: 'Contents', if: :display_marc_field?
     config.add_show_field 'exhibition_history_acc', accessor: 'exhibition_history_acc', :label => 'Exhibition History', helper_method: 'render_exhibitions', if: :display_marc_field?
     config.add_show_field 'topic_acc', accessor: 'topic_acc', :label => 'Subject Terms', link_to_search: 'topic_facet', separator_options: break_separator, helper_method: 'sort_values_and_link_to_topic_no_pipes', if: :display_marc_accessor_field?

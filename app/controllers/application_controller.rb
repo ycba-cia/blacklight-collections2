@@ -53,7 +53,6 @@ class ApplicationController < ActionController::Base
                                 ["City and region","#{site}/city-and-region"],
                                 ["Directions and parking","#{site}/directions-and-parking"],
                                 ["Accessibility","#{site}/accessibility"],
-                                ["Museum Shop","#{site}/museum-shop"],
                                 ["App","#{site}/app"]]},
                     {follow_buttons:"true"},
                     {title:"Exhibitions and programs",

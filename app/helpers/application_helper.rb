@@ -60,8 +60,8 @@ module ApplicationHelper
 
   def render_aeon_from_access options={}
     #notice during covid
-    pd_rb_ia = "<br/><i>Note: As a COVID-19 precaution,the Study Room is closed until further notice.</i>"
-    ref = "<br/><i>Note: As a COVID-19 precaution,the Reference Library is closed until further notice.</i>"
+    pd_rb_ia = "<br/><i>Note: As a COVID-19 precaution, the Study Room is closed until further notice.</i>"
+    ref = "<br/><i>Note: As a COVID-19 precaution, the Reference Library is closed until further notice.</i>"
 
     #method specific to call number
     detailed_onview_ss = get_one_value(options[:document][:detailed_onview_ss])
@@ -81,8 +81,8 @@ module ApplicationHelper
 
   def render_aeon_from_access_callnumber(document,collection,callnumber,mfhd_id)
     #notice during covid
-    pd_rb_ia = "<br/><i>Note: As a COVID-19 precaution,the Study Room is closed until further notice.</i>"
-    ref = "<br/><i>Note: As a COVID-19 precaution,the Reference Library is closed until further notice.</i>"
+    pd_rb_ia = "<br/><i>Note: As a COVID-19 precaution, the Study Room is closed until further notice.</i>"
+    ref = "<br/><i>Note: As a COVID-19 precaution, the Reference Library is closed until further notice.</i>"
 
     value = ""
     if collection.start_with?("bacrb")
@@ -262,6 +262,56 @@ module ApplicationHelper
     link = "http://hdl.handle.net/10079/c59zwbm"
     link = options[:document]['rightsURL_ss'][0] if options[:document]['rightsURL_ss']
     link_to(label, link, target: "_blank", rel: "nofollow")
+  end
+
+  def add_alt_publisher options={}
+    concat = options[:value]
+    if options[:document]['altrep_publisher_ss']
+      options[:document]['altrep_publisher_ss'].each { |v|
+        concat.append(v)
+      }
+    end
+    concat.uniq.join('<br/>').html_safe
+  end
+
+  def add_alt_title options={}
+    concat = options[:value]
+    if options[:document]['altrep_title_ss']
+      options[:document]['altrep_title_ss'].each { |v|
+        concat.append(v)
+      }
+    end
+    concat.uniq.join('<br/>').html_safe
+  end
+
+  def add_alt_title_alt options={}
+    concat = options[:value]
+    if options[:document]['altrep_title_alt_ss']
+      options[:document]['altrep_title_alt_ss'].each { |v|
+        concat.append(v)
+      }
+    end
+    concat.uniq.join('<br/>').html_safe
+  end
+
+  def add_alt_edition options={}
+    concat = options[:value]
+    if options[:document]['altrep_edition_ss']
+      options[:document]['altrep_edition_ss'].each { |v|
+        concat.append(v)
+      }
+    end
+    concat.uniq.join('<br/>').html_safe
+  end
+
+  def add_alt_description options={}
+    concat = options[:value]
+    if options[:document]['altrep_description_ss']
+      options[:document]['altrep_description_ss'].each { |v|
+        concat.append(v)
+      }
+    end
+    concat.uniq.join('<br/>').html_safe
   end
 
   def cds_info_url(id, type = 2)

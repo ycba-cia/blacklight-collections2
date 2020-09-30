@@ -98,7 +98,7 @@ def map_supertype1(supertype2)
   when "Photographs"
     s1 = "Two-Dimensional Objects"
   when "Books"
-    s1 = "Texts"
+    s1 = "Text"
   when "Sculptures"
     s1 = "Three-Dimensional Objects"
   else
@@ -273,7 +273,11 @@ def create_json(id,xml_str,set_spec)
   a.each do |x|
     level2 = map_supertype2(x)
     level1 = map_supertype1(level2)
-    a2.push([level1,level2])
+    if level1 == "Archival and Manuscript Material"
+      a2.push([level1])
+    else
+      a2.push([level1,level2])
+    end
   end
   h["supertypes"] = a2
 
@@ -480,6 +484,7 @@ def create_json(id,xml_str,set_spec)
     h = Hash.new
     h["title_display"] = ""
     h["title_type"] = ""
+    h["title_label"] = ""
     a.push(h)
   end
   solrjson["titles"] = a
@@ -1149,9 +1154,9 @@ end
 
 #DRIVER
 objects = Array.new
-ids ="34, 80, 107, 120, 423, 471, 1480, 40392, 1489, 3579, 4908, 5001, 5005, 5054, 5981, 7632, 7935, 8783, 8867, 9836, " +
-    "10676,  11502, 11575, 11612, 15115, 15206, 19850, 21889, 21890, 21898, 22010, 24342, 26383, 26451, 28509, " +
-    "29334, 34363, 37054, 38435, 39101, 41109, 46623, 51708, 52176, 55318, 59577, 64421, 21891, 22015, 66162, 11575, 24058"
+#ids ="34, 80, 107, 120, 423, 471, 1480, 40392, 1489, 3579, 4908, 5001, 5005, 5054, 5981, 7632, 7935, 8783, 8867, 9836, " +
+#    "10676,  11502, 11575, 11612, 15115, 15206, 19850, 21889, 21890, 21898, 22010, 24342, 26383, 26451, 28509, " +
+#    "29334, 34363, 37054, 38435, 39101, 41109, 46623, 51708, 52176, 55318, 59577, 64421, 21891, 22015, 66162, 11575, 24058"
 #ids = "66161"
 #ids = "34,80,841"
 #ids = "22015,5005,34"
@@ -1159,6 +1164,7 @@ ids ="34, 80, 107, 120, 423, 471, 1480, 40392, 1489, 3579, 4908, 5001, 5005, 505
 #ids = "24058"
 #ids = "34,80,107,11575"
 #ids = "34,80"
+#ids = "66533,66534,66535,66536,66537,66538,68846,82229,82230,34440,34442,74753,3849"
 
 #q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
 q = "select local_identifier from metadata_record order by local_identifier asc"
