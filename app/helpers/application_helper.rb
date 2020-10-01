@@ -61,7 +61,7 @@ module ApplicationHelper
   def render_aeon_from_access options={}
     #notice during covid
     pd_rb_ia = "<br/><i>Note: As a COVID-19 precaution, the Study Room is closed until further notice.</i>"
-    ref = "<br/><i>Note: As a COVID-19 precaution, the Reference Library is closed until further notice.</i>"
+    ref = "<br/><i>Note: As a COVID-19 precaution, the Reference Library is closed until further notice. For scans from the reference collection please email #{bacref_email}.</i>"
 
     #method specific to call number
     detailed_onview_ss = get_one_value(options[:document][:detailed_onview_ss])
@@ -82,7 +82,7 @@ module ApplicationHelper
   def render_aeon_from_access_callnumber(document,collection,callnumber,mfhd_id)
     #notice during covid
     pd_rb_ia = "<br/><i>Note: As a COVID-19 precaution, the Study Room is closed until further notice.</i>"
-    ref = "<br/><i>Note: As a COVID-19 precaution, the Reference Library is closed until further notice.</i>"
+    ref = "<br/><i>Note: As a COVID-19 precaution, the Reference Library is closed until further notice. For scans from the reference collection please email #{bacref_email}.</i>"
 
     value = ""
     if collection.start_with?("bacrb")
@@ -101,6 +101,10 @@ module ApplicationHelper
 
   def bacia_email
     mail_to "ycba.institutionalarchives@yale.edu", "Email"
+  end
+
+  def bacref_email
+    mail_to "ycba.reference@yale.edu", "ycba.reference@yale.edu"
   end
 
   def sort_values_and_link_to_facet options={}
