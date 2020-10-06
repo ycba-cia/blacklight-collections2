@@ -582,6 +582,8 @@ def create_json(id,xml_str,set_spec)
 
   #consider vending ISO 639 zxx "no linguistic content" language code
   a = Array.new
+  #no longer using language to describe metadata - v9
+=begin
   xml_desc.elements.each('lido:objectIdentificationWrap/lido:titleWrap/lido:titleSet/lido:appellationValue[@lido:pref="preferred"]') { |x|
     unless x.nil? && x.attributes["xml:lang"].nil?
       code = x.attributes["xml:lang"]
@@ -598,7 +600,7 @@ def create_json(id,xml_str,set_spec)
       a.push(h)
     end
   }
-
+=end
   if a.length == 0
     h = Hash.new
     h["language_display"] = ""
@@ -808,7 +810,7 @@ def create_json(id,xml_str,set_spec)
     h2["facet_type"] = (a1.length > 0 ? "culture" : "")
     h2["facet_type_label"] = (a1.length > 0 ? "Culture" : "")
     h2["facet_URI"] = (a2.length > 0 ? a2 : [""])
-    h2["facet_role_label"] = (a1.length > 0 ? "expression" : "")
+    h2["facet_role_label"] = (a1.length > 0 ? "depicted or about" : "")
     h2["facet_role_code"] = ""
     h2["facet_role_URI"] = [""]
     h2["facet_coordinates_display"] = [""]
@@ -834,10 +836,10 @@ def create_json(id,xml_str,set_spec)
     h["subject_heading_URI"] = [""]
     h2 = Hash.new
     h2["facet_display"] = (a1.length > 0 ? a1[0] : "")
-    h2["facet_type"] = (a1.length > 0 ? "date" : "")
-    h2["facet_type_label"] = (a1.length > 0 ? "Date" : "")
+    h2["facet_type"] = (a1.length > 0 ? "period" : "")
+    h2["facet_type_label"] = (a1.length > 0 ? "Period" : "")
     h2["facet_URI"] = [""]
-    h2["facet_role_label"] = ""
+    h2["facet_role_label"] = (a1.length > 0 ? "depicted or about" : "")
     h2["facet_role_code"] = ""
     h2["facet_role_URI"] = [""]
     h2["facet_coordinates_display"] = [""]
@@ -863,7 +865,7 @@ def create_json(id,xml_str,set_spec)
     h2["facet_type"] = (a1.length > 0 ? "form" : "")
     h2["facet_type_label"] = (a1.length > 0 ? "Form" : "")
     h2["facet_URI"] = [""]
-    h2["facet_role_label"] = ""
+    h2["facet_role_label"] = (a1.length > 0 ? "depicted or about" : "")
     h2["facet_role_code"] = ""
     h2["facet_role_URI"] = [""]
     h2["facet_coordinates_display"] = [""]
@@ -889,7 +891,7 @@ def create_json(id,xml_str,set_spec)
     h2["facet_type"] = (a1.length > 0 ? "genre" : "")
     h2["facet_type_label"] = (a1.length > 0 ? "Genre" : "")
     h2["facet_URI"] = [""]
-    h2["facet_role_label"] = ""
+    h2["facet_role_label"] = (a1.length > 0 ? "depicted or about" : "")
     h2["facet_role_code"] = ""
     h2["facet_role_URI"] = [""]
     h2["facet_coordinates_display"] = [""]
@@ -921,7 +923,7 @@ def create_json(id,xml_str,set_spec)
     h2["facet_type"] = (a1.length > 0 ? "place" : "")
     h2["facet_type_label"] = (a1.length > 0 ? "Place" : "")
     h2["facet_URI"] = [""]
-    h2["facet_role_label"] = ""
+    h2["facet_role_label"] = (a1.length > 0 ? "depicted or about" : "")
     h2["facet_role_code"] = ""
     h2["facet_role_URI"] = [""]
     h2["facet_coordinates_display"] = (a2.length > 0 ? wktize(a2) : [""])
