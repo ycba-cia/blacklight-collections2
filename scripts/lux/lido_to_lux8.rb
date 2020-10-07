@@ -120,7 +120,7 @@ def get_images(id)
   while true
     image = j["#{i}"]
     break if image.nil?
-    best_image = image.dig("derivatives","6","url") || image.dig("derivatives","3","url") || image.dig("derivatives","2","url") || image.dig("derivatives","1","url")
+    best_image = image.dig("derivatives","3","url") || image.dig("derivatives","2","url") || image.dig("derivatives","1","url")
     has_manifest = true if image.dig("derivatives","7","url")
     images.push(best_image) unless best_image.nil?
     caption = image.dig("metadata","caption") || ""
