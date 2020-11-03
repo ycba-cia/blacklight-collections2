@@ -17,8 +17,8 @@ require 'logger'
 @log.level = Logger::INFO
 
 #CONFIG
-#rails_root = "/Users/ermadmix/Documents/RubymineProjects/blacklight-collections2"
-rails_root = "/app/blacklight-collections2"
+rails_root = "/Users/ermadmix/Documents/RubymineProjects/blacklight-collections2"
+#rails_root = "/app/blacklight-collections2"
 y = YAML.load_file("#{rails_root}/config/local_env.yml")
 oai_hostname = "oaipmh-prod.ctsmybupmova.us-east-1.rds.amazonaws.com"
 oai_username = "oaipmhuser"
@@ -217,21 +217,12 @@ def create_json(id,xml_str,set_spec)
   end
   xml_desc = xml_root.elements['lido:descriptiveMetadata']
 
-  #solrjson["last_modified"] = Time.now.utc.iso8601
-
-  h = Hash.new
-  h["metadata_last_modified"] = Time.now.utc.iso8601
-  h["metadata_rights_status_display"] = "CC0 1.0 Universal (CC0 1.0) Public Domain Dedication"
-  h["metadata_rights_type"] = ""
-  h["metadata_rights_type_label"] = ""
-  h["metadata_rights_URI"] = ["https://creativecommons.org/publicdomain/zero/1.0/"]
-  solrjson["record"] = h
-
   a = Array.new
   a2 = Array.new #identifiers
   xml_desc.elements.each('lido:objectIdentificationWrap/lido:repositoryWrap/lido:repositorySet/lido:workID[@lido:type="inventory number"]') { |x|
     a.push(x.text.strip) unless x.text.nil?
   }
+
   h = Hash.new
   h["identifier_value"] = a[0] if a.length > 0 #not-multivalued
   h["identifier_display"] = a[0] if a.length > 0 #not-multivalued
@@ -243,6 +234,14 @@ def create_json(id,xml_str,set_spec)
   xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event/lido:eventID[@lido:type="TMS"][../lido:eventType/lido:term/text() = "production"]') { |x|
     a.push(x.text.strip) unless x.text.nil?
   }
+
+  h = Hash.new
+  h["metadata_arrived_in_LUX "] = Time.now.utc.iso8601 #json generation
+  h["metadata_rights_label"] = "CC0 1.0 Universal (CC0 1.0) Public Domain Dedication"
+  h["metadata_rights_URI"] = ["https://creativecommons.org/publicdomain/zero/1.0/"]
+  h["metadata_identifier"] = "ycba-#{a[0]}"
+  solrjson["record"] = h
+
   blacklight_id = "tms:#{a[0]}" #for access_in_repository_URI
   h = Hash.new
   h["identifier_value"] = a[0] if a.length > 0 #not-multivalued
@@ -279,13 +278,38 @@ def create_json(id,xml_str,set_spec)
       a2.push([level1,level2])
     end
   end
-  h["supertypes"] = a2
+  h["supertypes"] = (a2.length > 0 ? a2 : [""])
+
+  a1 = Array.new
+  a2 = Array.new
+  xml_desc.elements.each('lido:objectClassificationWrap/lido:objectWorkTypeWrap/lido:objectWorkType[lido:conceptID/@lido:type="Object name"]') { |x|
+
+    x.elements.each('lido:term') { |x2|
+      a1.push(x2.text.strip) unless x2.text.nil?
+    }
+
+    x.elements.each('lido:conceptID[@lido:source="AAT"]') { |x2|
+      #puts "url:#{x2.text}"
+      unless x2.text.nil?
+        s = x2.text.strip
+        a2.push(normalize_aat(s))
+      end
+    }
+
+  }
+  h["specific_type"] = a1 if a1.length > 0
+  h["specific_type_URI"] = a2 if a2.length > 0
 
   a = Array.new
   xml_desc.elements.each('lido:objectIdentificationWrap/lido:displayStateEditionWrap/displayState|displayEdition') { |x|
-    a.push(x.text.strip) unless x.text.nil?
+    #a.push(x.text.strip) unless x.text.nil?
+    unless x.text.nil?
+      h2 = Hash.new
+      h2["value"] = x.text.strip
+      a.push(h2);
+    end
   }
-  h["edition_display"] = (a.length > 0 ? a[0] : "")
+  h["edition_display"] = a if a.length > 0
 
   a = Array.new
   test = String.new
@@ -297,7 +321,13 @@ def create_json(id,xml_str,set_spec)
       test = x2.text.strip unless x2.text.nil?
     }
   }
-  h["imprint_display"] = (a.length > 0 && test=="publisher" ? a[0] : "")
+  if a.length > 0 && test=="publisher"
+    a2 = Array.new
+    h2 = Hash.new
+    h2["value"] = a[0]
+    a2.push(h2)
+    h["imprint_display"] = a2
+  end
 
   a = Array.new
   xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event/lido:eventMaterialsTech/lido:materialsTech/lido:termMaterialsTech/lido:term') { |x|
@@ -314,6 +344,7 @@ def create_json(id,xml_str,set_spec)
   h["acquisition_source_display"] = s.length > 0 ? [s] : [""]
 
   solrjson["basic_descriptors"] = h
+  puts solrjson["basic_descriptors"]
 
   a = Array.new
   cits = Array.new
@@ -849,32 +880,6 @@ def create_json(id,xml_str,set_spec)
   }
 
   #reuse array from above subject name block
-  xml_desc.elements.each('lido:objectClassificationWrap/lido:objectWorkTypeWrap/lido:objectWorkType[lido:conceptID/@lido:type="Object name"]') { |x|
-
-    a1 = Array.new
-    x.elements.each('lido:term') { |x2|
-      a1.push(x2.text.strip) unless x2.text.nil?
-    }
-
-    h = Hash.new
-    h["subject_heading_display"] = (a1.length > 0 ? cap_first_letter(a1[0]) : "")
-    h["subject_heading_sortname"] = (a1.length > 0 ? a1[0] : "")
-    h["subject_heading_URI"] = [""]
-    h2 = Hash.new
-    h2["facet_display"] = (a1.length > 0 ? a1[0] : "")
-    h2["facet_type"] = (a1.length > 0 ? "form" : "")
-    h2["facet_type_label"] = (a1.length > 0 ? "Form" : "")
-    h2["facet_URI"] = [""]
-    h2["facet_role_label"] = (a1.length > 0 ? "depicted or about" : "")
-    h2["facet_role_code"] = ""
-    h2["facet_role_URI"] = [""]
-    h2["facet_coordinates_display"] = [""]
-    h2["facet_coordinates_type"] = [""]
-    h["subject_facets"] = [h2] if h2.length > 0
-    a.push(h) if h.length > 0
-  }
-
-  #reuse array from above subject name block
   xml_desc.elements.each('lido:objectClassificationWrap/lido:objectWorkTypeWrap/lido:objectWorkType[lido:conceptID/@lido:type="Genre"]') { |x|
 
     a1 = Array.new
@@ -1165,11 +1170,11 @@ objects = Array.new
 #ids = "1475,80"
 #ids = "24058"
 #ids = "34,80,107,11575"
-#ids = "34,80"
+ids = "34,80"
 #ids = "66533,66534,66535,66536,66537,66538,68846,82229,82230,34440,34442,74753,3849"
 
-#q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
-q = "select local_identifier from metadata_record order by local_identifier asc"
+q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
+#q = "select local_identifier from metadata_record order by local_identifier asc"
 s = @oai_client.query(q)
 i = 0
 s.each do |row|
