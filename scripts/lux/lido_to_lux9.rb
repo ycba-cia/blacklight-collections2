@@ -960,7 +960,14 @@ def create_json(id,xml_str,set_spec)
   xml_desc.elements.each('lido:objectIdentificationWrap/lido:repositoryWrap/lido:repositorySet/lido:repositoryLocation/lido:partOfPlace/lido:namePlaceSet/lido:appellationValue[@lido:label="On view or not"]') { |x|
     s = x.text.strip unless x.text.nil?
   }
-  h["access_in_repository"] = (s.length > 0 ? [s] : [""])
+  if s.length > 0
+    h3 = Hash.new
+    a3 = Array.new
+    h3["value"] = [s]
+    a3.push(h3)
+    h["access_in_repository"] = a3
+    h["access_in_repository_type"] = "request"
+  end
 
   a2 = Array.new
   #xml_root.elements.each('lido:administrativeMetadata/lido:recordWrap/lido:recordInfoSet/lido:recordInfoLink[@lido:formatResource="html"]') { |x|
@@ -994,8 +1001,6 @@ def create_json(id,xml_str,set_spec)
   }
   h["original_rights_URI"] = (s.length > 0 ? [s] : [""])
 
-  h["original_rights_notes"] = [""]
-
   s = String.new
   xml_root.elements.each('lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet/lido:rightsType/lido:term[not(@*)][../lido:conceptID/@lido:label="object copyright"]') { |x|
     s = x.text.strip unless x.text.nil?
@@ -1010,8 +1015,13 @@ def create_json(id,xml_str,set_spec)
   xml_root.elements.each('lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet[lido:rightsType/lido:conceptID/@lido:label="object copyright"]/lido:creditLine') { |x|
     s = x.text.strip unless x.text.nil?
   }
-  h["original_rights_copyright_credit_display"] = (s.length > 0 ? s : "")
-
+  if s.length > 0
+    h2 = Hash.new
+    a3 = Array.new
+    h2["value"] = s
+    a3.push(h2)
+    h["original_rights_copyright_credit_display"] = a3
+  end
   images.each_with_index do |image,i|
     #puts image
     h2 = Hash.new
