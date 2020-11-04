@@ -553,7 +553,13 @@ def create_json(id,xml_str,set_spec)
     a1.push(x.text.strip) unless x.text.nil?
   }
   h = Hash.new
-  h["title_display"] = a1[0] if a1.length > 0
+  a2 = Array.new
+  if a1.length > 0
+    h2 = Hash.new
+    h2["value"] = a1[0]
+    a2.push(h2)
+  end
+  h["title_display"] = a2 if a2.length > 0
   h["title_type"] = "primary" if a1.length > 0
   h["title_label"] = "Primary" if a1.length > 0
   a.push(h) if h.length > 0
@@ -562,7 +568,13 @@ def create_json(id,xml_str,set_spec)
     a1.push(x.text.strip) unless x.text.nil?
   }
   h = Hash.new
-  h["title_display"] = a1[0] if a1.length > 0
+  a2 = Array.new
+  if a1.length > 0
+    h2 = Hash.new
+    h2["value"] = a1[0]
+    a2.push(h2)
+  end
+  h["title_display"] = a2 if a2.length > 0
   h["title_type"] = "alternate" if a1.length > 0
   h["title_label"] = "Alternate" if a1.length > 0
   a.push(h) if h.length > 0
