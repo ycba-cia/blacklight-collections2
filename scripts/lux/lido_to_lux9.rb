@@ -300,6 +300,8 @@ def create_json(id,xml_str,set_spec)
   h["specific_type"] = a1 if a1.length > 0
   h["specific_type_URI"] = a2 if a2.length > 0
 
+#not vending edition_display or imprint_display 11/04/2020
+=begin
   a = Array.new
   xml_desc.elements.each('lido:objectIdentificationWrap/lido:displayStateEditionWrap/displayState|displayEdition') { |x|
     #a.push(x.text.strip) unless x.text.nil?
@@ -328,23 +330,76 @@ def create_json(id,xml_str,set_spec)
     a2.push(h2)
     h["imprint_display"] = a2
   end
+=end
 
   a = Array.new
-  xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event/lido:eventMaterialsTech/lido:materialsTech/lido:termMaterialsTech/lido:term') { |x|
-    a.push(x.text.strip) unless x.text.nil?
+  xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event/lido:eventMaterialsTech/lido:displayMaterialsTech') { |x|
+    unless x.text.nil?
+      h2 = Hash.new
+      h2["value"] = x.text.strip
+      a.push(h2)
+    end
   }
-  h["materials_display"] = (a.length > 0 ? a : [""])
+  h["materials_display"] = a if a.length > 0
 
-  h["provenance_display"] = [""]
 
-  s = String.new
+
+  a1 = Array.new
+  a2 = Array.new
+  xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event/lido:eventMaterialsTech/lido:materialsTech/lido:termMaterialsTech') { |x|
+
+    x.elements.each('lido:term') { |x2|
+      a1.push(x2.text.strip) unless x2.text.nil?
+    }
+
+    x.elements.each('lido:conceptID[@lido:source="AAT"]') { |x2|
+      unless x2.text.nil?
+        s = x2.text.strip
+        a2.push(normalize_aat(s))
+      end
+    }
+  }
+  h["materials_type"] = a1 if a1.length > 0
+  h["materials_type_URI"] = a2 if a2.length > 0
+
+  a1 = Array.new
+  a2 = Array.new
+  xml_desc.elements.each('lido:objectIdentificationWrap/lido:inscriptionsWrap/lido:inscriptions') { |x|
+    a1.push(x.attributes["lido:type"])
+
+    x.elements.each('lido:inscriptionTranscription') { |x2|
+      unless x2.text.nil?
+        h2 = Hash.new
+        h2["value"] = x2.text.strip
+        a2.push(h2)
+      end
+    }
+  }
+  h["inscription_type"] = a1 if a1.length > 0
+  h["inscription_display"] = a2 if a2.length > 0
+  #next iteration: inscription_type_URI
+
+  a = Array.new
+  xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:displayEvent[../lido:event/lido:eventType/lido:term="Provenance"]') { |x|
+    unless x.text.nil?
+      h2 = Hash.new
+      h2["value"] = x.text.strip
+      a.push(h2)
+    end
+  }
+  h["provenance_display"] = a if a.length > 0
+
+  a = Array.new
   xml_root.elements.each('lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet[lido:rightsType/lido:conceptID/@lido:label="object ownership"]/lido:creditLine') { |x|
-    s = x.text.strip unless x.text.nil?
+    unless x.text.nil?
+      h2 = Hash.new
+      h2["value"] = x.text.strip
+      a.push(h2)
+     end
   }
-  h["acquisition_source_display"] = s.length > 0 ? [s] : [""]
+  h["acquisition_source_display"] = a if a.length > 0
 
   solrjson["basic_descriptors"] = h
-  puts solrjson["basic_descriptors"]
 
   a = Array.new
   cits = Array.new
@@ -1170,7 +1225,7 @@ objects = Array.new
 #ids = "1475,80"
 #ids = "24058"
 #ids = "34,80,107,11575"
-ids = "34,80"
+ids = "34,499,37893"
 #ids = "66533,66534,66535,66536,66537,66538,68846,82229,82230,34440,34442,74753,3849"
 
 q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
