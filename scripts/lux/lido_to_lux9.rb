@@ -580,14 +580,15 @@ def create_json(id,xml_str,set_spec)
   a.push(h) if h.length > 0
   if a.length == 0
     h = Hash.new
-    h["title_display"] = ""
+    h["title_display"] = [""]
     h["title_type"] = ""
     h["title_label"] = ""
     a.push(h)
   end
   solrjson["titles"] = a
 
-  a = Array.new
+  a = Array.new #measurements
+  a2 = Array.new #measurement form
   xml_desc.elements.each('lido:objectIdentificationWrap/lido:objectMeasurementsWrap/lido:objectMeasurementsSet') { |x|
 
     s = String.new
@@ -600,6 +601,7 @@ def create_json(id,xml_str,set_spec)
       s5 =  x2.text.strip unless x2.text.nil?
     }
 
+    a4 = Array.new #measurement aspect
     x.elements.each('lido:objectMeasurements/lido:measurementsSet') { |x2|
       s2 = String.new
       x2.elements.each('lido:measurementType') { |x3|
@@ -616,31 +618,28 @@ def create_json(id,xml_str,set_spec)
         s4 = x3.text.strip unless x3.text.nil?
       }
       h = Hash.new
-      h["measurement_element"] = (s5.length > 0 ? s5 : "")
-      h["measurement_label"] = "Dimensions"
-      h["measurement_display"] = (s.length > 0 ? s : "")
-      h["measurement_type"] = (s2.length > 0 ? s2 : "")
-      h["measurement_type_URI"] = (s2.length > 0 ? [get_measurement_type_authority(s2)] : [""])
-      h["measurement_unit"] = (s3.length > 0 ? s3 : "")
-      h["measurement_unit_URI"] = (s3.length > 0 ? [get_measurement_authority(s3)] : [""])
-      h["measurement_value"] = (s4.length > 0 ? s4 : "")
-      a.push(h)
+      h["measurement_value"] = s4 if s4.length > 0
+      h["measurement_unit"] = s3 if s3.length > 0
+      h["measurement_unit_URI"] = [get_measurement_authority(s3)] if s3.length > 0
+      h["measurement_type"] = s2 if s2.length > 0
+      h["measurement_type_URI"] = [get_measurement_type_authority(s2)] if s2.length > 0
+      a4.push(h) if h.length > 0
     }
-
+    a3 = Array.new #measurement display
+    h2 = Hash.new
+    h2["value"] = (s.length > 0 ? s : "")
+    a3.push(h2)
+    h1 = Hash.new
+    h1["measurement_element"] = s5 if s5.length > 0
+    h1["measurement_display"] = (a3.length > 0 ? a3 : [""])
+    h1["measurement_aspect"] = a4 if a4.length > 0
+    a2.push(h1)
   }
-  if a.length == 0
-    h = Hash.new
-    h["measurement_element"]  = ""
-    h["measurement_label"] = ""
-    h["measurement_display"] = ""
-    h["measurement_type"] = ""
-    h["measurement_type_URI"] = [""]
-    h["measurement_unit"] = ""
-    h["measurement_unit_URI"] = [""]
-    h["measurement_value"] = ""
-    a.push(h)
-  end
-  solrjson["measurements"] = a
+  h3 = Hash.new
+  h3["measurment_label"] = "Dimensions"
+  h3["measuremment_form"] = (a2.length > 0 ? a2 : [""])
+  a.push(h3)
+  solrjson["measurements"] = a if a.length > 0
 
 #v7 not nesting in this way
 =begin
