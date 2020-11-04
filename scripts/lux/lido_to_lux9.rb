@@ -807,21 +807,27 @@ def create_json(id,xml_str,set_spec)
     }
 
     h = Hash.new
-    h["subject_heading_display"] = (a1.length > 0 ? cap_first_letter(a1[0]) : "")
-    h["subject_heading_sortname"] = (a1.length > 0 ? a1[0] : "")
-    h["subject_heading_URI"] = (a2.length > 0 ? a2 : [""])
-    h2 = Hash.new
-    h2["facet_display"] = (a1.length > 0 ? a1[0] : "")
-    h2["facet_type"] = (a1.length > 0 ? "person" : "")
-    h2["facet_type_label"] = (a1.length > 0 ? "Person" : "")
-    h2["facet_URI"] = (a2.length > 0 ? a2 : [""])
-    h2["facet_role_label"] = (a1.length > 0 ? "depicted or about" : "")
-    h2["facet_role_code"] = ""
-    h2["facet_role_URI"] = [""]
-    h2["facet_coordinates_display"] = [""]
-    h2["facet_coordinates_type"] = [""]
-    h["subject_facets"] = [h2] if h2.length > 0
-    a.push(h) if h.length > 0
+    if a1.length > 0
+      h3 = Hash.new
+      a3 = Array.new
+      h3["value"] = cap_first_letter(a1[0])
+      a3.push(h3)
+      h["subject_heading_display"] = a3
+      h["subject_heading_sortname"] = a1[0]
+      h["subject_heading_URI"] = a2 if a2.length > 0
+      h2 = Hash.new
+      h4 = Hash.new
+      a4 = Array.new
+      h4["value"] = a1[0]
+      a4.push(h4)
+      h2["facet_display"] = a4
+      h2["facet_type"] = "person"
+      h2["facet_type_label"] = "Person"
+      h2["facet_URI"] = a2 if a2.length > 0
+      h2["facet_role_label"] = "depicted or about"
+      h["subject_facets"] = [h2] if h2.length > 0
+      a.push(h) if h.length > 0
+    end
   }
 
   #reuse array from above subject name block
@@ -844,88 +850,27 @@ def create_json(id,xml_str,set_spec)
     }
 
     h = Hash.new
-    h["subject_heading_display"] = (a1.length > 0 ? cap_first_letter(a1[0]) : "")
-    h["subject_heading_sortname"] = (a1.length > 0 ? a1[0] : "")
-    h["subject_heading_URI"] = (a2.length > 0 ? a2 : [""])
-    h2 = Hash.new
-    h2["facet_display"] = (a1.length > 0 ? a1[0] : "")
-    h2["facet_type"] = (a1.length > 0 ? "topic" : "")
-    h2["facet_type_label"] = (a1.length > 0 ? "Topic" : "")
-    h2["facet_URI"] = (a2.length > 0 ? a2 : [""])
-    h2["facet_role_label"] = (a1.length > 0 ? "depicted or about" : "")
-    h2["facet_role_code"] = ""
-    h2["facet_role_URI"] = [""]
-    h2["facet_coordinates_display"] = [""]
-    h2["facet_coordinates_type"] = [""]
-    h["subject_facets"] = [h2] if h2.length > 0
-    a.push(h) if h.length > 0
-
-  }
-
-  #reuse array from above subject name block
-  xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term="production"]/lido:culture') { |x|
-
-    i = i + 1
-    #puts "X:#{x}"
-
-    a1 = Array.new
-    x.elements.each('lido:term') { |x2|
-      a1.push(x2.text.strip) unless x2.text.nil?
-    }
-    a2 = Array.new
-    x.elements.each('lido:conceptID[@lido:source="AAT"]') { |x2|
-      #puts "url:#{x2.text}"
-      unless x2.text.nil?
-        s = x2.text.strip
-        a2.push(normalize_aat(s))
-      end
-    }
-
-    h = Hash.new
-    h["subject_heading_display"] = (a1.length > 0 ? cap_first_letter(a1[0]) : "")
-    h["subject_heading_sortname"] = (a1.length > 0 ? a1[0] : "")
-    h["subject_heading_URI"] = (a2.length > 0 ? a2 : [""])
-    h2 = Hash.new
-    h2["facet_display"] = (a1.length > 0 ? a1[0] : "")
-    h2["facet_type"] = (a1.length > 0 ? "culture" : "")
-    h2["facet_type_label"] = (a1.length > 0 ? "Culture" : "")
-    h2["facet_URI"] = (a2.length > 0 ? a2 : [""])
-    h2["facet_role_label"] = (a1.length > 0 ? "depicted or about" : "")
-    h2["facet_role_code"] = ""
-    h2["facet_role_URI"] = [""]
-    h2["facet_coordinates_display"] = [""]
-    h2["facet_coordinates_type"] = [""]
-    h["subject_facets"] = [h2] if h2.length > 0
-    a.push(h) if h.length > 0
-  }
-
-  #reuse array from above subject name block
-  xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term="production"]/lido:periodName') { |x|
-
-    i = i + 1
-    #puts "X:#{x}"
-
-    a1 = Array.new
-    x.elements.each('lido:term') { |x2|
-      a1.push(x2.text.strip) unless x2.text.nil?
-    }
-
-    h = Hash.new
-    h["subject_heading_display"] = (a1.length > 0 ? cap_first_letter(a1[0]) : "")
-    h["subject_heading_sortname"] = (a1.length > 0 ? a1[0] : "")
-    h["subject_heading_URI"] = [""]
-    h2 = Hash.new
-    h2["facet_display"] = (a1.length > 0 ? a1[0] : "")
-    h2["facet_type"] = (a1.length > 0 ? "period" : "")
-    h2["facet_type_label"] = (a1.length > 0 ? "Period" : "")
-    h2["facet_URI"] = [""]
-    h2["facet_role_label"] = (a1.length > 0 ? "depicted or about" : "")
-    h2["facet_role_code"] = ""
-    h2["facet_role_URI"] = [""]
-    h2["facet_coordinates_display"] = [""]
-    h2["facet_coordinates_type"] = [""]
-    h["subject_facets"] = [h2] if h2.length > 0
-    a.push(h) if h.length > 0
+    if a1.length > 0
+      h3 = Hash.new
+      a3 = Array.new
+      h3["value"] = cap_first_letter(a1[0])
+      a3.push(h3)
+      h["subject_heading_display"] = a3
+      h["subject_heading_sortname"] = a1[0]
+      h["subject_heading_URI"] = a2 if a2.length > 0
+      h2 = Hash.new
+      h4 = Hash.new
+      a4 = Array.new
+      h4["value"] = a1[0]
+      a4.push(h4)
+      h2["facet_display"] = a4
+      h2["facet_type"] = "topic"
+      h2["facet_type_label"] = "Topic"
+      h2["facet_URI"] = a2 if a2.length > 0
+      h2["facet_role_label"] = "depicted or about"
+      h["subject_facets"] = [h2] if h2.length > 0
+      a.push(h) if h.length > 0
+    end
   }
 
   #reuse array from above subject name block
@@ -936,22 +881,30 @@ def create_json(id,xml_str,set_spec)
       a1.push(x2.text.strip) unless x2.text.nil?
     }
 
+    a2 = Array.new #initialize so values don't carry over
+
     h = Hash.new
-    h["subject_heading_display"] = (a1.length > 0 ? cap_first_letter(a1[0]) : "")
-    h["subject_heading_sortname"] = (a1.length > 0 ? a1[0] : "")
-    h["subject_heading_URI"] = [""]
-    h2 = Hash.new
-    h2["facet_display"] = (a1.length > 0 ? a1[0] : "")
-    h2["facet_type"] = (a1.length > 0 ? "genre" : "")
-    h2["facet_type_label"] = (a1.length > 0 ? "Genre" : "")
-    h2["facet_URI"] = [""]
-    h2["facet_role_label"] = (a1.length > 0 ? "depicted or about" : "")
-    h2["facet_role_code"] = ""
-    h2["facet_role_URI"] = [""]
-    h2["facet_coordinates_display"] = [""]
-    h2["facet_coordinates_type"] = [""]
-    h["subject_facets"] = [h2] if h2.length > 0
-    a.push(h) if h.length > 0
+    if a1.length > 0
+      h3 = Hash.new
+      a3 = Array.new
+      h3["value"] = cap_first_letter(a1[0])
+      a3.push(h3)
+      h["subject_heading_display"] = a3
+      h["subject_heading_sortname"] = a1[0]
+      h["subject_heading_URI"] = a2 if a2.length > 0
+      h2 = Hash.new
+      h4 = Hash.new
+      a4 = Array.new
+      h4["value"] = a1[0]
+      a4.push(h4)
+      h2["facet_display"] = a4
+      h2["facet_type"] = "genre"
+      h2["facet_type_label"] = "Genre"
+      h2["facet_URI"] = a2 if a2.length > 0
+      h2["facet_role_label"] = "depicted or about"
+      h["subject_facets"] = [h2] if h2.length > 0
+      a.push(h) if h.length > 0
+    end
   }
 
   #reuse array from above subject name block
@@ -969,41 +922,28 @@ def create_json(id,xml_str,set_spec)
     }
 
     h = Hash.new
-    h["subject_heading_display"] = (a1.length > 0 ? cap_first_letter(a1[0]) : "")
-    h["subject_heading_sortname"] = (a1.length > 0 ? a1[0] : "")
-    h["subject_heading_URI"] = [""]
-    h2 = Hash.new
-    h2["facet_display"] = (a1.length > 0 ? a1[0] : "")
-    h2["facet_type"] = (a1.length > 0 ? "place" : "")
-    h2["facet_type_label"] = (a1.length > 0 ? "Place" : "")
-    h2["facet_URI"] = [""]
-    h2["facet_role_label"] = (a1.length > 0 ? "depicted or about" : "")
-    h2["facet_role_code"] = ""
-    h2["facet_role_URI"] = [""]
-    h2["facet_coordinates_display"] = (a2.length > 0 ? wktize(a2) : [""])
-    h2["facet_coordinates_type"] = (a2.length > 0 ? wkttype(a2) : [""])
-    h["subject_facets"] = [h2] if h2.length > 0
-    a.push(h) if h.length > 0
+    if a1.length > 0
+      h3 = Hash.new
+      a3 = Array.new
+      h3["value"] = cap_first_letter(a1[0])
+      a3.push(h3)
+      h["subject_heading_display"] = a3
+      h["subject_heading_sortname"] = a1[0]
+      h2 = Hash.new
+      h4 = Hash.new
+      a4 = Array.new
+      h4["value"] = a1[0]
+      a4.push(h4)
+      h2["facet_display"] = a4
+      h2["facet_type"] = "place"
+      h2["facet_type_label"] = "Place"
+      h2["facet_role_label"] = "depicted or about"
+      h2["facet_coordinates_display"] = wktize(a2) if a2.length > 0
+      h2["facet_coordinates_type"] = wkttype(a2) if a2.length > 0
+      h["subject_facets"] = [h2] if h2.length > 0
+      a.push(h) if h.length > 0
+    end
   }
-
-  if a.length == 0
-    h = Hash.new
-    h["subject_heading_display"] = ""
-    h["subject_heading_sortname"] = ""
-    h["subject_heading_URI"] = [""]
-    h2 = Hash.new
-    h2["facet_display"] = ""
-    h2["facet_type"] = ""
-    h2["facet_type_label"] = ""
-    h2["facet_URI"] = [""]
-    h2["facet_role_label"] = ""
-    h2["facet_role_code"] = ""
-    h2["facet_role_URI"] = [""]
-    hh2["facet_coordinates_display"] = [""]
-    h2["facet_coordinates_type"] = [""]
-    h["subject_facets"] = [h2]
-    a.push(h)
-  end
   solrjson["subjects"] = a if a.length > 0
 
   a = Array.new
@@ -1219,7 +1159,8 @@ objects = Array.new
 #ids = "1475,80"
 #ids = "24058"
 #ids = "34,80,107,11575"
-ids = "34,499,37893"
+#ids = "34,499,37893"
+ids = "34,5005"
 #ids = "66533,66534,66535,66536,66537,66538,68846,82229,82230,34440,34442,74753,3849"
 
 q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
