@@ -664,18 +664,15 @@ def create_json(id,xml_str,set_spec)
     s = x.text.strip unless x.text.nil?
   }
   h = Hash.new
-  h["note_display"] = s if s.length > 0
+  a2 = Array.new
+  h2 = Hash.new
+  h2["value"] = s if s.length > 0
+  a2.push(h2) if h2.length > 0
+  h["note_display"] = a2 if a2.length > 0
   h["note_type"] = "curatorial comment" if s.length > 0
   h["note_label"] = "Curatorial Comment" if s.length > 0
   a.push(h) if h.length > 0
-  if a.length == 0
-    h = Hash.new
-    h["note_display"] = ""
-    h["note_type"] = ""
-    h["note_label"] = ""
-    a.push(h)
-  end
-  solrjson["notes"] = a
+  solrjson["notes"] = a if a.length > 0
 
   #consider vending ISO 639 zxx "no linguistic content" language code
   a = Array.new
@@ -697,7 +694,7 @@ def create_json(id,xml_str,set_spec)
       a.push(h)
     end
   }
-=end
+
   if a.length == 0
     h = Hash.new
     h["language_display"] = ""
@@ -706,6 +703,7 @@ def create_json(id,xml_str,set_spec)
     a.push(h)
   end
   solrjson["languages"] = a
+=end
 
   a = Array.new
   xml_desc.elements.each('lido:objectRelationWrap/lido:subjectWrap/lido:subjectSet/lido:subject[@lido:type="description"]/lido:subjectPlace') { |x|
@@ -740,32 +738,19 @@ def create_json(id,xml_str,set_spec)
     }
 
     h = Hash.new
-    h["place_display"] = (a1.length > 0 ? a1[0] : "")
-    h["place_URI"] = (a2.length > 0 ? a2 : [""])
-    h["place_role_label"] = (get_place_role(a3[0]).length > 0 ? get_place_role(a3[0]) : "")
-    h["place_role_code"] = ""
-    h["place_role_URI"] = [""]
-    h["place_type_display"] = ""
-    h["place_type_URI"] = [""]
-    h["place_coordinates_display"] = (a4.length > 0 ? wktize(a4) : [""])
-    h["place_coordinates_type"] = (a4.length > 0 ? wkttype(a4) : [""])
-    #h["place_type_display"] = a5[0] if a5.length > 0 #suppressed until better metadata
-    a.push(h) if h.length > 0
-
+    if a1.length > 0
+      h2 = Hash.new
+      a6 = Array.new
+      h2["value"] = a1[0]
+      a6.push(h2) if
+      h["place_display"] = a6
+      h["place_URI"] = (a2.length > 0 ? a2 : [""])
+      h["place_role_label"] = (get_place_role(a3[0]).length > 0 ? get_place_role(a3[0]) : "")
+      h["place_coordinates_display"] = (a4.length > 0 ? wktize(a4) : [""])
+      h["place_coordinates_type"] = (a4.length > 0 ? wkttype(a4) : [""])
+      a.push(h) if h.length > 0
+     end
   }
-  if a.length==0
-    h = Hash.new
-    h["place_display"] = ""
-    h["place_URI"] = [""]
-    h["place_role_label"] = ""
-    h["place_role_code"] = ""
-    h["place_role_URI"] = [""]
-    h["place_type_display"] = ""
-    h["place_type_URI"] = [""]
-    h["place_coordinates_display"] = [""]
-    h["place_coordinates_type"] = [""]
-    a.push(h) if h.length > 0
-  end
   solrjson["places"] = a if a.length > 0
 
   a = Array.new
@@ -775,33 +760,31 @@ def create_json(id,xml_str,set_spec)
   xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term="production"]/lido:eventDate/lido:displayDate') { |x|
     s = x.text.strip unless x.text.nil?
   }
-  h["date_display"] = (s.length > 0 ? s : "")
+  if s.length > 0
+    h2 = Hash.new
+    a2 = Array.new
+    h2["value"] = s
+    a2.push(h2)
+    h["date_display"] = a2
+  end
   xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term="production"]/lido:eventDate/lido:date/lido:earliestDate') { |x|
     s = x.text.strip unless x.text.nil?
   }
-  h["date_earliest"] = (s.length > 0 && s!="0" ? s : "")
-  h["year_earliest"] = h["date_earliest"]
+  if s.length > 0 && s!="0"
+    h["date_earliest"] = s
+    h["year_earliest"] = s
+  end
   s = String.new
   xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term="production"]/lido:eventDate/lido:date/lido:latestDate') { |x|
     s = x.text.strip unless x.text.nil?
   }
-  h["date_latest"] = (s.length > 0 && s!="0" ? s : "")
-  h["year_latest"] = h["date_latest"]
-  h["date_role_label"] = (h["date_display"].length > 0 ? "created" : "")
-  h["date_role_code"] = ""
-  h["date_role_URI"] = (h["date_role_label"].length > 0 ? get_date_role_authority(h["date_role_label"]) : [""])
-  a.push(h) if h.length > 0
-  if a.length==0
-    h = Hash.new
-    h["date_display"] = ""
-    h["date_earliest"] = ""
-    h["year_earliest"] = ""
-    h["date_latest"] = ""
-    h["year_latest"] = ""
-    h["date_role_label"] = ""
-    h["date_role_code"] = ""
-    h["date_role_URI"] = ""
+  if s.length > 0 && s!="0"
+    h["date_latest"] = s
+    h["year_latest"] = s
+    h["date_role_label"] = (h["date_display"].length > 0 ? "created" : "")
+    h["date_role_URI"] = (h["date_role_label"].length > 0 ? get_date_role_authority(h["date_role_label"]) : [""])
   end
+  a.push(h) if h.length > 0
   solrjson["dates"] = a if a.length > 0
 
   a = Array.new #for both subject topic and subject name
