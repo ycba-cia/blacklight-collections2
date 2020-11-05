@@ -375,7 +375,7 @@ def create_json(id,xml_str,set_spec)
       end
     }
   }
-  h["inscription_type"] = a1 if a1.length > 0
+  h["inscription_type"] = a1 if a2.length > 0
   h["inscription_display"] = a2 if a2.length > 0
   #next iteration: inscription_type_URI
 
@@ -419,12 +419,15 @@ def create_json(id,xml_str,set_spec)
     }
     a11.each_with_index { |x2,ii|
       h = Hash.new
-      h["citation_string_display"] = x2.gsub("^","")
-      h["citation_identifier_type"] = ""
-      h["citation_URI"] = [""]
+      h2 = Hash.new
+      a2 = Array.new
+      h2["value"] = x2.gsub("^","")
+      a2.push(h2)
+      h["citation_string_display"] = a2
       h["citation_type"] = get_citation_type(a1[ii])
       cits.push(h)
     }
+    solrjson["citations"] = cits
 
     #a2 = Array.new #removed to flatten
     x.elements.each('lido:event/lido:eventActor') { |x2|
@@ -537,16 +540,6 @@ def create_json(id,xml_str,set_spec)
   a_sorted2 = a_sorted.each_with_index { |k,i| k["agent_sort"] = (i+1).to_s }
   solrjson["agents"] = a_sorted2
 
-  if cits.length == 0
-    h = Hash.new
-    h["citation_string_display"] = ""
-    h["citation_identifier_type"] = ""
-    h["citation_URI"] = [""]
-    h["citation_type"] = ""
-    cits.push(h)
-  end
-  solrjson["citations"] = cits
-
   a = Array.new
   a1 = Array.new
   xml_desc.elements.each('lido:objectIdentificationWrap/lido:titleWrap/lido:titleSet[@lido:type="Repository title"]/lido:appellationValue[@lido:pref="preferred"]') { |x|
@@ -641,23 +634,6 @@ def create_json(id,xml_str,set_spec)
   a.push(h3)
   solrjson["measurements"] = a if a.length > 0
 
-#v7 not nesting in this way
-=begin
-  if a.length == 0
-    h2 = Hash.new
-    h2["measurement_display"] = ""
-    h = Hash.new
-    h["measurement_type"] = ""
-    h["measurement_type_URI"] = [""]
-    h["measurement_unit"] = ""
-    h["measurement_unit_URI"] = [""]
-    h["measurement_value"] = ""
-    h2["measurements"] = [h]
-    a.push(h2)
-  end
-  solrjson["measurements"] = a
-=end
-
   a = Array.new
   s = String.new
   xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:displayEvent[../lido:event/lido:eventType/lido:term="Curatorial comment"]') { |x|
@@ -673,37 +649,6 @@ def create_json(id,xml_str,set_spec)
   h["note_label"] = "Curatorial Comment" if s.length > 0
   a.push(h) if h.length > 0
   solrjson["notes"] = a if a.length > 0
-
-  #consider vending ISO 639 zxx "no linguistic content" language code
-  a = Array.new
-  #no longer using language to describe metadata - v9
-=begin
-  xml_desc.elements.each('lido:objectIdentificationWrap/lido:titleWrap/lido:titleSet/lido:appellationValue[@lido:pref="preferred"]') { |x|
-    unless x.nil? && x.attributes["xml:lang"].nil?
-      code = x.attributes["xml:lang"]
-      if code == "eng"
-        lang = "English"
-        uri = "http://id.loc.gov/vocabulary/languages/eng"
-      else
-        lang = "Non-english or no linguistic content"
-      end
-      h = Hash.new
-      h["language_display"] = lang
-      h["language_code"] = (code.nil? ? "" : code)
-      h["language_URI"] = (uri.nil? ? [""] : [uri])
-      a.push(h)
-    end
-  }
-
-  if a.length == 0
-    h = Hash.new
-    h["language_display"] = ""
-    h["language_code"] = ""
-    h["language_URI"] = [""]
-    a.push(h)
-  end
-  solrjson["languages"] = a
-=end
 
   a = Array.new
   xml_desc.elements.each('lido:objectRelationWrap/lido:subjectWrap/lido:subjectSet/lido:subject[@lido:type="description"]/lido:subjectPlace') { |x|
@@ -963,9 +908,9 @@ def create_json(id,xml_str,set_spec)
   if s.length > 0
     h3 = Hash.new
     a3 = Array.new
-    h3["value"] = [s]
+    h3["value"] = s
     a3.push(h3)
-    h["access_in_repository"] = a3
+    h["access_in_repository_display"] = a3
     h["access_in_repository_type"] = "request"
   end
 
@@ -978,19 +923,8 @@ def create_json(id,xml_str,set_spec)
 
   h["access_contact_in_repository"] = get_access_contact
 
-  #a2 = Array.new
-  #xml_root.elements.each('lido:administrativeMetadata/lido:resourceWrap/lido:resourceSet/lido:resourceRepresentation/lido:linkResource') { |x|
-  #  a2.push(x.text.strip) unless x.text.nil?
-  #}
-  #h["access_to_image_URI"] = (a2.length > 0 ? a2 : [""])
-
-  images,manifests,captions = get_images(blacklight_id)
-  ##h["access_to_primary_image_URI"] = (images.length > 0 ? images[0] : "")
-  ##h["access_to_digital_assets_URI"] = (manifests.length > 0 ? manifests : [""])
-
   a.push(h) if h.length > 0
   solrjson["locations"] = a if a.length > 0
-
 
   a = Array.new
   a2 = Array.new #for digital_assets
@@ -1022,91 +956,32 @@ def create_json(id,xml_str,set_spec)
     a3.push(h2)
     h["original_rights_copyright_credit_display"] = a3
   end
+  a.push(h)
+  solrjson["rights"] = a
+
+  images,manifests,captions = get_images(blacklight_id)
   images.each_with_index do |image,i|
     #puts image
     h2 = Hash.new
     h2["asset_rights_status_display"] = asset_rights_status_display
-    h2["asset_rights_notes"] = [""]
     h2["asset_rights_type"] = "usage"
     h2["asset_rights_type_label"] = "Usage"
     h2["asset_type"] = "image"
     h2["asset_URI"] = [image]
     h2["asset_flag"] = i == 0 ? "primary image" : ""
-    h2["asset_caption_display"] = captions[i]
+    if captions[i] && captions[i].length > 0
+      h3 = Hash.new
+      a3 = Array.new
+      h3["value"]= captions[i]
+      a3.push(h3)
+      h2["asset_caption_display"] = a3
+    end
     a2.push(h2)
   end
 
-  a.push(h) if h.length > 0
-  if h.length == 0
-    h = Hash.new
-    h["original_rights_status_display"] = ""
-    h["original_rights_notes"] = [""]
-    h["original_rights_type"] = ""
-    h["original_rights_type_label"] = ""
-    h["original_rights_copyright_credit_display"] = ""
-    h["original_rights_URI"] = [""]
-    a.push(h) if h.length > 0
-  end
-
-  if a2.length == 0
-    h2 = Hash.new
-    h2["asset_rights_status_display"] = ""
-    h2["asset_rights_notes"] = [""]
-    h2["asset_rights_type"] = ""
-    h2["asset_rights_type_label"] = ""
-    h2["asset_type"] = ""
-    h2["asset_URI"] = [""]
-    h2["asset_flag"] = ""
-    h2["asset_caption_display"] = ""
-    a2.push(h2) if h2.length > 0
-  end
-
-  solrjson["rights"] = a
   solrjson["digital_assets"] = a2
 
-#for v8 - move supertype to basic descriptors
 =begin
-  a = Array.new
-  a2 = Array.new
-  xml_desc.elements.each('lido:objectClassificationWrap/lido:classificationWrap/lido:classification/lido:term') { |x|
-    a.push(x.text.strip) unless x.text.nil?
-  }
-  a.each do |x|
-    s = map_supertype2(x)
-    h = Hash.new
-    h["supertype"] = map_supertype1(s)
-    h["supertype_level"] = "1"
-    a2.push(h)
-    h = Hash.new
-    h["supertype"] = s
-    h["supertype_level"] = "2"
-    a2.push(h)
-
-  end
-=end
-#for v7 - don't vend supertype 3
-=begin
-  a = Array.new
-  xml_desc.elements.each('lido:objectClassificationWrap/lido:objectWorkTypeWrap/lido:objectWorkType/lido:term[../lido:conceptID/@lido:type="Object name"]') { |x|
-    a.push(x.text.strip) unless x.text.nil?
-  }
-  a.each do |x|
-    h = Hash.new
-    h["supertype"] = cap_first_letter(x.pluralize)
-    h["supertype_level"] = "3"
-    a2.push(h)
-  end
-=end
-=begin
-  if a2.length == 0
-    h = Hash.new
-    h["supertype"] = ""
-    h["supertype_level"] = ""
-    a2.push(h)
-  end
-  solrjson["supertypes"] = a2
-=end
-
   a = Array.new
   h = Hash.new
   h["hierarchy_type"] = ""
@@ -1119,7 +994,7 @@ def create_json(id,xml_str,set_spec)
   h["ancestor_display_names"] = [""]
   a.push(h)
   solrjson["hierarchies"] = a
-
+=end
 
   solrjson = JSON.pretty_generate(solrjson)
   #puts solrjson
