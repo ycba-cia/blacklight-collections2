@@ -484,7 +484,7 @@ def create_json(id,xml_str,set_spec)
       a10 = Array.new
       x2.elements.each('lido:actorInRole/lido:actor') { |x3|
         unless x3.nil? && x3.attributes["lido:type"].nil?
-          a8.push(x3.attributes["lido:type"])
+          a8.push(x3.attributes["lido:type"]) if x3.attributes["lido:type"].length > 0
         end
         unless x3.nil?
           x3.elements.each('lido:nationalityActor/lido:term') { |x4|
@@ -504,39 +504,29 @@ def create_json(id,xml_str,set_spec)
       h = Hash.new
       i = i + 1
       #h["agent_display"] = (a3.length > 0 ? a3[0] : "") #replaced by 3-tuple
-      h["agent_display"] = (a9.length > 0 ? a9[0] : "") #3-tuple a9
-      h["agent_sortname"] = (a4.length > 0 ? a4[0] : "")
-      h["agent_URI"] = (a5.length > 0 ? a5 : [""])
-      h["agent_role_label"] = (a6.length > 0 ? a6[0] : "")
-      h["agent_role_code"] = ""
-      h["agent_role_URI"] = (a7.length > 0 ? a7 : [""])
-      h["agent_type_display"] = (a8.length > 0 ? a8[0] : "")
-      h["agent_culture_display"]= (a10.length > 0 ? a10 : [""])
-      h["agent_type_URI"] = (a8.length > 0 ? [get_agent_type_authority(a8[0])] : [""])
-      h["agent_sort"] = (a3.length > 0 ? "#{i.to_s}" : "")
-      h["agent_context_display"] = [group]
-      #a2.push(h) if h.length > 0
-      a.push(h) if h.length > 0
+      if a9.length > 0
+        h2 = Hash.new
+        a11 = Array.new
+        h2["value"] = a9[0]
+        a11.push(h2)
+        h["agent_display"] = a11 #3-tuple a9
+        h["agent_sortname"] = a4[0] if a4.length > 0
+        h["agent_URI"] = a5 if a5.length > 0
+        h["agent_role_label"] = a6[0] if a6.length > 0
+        h["agent_role_URI"] = a7 if a7.length > 0
+        h["agent_type_display"] = a8[0] if a8.length > 0
+        h["agent_culture_display"]= a10 if a10.length > 0
+        h["agent_type_URI"] = [get_agent_type_authority(a8[0])] if get_agent_type_authority(a8[0]).length > 0
+        h["agent_sort"] = "#{i.to_s}" if a3.length > 0
+        h["agent_context_display"] = [group.downcase]
+        a.push(h)
+      end
     }
-    #a.push(a2) if a2.length > 0
+
   }
-  if a.length == 0
-    h = Hash.new
-    h["agent_display"] = ""
-    h["agent_sortname"] = ""
-    h["agent_URI"] = [""]
-    h["agent_role_label"] = ""
-    h["agent_role_code"] = ""
-    h["agent_role_URI"] = [""]
-    h["agent_type_display"] = ""
-    h["agent_type_URI"] = [""]
-    h["agent_culture_display"] = [""]
-    h["agent_sort"] = ""
-    h["agent_context_display"] = [""]
-    #a.push([h])
-    a.push(h)
-  end
-  a_sorted = a.sort_by { |k| k["agent_display"].start_with?("Production") ? "AA#{k["agent_display"]}" : k["agent_display"] }
+  a_sorted = a.sort_by { |k|
+    k["agent_context_display"][0].start_with?("production") ? "AA#{k["agent_context_display"][0]}" : k["agent_context_display"][0]
+  }
   a_sorted2 = a_sorted.each_with_index { |k,i| k["agent_sort"] = (i+1).to_s }
   solrjson["agents"] = a_sorted2
 
