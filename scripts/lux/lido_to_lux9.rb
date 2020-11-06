@@ -17,8 +17,8 @@ require 'logger'
 @log.level = Logger::INFO
 
 #CONFIG
-rails_root = "/Users/ermadmix/Documents/RubymineProjects/blacklight-collections2"
-#rails_root = "/app/blacklight-collections2"
+#rails_root = "/Users/ermadmix/Documents/RubymineProjects/blacklight-collections2"
+rails_root = "/app/blacklight-collections2"
 y = YAML.load_file("#{rails_root}/config/local_env.yml")
 oai_hostname = "oaipmh-prod.ctsmybupmova.us-east-1.rds.amazonaws.com"
 oai_username = "oaipmhuser"
@@ -236,7 +236,7 @@ def create_json(id,xml_str,set_spec)
   }
 
   h = Hash.new
-  h["metadata_arrived_in_LUX "] = Time.now.utc.iso8601 #json generation
+  h["metadata_arrived_in_LUX"] = Time.now.utc.iso8601 #json generation
   h["metadata_rights_label"] = "CC0 1.0 Universal (CC0 1.0) Public Domain Dedication"
   h["metadata_rights_URI"] = ["https://creativecommons.org/publicdomain/zero/1.0/"]
   h["metadata_identifier"] = "ycba-#{a[0]}"
@@ -619,10 +619,10 @@ def create_json(id,xml_str,set_spec)
     a2.push(h1)
   }
   h3 = Hash.new
-  h3["measurment_label"] = "Dimensions"
-  h3["measuremment_form"] = (a2.length > 0 ? a2 : [""])
+  h3["measurement_label"] = "Dimensions"
+  h3["measurement_form"] = a2 if a2.length > 0
   a.push(h3)
-  solrjson["measurements"] = a if a.length > 0
+  solrjson["measurements"] = a if a2.length > 0 #use form to determine inclusion
 
   a = Array.new
   s = String.new
@@ -679,10 +679,10 @@ def create_json(id,xml_str,set_spec)
       h2["value"] = a1[0]
       a6.push(h2) if
       h["place_display"] = a6
-      h["place_URI"] = (a2.length > 0 ? a2 : [""])
+      h["place_URI"] = a2 if a2.length > 0
       h["place_role_label"] = (get_place_role(a3[0]).length > 0 ? get_place_role(a3[0]) : "")
-      h["place_coordinates_display"] = (a4.length > 0 ? wktize(a4) : [""])
-      h["place_coordinates_type"] = (a4.length > 0 ? wkttype(a4) : [""])
+      h["place_coordinates_display"] = wktize(a4) if a4.length > 0
+      h["place_coordinates_type"] = wkttype(a4) if a4.length > 0
       a.push(h) if h.length > 0
      end
   }
@@ -901,7 +901,7 @@ def create_json(id,xml_str,set_spec)
     h3["value"] = s
     a3.push(h3)
     h["access_in_repository_display"] = a3
-    h["access_in_repository_type"] = "request"
+    h["access_in_repository_type"] = [s]
   end
 
   a2 = Array.new
@@ -1025,9 +1025,9 @@ end
 
 #DRIVER
 objects = Array.new
-#ids ="34, 80, 107, 120, 423, 471, 1480, 40392, 1489, 3579, 4908, 5001, 5005, 5054, 5981, 7632, 7935, 8783, 8867, 9836, " +
-#    "10676,  11502, 11575, 11612, 15115, 15206, 19850, 21889, 21890, 21898, 22010, 24342, 26383, 26451, 28509, " +
-#    "29334, 34363, 37054, 38435, 39101, 41109, 46623, 51708, 52176, 55318, 59577, 64421, 21891, 22015, 66162, 11575, 24058"
+ids ="34, 80, 107, 120, 423, 471, 1480, 40392, 1489, 3579, 4908, 5001, 5005, 5054, 5981, 7632, 7935, 8783, 8867, 9836, " +
+    "10676,  11502, 11575, 11612, 15115, 15206, 19850, 21889, 21890, 21898, 22010, 24342, 26383, 26451, 28509, " +
+    "29334, 34363, 37054, 38435, 39101, 41109, 46623, 51708, 52176, 55318, 59577, 64421, 21891, 22015, 66162, 11575, 24058"
 #ids = "66161"
 #ids = "34,80,841"
 #ids = "22015,5005,34"
@@ -1035,11 +1035,11 @@ objects = Array.new
 #ids = "24058"
 #ids = "34,80,107,11575"
 #ids = "34,499,37893"
-ids = "34,5005"
+#ids = "34,5005"
 #ids = "66533,66534,66535,66536,66537,66538,68846,82229,82230,34440,34442,74753,3849"
 
-q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
-#q = "select local_identifier from metadata_record order by local_identifier asc"
+#q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
+q = "select local_identifier from metadata_record order by local_identifier asc"
 s = @oai_client.query(q)
 i = 0
 s.each do |row|
