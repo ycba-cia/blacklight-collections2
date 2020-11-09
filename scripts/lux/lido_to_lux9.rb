@@ -563,7 +563,7 @@ def create_json(id,xml_str,set_spec)
   a.push(h) if h.length > 0
   if a.length == 0
     h = Hash.new
-    h["title_display"] = [""]
+    h["title_display"] = [{"value":""}]
     h["title_type"] = ""
     h["title_label"] = ""
     a.push(h)
@@ -1035,7 +1035,7 @@ ids ="34, 80, 107, 120, 423, 471, 1480, 40392, 1489, 3579, 4908, 5001, 5005, 505
 #ids = "24058"
 #ids = "34,80,107,11575"
 #ids = "34,499,37893"
-#ids = "34,5005"
+#ids = "74753,68846"
 #ids = "66533,66534,66535,66536,66537,66538,68846,82229,82230,34440,34442,74753,3849"
 
 #q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
