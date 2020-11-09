@@ -418,6 +418,7 @@ def create_json(id,xml_str,set_spec)
       a11.push(x2.text.strip) unless x2.text.nil?
     }
     a11.each_with_index { |x2,ii|
+      next if a1[ii] == "exhibition"
       h = Hash.new
       h2 = Hash.new
       a2 = Array.new
@@ -427,7 +428,6 @@ def create_json(id,xml_str,set_spec)
       h["citation_type"] = get_citation_type(a1[ii])
       cits.push(h)
     }
-    solrjson["citations"] = cits
 
     #a2 = Array.new #removed to flatten
     x.elements.each('lido:event/lido:eventActor') { |x2|
@@ -529,6 +529,22 @@ def create_json(id,xml_str,set_spec)
   }
   a_sorted2 = a_sorted.each_with_index { |k,i| k["agent_sort"] = (i+1).to_s }
   solrjson["agents"] = a_sorted2
+
+  a1 = Array.new
+  xml_desc.elements.each('lido:eventWrap/lido:eventSet/lido:displayEvent[../lido:event/lido:eventType/lido:term="exhibition"]') { |x|
+    a1.push(x.text.strip) unless x.text.nil?
+  }
+  a1.each_with_index { |x,i|
+    h = Hash.new
+    h2 = Hash.new
+    a2 = Array.new
+    h2["value"] = x.gsub("^","")
+    a2.push(h2)
+    h["citation_string_display"] = a2
+    h["citation_type"] = "exhibition"
+    cits.push(h)
+  }
+  solrjson["citations"] = cits
 
   a = Array.new
   a1 = Array.new
@@ -1036,6 +1052,7 @@ ids ="34, 80, 107, 120, 423, 471, 1480, 40392, 1489, 3579, 4908, 5001, 5005, 505
 #ids = "34,80,107,11575"
 #ids = "34,499,37893"
 #ids = "74753,68846"
+#ids = "524,34"
 #ids = "66533,66534,66535,66536,66537,66538,68846,82229,82230,34440,34442,74753,3849"
 
 #q = "select local_identifier from metadata_record where local_identifier in (#{ids})"
