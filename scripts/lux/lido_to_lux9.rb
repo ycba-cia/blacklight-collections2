@@ -969,7 +969,7 @@ def create_json(id,xml_str,set_spec)
     a2.push(h2)
   end
 
-  solrjson["digital_assets"] = a2
+  solrjson["digital_assets"] = a2 if a2.length > 0
 
 =begin
   a = Array.new
