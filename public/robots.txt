@@ -5,3 +5,4 @@ Disallow: /catalog? # blocks search results pages
 Disallow: /catalog.html?
 Disallow: /catalog/facet
 Disallow: /catalog/range_limit
+Disallow: /vufind
