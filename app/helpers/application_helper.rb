@@ -169,6 +169,20 @@ module ApplicationHelper
     citations.join(' ').html_safe
   end
 
+  def render_tms_citation_presorted options={}
+    presorted_citation = options[:value]
+    presorted_citation_links = options[:document][:citationURL_ss]
+    combined_with_links = presorted_citation.each_with_index.map { |v,i|
+      if presorted_citation_links.nil? || presorted_citation_links[i].nil? || presorted_citation_links[i] == "-"
+        "<p>#{v}</i><p>"
+      else
+        "<p><a target=\"_blank\" href=\"#{presorted_citation_links[i]}\">#{v}</i></a></p>"
+      end
+    }
+    combined_with_links.join(' ').html_safe
+  end
+
+  #deprecated 2/4/2021, using render_tms_citation_presorted instead
   def render_tms_citation options={}
 
     i = -1
