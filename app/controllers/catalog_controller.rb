@@ -148,7 +148,7 @@ class CatalogController < ApplicationController
 
     #lido fields in detailed view
     config.add_show_field 'author_ss', :label => 'Creator', link_to_search: true, separator_options: break_separator, if: :display_lido_field?
-    config.add_show_field 'title_ss', :label => 'Title', if: :display_lido_field?
+    config.add_show_field 'titles_all_ss', :label => 'Title(s)', helper_method: 'render_titles_all', if: :display_lido_field?
     config.add_show_field 'publishDate_ss', :label => 'Date', if: :display_lido_field?
     config.add_show_field 'format_ss', :label => 'Medium', if: :display_lido_field?
     config.add_show_field 'physical_ss',  :label => 'Dimensions', if: :display_lido_field?
