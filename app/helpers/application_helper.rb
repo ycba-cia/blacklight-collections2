@@ -230,6 +230,13 @@ module ApplicationHelper
     exhs.join.html_safe
   end
 
+  def render_parent options={}
+    facet_link = options[:value].map { |item|
+      "<p><a href=\"/?f[title_collective_ss][]=#{item}\">Collective Title: #{item}</a></p>"
+    }
+    facet_link.join.html_safe
+  end
+
   def render_titles_all options={}
     titles = []
 
