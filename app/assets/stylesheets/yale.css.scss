@@ -112,7 +112,7 @@ div:empty {
 
   //start page after fixed header
   .downer {
-    margin-top: 96px;
+    margin-top: 10px;
   }
 }
 
@@ -835,6 +835,7 @@ i {
 
 .h3-class {
   font-size: 24px;
+  text-align: center;
 }
 
 #appliedParams h3 {
@@ -870,3 +871,23 @@ i {
 .carousel-control.right:focus {
   box-shadow: 0 0 2px 2px #719ECE;
 }
+
+//@media screen and (min-width: 1480px) {
+  #header-image {
+    background-image: url("https://britishart.yale.edu/sites/default/files/img/hero/2020-06/YCBA_26Jan2019-329_D8.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 640px;
+  }
+//}
+/*
+@media screen and (min-width: 530px) {
+  #header-image {
+    background-image: url("https://britishart.yale.edu/sites/default/files/img/hero/2020-06/YCBA_26Jan2019-329_D8.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 512px;
+  }
+}*/
