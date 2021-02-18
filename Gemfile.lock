@@ -184,7 +184,7 @@ GEM
     method_source (1.0.0)
     mimemagic (0.3.5)
     mini_mime (1.0.2)
-    mini_portile2 (2.4.0)
+    mini_portile2 (2.5.0)
     minitest (5.14.2)
     multi_json (1.14.1)
     multipart-post (2.1.1)
@@ -193,8 +193,9 @@ GEM
     net-http-pipeline (1.0.1)
     newrelic_rpm (6.11.0.365)
     nio4r (2.5.4)
-    nokogiri (1.10.10)
-      mini_portile2 (~> 2.4.0)
+    nokogiri (1.11.1)
+      mini_portile2 (~> 2.5.0)
+      racc (~> 1.4)
     openseadragon (0.5.0)
       rails (> 3.2.0)
     orm_adapter (0.5.0)
@@ -204,6 +205,7 @@ GEM
     pusher-client (0.6.2)
       json
       websocket (~> 1.0)
+    racc (1.5.2)
     rack (2.2.3)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
@@ -393,7 +395,7 @@ DEPENDENCIES
   marc
   mysql2 (~> 0.4.10)
   newrelic_rpm
-  nokogiri (~> 1.10.8)
+  nokogiri (>= 1.11.0)
   pg
   puma (~> 3.12)
   rack (>= 2.2.3)
@@ -416,7 +418,7 @@ DEPENDENCIES
   web-console (>= 3.3.0)
 
 RUBY VERSION
-   ruby 2.4.4p296
+   ruby 2.7.2p137
 
 BUNDLED WITH
    1.17.3
