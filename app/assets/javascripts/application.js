@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require turbolinks//
 //= require bootstrap/carousel
+//= require bootstrap
 // Required by Blacklight
 //= require blacklight/blacklight
 //= require jquery.fancybox.min

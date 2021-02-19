@@ -870,3 +870,8 @@ i {
 .carousel-control.right:focus {
   box-shadow: 0 0 2px 2px #719ECE;
 }
+
+.twocolumn {
+  columns: 100px 3;
+  text-align: justify;
+}
