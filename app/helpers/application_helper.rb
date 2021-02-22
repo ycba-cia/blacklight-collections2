@@ -224,7 +224,7 @@ module ApplicationHelper
     }
     sorted.reverse!
     sorted.each {  |exh|
-      param = URI::encode(exh).gsub("&","%26")
+      param = URI.encode_www_form_component(exh)
       exhs.append("<p><a href=\"/?f[exhibition_history_ss][]=#{param}\">#{exh}</a></p>")
     }
     exhs.join.html_safe
