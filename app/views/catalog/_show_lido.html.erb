@@ -1,91 +1,91 @@
 <%# default partial to display solr document fields in catalog show view -%>
 <!--<div class=" col-xs-12 col-md-8 col-md-pull-4 lido">-->
-    <div class=" col-xs-12 col-md-12 lido">
-      <dl class="dl-vertical dl-invert">
-        <% doc_presenter = show_presenter(document) %>
-        <% document_show_fields(document).each do |field_name, field| -%>
-          <% if should_render_show_field? document, field %>
-            <% next if "citation_txt" == field_name %>
-            <% next if "exhibition_history_ss" == field_name %>
-            <% next if "curatorial_comment_ss" == field_name %>
-            <% if "callnumber_ss" == field_name  %>
-              <dt class="blacklight-<%= field_name.parameterize %>"><%= render_document_show_field_label document, field: field_name %></dt>
-              <dd class="blacklight-<%= field_name.parameterize %>"><span title="Object ID: <%= document["id"].gsub("tms:","") %>"><%= doc_presenter.field_value field %></span></dd>
-            <% elsif "collection_ss" == field_name %>
-              <dt class="blacklight-<%= field_name.parameterize %>"><%= render_document_show_field_label document, field: field_name %></dt>
-              <dd class="blacklight-<%= field_name.parameterize %>"><%= doc_presenter.field_value field %></dd>
-              <% gfl = get_frame_link(document) %>
-              <% if gfl != "" %>
-                <dt class="blacklight-<%= "framelink".parameterize %>"><%= get_frame_link_label(document) %></dt>
-                <dd class="blacklight-<%= "framelink".parameterize %>"><%= gfl %></dd>
-              <% end %>
-            <% else %>
-              <dt class="blacklight-<%= field_name.parameterize %>"><%= render_document_show_field_label document, field: field_name %></dt>
-              <dd class="blacklight-<%= field_name.parameterize %>"><%= doc_presenter.field_value field %></dd>
-            <% end %>
-          <% end -%>
-        <% end -%>
-        <%= render "show_fields" %>
-      </dl>
-    </div>
-  <nav id="itemTab1" class="container">
-    <ul class="nav nav-tabs">
-      <% if document[:curatorial_comment_ss] %>
-        <li class="nav-item active"><a class="nav-link" href="#2pane" data-toggle="tab">Curatorial Description</a>
-        </li>
-      <% end %>
-      <% if document[:exhibition_history_ss] %>
-        <li class="nav-item"><a class="nav-link" href="#3pane" data-toggle="tab">Exhibition History</a>
-        </li>
-      <% end %>
-      <% if document[:citation_txt] %>
-        <li class="nav-item"><a class="nav-link" href="#4pane" data-toggle="tab">Bibliography</a>
-        </li>
-      <% end %>
-      <li class="nav-item"><a class="nav-link" href="#5pane" data-toggle="tab">Catalog Entry</a>
+<div class=" col-xs-12 col-md-12 lido">
+  <dl class="dl-vertical dl-invert">
+    <% doc_presenter = show_presenter(document) %>
+    <% document_show_fields(document).each do |field_name, field| -%>
+      <% if should_render_show_field? document, field %>
+        <% next if "citation_txt" == field_name %>
+        <% next if "exhibition_history_ss" == field_name %>
+        <% next if "curatorial_comment_ss" == field_name %>
+        <% if "callnumber_ss" == field_name  %>
+          <dt class="blacklight-<%= field_name.parameterize %>"><%= render_document_show_field_label document, field: field_name %></dt>
+          <dd class="blacklight-<%= field_name.parameterize %>"><span title="Object ID: <%= document["id"].gsub("tms:","") %>"><%= doc_presenter.field_value field %></span></dd>
+        <% elsif "collection_ss" == field_name %>
+          <dt class="blacklight-<%= field_name.parameterize %>"><%= render_document_show_field_label document, field: field_name %></dt>
+          <dd class="blacklight-<%= field_name.parameterize %>"><%= doc_presenter.field_value field %></dd>
+          <% gfl = get_frame_link(document) %>
+          <% if gfl != "" %>
+            <dt class="blacklight-<%= "framelink".parameterize %>"><%= get_frame_link_label(document) %></dt>
+            <dd class="blacklight-<%= "framelink".parameterize %>"><%= gfl %></dd>
+          <% end %>
+        <% else %>
+          <dt class="blacklight-<%= field_name.parameterize %>"><%= render_document_show_field_label document, field: field_name %></dt>
+          <dd class="blacklight-<%= field_name.parameterize %>"><%= doc_presenter.field_value field %></dd>
+        <% end %>
+      <% end -%>
+    <% end -%>
+    <%= render "show_fields" %>
+  </dl>
+</div>
+<nav id="itemTab1" class="container">
+  <ul class="nav nav-tabs">
+    <% if document[:curatorial_comment_ss] %>
+      <li class="nav-item active"><a class="nav-link" href="#2pane" data-toggle="tab">Curatorial Description</a>
       </li>
-      <li class="nav-item"><a class="nav-link" href="#6pane" data-toggle="tab">Gallery Label</a>
+    <% end %>
+    <% if document[:exhibition_history_ss] %>
+      <li class="nav-item"><a class="nav-link" href="#3pane" data-toggle="tab">Exhibition History</a>
       </li>
-      <li class="nav-item"><a class="nav-link" href="#7pane" data-toggle="tab">Artist Statement</a>
+    <% end %>
+    <% if document[:citation_txt] %>
+      <li class="nav-item"><a class="nav-link" href="#4pane" data-toggle="tab">Bibliography</a>
       </li>
-      <li class="nav-item"><a class="nav-link" href="#8pane" data-toggle="tab">Excerpt</a>
-      </li>
-      <li class="nav-item"><a class="nav-link" href="#9pane" data-toggle="tab">Related</a>
-      </li>
-      <li class="nav-item"><a class="nav-link" href="#10pane" data-toggle="tab">Provenance</a>
-      </li>
-    </ul>
-  </nav>
-  </br>
-  <div class="tab-content clearfix">
-    <div class="tab-pane active" id="2pane">
-      <% document_show_fields(document).each do |field_name, field| %>
-        <% next unless "curatorial_comment_ss" == field_name %>
-        <div class="twocolumn"><%= doc_presenter.field_value field %></div>
-      <% end %>
-    </div>
-    <div class="tab-pane" id="3pane">
-      <% document_show_fields(document).each do |field_name, field| %>
-        <% next unless "exhibition_history_ss" == field_name %>
-        <div><%= doc_presenter.field_value field %></div>
-      <% end %>
-    </div>
-    <div class="tab-pane" id="4pane">
-      <% document_show_fields(document).each do |field_name, field| %>
-        <% next unless "citation_txt" == field_name %>
-        <div><%= doc_presenter.field_value field %></div>
-      <% end %>
-    </div>
-    <div class="tab-pane" id="4pane"></div>
-    <div class="tab-pane" id="5pane"></div>
-    <div class="tab-pane" id="6pane"></div>
-    <div class="tab-pane" id="7pane"></div>
-    <div class="tab-pane" id="8pane"></div>
-    <div class="tab-pane" id="9pane"></div>
-    <div class="tab-pane" id="10pane"></div>
+    <% end %>
+    <li class="nav-item"><a class="nav-link" href="#5pane" data-toggle="tab">Catalog Entry</a>
+    </li>
+    <li class="nav-item"><a class="nav-link" href="#6pane" data-toggle="tab">Gallery Label</a>
+    </li>
+    <li class="nav-item"><a class="nav-link" href="#7pane" data-toggle="tab">Artist Statement</a>
+    </li>
+    <li class="nav-item"><a class="nav-link" href="#8pane" data-toggle="tab">Excerpt</a>
+    </li>
+    <li class="nav-item"><a class="nav-link" href="#9pane" data-toggle="tab">Related</a>
+    </li>
+    <li class="nav-item"><a class="nav-link" href="#10pane" data-toggle="tab">Provenance</a>
+    </li>
+  </ul>
+</nav>
+</br>
+<div class="tab-content clearfix">
+  <div class="tab-pane active" id="2pane">
+    <% document_show_fields(document).each do |field_name, field| %>
+      <% next unless "curatorial_comment_ss" == field_name %>
+      <div class="twocolumn"><%= doc_presenter.field_value field %></div>
+    <% end %>
   </div>
-    </br>
-      <div id="ycba-object-contact-us">
-        If you have information about this object that may be of assistance please <a href="mailto:ycba.online@yale.edu?subject=<%= information_link_subject(document) %>">contact us</a>.
-      </div>
-      <br/>
+  <div class="tab-pane" id="3pane">
+    <% document_show_fields(document).each do |field_name, field| %>
+      <% next unless "exhibition_history_ss" == field_name %>
+      <div><%= doc_presenter.field_value field %></div>
+    <% end %>
+  </div>
+  <div class="tab-pane" id="4pane">
+    <% document_show_fields(document).each do |field_name, field| %>
+      <% next unless "citation_txt" == field_name %>
+      <div><%= doc_presenter.field_value field %></div>
+    <% end %>
+  </div>
+  <div class="tab-pane" id="4pane"></div>
+  <div class="tab-pane" id="5pane"></div>
+  <div class="tab-pane" id="6pane"></div>
+  <div class="tab-pane" id="7pane"></div>
+  <div class="tab-pane" id="8pane"></div>
+  <div class="tab-pane" id="9pane"></div>
+  <div class="tab-pane" id="10pane"></div>
+</div>
+</br>
+<div id="ycba-object-contact-us">
+  If you have information about this object that may be of assistance please <a href="mailto:ycba.online@yale.edu?subject=<%= information_link_subject(document) %>">contact us</a>.
+</div>
+<br/>
