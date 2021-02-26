@@ -31,58 +31,72 @@
 <nav id="itemTab1" class="container">
   <ul class="nav nav-tabs">
     <% if document[:curatorial_comment_ss] %>
-      <li class="nav-item active"><a class="nav-link" href="#2pane" data-toggle="tab">Curatorial</br>Description</a>
-      </li>
+      <li class="nav-item active"><a class="nav-link" href="#1pane" data-toggle="tab">Curatorial</br>Description</a></li>
+    <% end %>
+    <% if true %>
+      <li class="nav-item"><a class="nav-link" href="#2pane" data-toggle="tab">Gallery</br>Label</a></li>
+    <% end %>
+    <% if true %>
+      <li class="nav-item"><a class="nav-link" href="#3pane" data-toggle="tab">Published</br>Catalog Entry</a></li>
+    <% end %>
+    <% if true %>
+      <li class="nav-item"><a class="nav-link" href="#4pane" data-toggle="tab">Excerpt from</br>this Work</a></li>
+    <% end %>
+    <% if true %>
+      <li class="nav-item"><a class="nav-link" href="#5pane" data-toggle="tab">Artist's</br>Statement</a></li>
+    <% end %>
+    <% if true %>
+      <li class="nav-item"><a class="nav-link" href="#6pane" data-toggle="tab">Provenance</br>&nbsp </a></li>
     <% end %>
     <% if document[:exhibition_history_ss] %>
-      <li class="nav-item"><a class="nav-link" href="#3pane" data-toggle="tab">Exhibition</br>History</a>
-      </li>
+      <li class="nav-item"><a class="nav-link" href="#7pane" data-toggle="tab">Exhibition</br>History</a></li>
     <% end %>
     <% if document[:citation_txt] %>
-      <li class="nav-item"><a class="nav-link" href="#4pane" data-toggle="tab">Bibliography</a>
-      </li>
+      <li class="nav-item"><a class="nav-link" href="#8pane" data-toggle="tab">Bibliography</br>&nbsp</a></li>
     <% end %>
-    <li class="nav-item"><a class="nav-link" href="#5pane" data-toggle="tab">Published</br>Catalog Entry</a>
-    </li>
-    <li class="nav-item"><a class="nav-link" href="#6pane" data-toggle="tab">Gallery</br>Label</a>
-    </li>
-    <li class="nav-item"><a class="nav-link" href="#7pane" data-toggle="tab">Artist</br>Statement</a>
-    </li>
-    <li class="nav-item"><a class="nav-link" href="#8pane" data-toggle="tab">Excerpts from</br>Publications</a>
-    </li>
-    <li class="nav-item"><a class="nav-link" href="#9pane" data-toggle="tab">Related</br>Objects</a>
-    </li>
-    <li class="nav-item"><a class="nav-link" href="#10pane" data-toggle="tab">Provenance</a>
-    </li>
+    <% if true %>
+      <li class="nav-item"><a class="nav-link" href="#9pane" data-toggle="tab">Associated</br>YCBA Objects</a></li>
+    <% end %>
   </ul>
 </nav>
 </br>
 <div class="tab-content clearfix">
-  <div class="tab-pane active" id="2pane">
+  <div class="tab-pane active" id="1pane">
     <% document_show_fields(document).each do |field_name, field| %>
       <% next unless "curatorial_comment_ss" == field_name %>
       <div class="twocolumn"><%= doc_presenter.field_value field %></div>
     <% end %>
   </div>
+  <div class="tab-pane" id="2pane">
+    <div>Placeholder for Gallery Label</div>
+  </div>
   <div class="tab-pane" id="3pane">
+    <div>Placeholder for Published Catalog Entry</div>
+  </div>
+  <div class="tab-pane" id="4pane">
+    <div>Placeholder for excerpt from this work</div>
+  </div>
+  <div class="tab-pane" id="5pane">
+    <div>Placeholder for Artist's Statement</div>
+  </div>
+  <div class="tab-pane" id="6pane">
+    <div>Placeholder for Provenance</div>
+  </div>
+  <div class="tab-pane" id="7pane">
     <% document_show_fields(document).each do |field_name, field| %>
       <% next unless "exhibition_history_ss" == field_name %>
       <div><%= doc_presenter.field_value field %></div>
     <% end %>
   </div>
-  <div class="tab-pane" id="4pane">
+  <div class="tab-pane" id="8pane">
     <% document_show_fields(document).each do |field_name, field| %>
       <% next unless "citation_txt" == field_name %>
       <div><%= doc_presenter.field_value field %></div>
     <% end %>
   </div>
-  <div class="tab-pane" id="4pane"></div>
-  <div class="tab-pane" id="5pane"></div>
-  <div class="tab-pane" id="6pane"></div>
-  <div class="tab-pane" id="7pane"></div>
-  <div class="tab-pane" id="8pane"></div>
-  <div class="tab-pane" id="9pane"></div>
-  <div class="tab-pane" id="10pane"></div>
+  <div class="tab-pane" id="9pane">
+    <div>Placeholder for Provenance</div>
+  </div>
 </div>
 </br>
 <div id="ycba-object-contact-us">
