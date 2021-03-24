@@ -3,14 +3,16 @@ require 'json'
 
 module PrintHelper
 
-  def print_images(id)
+  def print_images(id,index)
     markup = ""
     #test_image = "https://images.britishart.yale.edu/iiif/1b747e8f-7754-482c-b5a2-9e1dc1986f4b/full/full/0/native.jpg"
     #images = [1]
 
-    images,pixels = get_images_from_sources(id)
+    #images,pixels = get_images_from_sources(id) #deprecated for cds2
+    images, pixels = get_images_from_cds2(id,index)
     images.each_with_index do |f, i|
       break if i >= @size.to_i
+      f.gsub!("full/full","full/700,800")
       markup += "<div style=\"page-break-after: always\">"
       markup += "<img class=\"contain\" src=\"#{f}\" width=\"#{pixels[i][0]}\" height=\"#{pixels[i][1]}\" style=\"object-fit: contain;\">"
       markup += "</div>"
@@ -20,6 +22,36 @@ module PrintHelper
     markup.html_safe
   end
 
+  def get_images_from_cds2(id,index)
+    if id.starts_with?("tms")
+      objid = id.gsub("tms:","")
+      manifest = "https://manifests.collections.yale.edu/ycba/obj/#{objid}"
+    end
+    if id.starts_with?("orbis")
+      objid = id.gsub("orbis:","")
+      manifest = "https://manifests.collections.yale.edu/ycba/orb/#{objid}"
+    end
+    get_images_from_iiifv3(manifest,index)
+  end
+
+  #deprecated for cds2
+  def get_images_from_iiifv3(manifest,index)
+    images = Array.new
+    pixels = Array.new
+    uri = URI(manifest)
+    #begin
+      json = JSON.load(open(manifest))
+
+    image = json["items"][index.to_i]["items"][0]["items"][0]["body"]["id"]
+    images.push(image)
+    pixels.push(["700","800"])
+    #rescue
+    #  puts "Error getting print image from manifest: #{manifest}"
+    #end
+    return images,pixels
+  end
+
+  #deprecated for cds2
   def get_images_from_iiif(id)
     id = parse_tms_id(id)
     url = "https://manifests.britishart.yale.edu/manifest/#{id}"
@@ -44,6 +76,7 @@ module PrintHelper
     return images,pixels
   end
 
+  #deprecated for cds2
   def get_images_from_cds(id)
     if id.starts_with?("tms")
       id = id.gsub("tms:","")
@@ -81,10 +114,12 @@ module PrintHelper
     return images,pixels
   end
 
+  #deprecated for cds2
   def parse_tms_id(id)
     id.gsub("tms:","")
   end
 
+  #deprecated for cds2
   def get_images_from_sources(id)
     if id.starts_with?("tms")
       if manifest_exists?(id)
@@ -100,6 +135,7 @@ module PrintHelper
     end
   end
 
+  #deprecated for cds2
   def manifest_exists?(id)
     id = parse_tms_id(id)
     url = "https://manifests.britishart.yale.edu/manifest/#{id}"

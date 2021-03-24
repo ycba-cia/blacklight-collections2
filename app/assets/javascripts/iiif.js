@@ -492,3 +492,56 @@ function applyLightSlider() {
     });
 }
 
+//cds2
+function selectdl(download,id) {
+    //console.log ("download:" + download);
+    //console.log ("download:" + download[0]);
+    //console.log ("download:" + download[1]);
+    //console.log ("download:" + download[2]);
+    //console.log ("download:" + download[3]);
+    //[count,caption,jpeg,tiff]
+
+    var index = download[0]-1
+    var jpeg_info = "";
+    $("#dlselect-info").text(download[0] + ". "+download[1]);
+    if (download[2].length == 0) {
+        jpeg_info += "<a href='" + download[2] + "' download='" + download[1] + "' target=\"_blank\">";
+        jpeg_info += "<button id='jpeg-dl-button' type='button' class='btn btn-primary btn-sm' disabled>JPEG</button>";
+        jpeg_info += "</a>"
+    } else {
+        jpeg_info += "<a href='" + download[2] + "' download='" + download[1] + "' target=\"_blank\">";
+        jpeg_info += "<button id='jpeg-dl-button' type='button' class='btn btn-primary btn-sm'>JPEG</button>";
+        jpeg_info += "</a>"
+        //$("#jpeg-dl-info").text(download[0] + ". "+download[1]); deprecated
+    }
+    $("#jpeg-container").html(jpeg_info);
+
+    var tiff_info =  "";
+    if (download[3].length == 0) {
+        tiff_info += "<a href='" + download[3] + "' download='" + download[1] + "' target=\"_blank\">";
+        tiff_info += "<button id='tiff-dl-button' type='button' class='btn btn-primary btn-sm' disabled>TIFF</button>";
+        tiff_info += "</a>";
+    } else {
+        tiff_info += "<a href='" + download[3] + "' download='" + download[1] + "' target=\"_blank\">";
+        tiff_info += "<button id='tiff-dl-button' type='button' class='btn btn-primary btn-sm'>TIFF</button>";
+        tiff_info += "</a>";
+        //$("#tiff-dl-info").text(download[0] + ". "+download[1]); deprecated
+    }
+    $("#tiff-container").html(tiff_info);
+
+    var print_info =  "";
+    var print_path = "/print/"+id+"/1/"+index;
+    if (download[2].length == 0) {
+        print_info += "<a href='"+print_path+"' target=\"_blank\">";
+        print_info += "<button id='print-button' type='button' class='btn btn-primary btn-sm' disabled>Print</button>";
+        print_info += "</a>";
+    } else {
+        print_info += "<a href='"+print_path+"' target=\"_blank\">";
+        print_info += "<button id='print-button' type='button' class='btn btn-primary btn-sm'>Print</button>";
+        print_info += "</a>";
+        //$("#print-info").text(download[0] + ". "+download[1]);deprecated
+    }
+    $("#print-container").html(print_info);
+
+}
+

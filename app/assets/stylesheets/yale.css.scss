@@ -577,9 +577,10 @@ $moveRight: $tileHeight * ($growFactor - 1);
   margin-right: 0px;
 }
 
-#jpeg-dl-info, #tiff-dl-info {
+#jpeg-dl-info, #tiff-dl-info, #print-info,#dlselect-info {
   padding-left: 25px;
   padding-top: 5px;
+  text-align: left;
 }
 
 #download-details a {
@@ -869,4 +870,10 @@ i {
 
 .carousel-control.right:focus {
   box-shadow: 0 0 2px 2px #719ECE;
+}
+
+#mirador3 {
+  position: relative;
+  height: 80vh;
+  width: 100%;
 }

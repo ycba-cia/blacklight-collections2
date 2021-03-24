@@ -2,14 +2,15 @@
   <!--<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#downloadModal">
     Download Selected Image
   </button>-->
-  <%= link_to("Download Selected Image","#downloadModal", data: {toggle: "modal"}, style: "color: white;" ) %>
+  <%= link_to("Download/Print Selected Image","#downloadModal", data: {toggle: "modal"}, style: "color: white;" ) %>
 </div>
 <div class="modal fade" id="downloadModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <% downloads = get_download_array_from_manifest %>
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Download Selected Image</h4>
+        <h4 class="modal-title" id="myModalLabel">Download/Print Selected Image</h4>
       </div>
       <div id="download-details" class="modal-body">
         <!--jquery content here-->
@@ -33,17 +34,39 @@
         </div>
         </br>
         <div class="row">
-          <div id="jpeg-container" class="col-xs-1">
-            <button id="jpeg-dl-button" type="button" class="btn btn-primary btn-sm">JPEG</button>
+          <div id="dlselect-container" class="dropdown col-xs-1">
+            <button id="selectdl-button" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">Select Image <span class="caret"></span></button>
+            <div class="dropdown-menu" aria-labelledby="selectdl-button">
+              <% downloads.each_with_index do |array,index| %>
+                <li><a class="dropdown-item" onclick="selectdl(<%= downloads[index] %>,'<%= document["id"] %>')"><%= array[0] %>. <%= array[1] %></a></li>
+              <% end %>
+            </div>
           </div>
-          <div id="jpeg-dl-info" class="col-xs-11"></div>
+        </div>
+        <div class="row">
+          <div id="dlselect-info" class="col-xs-12"></div>
+        </div>
+        </br>
+        <div class="row">
+          <div id="jpeg-container" class="col-xs-1">
+            <button id="jpeg-dl-button" type="button" class="btn btn-primary btn-sm" disabled>JPEG</button>
+          </div>
+          <div id="jpeg-dl-info" class="col-xs-11"></div><!--deprecated-->
         </div>
         </br>
         <div class="row">
           <div id="tiff-container" class="col-xs-1">
-            <button id="tiff-dl-button" type="button" class="btn btn-primary btn-sm">TIFF</button>
+            <button id="tiff-dl-button" type="button" class="btn btn-primary btn-sm" disabled>TIFF</button>
           </div>
-          <div id="tiff-dl-info" class="col-xs-11"></div>
+          <div id="tiff-dl-info" class="col-xs-11"></div><!--deprecated-->
+        </div>
+        </br>
+        <div class="row">
+          <div id="print-container" class="col-xs-1">
+            <button id="print-button" type="button" class="btn btn-primary btn-sm" disabled>Print</button>
+          </div>
+          <div id="print-info" class="col-xs-11"></div><!--deprecated-->
         </div>
         </br>
         <div class="row">
