@@ -21,7 +21,11 @@
       <%= link_to("Request additional photography", image_request_link(document), style: "color: white;", target: "_blank") %>
     </div>
 
-    <div id="ycba-thumbnail-controls" class="col-xs-2" align="center"></div>
+    <div id="ycba-thumbnail-controls" class="col-xs-2" align="center">
+      <a target="_blank" href="https://view.collections.yale.edu/m3/?manifest=https://manifests.collections.yale.edu/ycba/obj/<%= @document['id'].split(":")[1] %>">
+        <img src='https://manifests.britishart.yale.edu/logo-iiif.png' class='img-responsive' alt='IIIF Manifest'>
+      </a>
+    </div>
   </div>
 
   <!--<div class="row">
@@ -61,7 +65,9 @@
               }
           },
           "window": {
-              "allowClose": false
+              "allowClose": false,
+              "allowFullscreen": true,
+              "allowMaximize": false
           },
           "windows": [
               {
