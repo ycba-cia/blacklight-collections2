@@ -30,74 +30,239 @@
 </div>
 <nav id="itemTab1" class="container">
   <ul class="nav nav-tabs">
-    <% if document[:curatorial_comment_ss] %>
-      <li class="nav-item active"><a class="nav-link" href="#1pane" data-toggle="tab">Curatorial</br>Description</a></li>
+    <% tab_active = true %>
+
+    <% if tab_active %>
+      <% if document_field_exists?(document,"curatorial_comment_ss")  %>
+        <li class="nav-item active"><a class="nav-link" href="#1pane" data-toggle="tab">Curatorial</br>Comments</a></li>
+        <% tab_active = false %>
+      <% end %>
+    <% else %>
+      <% if document_field_exists?(document,"curatorial_comment_ss") %>
+        <li class="nav-item"><a class="nav-link" href="#1pane" data-toggle="tab">Curatorial</br>Comments</a></li>
+      <% end %>
     <% end %>
-    <% if true %>
-      <li class="nav-item"><a class="nav-link" href="#2pane" data-toggle="tab">Gallery</br>Label</a></li>
+
+    <% if tab_active %>
+      <% if document_field_exists?(document,"curatorial_description_ss")  %>
+        <li class="nav-item active"><a class="nav-link" href="#2pane" data-toggle="tab">Curatorial</br>Descriptions</a></li>
+        <% tab_active = false %>
+      <% end %>
+    <% else %>
+      <% if document_field_exists?(document,"curatorial_description_ss")  %>
+        <li class="nav-item"><a class="nav-link" href="#2pane" data-toggle="tab">Curatorial</br>Descriptions</a></li>
+      <% end %>
     <% end %>
-    <% if true %>
-      <li class="nav-item"><a class="nav-link" href="#3pane" data-toggle="tab">Published</br>Catalog Entry</a></li>
+
+    <% if tab_active %>
+      <% if document_field_exists?(document,"gallery_label_ss")  %>
+        <li class="nav-item active"><a class="nav-link" href="#3pane" data-toggle="tab">Gallery</br>Labels</a></li>
+        <% tab_active = false %>
+      <% end %>
+    <% else %>
+      <% if document_field_exists?(document,"gallery_label_ss")  %>
+        <li class="nav-item"><a class="nav-link" href="#3pane" data-toggle="tab">Gallery</br>Labels</a></li>
+      <% end %>
     <% end %>
-    <% if true %>
-      <li class="nav-item"><a class="nav-link" href="#4pane" data-toggle="tab">Excerpt from</br>this Work</a></li>
+
+    <% if tab_active %>
+      <% if document_field_exists?(document,"pub_cat_entry_ss")  %>
+        <li class="nav-item active"><a class="nav-link" href="#4pane" data-toggle="tab">Published</br>Catalog Entries</a></li>
+        <% tab_active = false %>
+      <% end %>
+    <% else %>
+      <% if document_field_exists?(document,"pub_cat_entry_ss")  %>
+        <li class="nav-item"><a class="nav-link" href="#4pane" data-toggle="tab">Published</br>Catalog Entries</a></li>
+      <% end %>
     <% end %>
-    <% if true %>
-      <li class="nav-item"><a class="nav-link" href="#5pane" data-toggle="tab">Artist's</br>Statement</a></li>
+
+    <% if tab_active %>
+      <% if document_field_exists?(document,"work_excerpt_ss")  %>
+        <li class="nav-item active"><a class="nav-link" href="#5pane" data-toggle="tab">Excerpts from</br>this Work</a></li>
+        <% tab_active = false %>
+      <% end %>
+    <% else %>
+      <% if document_field_exists?(document,"work_excerpt_ss")  %>
+        <li class="nav-item"><a class="nav-link" href="#5pane" data-toggle="tab">Excerpts from</br>this Work</a></li>
+      <% end %>
     <% end %>
-    <% if true %>
-      <li class="nav-item"><a class="nav-link" href="#6pane" data-toggle="tab">Provenance</br>&nbsp </a></li>
+
+    <% if tab_active %>
+      <% if document_field_exists?(document,"artists_statement_ss")  %>
+        <li class="nav-item active"><a class="nav-link" href="#6pane" data-toggle="tab">Artist's</br>Statement</a></li>
+        <% tab_active = false %>
+      <% end %>
+    <% else %>
+      <% if document_field_exists?(document,"artists_statement_ss")  %>
+        <li class="nav-item"><a class="nav-link" href="#6pane" data-toggle="tab">Artist's</br>Statement</a></li>
+      <% end %>
     <% end %>
-    <% if document[:exhibition_history_ss] %>
-      <li class="nav-item"><a class="nav-link" href="#7pane" data-toggle="tab">Exhibition</br>History</a></li>
+
+    <% if tab_active %>
+      <% if document_field_exists?(document,"provenance_ss")  %>
+        <li class="nav-item active"><a class="nav-link" href="#7pane" data-toggle="tab">Provenance</br>&nbsp</a></li>
+        <% tab_active = false %>
+      <% end %>
+    <% else %>
+      <% if document_field_exists?(document,"provenance_ss")  %>
+        <li class="nav-item"><a class="nav-link" href="#7pane" data-toggle="tab">Provenance</br>&nbsp</a></li>
+      <% end %>
     <% end %>
-    <% if document[:citation_txt] %>
-      <li class="nav-item"><a class="nav-link" href="#8pane" data-toggle="tab">Bibliography</br>&nbsp</a></li>
+
+    <% if tab_active %>
+      <% if document_field_exists?(document,"exhibition_history_ss")  %>
+        <li class="nav-item active"><a class="nav-link" href="#8pane" data-toggle="tab">Exhibition</br>History</a></li>
+        <% tab_active = false %>
+      <% end %>
+    <% else %>
+      <% if document_field_exists?(document,"exhibition_history_ss")  %>
+        <li class="nav-item"><a class="nav-link" href="#8pane" data-toggle="tab">Exhibition</br>History</a></li>
+      <% end %>
     <% end %>
-    <% if true %>
-      <li class="nav-item"><a class="nav-link" href="#9pane" data-toggle="tab">Associated</br>YCBA Objects</a></li>
+
+    <% if tab_active %>
+      <% if document_field_exists?(document,"citation_ss")  %>
+        <li class="nav-item active"><a class="nav-link" href="#9pane" data-toggle="tab">Bibliography</br>&nbsp</a></li>
+        <% tab_active = false %>
+      <% end %>
+    <% else %>
+      <% if document_field_exists?(document,"citation_ss")  %>
+        <li class="nav-item"><a class="nav-link" href="#9pane" data-toggle="tab">Bibliography</br>&nbsp</a></li>
+      <% end %>
     <% end %>
+
   </ul>
 </nav>
 </br>
 <div class="tab-content clearfix">
-  <div class="tab-pane active" id="1pane">
-    <% document_show_fields(document).each do |field_name, field| %>
-      <% next unless "curatorial_comment_ss" == field_name %>
-      <div class="twocolumn"><%= doc_presenter.field_value field %></div>
+  <% tab_active = true %>
+  <% if document_field_exists?(document,"curatorial_comment_ss") %>
+    <% if tab_active %>
+      <div class="tab-pane active" id="1pane">
+      <% tab_active = false %>
+    <% else %>
+      <div class="tab-pane" id="1pane">
     <% end %>
-  </div>
-  <div class="tab-pane" id="2pane">
-    <div>Placeholder for Gallery Label</div>
-  </div>
-  <div class="tab-pane" id="3pane">
-    <div>Placeholder for Published Catalog Entry</div>
-  </div>
-  <div class="tab-pane" id="4pane">
-    <div>Placeholder for excerpt from this work</div>
-  </div>
-  <div class="tab-pane" id="5pane">
-    <div>Placeholder for Artist's Statement</div>
-  </div>
-  <div class="tab-pane" id="6pane">
-    <div>Placeholder for Provenance</div>
-  </div>
-  <div class="tab-pane" id="7pane">
-    <% document_show_fields(document).each do |field_name, field| %>
-      <% next unless "exhibition_history_ss" == field_name %>
-      <div><%= doc_presenter.field_value field %></div>
+    <% document["curatorial_comment_ss"].each_with_index do |field, i| %>
+      <% if i > 0 %></br><% end %>
+      <% field2 = field.gsub('\n','</br>').html_safe %>
+      <div class="columns"><%= field2 %></div>
     <% end %>
-  </div>
-  <div class="tab-pane" id="8pane">
-    <% document_show_fields(document).each do |field_name, field| %>
-      <% next unless "citation_txt" == field_name %>
-      <div><%= doc_presenter.field_value field %></div>
+    </div>
+  <% end %>
+
+  <% if document_field_exists?(document,"curatorial_description_ss") %>
+    <% if tab_active %>
+      <div class="tab-pane active" id="2pane">
+      <% tab_active = false %>
+    <% else %>
+      <div class="tab-pane" id="2pane">
     <% end %>
-  </div>
-  <div class="tab-pane" id="9pane">
-    <div>Placeholder for Provenance</div>
-  </div>
-</div>
+    <% document["curatorial_description_ss"].each_with_index do |field, i| %>
+      <% if i > 0 %></br><% end %>
+      <% field2 = field.gsub('\n','</br>').html_safe %>
+      <div class="columns"><%= field2 %></div>
+    <% end %>
+    </div>
+  <% end %>
+
+  <% if document_field_exists?(document,"gallery_label_ss") %>
+    <% if tab_active %>
+      <div class="tab-pane active" id="3pane">
+        <% tab_active = false %>
+    <% else %>
+      <div class="tab-pane" id="3pane">
+    <% end %>
+    <% document["gallery_label_ss"].each_with_index do |field, i| %>
+      <% if i > 0 %></br><hr style="border-top: 1px solid;"></br><% end %>
+      <% field2 = field.gsub('\n','</br>').html_safe %>
+      <div class="columns"><%= field2 %></div>
+    <% end %>
+    </div>
+  <% end %>
+
+  <% if document_field_exists?(document,"pub_cat_entry_ss") %>
+    <% if tab_active %>
+      <div class="tab-pane active" id="4pane">
+        <% tab_active = false %>
+    <% else %>
+      <div class="tab-pane" id="4pane">
+    <% end %>
+    <% document["pub_cat_entry_ss"].each_with_index do |field, i| %>
+      <% if i > 0 %></br><hr style="border-top: 1px solid;"></br><% end %>
+      <% field2 = field.gsub('\n','</br>').html_safe %>
+      <div class="columns"><%= field2 %></div>
+    <% end %>
+    </div>
+  <% end %>
+
+  <% if document_field_exists?(document,"work_excerpt_ss") %>
+    <% if tab_active %>
+      <div class="tab-pane active" id="5pane">
+        <% tab_active = false %>
+    <% else %>
+      <div class="tab-pane" id="5pane">
+    <% end %>
+    <% document["work_excerpt_ss"].each_with_index do |field, i| %>
+      <% if i > 0 %></br><hr style="border-top: 1px solid;"></br><% end %>
+      <% field2 = field.gsub('\n','</br>').html_safe %>
+      <div class="columns"><%= field2 %></div>
+    <% end %>
+    </div>
+  <% end %>
+
+  <% if document_field_exists?(document,"artists_statement_ss") %>
+    <% if tab_active %>
+      <div class="tab-pane active" id="6pane">
+        <% tab_active = false %>
+    <% else %>
+      <div class="tab-pane" id="6pane">
+    <% end %>
+    <% document["artists_statement_ss"].each_with_index do |field, i| %>
+      <% if i > 0 %></br><hr style="border-top: 1px solid;"></br><% end %>
+      <% field2 = field.gsub('\n','</br>').html_safe %>
+      <div class="columns"><%= field2 %></div>
+    <% end %>
+    </div>
+  <% end %>
+
+  <% if document_field_exists?(document,"provenance_ss") %>
+    <% if tab_active %>
+      <div class="tab-pane active" id="7pane">
+        <% tab_active = false %>
+    <% else %>
+      <div class="tab-pane" id="7pane">
+    <% end %>
+    <% document["provenance_ss"].each_with_index do |field, i| %>
+      <% if i > 0 %></br><% end %>
+      <div><%= field %></div>
+    <% end %>
+    </div>
+  <% end %>
+
+  <% if document_field_exists?(document,"exhibition_history_ss") %>
+    <% if tab_active %>
+      <div class="tab-pane active" id="8pane">
+        <% tab_active = false %>
+    <% else %>
+      <div class="tab-pane" id="8pane">
+    <% end %>
+    <%= render_exhibitions_tab(document) %>
+    </div>
+  <% end %>
+
+  <% if document_field_exists?(document,"citation_ss") %>
+    <% if tab_active %>
+      <div class="tab-pane active" id="9pane">
+        <% tab_active = false %>
+    <% else %>
+      <div class="tab-pane" id="9pane">
+    <% end %>
+    <%= render_tms_citation_presorted_tab(document) %>
+    </div>
+  <% end %>
+
+</end>
 </br>
 <div id="ycba-object-contact-us">
   If you have information about this object that may be of assistance please <a href="mailto:ycba.online@yale.edu?subject=<%= information_link_subject(document) %>">contact us</a>.

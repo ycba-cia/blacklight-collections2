@@ -871,9 +871,20 @@ i {
   box-shadow: 0 0 2px 2px #719ECE;
 }
 
-.twocolumn {
-  columns: 100px 3;
-  text-align: justify;
+@media screen and (min-width: 320px) {
+  .columns {
+    columns: 100px 2;
+    text-align: justify;
+    column-gap: 30px;
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .columns {
+    columns: 100px 3;
+    text-align: justify;
+    column-gap: 40px;
+  }
 }
 
 .nav-tabs > li > a:hover, .nav-tabs > li > a:focus {
