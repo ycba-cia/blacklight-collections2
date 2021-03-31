@@ -251,7 +251,7 @@ module ApplicationHelper
       puts extract_date2(d)
       extract_date2(d)
     }
-    #sorted.reverse! #commented out because ascending
+    sorted.reverse!
     sorted.each {  |exh|
       param = URI.encode_www_form_component(exh)
       exhs.append("<p><a href=\"/?f[exhibition_history_ss][]=#{param}\">#{exh}</a></p>")
