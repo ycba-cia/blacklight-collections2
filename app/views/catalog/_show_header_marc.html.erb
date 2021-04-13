@@ -19,7 +19,7 @@
 
     <div id="ycba-thumbnail-controls" class="col-xs-2" align="center">
       <a target="_blank" href="https://view.collections.yale.edu/m3/?manifest=https://manifests.collections.yale.edu/ycba/orb/<%= @document['id'].split(":")[1] %>">
-        <img src='https://manifests.britishart.yale.edu/logo-iiif.png' class='img-responsive' alt='IIIF Manifest'>
+        <img src='https://manifests.britishart.yale.edu/logo-iiif.png' class='img-responsive' alt='IIIF Manifest' title='View Image in full IIIF viewer' draggable>
       </a>
     </div>
   </div>
@@ -55,6 +55,7 @@
       var manifest = "https://manifests.collections.yale.edu/ycba/orb/<%= @document['id'].split(":")[1] %>";
       var mirador = Mirador.viewer({
           "id": "mirador3",
+          "selectedTheme": 'light',
           "manifests": {
               manifest: {
                   "provider": "Yale Center for British Art"
