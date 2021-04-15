@@ -311,6 +311,7 @@ module ApplicationHelper
         str = str + v + "</br>"
       end
     }
+    str.gsub!('\n','</br>');
     return str.html_safe
   end
 
@@ -547,12 +548,6 @@ module ApplicationHelper
     if document['recordtype_ss'] and document['recordtype_ss'][0].to_s == 'marc'
       if document['isbn_ss']
         url = "/bookcover/isbn/#{document['isbn_ss'][0]}/size/medium"
-      #elsif document['url_ss'] and document['url_ss'][0].start_with?('https://hdl.handle.net/10079/bibid/')
-      #  cds_id = document['url_ss'][0].gsub('https://hdl.handle.net/10079/bibid/', '')
-      else
-        cds_id = document['id'].split(":")[1]
-        cds = Rails.application.config_for(:cds)
-        url = "https://#{cds['host']}/content/repository/YCBA/object/#{cds_id}/type/1/format/1"
       end
     end
     #puts "URL:#{url}"
@@ -564,6 +559,8 @@ module ApplicationHelper
     image_tag url, alt: "#{author} #{title_short}", onerror: "this.src='#{error_img}';"
   end
 
+  #deprecated as of cds2
+=begin
   def doc_thumbnail(document)
     if document['thumbnail_ss'] and document['thumbnail_ss'][0]
       url = document['thumbnail_ss'][0]
@@ -573,6 +570,16 @@ module ApplicationHelper
     end
     url
   end
+=end
+  # cds2 replacement
+  def doc_thumbnail(d)
+    if d['manifest_thumbnail_ss'].nil?
+      return nil
+    else
+      return d['manifest_thumbnail_ss'][0]
+    end
+  end
+
 
   def get_export_url_xml(doc)
     if doc['recordtype_ss']
@@ -860,8 +867,58 @@ module ApplicationHelper
     fullheader = header.join(", ").html_safe
     content_tag("div", fullheader, style:"text-align:center", itemprop: "name", id: "fullheader")
   end
+
+  def get_download_array_from_manifest
+    manifest = "https://manifests.collections.yale.edu/ycba/obj/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "lido"
+    manifest = "https://manifests.collections.yale.edu/ycba/orb/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "marc"
+    puts "MANIFEST:"+manifest;
+    download_array = Array.new()
+    begin
+      json = JSON.load(open(manifest))
+    rescue
+      return download_array
+    end
+    items = json["items"]
+    items.each_with_index do |item,index|
+      count = (index + 1).to_s
+      begin
+        caption = item["label"]["en"][0]
+      rescue
+        caption = ""
+      end
+      begin
+        jpeg = item["items"][0]["items"][0]["body"]["id"]
+      rescue
+        jpeg = ""
+      end
+      begin
+        tiff = item["rendering"][0]["id"]
+      rescue
+        tiff = ""
+      end
+      download_array[index] = [count,caption,jpeg,tiff]
+    end
+    puts download_array.inspect
+
+    download_array
+  end
+
+  def manifest?
+    url = "https://manifests.collections.yale.edu/ycba/obj/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "lido"
+    url = "https://manifests.collections.yale.edu/ycba/orb/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "marc"
+    uri = URI(url)
+    response = Net::HTTP.get(uri)
+    begin
+      j = JSON.parse(response)
+    rescue
+      return false
+    end
+    return true
+  end
+
   def document_field_exists?(doc,field)
     return false if doc[field].nil? or !doc.has_key?(field) or doc[field][0]==""
     return true
   end
+
 end

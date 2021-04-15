@@ -1,33 +1,15 @@
 
 <!-- <%= render_document_heading(document, :tag => :h2) %>-->
-<%= render_ycba_item_header(document, :tag => :span, :fontsize => "20px") %>
 
 <div id="image-section">
 
   <div class="row">
-    <div id="ycba-main-image" class="col-xs-12" aria-live="polite">
-      <% if document['isbn_ss'] %>
-          <%= image_tag( "/bookcover/isbn/#{document['isbn_ss'][0]}/size/medium", class: 'img-thumbnail center-block', alt: document['title_txt']) %>
-      <% end %>
-    </div>
-  </div>
-
-  <div class="row">
-    <div id="ycba-main-image-caption" class="col-xs-12" align="center" aria-live="polite"></div>
-  </div>
-
-  <div class="row__outer">
-    <div class="imagescroll">
-      <div class="row__inner" id="ycba-thumbnail-row-inner"></div>
-    </div>
+    <div id="mirador3" aria-live="polite"></div>
   </div>
 
   <div class="row">
     <div id="ycba-downloads-container">
       <%= render partial: "downloads", locals: {document: document} %>
-    </div>
-    <div id="print-object" class="btn btn-primary col-xs-3" align="center">
-      <%= link_to("Print Object", "/print/#{@id}/1", style: "color: white;", target: "_blank") %>
     </div>
     <% if document["collection_ss"][0] == "Rare Books and Manuscripts" %>
       <div id="ycba-request-photography" class="btn btn-primary col-xs-3" align="center">
@@ -35,7 +17,11 @@
       </div>
     <% end %>
 
-    <div id="ycba-thumbnail-controls" class="col-xs-2" align="center"></div>
+    <div id="ycba-thumbnail-controls" class="col-xs-2" align="center">
+      <a target="_blank" href="https://view.collections.yale.edu/m3/?manifest=https://manifests.collections.yale.edu/ycba/orb/<%= @document['id'].split(":")[1] %>">
+        <img src='https://manifests.britishart.yale.edu/logo-iiif.png' class='img-responsive' alt='IIIF Manifest' title='View Image in full IIIF viewer' draggable>
+      </a>
+    </div>
   </div>
 
   <!--<div class="row">
@@ -45,6 +31,7 @@
 </div>
 
 <div id="non-image-section">
+  <%= render_ycba_item_header(document, :tag => :span, :fontsize => "20px") %>
   <div class="row">
     <div id="ycba-request-photography" class="col-xs-12" align="center">
       <% if document["collection_ss"][0] == "Rare Books and Manuscripts" %>
@@ -55,9 +42,47 @@
   </div>
 </div>
 
-<script language="Javascript">updateImageData(<%= @document.cds_url %>,"<%= cds_info_url(@document.cds_url, 1) %>","marc");</script>
-<script language="Javascript">
-    //cdsData("<%= cds_info_url(@document.cds_url, 1) %>");
-</script>
+<% unless manifest? %>
+  <script type="text/javascript">
+      console.log("no image");
+      $("#non-image-section").show();
+      $("#image-section").hide();
+  </script>
+<% else %>
+  <script type="text/javascript">
+      $("#non-image-section").hide();
+      $("#image-section").show();
+      var manifest = "https://manifests.collections.yale.edu/ycba/orb/<%= @document['id'].split(":")[1] %>";
+      var mirador = Mirador.viewer({
+          "id": "mirador3",
+          "selectedTheme": 'light',
+          "manifests": {
+              manifest: {
+                  "provider": "Yale Center for British Art"
+              }
+          },
+          "window": {
+              "allowClose": false,
+              "allowFullscreen": true,
+              "allowMaximize": false
+          },
+          "windows": [
+              {
+                  "loadedManifest": manifest,
+                  "canvasIndex": 0,
+                  "thumbnailNavigationPosition": 'far-bottom',
+                  "allowClose": false
+
+              }
+          ],
+          "workspaceControlPanel": {
+              "enabled": false, // Configure if the control panel should be rendered.  Useful if you want to lock the viewer down to only the configured manifests
+          },
+          "workspace": {
+              "showZoomControls": true
+          }
+      });
+  </script>
+<% end %>
 
 

@@ -4,7 +4,8 @@ class PrintController < ApplicationController
   def show
     @id = params[:id]
     @size = params[:size]
-    @images = print_images(@id)
+    @index = params[:index]
+    @images = print_images(@id,@index)
     @document = get_solr_doc(@id)
     @item_data = ""
     if @document["recordtype_ss"][0] == "lido"
