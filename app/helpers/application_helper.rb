@@ -182,6 +182,20 @@ module ApplicationHelper
     combined_with_links.join(' ').html_safe
   end
 
+  def render_tms_citation_presorted_tab(doc)
+    presorted_citation = doc["citation_ss"]
+    presorted_citation_links = doc["citationURL_ss"]
+    combined_with_links = presorted_citation.each_with_index.map { |v,i|
+      if presorted_citation_links.nil? || presorted_citation_links[i].nil? || presorted_citation_links[i] == "-"
+        "<p>#{v}</i><p>"
+      else
+        "<p><a target=\"_blank\" href=\"#{presorted_citation_links[i]}\">#{v}</i></a></p>"
+      end
+    }
+    combined_with_links.join(' ').html_safe
+  end
+
+
   #deprecated 2/4/2021, using render_tms_citation_presorted instead
   def render_tms_citation options={}
 
@@ -230,6 +244,21 @@ module ApplicationHelper
     exhs.join.html_safe
   end
 
+  def render_exhibitions_tab(doc)
+    exhs = []
+    sorted = doc["exhibition_history_ss"].sort_by { |d|
+      puts d
+      puts extract_date2(d)
+      extract_date2(d)
+    }
+    sorted.reverse!
+    sorted.each {  |exh|
+      param = URI.encode_www_form_component(exh)
+      exhs.append("<p><a href=\"/?f[exhibition_history_ss][]=#{param}\">#{exh}</a></p>")
+    }
+    exhs.join.html_safe
+  end
+
   def render_titles_all options={}
     titles = []
 
@@ -242,6 +271,16 @@ module ApplicationHelper
   def extract_date(d)
     if d.match(/(\b\d{1,2}\D{0,3})?\b(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|(Nov|Dec)(?:ember)?)\D?(\d{1,2}\D?)?\D?((19[1-9]\d|20\d{2})|\d{2})/)
       convert_date(d.match(/(\b\d{1,2}\D{0,3})?\b(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|(Nov|Dec)(?:ember)?)\D?(\d{1,2}\D?)?\D?((19[1-9]\d|20\d{2})|\d{2})/)[0])
+    else
+      Date.parse "9999-12-31"
+    end
+  end
+
+  def extract_date2(d)
+    if d.match(/(\b\d{1,2}\D{0,3})?\b(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|(Nov|Dec)(?:ember)?)\D?(\d{1,2}\D?)?\D?((19[1-9]\d|20\d{2})|\d{2})/)
+      convert_date(d.match(/(\b\d{1,2}\D{0,3})?\b(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|(Nov|Dec)(?:ember)?)\D?(\d{1,2}\D?)?\D?((19[1-9]\d|20\d{2})|\d{2})/)[0])
+    elsif d.match(/\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])/)
+      Date.parse(d)
     else
       Date.parse "9999-12-31"
     end
@@ -874,6 +913,11 @@ module ApplicationHelper
     rescue
       return false
     end
+    return true
+  end
+
+  def document_field_exists?(doc,field)
+    return false if doc[field].nil? or !doc.has_key?(field) or doc[field][0]==""
     return true
   end
 
