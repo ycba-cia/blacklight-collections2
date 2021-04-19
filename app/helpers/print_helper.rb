@@ -12,7 +12,6 @@ module PrintHelper
     images, pixels = get_images_from_cds2(id,index)
     images.each_with_index do |f, i|
       break if i >= @size.to_i
-      f.gsub!("full/full","full/700,800")
       markup += "<div style=\"page-break-after: always\">"
       markup += "<img class=\"contain\" src=\"#{f}\" width=\"#{pixels[i][0]}\" height=\"#{pixels[i][1]}\" style=\"object-fit: contain;\">"
       markup += "</div>"

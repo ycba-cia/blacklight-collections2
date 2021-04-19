@@ -903,6 +903,25 @@ module ApplicationHelper
     download_array
   end
 
+  def manifest_thumb?
+    manifest = "https://manifests.collections.yale.edu/ycba/obj/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "lido"
+    manifest = "https://manifests.collections.yale.edu/ycba/orb/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "marc"
+    puts "MANIFEST:"+manifest;
+    download_array = Array.new()
+    begin
+      json = JSON.load(open(manifest))
+    rescue
+      return download_array
+    end
+    height = json["items"][0]["height"]
+    width = json["items"][0]["width"]
+    if height <= 480 and width <= 480
+      return true
+    else
+      return false
+     end
+  end
+
   def manifest?
     url = "https://manifests.collections.yale.edu/ycba/obj/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "lido"
     url = "https://manifests.collections.yale.edu/ycba/orb/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "marc"

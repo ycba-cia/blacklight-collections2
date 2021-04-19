@@ -9,6 +9,9 @@
   <div class="row">
     <div id="mirador3" aria-live="polite"></div>
   </div>
+  <div class="row">
+    <div id="mirador3t" aria-live="polite"></div>
+  </div>
 
   <div class="row">
     <div id="ycba-downloads-container" align="center">
@@ -52,13 +55,15 @@
       $("#image-section").hide();
   </script>
 <% else %>
+  <% mirador3 = "mirador3" %>
+  <% mirador3 = "mirador3t" if manifest_thumb? %>
   <script type="text/javascript">
       console.log("image");
       $("#non-image-section").hide();
       $("#image-section").show();
       var manifest = "https://manifests.collections.yale.edu/ycba/obj/<%= @document['id'].split(":")[1] %>";
       var mirador = Mirador.viewer({
-          "id": "mirador3",
+          "id": "<%= mirador3 %>",
           "selectedTheme": 'light',
           "manifests": {
               manifest: {
