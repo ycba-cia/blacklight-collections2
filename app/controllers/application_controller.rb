@@ -79,7 +79,7 @@ class ApplicationController < ActionController::Base
                                 ["Paul Mellon, Founder","#{site}/stories/paul-mellon-founder"],
                                 ["From the Director","#{site}/director"],
                                 ["Architecture","#{site}/architecture"],
-                                ["News and Press","#{site}/news-and-press"],
+                                ["News and press","#{site}/news-and-press"],
                                 ["Videos","#{site}/videos"],
                                 ["Get involved","#{site}/get-involved"],
                                 ["Departments and staff","#{site}/departments-and-staff"],
