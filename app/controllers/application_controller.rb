@@ -58,7 +58,7 @@ class ApplicationController < ActionController::Base
                     {follow_buttons:"true"},
                     {title:"Exhibitions and programs",
                      link_list:[["Now and upcoming","#{site}/exhibitions-programs"],
-                                ["Past exhibitions","#{site}/exhibitions-programs-past"]]},
+                                ["Past exhibitions and programs","#{site}/exhibitions-programs-past"]]},
                     {title:"Collections",
                      link_list:[["Search the collections","https://collections.britishart.yale.edu"],
                                 ["Conservation","#{site}/conservation"]
@@ -67,7 +67,7 @@ class ApplicationController < ActionController::Base
                     ]},
                     {title:"Research and Learning",
                      link_list:[["Community","#{site}/community"],
-                                ["K—12 teachers","#{site}/k-12-teachers"],
+                                ["K–12 teachers","#{site}/k-12-teachers"],
                                 ["Colleges and universities","#{site}/colleges-and-universities"],
                                 ["Yale community","#{site}/yale-community"],
                                 ["Residential scholars","#{site}/residential-scholars"],
@@ -82,6 +82,7 @@ class ApplicationController < ActionController::Base
                                 ["News and Press","#{site}/news-and-press"],
                                 ["Videos","#{site}/videos"],
                                 ["Get involved","#{site}/get-involved"],
+                                ["Departments and staff","#{site}/departments-and-staff"],
                                 ["Contact us","#{site}/contact-us"]]}]
   end
 end
