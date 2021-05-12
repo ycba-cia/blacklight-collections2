@@ -2,6 +2,7 @@ require 'net/http'
 require 'json'
 require 'time'
 require 'uri'
+require 'cgi'
 
 module ApplicationHelper
 
@@ -545,6 +546,7 @@ module ApplicationHelper
 
   def thumb(document, options)
     url = doc_thumbnail(document)
+    #url = doc_thumbnail_from_manifest(document) #get thumbnails from manifest on the fly
     if document['recordtype_ss'] and document['recordtype_ss'][0].to_s == 'marc'
       if document['isbn_ss']
         url = "/bookcover/isbn/#{document['isbn_ss'][0]}/size/medium"
@@ -578,6 +580,26 @@ module ApplicationHelper
     else
       return d['manifest_thumbnail_ss'][0]
     end
+  end
+
+  def doc_thumbnail_from_manifest(d)
+    thumbnail = ""
+    manifest = "https://manifests.collections.yale.edu/ycba/obj/" + d['id'].split(":")[1] if d['recordtype_ss'][0] == "lido"
+    manifest = "https://manifests.collections.yale.edu/ycba/orb/" + d['id'].split(":")[1] if d['recordtype_ss'][0] == "marc"
+    puts "MANIFEST:"+manifest;
+    download_array = Array.new()
+    begin
+      json = JSON.load(open(manifest))
+    rescue
+      return thumbnail
+    end
+
+    begin
+      thumbnail = json["items"][0]["thumbnail"][0]["id"]
+    rescue
+      thumbnail = ""
+    end
+    return thumbnail
   end
 
 
@@ -938,6 +960,82 @@ module ApplicationHelper
   def document_field_exists?(doc,field)
     return false if doc[field].nil? or !doc.has_key?(field) or doc[field][0]==""
     return true
+  end
+
+  #deprecated
+  def mirador3_config(manifest)
+  config = '{
+      "id": "mirador3",
+      "selectedTheme": "light",
+      "manifests": {
+          "manifest": {
+              "provider": "Yale Center for British Art"
+          }
+      },
+      "window": {
+          "allowClose": false,
+          "allowFullscreen": true,
+          "allowMaximize": false
+      },
+      "windows": [
+          {
+              "loadedManifest": "' + manifest + '",
+              "canvasIndex": 0,
+              "thumbnailNavigationPosition": "far-bottom",
+              "allowClose": false
+
+          }
+      ],
+      "workspaceControlPanel": {
+          "enabled": false
+      },
+      "workspace": {
+          "showZoomControls": true
+      }
+    }'
+    puts config
+    return config.html_safe
+  end
+
+  #deprecated
+  def mirador3t_config(manifest)
+    config = '{
+      "id": "mirador3t",
+      "selectedTheme": "light",
+      "manifests": {
+          "manifest": {
+              "provider": "Yale Center for British Art"
+          }
+      },
+      "window": {
+          "allowClose": false,
+          "allowFullscreen": false,
+          "allowMaximize": false
+      },
+      "windows": [
+          {
+              "loadedManifest": "' + manifest + '",
+              "canvasIndex": 0,
+              "thumbnailNavigationPosition": "off",
+              "allowClose": false
+
+          }
+      ],
+      "thumbnailNavigation": {
+          "defaultPosition": "off"
+      },
+      "workspaceControlPanel": {
+          "enabled": false
+      },
+      "workspace": {
+          "showZoomControls": true
+      },
+      "osdConfig": {
+          "showNavigationControl": true
+      }
+    }'
+    puts config
+    return config.html_safe
   end
 
 end
