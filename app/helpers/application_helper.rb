@@ -61,8 +61,8 @@ module ApplicationHelper
 
   def render_aeon_from_access options={}
     #notice during covid
-    pd_rb_ia = "<br/><i>Note: As a COVID-19 precaution, the Study Room is closed until further notice.</i>"
-    ref = "<br/><i>Note: As a COVID-19 precaution, the Reference Library is closed until further notice. For scans from the reference collection please email #{bacref_email}.</i>"
+    pd_rb_ia = "<br/><i>Note: The Study Room reopens to Yale ID holders on June 1 by appointment only. Please visit the <a href=\"https://britishart.yale.edu/study-room\">Study Room page</a> on our website for more details.</i>"
+    ref = "<br/><i>Note: The Reference Library reopens to Yale ID holders on June 1 by appointment only. Please visit the <a href=\"https://britishart.yale.edu/reference-library-and-photograph-archives\">Reference Library page</a> on our website for more details. For scans from the reference collection please email #{bacref_email}.</i>"
 
     #method specific to call number
     detailed_onview_ss = get_one_value(options[:document][:detailed_onview_ss])
@@ -82,8 +82,8 @@ module ApplicationHelper
 
   def render_aeon_from_access_callnumber(document,collection,callnumber,mfhd_id)
     #notice during covid
-    pd_rb_ia = "<br/><i>Note: As a COVID-19 precaution, the Study Room is closed until further notice.</i>"
-    ref = "<br/><i>Note: As a COVID-19 precaution, the Reference Library is closed until further notice. For scans from the reference collection please email #{bacref_email}.</i>"
+    pd_rb_ia = "<br/><i>Note: The Study Room reopens to Yale ID holders on June 1 by appointment only. Please visit the <a href=\"https://britishart.yale.edu/study-room\">Study Room page</a> on our website for more details.</i>"
+    ref = "<br/><i>Note: The Reference Library reopens to Yale ID holders on June 1 by appointment only. Please visit the <a href=\"https://britishart.yale.edu/reference-library-and-photograph-archives\">Reference Library page</a> on our website for more details. For scans from the reference collection please email #{bacref_email}.</i>"
 
     value = ""
     if collection.start_with?("bacrb")
@@ -258,6 +258,13 @@ module ApplicationHelper
       exhs.append("<p><a href=\"/?f[exhibition_history_ss][]=#{param}\">#{exh}</a></p>")
     }
     exhs.join.html_safe
+  end
+
+  def render_parent options={}
+    facet_link = options[:value].map { |item|
+      "<p><a href=\"/?f[title_collective_ss][]=#{item}\">Collective Title: #{item}</a></p>"
+    }
+    facet_link.join.html_safe
   end
 
   def render_titles_all options={}
@@ -962,7 +969,7 @@ module ApplicationHelper
     return true
   end
 
-  #deprecated
+  #deprecated in favor of webpack
   def mirador3_config(manifest)
   config = '{
       "id": "mirador3",
@@ -997,7 +1004,7 @@ module ApplicationHelper
     return config.html_safe
   end
 
-  #deprecated
+  #deprecated in favor of webpack
   def mirador3t_config(manifest)
     config = '{
       "id": "mirador3t",
