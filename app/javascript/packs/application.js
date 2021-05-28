@@ -27,13 +27,15 @@ window.onload = () => {
     //console.log(anchor);
     var thumbposition = "";
     var show_osd_nav = "";
-    if (anchor=="mirador") {
+    if (anchor=="mirador3") {
         thumbposition = "far-bottom";
         show_osd_nav = false;
     } else {
         thumbposition = "off";
         show_osd_nav = false;
     }
+    //console.log(thumbposition);
+    //console.log(show_osd_nav);
     const config = {
         "id": anchor,
         "selectedTheme": "light",
@@ -51,11 +53,14 @@ window.onload = () => {
             {
                 "loadedManifest": manifest,
                 "canvasIndex": 0,
-                "thumbnailNavigationPosition": thumbposition,
+                //"thumbnailNavigationPosition": thumbposition, //commented out as overidden below
                 "allowClose": false
 
             }
         ],
+        "thumbnailNavigation": {
+            "defaultPosition": thumbposition,
+        },
         "workspaceControlPanel": {
             "enabled": false
         },
