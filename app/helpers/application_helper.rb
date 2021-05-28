@@ -969,6 +969,7 @@ module ApplicationHelper
     return true
   end
 
+  #deprecated in favor of webpack
   def mirador3_config(manifest)
   config = '{
       "id": "mirador3",
@@ -1003,6 +1004,7 @@ module ApplicationHelper
     return config.html_safe
   end
 
+  #deprecated in favor of webpack
   def mirador3t_config(manifest)
     config = '{
       "id": "mirador3t",
@@ -1030,7 +1032,7 @@ module ApplicationHelper
           "defaultPosition": "off"
       },
       "workspaceControlPanel": {
-          "enabled": falseapp/helpers/application_helper.rb
+          "enabled": false
       },
       "workspace": {
           "showZoomControls": true

@@ -46,6 +46,7 @@
   </div>
 </div>
 
+<%= javascript_pack_tag 'application' %>
 <% unless manifest? %>
   <script type="text/javascript">
       console.log("no image");
@@ -53,41 +54,17 @@
       $("#image-section").hide();
   </script>
 <% else %>
-  <% mirador3 = "mirador3" %>
-  <% mirador3 = "mirador3t" if manifest_thumb? %>
+  <% manifest = "https://manifests.collections.yale.edu/ycba/orb/" + @document['id'].split(":")[1] %>
+  <div id = "manifest_es6" data-manifest="<%= manifest %>"></div>
+  <% if manifest_thumb? %>
+    <div id = "anchor_es6" data-anchor="mirador3t"></div>
+  <% else %>
+    <div id = "anchor_es6" data-anchor="mirador3"></div>
+  <% end %>
   <script type="text/javascript">
+      console.log("image");
       $("#non-image-section").hide();
       $("#image-section").show();
-      var manifest = "https://manifests.collections.yale.edu/ycba/orb/<%= @document['id'].split(":")[1] %>";
-      var mirador = Mirador.viewer({
-          "id": "<%= mirador3 %>",
-          "selectedTheme": 'light',
-          "manifests": {
-              manifest: {
-                  "provider": "Yale Center for British Art"
-              }
-          },
-          "window": {
-              "allowClose": false,
-              "allowFullscreen": true,
-              "allowMaximize": false
-          },
-          "windows": [
-              {
-                  "loadedManifest": manifest,
-                  "canvasIndex": 0,
-                  "thumbnailNavigationPosition": 'far-bottom',
-                  "allowClose": false
-
-              }
-          ],
-          "workspaceControlPanel": {
-              "enabled": false, // Configure if the control panel should be rendered.  Useful if you want to lock the viewer down to only the configured manifests
-          },
-          "workspace": {
-              "showZoomControls": true
-          }
-      });
   </script>
 <% end %>
 
