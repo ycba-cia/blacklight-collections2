@@ -42,15 +42,17 @@ class ApplicationController < ActionController::Base
     item1 = {:title=>}
 =end
 
-    @footeritems = [{text:"1080 Chapel Street<br/>New Haven, Connecticut",
+    @footeritems = [{text:"1080 Chapel Street<br/>New Haven, Connecticut"},
                      #link_list:[["Closure notice","#{site}/closure-notice-archived"]]},
-                     link_list:[["Visitor guidelines","#{site}/visitor-guidelines"]]},
+
                     {text:"Admission is free",
                      #definition_list:[["Tue &mdash; Sat","10am &mdash; 5pm"],
                      #           ["Sunday","12am &mdash; 5pm"],
                      #           ["Monday","Closed"]]},
                     },
-                    {link_list:[["Tours","#{site}/tours"],
+                    {title:"Plan your visit",
+                        link_list:[["Visitor guidelines","#{site}/visitor-guidelines"],
+                                ["Tours","#{site}/tours"],
                                 ["City and region","#{site}/city-and-region"],
                                 ["Directions and parking","#{site}/directions-and-parking"],
                                 ["Accessibility","#{site}/accessibility"],
