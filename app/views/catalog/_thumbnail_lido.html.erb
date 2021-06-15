@@ -1,7 +1,11 @@
 <div class="row">
 <% if document['thumbnail_ss'][0] %>
   <div class="col-xs-12 col-sm-4">
-    <% error_img = path_to_image('not_available1.png')  %>
-    <%= image_tag(document['thumbnail_ss'][0], class: 'ycba-thumbnail img-thumbnail', alt: document['title_txt'], onerror:"this.src='#{error_img}';") %>
+  <% error_img = path_to_image('not_available1.png')  %>
+  <% if document['manifest_thumbnail_ss'] %>
+    <%= image_tag(document['manifest_thumbnail_ss'][0], class: 'ycba-thumbnail img-thumbnail', alt: document['title_txt'], onerror:"this.src='#{error_img}';") %>
+  <% else %>
+    <%= image_tag "#{error_img}", class: 'ycba-thumbnail', alt: "No cover image available" %>
+  <% end %>
   </div>
 <% end %>
