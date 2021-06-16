@@ -90,6 +90,18 @@ class SolrDocument
   def detailed_onview_acc
     self['detailed_onview_ss']
   end
+
+  def titles_primary_acc
+    self['titles_primary_ss']
+  end
+
+  def titles_former_acc
+    self['titles_former_ss']
+  end
+
+  def titles_additional_acc
+    self['titles_additional_ss']
+  end
   # Email uses the semantic field mappings below to generate the body of an email.
   SolrDocument.use_extension(Blacklight::Document::Email)
 
