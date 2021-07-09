@@ -148,7 +148,7 @@ class CatalogController < ApplicationController
 
     #lido fields in detailed view
     config.add_show_field 'author_ss', :label => 'Creator', link_to_search: true, separator_options: break_separator, if: :display_lido_field?
-    config.add_show_field 'titles_primary_ss', :label => 'Title(s)', helper_method: 'render_titles_all', if: :display_lido_field?
+    config.add_show_field 'titles_primary_ss', :label => 'Title', helper_method: 'render_titles_all', if: :display_lido_field?
     config.add_show_field 'titles_former_ss', :label => 'Former Title(s)', helper_method: 'render_titles_all', if: :display_lido_field?
     config.add_show_field 'titles_additional_ss', :label => 'Additional Title(s)', helper_method: 'render_titles_all', if: :display_lido_field?
     config.add_show_field 'title_collective_ss', :label => 'Part Of', helper_method: 'render_parent', :limit => 20
