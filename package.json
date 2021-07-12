@@ -2,9 +2,11 @@
   "name": "blacklight-collections2",
   "private": true,
   "dependencies": {
+    "@babel/preset-react": "^7.14.5",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
     "@rails/webpacker": "5.3.0",
+    "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "glob-parent": "^5.1.2",
     "lodash": "^4.17.11",
     "mirador": "^3.0.0-rc.7",
@@ -12,13 +14,14 @@
     "normalize-url": "^4.5.1",
     "postcss": "^8.2.10",
     "prop-types": "^15.7.2",
-    "react": "16.x",
-    "react-dom": "16.x",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "webpack": "^4.46.0",
     "webpack-cli": "^3.3.12"
   },
   "version": "0.0.0",
   "devDependencies": {
+    "@babel/plugin-syntax-jsx": "^7.14.5",
     "webpack-dev-server": "^3.11.2"
   }
 }

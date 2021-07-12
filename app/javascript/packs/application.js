@@ -19,6 +19,11 @@ console.log('Hello World from Webpacker');
 
 import Mirador from 'mirador/dist/es/src/index.js';
 import miradorDownloadPlugins from 'mirador-dl-plugin';
+import aicZoomButtonsPlugin from '../plugins/aicZoomButtonsPlugin';
+import aicNavigationButtonsPlugin from '../plugins/aicNavigationButtonsPlugin';
+import aicRemoveNavPlugin from '../plugins/aicRemoveNavPlugin';
+import removeZoomControls from '../plugins/removeZoomControls';
+import aicThumbnailCustomization from '../plugins/aicThumbnailCustomizationPlugin';
 
 window.onload = () => {
     const manifest = document.querySelector("#manifest_es6").dataset.manifest;
@@ -29,10 +34,10 @@ window.onload = () => {
     var show_osd_nav = "";
     if (anchor=="mirador3") {
         thumbposition = "far-bottom";
-        show_osd_nav = false;
+        show_osd_nav = true;
     } else {
         thumbposition = "off";
-        show_osd_nav = false;
+        show_osd_nav = true;
     }
     //console.log(thumbposition);
     //console.log(show_osd_nav);
@@ -72,7 +77,11 @@ window.onload = () => {
         }
     };
 
-    Mirador.viewer(config,[miradorDownloadPlugins]);
+    if (anchor=="mirador3") {
+        Mirador.viewer(config, [miradorDownloadPlugins, aicZoomButtonsPlugin, aicNavigationButtonsPlugin, aicRemoveNavPlugin, removeZoomControls]);
+    } else {
+        Mirador.viewer(config, [miradorDownloadPlugins, aicNavigationButtonsPlugin, aicRemoveNavPlugin, removeZoomControls]);
+    }
 }
 
 

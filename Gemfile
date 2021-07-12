@@ -101,4 +101,4 @@ gem "json", ">= 2.3.0"
 
 gem "webpacker", "~> 5.3.0"
 
-gem "rack-timeout"
+# gem "rack-timeout"
