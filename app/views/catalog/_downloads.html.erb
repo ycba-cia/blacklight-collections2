@@ -2,7 +2,7 @@
   <!--<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#downloadModal">
     Download Selected Image
   </button>-->
-  <%= link_to("Download/Print Selected Image","#downloadModal", data: {toggle: "modal"}, style: "color: white;" ) %>
+  <%= link_to("Download/Print selected image","#downloadModal", data: {toggle: "modal"}, style: "color: white;" ) %>
 </div>
 <div class="modal fade" id="downloadModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <% downloads = get_download_array_from_manifest %>
