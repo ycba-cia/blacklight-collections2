@@ -17,6 +17,7 @@
 
 console.log('Hello World from Webpacker');
 
+import turbolinks from "turbolinks"
 import Mirador from 'mirador/dist/es/src/index.js';
 import miradorDownloadPlugins from 'mirador-dl-plugin';
 import aicZoomButtonsPlugin from '../plugins/aicZoomButtonsPlugin';
@@ -25,7 +26,7 @@ import aicRemoveNavPlugin from '../plugins/aicRemoveNavPlugin';
 import removeZoomControls from '../plugins/removeZoomControls';
 import aicThumbnailCustomization from '../plugins/aicThumbnailCustomizationPlugin';
 
-window.onload = () => {
+$(document).on('turbolinks:load',function() {
     const manifest = document.querySelector("#manifest_es6").dataset.manifest;
     //console.log(manifest);
     const anchor = document.querySelector("#anchor_es6").dataset.anchor;
@@ -82,6 +83,6 @@ window.onload = () => {
     } else {
         Mirador.viewer(config, [miradorDownloadPlugins, aicNavigationButtonsPlugin, aicRemoveNavPlugin, removeZoomControls]);
     }
-}
+})
 
 
