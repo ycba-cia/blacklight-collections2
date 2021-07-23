@@ -79,7 +79,7 @@ $(document).on('turbolinks:load',function() {
     };
 
     if (anchor=="mirador3") {
-        Mirador.viewer(config, [miradorDownloadPlugins, aicZoomButtonsPlugin, aicNavigationButtonsPlugin, aicRemoveNavPlugin, removeZoomControls]);
+        Mirador.viewer(config, [miradorDownloadPlugins, aicNavigationButtonsPlugin, aicRemoveNavPlugin, removeZoomControls]);
     } else {
         Mirador.viewer(config, [miradorDownloadPlugins, aicNavigationButtonsPlugin, aicRemoveNavPlugin, removeZoomControls]);
     }
