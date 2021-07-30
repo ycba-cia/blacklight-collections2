@@ -14,7 +14,7 @@
 //
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
-
+/*
 console.log('Hello World from Webpacker');
 
 import turbolinks from "turbolinks"
@@ -84,5 +84,5 @@ $(document).on('turbolinks:load',function() {
         Mirador.viewer(config, [miradorDownloadPlugins, aicNavigationButtonsPlugin, aicRemoveNavPlugin, removeZoomControls]);
     }
 })
-
+*/
 
