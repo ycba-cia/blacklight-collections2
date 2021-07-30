@@ -1,0 +1,24 @@
+//see: https://github.com/UniversalViewer/universalviewer/blob/master/src/extensions/uv-seadragon-extension/config/en-GB.json
+{
+  "extends": "config",
+  "modules": {
+    "contentLeftPanel": {
+      "options": {
+        "panelOpen": false
+        //doesn't work
+      }
+    },
+    "moreInfoRightPanel": {
+      "options": {
+        "panelOpen": true
+        //works
+      }
+    },
+    "footerPanel": {
+      "options": {
+        "fullscreenEnabled": false,
+        "printEnabled": true
+      }
+    }
+  }
+}
