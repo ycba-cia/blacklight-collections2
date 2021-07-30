@@ -28,6 +28,17 @@
       <% tab_active = true %>
 
       <% if tab_active %>
+        <% if document_field_exists?(document,"marc_contents_ss")  %>
+          <li class="nav-item active"><a class="nav-link" href="#0pane" data-toggle="tab">Contents</br>&nbsp</a></li>
+          <% tab_active = false %>
+        <% end %>
+      <% else %>
+        <% if document_field_exists?(document,"marc_contents_ss") %>
+          <li class="nav-item"><a class="nav-link" href="#0pane" data-toggle="tab">Contents</br>&nbsp</a></li>
+        <% end %>
+      <% end %>
+
+      <% if tab_active %>
         <% if document_field_exists?(document,"curatorial_comment_ss")  %>
           <li class="nav-item active"><a class="nav-link" href="#1pane" data-toggle="tab">Curatorial</br>Comments</a></li>
           <% tab_active = false %>
@@ -131,6 +142,18 @@
   </br>
   <div class="tab-content clearfix">
     <% tab_active = true %>
+
+    <% if document_field_exists?(document,"marc_contents_ss") %>
+      <% if tab_active %>
+        <div class="tab-pane active" id="0pane">
+          <% tab_active = false %>
+      <% else %>
+        <div class="tab-pane" id="0pane">
+      <% end %>
+      <%= format_contents_tab(document) %>
+      </div>
+    <% end %>
+
     <% if document_field_exists?(document,"curatorial_comment_ss") %>
       <% if tab_active %>
         <div class="tab-pane active" id="1pane">

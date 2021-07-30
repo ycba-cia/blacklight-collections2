@@ -192,7 +192,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'type_acc', accessor: 'type_acc', :label => 'Classification', if: :display_marc_accessor_field?
     config.add_show_field 'cartographic_detail_ss', :label => 'Scale', if: :display_marc_field?
     config.add_show_field 'note_acc', accessor: 'note_acc', :label => 'Notes', helper_method: 'add_alt_description', if: :display_marc_accessor_field?
-    config.add_show_field 'marc_contents_ss', label: 'Contents', if: :display_marc_field?
+    #config.add_show_field 'marc_contents_ss', label: 'Contents', helper_method: 'format_contents', if: :display_marc_field? #Note: moved to tab
     config.add_show_field 'exhibition_history_acc', accessor: 'exhibition_history_acc', :label => 'Exhibition History', helper_method: 'render_exhibitions', if: :display_marc_field?
     config.add_show_field 'topic_acc', accessor: 'topic_acc', :label => 'Subject Terms', link_to_search: 'topic_facet', separator_options: break_separator, helper_method: 'sort_values_and_link_to_topic_no_pipes', if: :display_marc_accessor_field?
     config.add_show_field 'form_genre_ss', :label => 'Form/Genre', link_to_search: true, separator_options: break_separator, if: :display_marc_field?

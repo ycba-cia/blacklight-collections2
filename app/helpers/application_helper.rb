@@ -323,6 +323,31 @@ module ApplicationHelper
     return str.html_safe
   end
 
+  #deprecated, not in tombstone but in tabs
+  def format_contents options={}
+    s = "<ul style='list-style: disc;'>"
+    options[:value].each do |s1|
+      a = s1.split(" -- ")
+      a.each do |s2|
+        s = s + "<li>" + s2 + "</li>"
+      end
+    end
+    s = s + "</ul>"
+    s.html_safe
+  end
+
+  def format_contents_tab(doc)
+    s = "<ul style='list-style: disc; margin-left: 15px;'>"
+    doc["marc_contents_ss"].each do |s1|
+      a = s1.split(" -- ")
+      a.each do |s2|
+        s = s + "<li>" + s2 + "</li>"
+      end
+    end
+    s = s + "</ul>"
+    s.html_safe
+  end
+
   def render_search_per_line options={}
     options[:value].each {  |link|
       links.append(link_to "#{link}", "#{link}")
