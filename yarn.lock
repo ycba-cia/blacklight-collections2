@@ -7480,6 +7480,11 @@ unique-slug@^2.0.0:
   dependencies:
     imurmurhash "^0.1.4"
 
+universalviewer@3.0.16:
+  version "3.0.16"
+  resolved "https://registry.yarnpkg.com/universalviewer/-/universalviewer-3.0.16.tgz#288d7dc50621af231678a2036a0204f626468e48"
+  integrity sha1-KI19xQYhryMWeKIDagIE9iZGjkg=
+
 unpipe@1.0.0, unpipe@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/unpipe/-/unpipe-1.0.0.tgz#b2bf4ee8514aae6165b4817829d21b2ef49904ec"

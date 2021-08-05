@@ -5,11 +5,22 @@
 
   <div class="row" style="padding-bottom: 10px">
     <% if manifest_thumb? %>
-      <div class="uv" data-locale="en-GB:English (GB),cy-GB:Cymraeg" data-config="/config.json" data-uri="https://manifests.collections.yale.edu/v2/ycba/orb/<%= @document['id'].split(":")[1] %>" data-collectionindex="0" data-manifestindex="0" data-sequenceindex="0" data-canvasindex="0" data-zoom="-1.0064,0,3.0128,1.3791" data-rotation="0" style="width:50%; height:40vh; background-color: #000; margin: 0 auto;"></div>
+      <% iframe_width = "100%" %>
+      <% iframe_height = "40vh" %>
     <% else %>
-      <div class="uv" data-locale="en-GB:English (GB),cy-GB:Cymraeg" data-config="/config.json" data-uri="https://manifests.collections.yale.edu/v2/ycba/orb/<%= @document['id'].split(":")[1] %>" data-collectionindex="0" data-manifestindex="0" data-sequenceindex="0" data-canvasindex="0" data-zoom="-1.0064,0,3.0128,1.3791" data-rotation="0" style="width:100%; height:80vh; background-color: #000; margin: 0 auto;"></div>
+      <% iframe_width = "100%" %>
+      <% iframe_height = "80vh" %>
     <% end %>
-    <script type="text/javascript" id="embedUV" src="https://universalviewer.io/vendor/uv/lib/embed.js"></script><script type="text/javascript">/* wordpress fix */</script>
+    <div class="uv-container" style="position: relative; margin: auto; width:<%= iframe_width %>; height:<%= iframe_height %>;">
+      <iframe
+        class="universal-viewer-iframe"
+        title="Universal Viewer"
+        src="<%= request&.base_url %>/uv/uv.html#?manifest=https://manifests.collections.yale.edu/v2/ycba/orb/<%= @document['id'].split(":")[1] %>"
+        style="width:<%= iframe_width %>; height:<%= iframe_height %>;"
+        allowfullscreen
+        frameborder="0">
+      </iframe>
+    </div>
   </div>
 
   <div class="row">
