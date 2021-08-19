@@ -18,7 +18,7 @@
       <iframe
         class="universal-viewer-iframe"
         title="Universal Viewer"
-        src="<%= request&.base_url %>/uv/uv.html#?manifest=https://manifests.collections.yale.edu/v2/ycba/obj/<%= @document['id'].split(":")[1] %>"
+        src="<%= request&.base_url %>/uv/uv.html#?config=uv-config-lido.json&manifest=https://manifests.collections.yale.edu/v2/ycba/obj/<%= @document['id'].split(":")[1] %>"
         style="width:<%= iframe_width %>; height:<%= iframe_height %>;"
         allowfullscreen
         frameborder="0">
@@ -44,7 +44,7 @@
     <% end %>
 
     <div id="ycba-thumbnail-controls" class="col-xs-1" align="center">
-      <a target="_blank" href="https://view.collections.yale.edu/m3/?manifest=https://manifests.collections.yale.edu/ycba/obj/<%= @document['id'].split(":")[1] %>">
+      <a target="_blank" href="https://view.collections.yale.edu/uv3/?manifest=https://manifests.collections.yale.edu/ycba/obj/<%= @document['id'].split(":")[1] %>">
         <img src='https://manifests.britishart.yale.edu/logo-iiif.png' class='img-responsive' alt='IIIF Manifest' title='View Image in full IIIF viewer' draggable>
       </a>
     </div>

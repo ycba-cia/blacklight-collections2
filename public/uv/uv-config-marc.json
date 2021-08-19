@@ -9,6 +9,12 @@
                 "fullscreenEnabled": true,
                 "shareEnabled": true
             }
+        },
+        "contentLeftPanel": {
+            "options": {
+                "panelOpen": true
+            }
         }
-    }
+
+      }
 }
