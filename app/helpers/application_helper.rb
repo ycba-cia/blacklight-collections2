@@ -271,7 +271,7 @@ module ApplicationHelper
     titles = []
 
     options[:value].each {  |title|
-      titles.append(title+"</br>")
+      titles.append("<p>"+title+"</p>")
     }
     titles.join.html_safe
   end
