@@ -5,5 +5,20 @@ en:
       form:
         search:
           placeholder: 'Enter terms to search'
+      labels:
+        begin_date: 'Year of Birth'
+        end_date: 'Year of Death'
+        display_name: 'Name'
+        nationality: 'Nationality'
+        biography: 'Biography'
+        remarks: 'Remarks'
+        authorities: 'Authorities'
+      sort:
+        artists: 'Name'
+        relevance: 'Relevance'
+        begin_date_asc: 'Birth asc'
+        begin_date_desc: 'Birth desc'
+        end_date_asc: 'Death asc'
+        end_date_desc: 'Death desc'
       facets:
         title: 'Refine your search'

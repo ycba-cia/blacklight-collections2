@@ -39,6 +39,7 @@ class CatalogController < ApplicationController
     #
     ## Class for converting Blacklight's url parameters to into request parameters for the search index
     # config.search_builder_class = ::SearchBuilder
+    config.search_builder_class = ObjectsSearch
     #
     ## Model that maps search index responses to the blacklight response model
     # config.response_model = Blacklight::Solr::Response
