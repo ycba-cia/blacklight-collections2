@@ -34,11 +34,11 @@ def getAuthorities(conID)
   return altNum,altNumDesc
 end
 
-test = "top 5"
+test = "top 50"
 objNums = Array.new
 obj = Hash.new
 objDetails = Hash.new
-q = "select distinct #{test} a.ConstituentID, a.DisplayName,a.Nationality,a.BeginDate,a.EndDate,a.Biography,a.Remarks " +
+q = "select distinct #{test} a.ConstituentID, a.DisplayName, a.AlphaSort, a.Nationality,a.BeginDate,a.EndDate,a.Biography,a.Remarks " +
   "from Constituents a " +
   "join vConXrefs_Classic b on a.ConstituentID = b.ConstituentID " +
   "where a.ConstituentTypeID = 1 and b.RoleID = 1 " +
@@ -48,6 +48,7 @@ s.each do |row|
   objDetails = Hash.new
   objDetails[:displayName_s] = row["DisplayName"]
   objDetails[:nationality_s] = row["Nationality"]
+  objDetails[:alphaSort_s] = row["AlphaSort"]
   objDetails[:beginDate_i] = row["BeginDate"]
   objDetails[:endDate_i] = row["EndDate"]
   objDetails[:biography_s] = row["Biography"]

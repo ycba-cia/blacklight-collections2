@@ -40,8 +40,8 @@ class ArtistsController < ApplicationController
 
     config.show.html_title = 'displayName_s'
 
-    config.add_sort_field 'displayName_s asc', label: I18n.t('blacklight.search.sort.artists')
-    config.add_sort_field 'score desc, displayName_s asc', label: I18n.t('blacklight.search.sort.relevance')
+    config.add_sort_field 'alphaSort_s asc', label: I18n.t('blacklight.search.sort.artists')
+    config.add_sort_field 'score desc, alphaSort_s asc', label: I18n.t('blacklight.search.sort.relevance')
     config.add_sort_field 'beginDate_i asc', label: I18n.t('blacklight.search.sort.begin_date_asc')
     config.add_sort_field 'beginDate_i desc', label: I18n.t('blacklight.search.sort.begin_date_desc')
     config.add_sort_field 'endDate_i asc', label: I18n.t('blacklight.search.sort.end_date_asc')

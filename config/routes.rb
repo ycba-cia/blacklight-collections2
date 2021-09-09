@@ -16,6 +16,8 @@ Rails.application.routes.draw do
     concerns :range_searchable
   end
 
+  get 'artists/:id' => 'artists#show'
+
   devise_for :users
   concern :exportable, Blacklight::Routes::Exportable.new
 

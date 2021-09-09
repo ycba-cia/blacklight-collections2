@@ -3,11 +3,13 @@
 <div id='previousNextDocument' class='pagination-search-widgets'>
   <% if @previous_document || @next_document %>
     <div class="page_links">
-      <%= link_to_previous_document @previous_document %> |
+      <% prev = link_to_previous_document @previous_document %>
+      <%= prev.gsub("/catalog/","/artists/").html_safe %>|
 
       <%= item_page_entry_info %> |
 
-      <%= link_to_next_document @next_document %>
+      <% next1 = link_to_next_document @next_document %>
+      <%= next1.gsub("/catalog/","/artists/").html_safe  %>
     </div>
   <% end %>
   <% if current_search_session %>
