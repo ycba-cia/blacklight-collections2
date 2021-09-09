@@ -21,6 +21,7 @@ class ArtistsController < ApplicationController
     # Facets
     config.add_facet_field :beginDate_i,                label: I18n.t('blacklight.search.labels.begin_date'), limit: true
     config.add_facet_field :endDate_i,                label: I18n.t('blacklight.search.labels.end_date'), limit: true
+    config.add_facet_field :nationality_s,                label: "Nationality", limit: true
 
     # Results Fields
     config.index.title_field = 'displayName_s'
@@ -36,7 +37,7 @@ class ArtistsController < ApplicationController
     config.add_show_field :endDate_i,                        label: I18n.t('blacklight.search.labels.end_date')
     config.add_show_field :biography_s,               label: I18n.t('blacklight.search.labels.biography')
     config.add_show_field :remarks_s,                label: I18n.t('blacklight.search.labels.remarks')
-    config.add_show_field :authorities_ss,                           label: I18n.t('blacklight.search.labels.authorities')
+    config.add_show_field :authorities_ss,           label: I18n.t('blacklight.search.labels.authorities'), helper_method: 'render_authorities'
 
     config.show.html_title = 'displayName_s'
 

@@ -9,6 +9,7 @@ class ArtistsSearch < Blacklight::SearchBuilder
     artists = "artists"
     solr_parameters[:fq] ||= []
     solr_parameters[:fq] << "recordtype_ss:#{artists}"
+    solr_parameters[:qt] = "/artists"
     solr_parameters
   end
 

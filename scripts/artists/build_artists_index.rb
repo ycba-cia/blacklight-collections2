@@ -47,12 +47,15 @@ s = @tmsclient.execute(q)
 s.each do |row|
   objDetails = Hash.new
   objDetails[:displayName_s] = row["DisplayName"]
+  objDetails[:displayName_txt] = row["DisplayName"]
   objDetails[:nationality_s] = row["Nationality"]
   objDetails[:alphaSort_s] = row["AlphaSort"]
   objDetails[:beginDate_i] = row["BeginDate"]
   objDetails[:endDate_i] = row["EndDate"]
   objDetails[:biography_s] = row["Biography"]
+  objDetails[:biography_txt] = row["Biography"]
   objDetails[:remarks_s] = row["Remarks"]
+  objDetails[:remarks_txt] = row["Remarks"]
   obj[row["ConstituentID"]] = objDetails
   objNums.push(row["ConstituentID"])
 end
