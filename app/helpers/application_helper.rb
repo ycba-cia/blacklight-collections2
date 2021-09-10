@@ -1088,7 +1088,11 @@ module ApplicationHelper
       data = resp.body
       result = JSON.parse(data)
     end
-    result[0]
+    agg = Array.new
+    result.each_with_index do |elem, i|
+      agg.push(i.to_s + ": " + elem.to_s + "</br>")
+    end
+    agg.join.html_safe
   end
 
 end
