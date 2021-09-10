@@ -1080,4 +1080,15 @@ module ApplicationHelper
     return config.html_safe
   end
 
+  def render_subject_of_works_loc(document)
+    loc = document[:authorities_ss].select { |authority| authority.include?("id.loc.gov/authorities/names")}
+    if loc.length > 0
+      url = loc[0] + ".json"
+      resp = Net::HTTP.get_response(URI.parse(url.gsub("http","https")))
+      data = resp.body
+      result = JSON.parse(data)
+    end
+    result[0]
+  end
+
 end
