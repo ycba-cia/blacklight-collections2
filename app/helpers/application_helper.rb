@@ -758,9 +758,9 @@ module ApplicationHelper
 
     #for Prints and Drawings only
     collection = get_one_value(doc["collection_ss"])
-    if collection == "Prints and Drawings"
+    if collection == "Prints and Drawings" #this is always true
       physical = get_one_value(doc["format_ss"])
-      location = get_one_value(doc["location_ss"])
+      #location = get_one_value(doc["location_ss"]) #removing as P&D not on view won't have detailed location
       mfhd = ""
     end
 
@@ -848,6 +848,7 @@ module ApplicationHelper
   def map_collection(field)
     return "bacrb" if get_one_value(field)=="Rare Books and Manuscripts"
     return "bacref" if get_one_value(field)=="Reference Library"
+    return "bacpd" if get_one_value(field)=="Prints and Drawings"
   end
 
   def get_mfhd(field)
