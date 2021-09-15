@@ -235,7 +235,8 @@
     <% end %>
     <% document["provenance_ss"].each_with_index do |field, i| %>
       <% if i > 0 %></br><% end %>
-      <div><%= field %></div>
+      <% field2 = field.gsub('\n','</br>').html_safe %>
+      <div><%= field2 %></div>
     <% end %>
     </div>
   <% end %>
