@@ -80,7 +80,7 @@
           <div id="caption-dl-info" class="col-xs-12">
             <% if marc_field?(document) %>
               <%#= get_marc_caption(document) %><!--get from cds caption, not best source-->
-              <%= concat_caption(document) %>
+              <%= concat_caption_marc(document) %>
             <% else %>
               <%= concat_caption(document) %>
             <% end %>

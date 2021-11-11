@@ -682,6 +682,45 @@ module ApplicationHelper
     end
   end
 
+  def prepare_concat_field_with_trailing_period(f)
+    if f
+      f = f[0]
+      if f[-1] != "."
+        f += "."
+      end
+      return f
+    else
+      return ""
+    end
+  end
+
+  def prepare_concat_title_short(f)
+    if f
+      f = f[0]
+      if f[-1] == ":" or f[-1] == "/" or f[-1] == "."
+        f = f[0...-1] + "."
+      elsif f[-2,2] == ": " or f[-2,2] == "/ " or f[-2,2] == ". "
+        f = f[0...-2] + "."
+      else
+        f += "."
+      end
+      return f
+    else
+      return ""
+    end
+  end
+
+  def concat_caption_marc(doc)
+    fields = Array.new
+    fields.push prepare_concat_field_with_trailing_period(doc['author_ss'])
+    fields.push prepare_concat_title_short(doc['titles_primary_ss'])
+    fields.push prepare_concat_field_with_trailing_period(doc['edition_ss'])
+    fields.push prepare_concat_field_with_trailing_period(doc['publisher_ss'])
+    fields.push prepare_concat_field_with_trailing_period(doc['credit_line_ss'])
+    caption = fields.join(" ")
+    return caption
+  end
+
   def concat_caption(doc)
     fields = Array.new
     fields.push doc['author_ss'] if doc['author_ss']
