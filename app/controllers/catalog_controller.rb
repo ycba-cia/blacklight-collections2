@@ -179,7 +179,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'author_acc', :accessor => 'author_acc',  :label => 'Creator', helper_method: 'link_to_author', separator_options: break_separator, if: :display_marc_accessor_field?
     #config.add_show_field 'title_acc', :accessor => 'title_acc', :label => 'Title', helper_method: 'add_alt_title', if: :display_marc_accessor_field?
     #config.add_show_field 'title_alt_ss', :label => 'Alternate Title(s)', helper_method: 'add_alt_title_alt', separator_options: break_separator, if: :display_marc_field?
-    config.add_show_field 'titles_primary_acc', :accessor => 'titles_primary_acc', :label => 'Title(s)', helper_method: 'render_titles_all', if: :display_marc_accessor_field?
+    config.add_show_field 'title_acc', :accessor => 'title_acc', :label => 'Title(s)', helper_method: 'render_titles_all', if: :display_marc_accessor_field?
     config.add_show_field 'titles_former_acc', :accessor => 'titles_former_acc', :label => 'Former Title(s)', helper_method: 'render_titles_all', if: :display_marc_accessor_field?
     config.add_show_field 'titles_additional_acc', :accessor => 'titles_additional_acc', :label => 'Additional Title(s)', helper_method: 'render_titles_all', if: :display_marc_accessor_field?
     config.add_show_field 'edition_ss', label: 'Edition', helper_method: 'add_alt_edition', if: :display_marc_field?
