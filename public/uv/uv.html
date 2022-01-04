@@ -30,6 +30,12 @@
         .uv .attribution {
             display: none !important;
         }
+
+        #captionSpan {
+            padding-left: 20px;
+            display: inline-block; /* or block */
+        }
+
     </style>
     <script type="text/javascript">
         window.addEventListener('uvLoaded', function (e) {
@@ -66,7 +72,18 @@
             }, urlDataProvider);
 
             uv.on('canvasIndexChanged', function (event) {
-                window.parent.postMessage(event, "*")
+                window.parent.postMessage(event, "*");
+                var mainTitleElement = document.getElementsByClassName("centerPanel")[0].getElementsByClassName("title")[0];
+                var captionSpan = document.createElement("span");
+                captionSpan.setAttribute("id","captionSpan");
+                var nextElement = mainTitleElement.nextSibling;
+                if (nextElement.id != "content") {
+                    nextElement.remove()  ;
+                }
+                captionSpan.innerText = uv.extension.helper.getCanvasByIndex(event).__jsonld.label;
+                mainTitleElement.parentNode.insertBefore(captionSpan, mainTitleElement.nextSibling);
+                //console.log(uv.get("iiifResourceUri"));
+                //console.log(uv.extension.helper.getCanvasByIndex(event).__jsonld.label);
             })
         }, false);
     </script>
