@@ -12,7 +12,10 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks//
+//= require turbolinks
+//
+// Required by Blacklight-Maps
+//= require blacklight-maps//
 //= require bootstrap/carousel
 //= require bootstrap-sprockets
 // Required by Blacklight

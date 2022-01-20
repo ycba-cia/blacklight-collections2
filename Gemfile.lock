@@ -65,6 +65,12 @@ GEM
       bootstrap-sass (~> 3.0)
       openseadragon (>= 0.2.0)
       rails
+    blacklight-maps (0.5.2)
+      blacklight (>= 6.1.0, < 7.0.0)
+      bootstrap-sass (~> 3.2)
+      leaflet-markercluster-rails
+      leaflet-rails (= 0.7.7)
+      rails (< 6)
     blacklight-marc (6.2.0)
       blacklight (> 6.1, < 8.a)
       library_stdnums
@@ -164,6 +170,9 @@ GEM
     kaminari-core (1.2.1)
     launchy (2.5.0)
       addressable (~> 2.7)
+    leaflet-markercluster-rails (0.7.0)
+      railties (>= 3.1)
+    leaflet-rails (0.7.7)
     library_stdnums (1.6.0)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -387,6 +396,7 @@ DEPENDENCIES
   addressable (>= 2.8.0)
   blacklight (= 6.23.0)
   blacklight-gallery
+  blacklight-maps (~> 0.5)
   blacklight-marc (~> 6.1)
   blacklight_range_limit (= 6.3.1)
   bourbon

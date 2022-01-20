@@ -131,6 +131,17 @@
       <% end %>
     <% end %>
 
+    <% if tab_active %>
+      <% if document_field_exists?(document,"coordinates_ss")  %>
+        <li class="nav-item active"><a class="nav-link" href="#10pane" data-toggle="tab">Subject</br>Place</a></li>
+        <% tab_active = false %>
+      <% end %>
+    <% else %>
+      <% if document_field_exists?(document,"coordinates_ss")  %>
+        <li class="nav-item"><a class="nav-link" href="#10pane" data-toggle="tab">Subject</br>Place</a></li>
+      <% end %>
+    <% end %>
+
   </ul>
 </nav>
 </br>
@@ -260,6 +271,17 @@
       <div class="tab-pane" id="9pane">
     <% end %>
     <%= render_tms_citation_presorted_tab(document) %>
+    </div>
+  <% end %>
+
+  <% if document_field_exists?(document,"coordinates_ss") %>
+    <% if tab_active %>
+      <div class="tab-pane active" id="10pane">
+        <% tab_active = false %>
+    <% else %>
+      <div class="tab-pane" id="10pane">
+    <% end %>
+    <%= render partial: 'catalog/show_maplet_default' %>
     </div>
   <% end %>
 
