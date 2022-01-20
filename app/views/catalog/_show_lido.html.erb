@@ -28,6 +28,14 @@
     <%= render "show_fields" %>
   </dl>
 </div>
+
+<% if document_field_exists?(document,"coordinates_ss") %>
+  <div><a href="<%= request.protocol + request.host_with_port %>/map">Go to full collection map<a/></div>
+    <%= render partial: 'catalog/show_maplet_default' %>
+<% end %>
+
+</br>
+
 <nav id="itemTab1" class="container">
   <ul class="nav nav-tabs">
     <% tab_active = true %>
@@ -128,17 +136,6 @@
     <% else %>
       <% if document_field_exists?(document,"citation_ss")  %>
         <li class="nav-item"><a class="nav-link" href="#9pane" data-toggle="tab">Bibliography</br>&nbsp</a></li>
-      <% end %>
-    <% end %>
-
-    <% if tab_active %>
-      <% if document_field_exists?(document,"coordinates_ss")  %>
-        <li class="nav-item active"><a class="nav-link" href="#10pane" data-toggle="tab">Subject</br>Place</a></li>
-        <% tab_active = false %>
-      <% end %>
-    <% else %>
-      <% if document_field_exists?(document,"coordinates_ss")  %>
-        <li class="nav-item"><a class="nav-link" href="#10pane" data-toggle="tab">Subject</br>Place</a></li>
       <% end %>
     <% end %>
 
@@ -271,17 +268,6 @@
       <div class="tab-pane" id="9pane">
     <% end %>
     <%= render_tms_citation_presorted_tab(document) %>
-    </div>
-  <% end %>
-
-  <% if document_field_exists?(document,"coordinates_ss") %>
-    <% if tab_active %>
-      <div class="tab-pane active" id="10pane">
-        <% tab_active = false %>
-    <% else %>
-      <div class="tab-pane" id="10pane">
-    <% end %>
-    <%= render partial: 'catalog/show_maplet_default' %>
     </div>
   <% end %>
 
