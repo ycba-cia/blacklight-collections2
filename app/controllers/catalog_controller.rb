@@ -33,16 +33,17 @@ class CatalogController < ApplicationController
     #config.view.slideshow.partials = [:compact_index]
     #
     #https://github.com/projectblacklight/blacklight-maps/tree/v.0.5.2
-    #config.view.maps.facet_mode = "geojson"
-    #config.view.maps.geojson_field = "geojson_ssim"
-    #config.view.maps.placename_property = "placename"
-    #config.view.maps.search_mode = "placename"
-    #config.view.maps.coordinates_field = "coordinates"
-
-    config.view.maps.facet_mode = "coordinates"
-    config.view.maps.coordinates_facet_field = "coordinates_ss"
+    config.view.maps.facet_mode = "geojson"
+    config.view.maps.geojson_field = "geojson_ss"
+    config.view.maps.placename_property = "placename"
+    config.view.maps.placename_field = "subject_geo_ss"
     config.view.maps.search_mode = "placename"
     config.view.maps.coordinates_field = "coordinates"
+
+    #config.view.maps.facet_mode = "coordinates"
+    #config.view.maps.coordinates_facet_field = "coordinates_ss"
+    #config.view.maps.search_mode = "placename"
+    #config.view.maps.coordinates_field = "coordinates"
 
 
     config.index.thumbnail_method = :thumb
@@ -137,8 +138,8 @@ class CatalogController < ApplicationController
     config.add_facet_field 'date_entered_is', :label => 'New Additions', query: { past_year: { label: "#{y-1}-#{y}",fq: "date_entered_is:[#{y-1} TO #{y}]"}}
     config.add_facet_field 'credit_line_ss', :label => 'Credit Line', :limit => 20
     config.add_facet_field 'language_name_ss', :label => 'Language', :limit => 20 #marc only
-    config.add_facet_field 'coordinates_ss', limit: -2, label: 'Coordinates', show: false
-    #config.add_facet_field 'geojson_ssim', limit: -2, label: 'Coordinates', show: false
+    #config.add_facet_field 'coordinates_ss', limit: -2, label: 'Coordinates', show: false
+    config.add_facet_field 'geojson_ss', limit: -2, label: 'Coordinates', show: false
 
     # Have BL send all facet field names to Solr, which has been the default
     # previously. Simply remove these lines if you'd rather use Solr request
