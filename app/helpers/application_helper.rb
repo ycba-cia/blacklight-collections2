@@ -114,6 +114,31 @@ module ApplicationHelper
     options[:value].sort_by(&:downcase).map { |v| "<a href=\"/?f[#{options[:field]}][]=#{v}\">#{v}</a> | " }.join('').chomp(" | ").html_safe
   end
 
+  def sort_values_and_link_to_facet_frames options={}
+    #http://localhost:3000/?f[topic_facet][]=woman #example
+    #facet = "topic_facet"
+    collection = options[:document][:collection_ss][0]
+    if collection == "Frames"
+      sort_frames_subjects(options)
+    else
+      options[:value].sort_by(&:downcase).map { |v| "<a href=\"/?f[#{options[:field]}][]=#{v}\">#{v}</a> | " }.join('').chomp(" | ").html_safe
+    end
+  end
+
+  def sort_frames_subjects options={}
+    order = Array.new
+    options[:value].each do |v|
+      order[0] = v if v.start_with?("frame style")
+      order[1] = v if v.start_with?("frame status")
+      order[2] = v if v.start_with?("frame quality")
+      order[3] = v if v.start_with?("frame ornament")
+      order[4] = v if v.start_with?("frame feature")
+      order[5] = v if v.start_with?("frame cross-section")
+      order[6] = v if v.start_with?("frame alteration")
+    end
+    order.compact.map { |v| "<a href=\"/?f[#{options[:field]}][]=#{v.gsub(';','%3B').gsub('&','%26')}\">#{v}</a> | " }.join('').chomp(" | ").html_safe
+  end
+
   def sort_values_and_link_to_topic options={}
     #http://localhost:3000/?f[topic_facet][]=woman #example
     #facet = "topic_facet"
