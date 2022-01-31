@@ -23,6 +23,14 @@ class CatalogController < ApplicationController
     @id = params[:id]
   end
 
+  rescue_from Blacklight::Exceptions::RecordNotFound do
+    render 'record_not_found', status: 404
+  end
+
+  rescue_from Blacklight::Exceptions::ECONNREFUSED do
+    render 'econnrefused'
+  end
+
   configure_blacklight do |config|
     #config.view.gallery.partials = [:image_index]
     config.view.masonry.partials = [:compact_index]
