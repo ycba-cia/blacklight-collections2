@@ -163,7 +163,7 @@
       <% end %>
       <% document["curatorial_comment_ss"].each_with_index do |field, i| %>
         <% if i > 0 %></br><% end %>
-        <% field2 = field.gsub('\n','</br>').html_safe %>
+        <% field2 = field.gsub('---','</br>').gsub('\n','</br>').html_safe %>
         <div class="columns"><%= field2 %></div>
       <% end %>
       </div>
@@ -178,7 +178,7 @@
       <% end %>
       <% document["curatorial_description_ss"].each_with_index do |field, i| %>
         <% if i > 0 %></br><% end %>
-        <% field2 = field.gsub('\n','</br>').html_safe %>
+        <% field2 = field.gsub('---','</br>').gsub('\n','</br>').html_safe %>
         <div class="columns"><%= field2 %></div>
       <% end %>
       </div>
@@ -193,7 +193,7 @@
       <% end %>
       <% document["gallery_label_ss"].each_with_index do |field, i| %>
         <% if i > 0 %></br><hr style="border-top: 1px solid;"></br><% end %>
-        <% field2 = field.gsub('\n','</br>').html_safe %>
+        <% field2 = field.gsub('---','</br>').gsub('\n','</br>').html_safe %>
         <div class="columns"><%= field2 %></div>
       <% end %>
       </div>
@@ -208,7 +208,7 @@
       <% end %>
       <% document["pub_cat_entry_ss"].each_with_index do |field, i| %>
         <% if i > 0 %></br><hr style="border-top: 1px solid;"></br><% end %>
-        <% field2 = field.gsub('\n','</br>').html_safe %>
+        <% field2 = field.gsub('---','</br>').gsub('\n','</br>').html_safe %>
         <div class="columns"><%= field2 %></div>
       <% end %>
       </div>
@@ -223,7 +223,7 @@
       <% end %>
       <% document["work_excerpt_ss"].each_with_index do |field, i| %>
         <% if i > 0 %></br><hr style="border-top: 1px solid;"></br><% end %>
-        <% field2 = field.gsub('\n','</br>').html_safe %>
+        <% field2 = field.gsub('---','</br>').gsub('\n','</br>').html_safe %>
         <div class="columns"><%= field2 %></div>
       <% end %>
       </div>
@@ -238,7 +238,7 @@
       <% end %>
       <% document["artists_statement_ss"].each_with_index do |field, i| %>
         <% if i > 0 %></br><hr style="border-top: 1px solid;"></br><% end %>
-        <% field2 = field.gsub('\n','</br>').html_safe %>
+        <% field2 = field.gsub('---','</br>').gsub('\n','</br>').html_safe %>
         <div class="columns"><%= field2 %></div>
       <% end %>
       </div>
