@@ -4,7 +4,9 @@
 <% else %>
   <dd class="blacklight-<%= "export" %>"><%= link_to("XML",get_export_url_xml(@document)) %></dd>
 <% end %>
+<% if @document["has_image_ss"][0] == "available" %>
 <dt class="blacklight-<%= "iiifmanifest" %>"><%= "IIIF Manifest:" %></dt>
 <dd class="blacklight-<%= "iiifmanifest" %>"><%= link_to("JSON",get_manifest_from_document(@document)) %></dd>
+<% end %>
 <!--placeholder for link to future linked art page-->
 
