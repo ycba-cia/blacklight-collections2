@@ -267,4 +267,12 @@
 <div id="ycba-object-contact-us">
   If you have information about this object that may be of assistance please <a href="mailto:ycba.online@yale.edu?subject=<%= information_link_subject(document) %>">contact us</a>.
 </div>
+  <% if document[:eshop_ss] %>
+    </br>
+    <div class="row col-xs-offset-4">
+      <div id="eshop" class="btn btn-primary col-xs-5" align="center">
+        <%= link_to("Visit our Museum Shop for related items", document[:eshop_ss][0], style: "color: white;", target: "_blank") %>
+      </div>
+    </div>
+  <% end %>
 <br/>

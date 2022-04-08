@@ -41,23 +41,11 @@
     <div id="ycba-thumbnail-controls" class="col-xs-2" align="center">
       <a target="_blank" href="https://view.collections.yale.edu/uv3/?manifest=https://manifests.collections.yale.edu/ycba/obj/<%= @document['id'].split(":")[1] %>">
         <img src='https://manifests.britishart.yale.edu/logo-iiif.png' class='img-responsive' alt='IIIF Manifest' title='View Image in full IIIF viewer' draggable>
-        <span>Open Universal Viewer in new tab</span>
-      </a>
-    </div>
-    <div id="ycba-thumbnail-controls" class="col-xs-2" align="center">
-      <a target="_blank" href="https://view.collections.yale.edu/m3/?manifest=https://manifests.collections.yale.edu/ycba/obj/<%= @document['id'].split(":")[1] %>">
-        <img src='https://manifests.britishart.yale.edu/logo-iiif.png' class='img-responsive' alt='IIIF Manifest' title='View Image in full IIIF viewer' draggable>
-        <span>Open Mirador3 in new tab</span>
+        <span>View available images</span>
       </a>
     </div>
   </div>
-  <% if document[:eshop_ss] %>
-    <div class="row col-xs-offset-4">
-      <div id="eshop" class="btn btn-primary col-xs-5" align="center">
-        <%= link_to("Visit our Museum Shop for related items", document[:eshop_ss][0], style: "color: white;", target: "_blank") %>
-      </div>
-    </div>
-  <% end %>
+  <!-- former place of eshop-->
   </div>
 
   <!--<div class="row">
