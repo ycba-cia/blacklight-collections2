@@ -492,6 +492,19 @@ function applyLightSlider() {
     });
 }
 
+window.addEventListener("message", (event) => {
+    //console.log("postMessage received");
+    //console.log(event);
+    $("#selected-image-index").hide();
+    $("#dlselect-info").hide();
+    $("#selected-image-index").text(event.data);
+});
+
+function select_one_dl(download,id) {
+    var index = $("#selected-image-index").text();
+    $("#dlselect-info").show();
+    selectdl(download[index],id);
+}
 //cds2
 function selectdl(download,id) {
     //console.log ("download:" + download);

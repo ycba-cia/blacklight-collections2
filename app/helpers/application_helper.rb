@@ -675,6 +675,19 @@ module ApplicationHelper
     return url
   end
 
+  def get_manifest_from_document(doc)
+    if doc['recordtype_ss']
+      if doc['recordtype_ss'][0].to_s == 'marc'
+        url = "https://manifests.collections.yale.edu/ycba/orb/" + doc['id'].split(":")[1]
+      elsif doc['recordtype_ss'][0].to_s == 'lido'
+        url = "https://manifests.collections.yale.edu/ycba/obj/" + doc['id'].split(":")[1]
+      else
+        url = ""
+      end
+    end
+    return url
+  end
+
   def get_export_url_rdf(doc)
     if doc['recordtype_ss']
       if doc['recordtype_ss'][0].to_s == 'marc'

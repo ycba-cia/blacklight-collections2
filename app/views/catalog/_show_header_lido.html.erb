@@ -6,11 +6,24 @@
 
 <div id="image-section" >
 
-  <div class="row">
-    <div id="mirador3" aria-live="polite"></div>
-  </div>
-  <div class="row">
-    <div id="mirador3t" aria-live="polite"></div>
+  <div class="row" style="padding-bottom: 10px">
+    <% if manifest_thumb? %>
+      <% iframe_width = "100%" %>
+      <% iframe_height = "40vh" %>
+    <% else %>
+      <% iframe_width = "100%" %>
+      <% iframe_height = "80vh" %>
+    <% end %>
+    <div class="uv-container" style="position: relative; margin: auto; width:<%= iframe_width %>; height:<%= iframe_height %>;">
+      <iframe
+        class="universal-viewer-iframe"
+        title="Universal Viewer"
+        src="<%= request&.base_url %>/uv/uv.html#?config=uv-config-lido.json&manifest=https://manifests.collections.yale.edu/v2/ycba/obj/<%= @document['id'].split(":")[1] %>"
+        style="width:<%= iframe_width %>; height:<%= iframe_height %>;"
+        allowfullscreen
+        frameborder="0">
+      </iframe>
+    </div>
   </div>
 
   <div class="row">
@@ -24,17 +37,15 @@
     <div id="ycba-request-photography" class="btn btn-primary col-xs-3" align="center">
       <%= link_to("Request additional photography", image_request_link(document), style: "color: white;", target: "_blank") %>
     </div>
-    <% if document[:eshop_ss] %>
-      <div id="eshop" class="btn btn-primary col-xs-3" align="center">
-        <%= link_to("See Museum Shop for related items", document[:eshop_ss][0], style: "color: white;", target: "_blank") %>
-      </div>
-    <% end %>
 
-    <div id="ycba-thumbnail-controls" class="col-xs-1" align="center">
-      <a target="_blank" href="https://view.collections.yale.edu/m3/?manifest=https://manifests.collections.yale.edu/ycba/obj/<%= @document['id'].split(":")[1] %>">
+    <div id="ycba-thumbnail-controls" class="col-xs-2" align="center">
+      <a target="_blank" href="https://view.collections.yale.edu/uv3/?manifest=https://manifests.collections.yale.edu/ycba/obj/<%= @document['id'].split(":")[1] %>">
         <img src='https://manifests.britishart.yale.edu/logo-iiif.png' class='img-responsive' alt='IIIF Manifest' title='View Image in full IIIF viewer' draggable>
+        <span>View available images</span>
       </a>
     </div>
+  </div>
+  <!-- former place of eshop-->
   </div>
 
   <!--<div class="row">
@@ -64,13 +75,6 @@
       $("#image-section").hide();
   </script>
 <% else %>
-  <% manifest = "https://manifests.collections.yale.edu/ycba/obj/" + @document['id'].split(":")[1] %>
-  <div id = "manifest_es6" data-manifest="<%= manifest %>"></div>
-  <% if manifest_thumb? %>
-    <div id = "anchor_es6" data-anchor="mirador3t"></div>
-  <% else %>
-    <div id = "anchor_es6" data-anchor="mirador3"></div>
-  <% end %>
   <script type="text/javascript">
       console.log("image");
       $("#non-image-section").hide();

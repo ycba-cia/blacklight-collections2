@@ -1,11 +1,9 @@
-<div id="ycba-downloads" class="btn btn-primary col-xs-3" align="center">
-  <!--<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#downloadModal">
-    Download Selected Image
-  </button>-->
+<% downloads = get_download_array_from_manifest %>
+
+<div id="ycba-downloads" class="btn btn-primary col-xs-3" align="center" onclick="select_one_dl(<%= downloads %>,'<%= document["id"] %>')">
   <%= link_to("Download/Print selected image","#downloadModal", data: {toggle: "modal"}, style: "color: white;" ) %>
 </div>
 <div class="modal fade" id="downloadModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <% downloads = get_download_array_from_manifest %>
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -33,17 +31,7 @@
           </div>
         </div>
         </br>
-        <div class="row">
-          <div id="dlselect-container" class="dropdown col-xs-1">
-            <button id="selectdl-button" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">Select Image <span class="caret"></span></button>
-            <div class="dropdown-menu" aria-labelledby="selectdl-button">
-              <% downloads.each_with_index do |array,index| %>
-                <li><a class="dropdown-item" onclick="selectdl(<%= downloads[index] %>,'<%= document["id"] %>')"><%= array[0] %>. <%= array[1] %></a></li>
-              <% end %>
-            </div>
-          </div>
-        </div>
+        <div id="selected-image-index"></div>
         <div class="row">
           <div id="dlselect-info" class="col-xs-12"></div>
         </div>
