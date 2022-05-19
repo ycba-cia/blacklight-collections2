@@ -606,7 +606,9 @@ module ApplicationHelper
     #url = doc_thumbnail_from_manifest(document) #get thumbnails from manifest on the fly
     if document['recordtype_ss'] and document['recordtype_ss'][0].to_s == 'marc'
       if document['isbn_ss']
-        url = "/bookcover/isbn/#{document['isbn_ss'][0]}/size/medium"
+        unless document['collection_ss'][0] == "Rare Books and Manuscripts"
+          url = "/bookcover/isbn/#{document['isbn_ss'][0]}/size/medium"
+        end
       end
     end
     #puts "URL:#{url}"
