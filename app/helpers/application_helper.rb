@@ -892,6 +892,9 @@ module ApplicationHelper
       location = get_one_value(doc["location_ss"])
       mfhd = ""
     end
+    if collection == "Rare Books and Manuscripts"
+      callnumber = callnumber.gsub("+","%2B")
+    end
 
     #puts "callnumber:#{callnumber}"
     #puts "title:#{title}"
