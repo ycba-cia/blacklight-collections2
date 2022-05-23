@@ -266,9 +266,15 @@ class CatalogController < ApplicationController
       }
     end
 
-    config.add_search_field('call number') do |field|
+    config.add_search_field('Call Number') do |field|
       field.solr_parameters = {
           qf: ['callnumber_txt^10']
+      }
+    end
+
+    config.add_search_field('Fielded') do |field|
+      field.solr_parameters = {
+          qt: '/query'
       }
     end
 
