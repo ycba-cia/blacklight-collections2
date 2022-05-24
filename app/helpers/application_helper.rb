@@ -69,7 +69,7 @@ module ApplicationHelper
     puts "D:#{detailed_onview_ss}"
     values = []
     options[:value].each do |v|
-      if detailed_onview_ss == "Accessible by request in the Study Room"
+      if detailed_onview_ss == "View by request in the Study Room"
         values.append(v + " [" + create_aeon_link(options[:document]) + "]" + pd_rb_ia)
       elsif detailed_onview_ss == "Accessible in the Reference Library"
         values.append(v + " [" + hours + "]" + ref)
