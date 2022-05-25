@@ -381,10 +381,10 @@ module ApplicationHelper
   end
 
   def render_copyright_status options={}
-    label = "Copyright Information"
+    label = "Copyright Undetermined"
     label = options[:document]['ort_ss'][0] if options[:document]['ort_ss']
     #puts "LABEL:#{label}"
-    link = "http://hdl.handle.net/10079/c59zwbm"
+    link = "http://rightsstatements.org/vocab/UND/1.0/"
     link = options[:document]['rightsURL_ss'][0] if options[:document]['rightsURL_ss']
     link_to(label, link, target: "_blank", rel: "nofollow")
   end

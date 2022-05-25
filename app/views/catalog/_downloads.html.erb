@@ -1,8 +1,11 @@
 <% downloads = get_download_array_from_manifest %>
 
-<div id="ycba-downloads" class="btn btn-primary col-xs-3" align="center" onclick="select_one_dl(<%= downloads %>,'<%= document["id"] %>')">
-  <%= link_to("Download/Print selected image","#downloadModal", data: {toggle: "modal"}, style: "color: white;" ) %>
-</div>
+<% if document["rights_ss"] && (document["rights_ss"][0].to_s == "under copyright" || document["rights_ss"][0].to_s == "rights reserved") %>
+<% else %>
+  <div id="ycba-downloads" class="btn btn-primary col-xs-3" align="center" onclick="select_one_dl(<%= downloads %>,'<%= document["id"] %>')">
+    <%= link_to("Download/Print selected image","#downloadModal", data: {toggle: "modal"}, style: "color: white;" ) %>
+  </div>
+<% end %>
 <div class="modal fade" id="downloadModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
