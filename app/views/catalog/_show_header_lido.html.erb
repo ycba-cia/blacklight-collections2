@@ -44,6 +44,24 @@
         <span>View available images</span>
       </a>
     </div>
+
+    <div id="right-icons" class="col-xs-2" align="center">
+      <% if document_field_exists?(document,"rightsURL_ss") && document["rightsURL_ss"][0].to_s.include?("rightsstatements.org/vocab/InC/1.0/") %>
+        <a target="_blank" href="https://rightsstatements.org/vocab/InC/1.0/">
+          <img src='https://rightsstatements.org/files/buttons/InC.dark-white-interior-blue-type.png' class='img-responsive' alt='In Copyright' title='In Copyright'>
+        </a>
+      <% end %>
+      <% if document_field_exists?(document,"rightsURL_ss") && document["rightsURL_ss"][0].to_s.include?("creativecommons.org/publicdomain/zero/1.0/") %>
+        <a target="_blank" href="https://creativecommons.org/publicdomain/zero/1.0/">
+          <img src='https://mirrors.creativecommons.org/presskit/buttons/88x31/png/cc-zero.png' class='img-responsive' alt='Public Domain' title='Public Domain'>
+        </a>
+      <% end %>
+      <% if document_field_exists?(document,"rightsURL_ss") && document["rightsURL_ss"][0].to_s.include?("rightsstatements.org/vocab/UND/1.0/") %>
+        <a target="_blank" href="https://rightsstatements.org/vocab/UND/1.0/">
+          <img src='https://rightsstatements.org/files/buttons/UND.dark-white-interior-blue-type.png' class='img-responsive' alt='Copyright Undetermined' title='Copyright Undetermined'>
+        </a>
+      <% end %>
+    </div>
   </div>
   <!-- former place of eshop-->
   </div>
