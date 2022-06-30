@@ -121,12 +121,12 @@
     <% end %>
 
     <% if tab_active %>
-      <% if document_field_exists?(document,"citation_ss")  %>
+      <% if document_field_exists?(document,"linked_citation_ss")  %>
         <li class="nav-item active"><a class="nav-link" href="#9pane" data-toggle="tab">Bibliography</br>&nbsp</a></li>
         <% tab_active = false %>
       <% end %>
     <% else %>
-      <% if document_field_exists?(document,"citation_ss")  %>
+      <% if document_field_exists?(document,"linked_citation_ss")  %>
         <li class="nav-item"><a class="nav-link" href="#9pane" data-toggle="tab">Bibliography</br>&nbsp</a></li>
       <% end %>
     <% end %>
@@ -252,14 +252,14 @@
     </div>
   <% end %>
 
-  <% if document_field_exists?(document,"citation_ss") %>
+  <% if document_field_exists?(document,"linked_citation_ss") %>
     <% if tab_active %>
       <div class="tab-pane active" id="9pane">
         <% tab_active = false %>
     <% else %>
       <div class="tab-pane" id="9pane">
     <% end %>
-    <%= render_tms_citation_presorted_tab(document) %>
+    <%= render_lido_citation_presorted_tab(document) %>
     </div>
   <% end %>
 

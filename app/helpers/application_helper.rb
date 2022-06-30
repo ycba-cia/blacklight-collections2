@@ -7,6 +7,7 @@ require 'cgi'
 module ApplicationHelper
 
   def rights_helper options={}
+    #these no longer apply as using "Under Certain Circumstances" and "Free to Use"
     popup = ""
     popup = "Copyright yet to be determined" if options == "unknown"
     popup = "Works that have no known copyright" if options == "public domain"
@@ -208,7 +209,7 @@ module ApplicationHelper
     combined_with_links.join(' ').html_safe
   end
 
-  def render_tms_citation_presorted_tab(doc)
+  def render_marc_citation_presorted_tab(doc)
     presorted_citation = doc["citation_ss"]
     presorted_citation_links = doc["citationURL_ss"]
     combined_with_links = presorted_citation.each_with_index.map { |v,i|
@@ -216,6 +217,54 @@ module ApplicationHelper
         "<p>#{v}</i><p>"
       else
         "<p><a target=\"_blank\" href=\"#{presorted_citation_links[i]}\">#{v}</i></a></p>"
+      end
+    }
+    combined_with_links.join(' ').html_safe
+  end
+
+  def render_lido_citation_presorted_tab(doc)
+    presorted_citation = doc["linked_citation_ss"]
+    presorted_citation_links = doc["citationURL_ss"]
+    combined_with_links = presorted_citation.each_with_index.map { |v,i|
+      v2 = v.split("|")
+      if v2.length == 1
+        if presorted_citation_links.nil? || presorted_citation_links[i].nil? || presorted_citation_links[i] == "-"
+          "<p>#{v2[0]}</i><p>"
+        else
+          "<p>#{v2[0]}</i>[<a target=\"_blank\" href=\"#{presorted_citation_links[i]}\">Website</a>]</p>"
+        end
+      elsif v2.length == 2
+        if presorted_citation_links.nil? || presorted_citation_links[i].nil? || presorted_citation_links[i] == "-"
+          "<p>#{v2[0]}</i><p>" +
+          "[<a target=\"_blank\" href=\"https://collections.britishart.yale.edu/catalog/orbis:#{v2[1]}\">YCBA</a>]" +
+          "[<a target=\"_blank\" href=\"https://hdl.handle.net/10079/bibid/#{v2[1]}\">ORBIS</a>]"
+        else
+          "<p>#{v2[0]}</i>[<a target=\"_blank\" href=\"#{presorted_citation_links[i]}\">Website</a>]</p>" +
+          "[<a target=\"_blank\" href=\"https://collections.britishart.yale.edu/catalog/orbis:#{v2[1]}\">YCBA</a>]" +
+          "[<a target=\"_blank\" href=\"https://hdl.handle.net/10079/bibid/#{v2[1]}\">ORBIS</a>]"
+        end
+      elsif v2.length == 3
+        if v2[1].length > 0
+          if presorted_citation_links.nil? || presorted_citation_links[i].nil? || presorted_citation_links[i] == "-"
+            "<p>#{v2[0]}</i>" +
+            "[<a target=\"_blank\" href=\"https://collections.britishart.yale.edu/catalog/orbis:#{v2[1]}\">YCBA</a>]" +
+            "[<a target=\"_blank\" href=\"https://hdl.handle.net/10079/bibid/#{v2[1]}\">ORBIS</a>]" +
+            "[<a target=\"_blank\" href=\"http://www.worldcat.org/oclc/#{v2[2]}\">OCLC</a>]<p>"
+          else
+            "<p>#{v2[0]}</i>[<a target=\"_blank\" href=\"#{presorted_citation_links[i]}\">Website</a>]" +
+            "[<a target=\"_blank\" href=\"https://collections.britishart.yale.edu/catalog/orbis:#{v2[1]}\">YCBA</a>]" +
+            "[<a target=\"_blank\" href=\"https://hdl.handle.net/10079/bibid/#{v2[1]}\">ORBIS</a>]" +
+            "[<a target=\"_blank\" href=\"http://www.worldcat.org/oclc/#{v2[2]}\">OCLC</a>]<p>"
+          end
+        else
+          if presorted_citation_links.nil? || presorted_citation_links[i].nil? || presorted_citation_links[i] == "-"
+            "<p>#{v2[0]}</i>" +
+            "[<a target=\"_blank\" href=\"http://www.worldcat.org/oclc/#{v2[2]}\">OCLC</a>]<p>"
+          else
+            "<p>#{v2[0]}</i>[<a target=\"_blank\" href=\"#{presorted_citation_links[i]}\">Website</a>]" +
+            "[<a target=\"_blank\" href=\"http://www.worldcat.org/oclc/#{v2[2]}\">OCLC</a>]<p>"
+          end
+        end
       end
     }
     combined_with_links.join(' ').html_safe
