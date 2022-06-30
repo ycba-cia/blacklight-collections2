@@ -15,21 +15,24 @@
       </div>
       <div id="download-details" class="modal-body">
         <!--jquery content here-->
-        <% if copyrighted?(document) && document["ort_ss"] %>
+        <% if document["rightsURL_ss"] && document["rightsURL_ss"][0].to_s.include?("rightsstatements.org/vocab/InC/1.0/") %>
           <div class="row">
             <div class="col-xs-12"><%= document["ort_ss"][0].to_s %></div>
           </div>
         <% end %>
         <div class="row">
           <div class="col-xs-12">
-            <% if document["rights_ss"] && document["rights_ss"][0].to_s == "unknown" %>
-              <span>See <a target="_blank" href="http://hdl.handle.net/10079/c59zwbm">Terms of Use for Photographic Images of Works Requiring Further Research</a> for more information.</span>
+            <% if document["rightsURL_ss"] && document["rightsURL_ss"][0].to_s.include?("rightsstatements.org/vocab/UND/1.0/") %>
+              <span>See <a target="_blank" href="https://rightsstatements.org/vocab/UND/1.0/">Terms of Use for Photographic Images of Works Requiring Further Research</a> for more information.</span>
             <% end %>
-            <% if document["rights_ss"] && document["rights_ss"][0].to_s == "public domain" %>
-              <span>See <a target="_blank" href="http://hdl.handle.net/10079/w6m90dq">Using Images of Works in the Public Domain</a> for more information.</span>
+            <% if document["rightsURL_ss"] && document["rightsURL_ss"][0].to_s.include?("creativecommons.org/publicdomain/zero/1.0/") %>
+              <span>See <a target="_blank" href="https://creativecommons.org/publicdomain/zero/1.0/">Using Images of Works in the Public Domain</a> for more information.</span>
             <% end %>
-            <% if document["rights_ss"] && (document["rights_ss"][0].to_s == "under copyright" || document["rights_ss"][0].to_s == "rights reserved") %>
-              <span>See <a target="_blank" href="http://hdl.handle.net/10079/rfj6qd5">Terms of Use for Photographic Images of Works under Copyright</a> for more information.</span>
+            <% if document["rightsURL_ss"] && document["rightsURL_ss"][0].to_s.include?("rightsstatements.org/vocab/InC/1.0/") %>
+              <span>See <a target="_blank" href="https://rightsstatements.org/vocab/InC/1.0/">Terms of Use for Photographic Images of Works under Copyright</a> for more information.</span>
+            <% end %>
+            <% if document["rightsURL_ss"] && document["rightsURL_ss"][0].to_s.include?("rightsstatements.org/vocab/CNE/1.0/") %>
+              <span>See <a target="_blank" href="http://rightsstatements.org/vocab/CNE/1.0/">Terms of Use for Photographic Images of Works not Evaluated</a> for more information.</span>
             <% end %>
           </div>
         </div>
