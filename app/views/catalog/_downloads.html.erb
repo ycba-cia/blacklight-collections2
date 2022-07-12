@@ -15,27 +15,35 @@
       </div>
       <div id="download-details" class="modal-body">
         <!--jquery content here-->
+        <div class="row">
+          <div class="col-xs-12">
+            <% if document["rightsURL_ss"] && document["rightsURL_ss"][0].to_s.include?("rightsstatements.org/vocab/UND/1.0/") %>
+              <a target="_blank" href="https://rightsstatements.org/vocab/UND/1.0/">
+                <img width="135px;" src='https://rightsstatements.org/files/buttons/UND.dark-white-interior-blue-type.png' class='img-responsive' alt='Copyright Undetermined' title='Copyright Undetermined'>
+              </a>
+            <% end %>
+            <% if document["rightsURL_ss"] && document["rightsURL_ss"][0].to_s.include?("creativecommons.org/publicdomain/zero/1.0/") %>
+              <a target="_blank" href="https://creativecommons.org/publicdomain/zero/1.0/">
+                <img width="135px;" src='https://mirrors.creativecommons.org/presskit/buttons/88x31/png/cc-zero.png' class='img-responsive' alt='Public Domain' title='Public Domain'>
+              </a>
+            <% end %>
+            <% if document["rightsURL_ss"] && document["rightsURL_ss"][0].to_s.include?("rightsstatements.org/vocab/InC/1.0/") %>
+              <a target="_blank" href="https://rightsstatements.org/vocab/InC/1.0/">
+                <img width="135px;"src='https://rightsstatements.org/files/buttons/InC.dark-white-interior-blue-type.png' class='img-responsive' alt='In Copyright' title='In Copyright'>
+              </a>
+            <% end %>
+            <% if document["rightsURL_ss"] && document["rightsURL_ss"][0].to_s.include?("rightsstatements.org/vocab/CNE/1.0/") %>
+              <a target="_blank" href="http://rightsstatements.org/vocab/CNE/1.0/">
+                <img width="135px;" src='https://rightsstatements.org/files/buttons/CNE.dark-white-interior-blue-type.png' class='img-responsive' alt='Copyright Undetermined' title='Copyright Undetermined'>
+              </a>
+            <% end %>
+          </div>
+        </div>
         <% if document["rightsURL_ss"] && document["rightsURL_ss"][0].to_s.include?("rightsstatements.org/vocab/InC/1.0/") %>
           <div class="row">
             <div class="col-xs-12"><%= document["ort_ss"][0].to_s %></div>
           </div>
         <% end %>
-        <div class="row">
-          <div class="col-xs-12">
-            <% if document["rightsURL_ss"] && document["rightsURL_ss"][0].to_s.include?("rightsstatements.org/vocab/UND/1.0/") %>
-              <span>See <a target="_blank" href="https://rightsstatements.org/vocab/UND/1.0/">Terms of Use for Photographic Images of Works Requiring Further Research</a> for more information.</span>
-            <% end %>
-            <% if document["rightsURL_ss"] && document["rightsURL_ss"][0].to_s.include?("creativecommons.org/publicdomain/zero/1.0/") %>
-              <span>See <a target="_blank" href="https://creativecommons.org/publicdomain/zero/1.0/">Using Images of Works in the Public Domain</a> for more information.</span>
-            <% end %>
-            <% if document["rightsURL_ss"] && document["rightsURL_ss"][0].to_s.include?("rightsstatements.org/vocab/InC/1.0/") %>
-              <span>See <a target="_blank" href="https://rightsstatements.org/vocab/InC/1.0/">Terms of Use for Photographic Images of Works under Copyright</a> for more information.</span>
-            <% end %>
-            <% if document["rightsURL_ss"] && document["rightsURL_ss"][0].to_s.include?("rightsstatements.org/vocab/CNE/1.0/") %>
-              <span>See <a target="_blank" href="http://rightsstatements.org/vocab/CNE/1.0/">Terms of Use for Photographic Images of Works not Evaluated</a> for more information.</span>
-            <% end %>
-          </div>
-        </div>
         </br>
         <div id="selected-image-index"></div>
         <div class="row">
