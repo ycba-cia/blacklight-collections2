@@ -227,44 +227,35 @@ module ApplicationHelper
     presorted_citation_links = doc["citationURL_ss"]
     combined_with_links = presorted_citation.each_with_index.map { |v,i|
       v2 = v.split("|")
-      if v2.length == 1
-        if presorted_citation_links.nil? || presorted_citation_links[i].nil? || presorted_citation_links[i] == "-"
-          "<p>#{v2[0]}</i><p>"
+      citation = ""
+      ils = ""
+      oclc = ""
+      callnum = ""
+      v2.each_with_index { |part,ii|
+        if ii == 0
+          citation = part
         else
-          "<p>#{v2[0]}</i>[<a target=\"_blank\" href=\"#{presorted_citation_links[i]}\">Website</a>]</p>"
-        end
-      elsif v2.length == 2
-        if presorted_citation_links.nil? || presorted_citation_links[i].nil? || presorted_citation_links[i] == "-"
-          "<p>#{v2[0]}</i><p>" +
-          "[<a target=\"_blank\" href=\"https://collections.britishart.yale.edu/catalog/orbis:#{v2[1]}\">YCBA</a>]" +
-          "[<a target=\"_blank\" href=\"https://hdl.handle.net/10079/bibid/#{v2[1]}\">ORBIS</a>]"
-        else
-          "<p>#{v2[0]}</i>[<a target=\"_blank\" href=\"#{presorted_citation_links[i]}\">Website</a>]</p>" +
-          "[<a target=\"_blank\" href=\"https://collections.britishart.yale.edu/catalog/orbis:#{v2[1]}\">YCBA</a>]" +
-          "[<a target=\"_blank\" href=\"https://hdl.handle.net/10079/bibid/#{v2[1]}\">ORBIS</a>]"
-        end
-      elsif v2.length == 3
-        if v2[1].length > 0
-          if presorted_citation_links.nil? || presorted_citation_links[i].nil? || presorted_citation_links[i] == "-"
-            "<p>#{v2[0]}</i>" +
-            "[<a target=\"_blank\" href=\"https://collections.britishart.yale.edu/catalog/orbis:#{v2[1]}\">YCBA</a>]" +
-            "[<a target=\"_blank\" href=\"https://hdl.handle.net/10079/bibid/#{v2[1]}\">ORBIS</a>]" +
-            "[<a target=\"_blank\" href=\"http://www.worldcat.org/oclc/#{v2[2]}\">OCLC</a>]<p>"
-          else
-            "<p>#{v2[0]}</i>[<a target=\"_blank\" href=\"#{presorted_citation_links[i]}\">Website</a>]" +
-            "[<a target=\"_blank\" href=\"https://collections.britishart.yale.edu/catalog/orbis:#{v2[1]}\">YCBA</a>]" +
-            "[<a target=\"_blank\" href=\"https://hdl.handle.net/10079/bibid/#{v2[1]}\">ORBIS</a>]" +
-            "[<a target=\"_blank\" href=\"http://www.worldcat.org/oclc/#{v2[2]}\">OCLC</a>]<p>"
-          end
-        else
-          if presorted_citation_links.nil? || presorted_citation_links[i].nil? || presorted_citation_links[i] == "-"
-            "<p>#{v2[0]}</i>" +
-            "[<a target=\"_blank\" href=\"http://www.worldcat.org/oclc/#{v2[2]}\">OCLC</a>]<p>"
-          else
-            "<p>#{v2[0]}</i>[<a target=\"_blank\" href=\"#{presorted_citation_links[i]}\">Website</a>]" +
-            "[<a target=\"_blank\" href=\"http://www.worldcat.org/oclc/#{v2[2]}\">OCLC</a>]<p>"
+          if part.starts_with?("a")
+            ils = part[1..-1]
+          elsif part.starts_with?("b")
+            oclc = part[1..-1]
+          elsif part.starts_with?("c")
+            callnum = part[1..-1]
           end
         end
+      }
+      if presorted_citation_links.nil? || presorted_citation_links[i].nil? || presorted_citation_links[i] == "-"
+        if callnum.include?("(YCBA)") && ils.length > 0
+          "<p>#{citation}</i> [<a target=\"_blank\" href=\"https://collections.britishart.yale.edu/catalog/orbis:#{ils}\">YCBA</a>]</p>"
+        elsif ils.length > 0
+          "<p>#{citation}</i> [<a target=\"_blank\" href=\"https://hdl.handle.net/10079/bibid/#{ils}\">ORBIS</a>]</p>"
+        elsif oclc.length > 0
+          "<p>#{citation}</i> [<a target=\"_blank\" href=\"http://www.worldcat.org/oclc/#{oclc}\">OCLC</a>]</p>"
+        else
+          "<p>#{citation}</i></p>"
+        end
+      else
+        "<p>#{v2[0]}</i>[<a target=\"_blank\" href=\"#{presorted_citation_links[i]}\">Website</a>]</p>"
       end
     }
     combined_with_links.join(' ').html_safe
