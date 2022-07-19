@@ -67,7 +67,7 @@ module ApplicationHelper
 
     #method specific to call number
     detailed_onview_ss = get_one_value(options[:document][:detailed_onview_ss])
-    puts "D:#{detailed_onview_ss}"
+    #puts "D:#{detailed_onview_ss}"
     values = []
     options[:value].each do |v|
       if detailed_onview_ss == "View by request in the Study Room"
@@ -313,8 +313,8 @@ module ApplicationHelper
   def render_exhibitions_tab(doc)
     exhs = []
     sorted = doc["exhibition_history_ss"].sort_by { |d|
-      puts d
-      puts extract_date2(d)
+      #puts d
+      #puts extract_date2(d)
       extract_date2(d)
     }
     sorted.reverse!
@@ -566,7 +566,7 @@ module ApplicationHelper
     mfhd = get_mfhd_base + document[:id].split(":")[1]
 
     begin
-      @doc ||= Nokogiri::HTML(open(mfhd))
+      @doc ||= Nokogiri::HTML(URI.open(mfhd))
     rescue
       return "<span>Unable to reach service.  Holdings currently not available<span></br>".html_safe
     end
@@ -685,7 +685,7 @@ module ApplicationHelper
     thumbnail = ""
     manifest = "https://manifests.collections.yale.edu/ycba/obj/" + d['id'].split(":")[1] if d['recordtype_ss'][0] == "lido"
     manifest = "https://manifests.collections.yale.edu/ycba/orb/" + d['id'].split(":")[1] if d['recordtype_ss'][0] == "marc"
-    puts "MANIFEST:"+manifest;
+    #puts "MANIFEST:"+manifest;
     download_array = Array.new()
     begin
       json = JSON.load(open(manifest))
@@ -1048,10 +1048,10 @@ module ApplicationHelper
   def get_download_array_from_manifest
     manifest = "https://manifests.collections.yale.edu/ycba/obj/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "lido"
     manifest = "https://manifests.collections.yale.edu/ycba/orb/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "marc"
-    puts "MANIFEST:"+manifest;
+    #puts "MANIFEST:"+manifest;
     download_array = Array.new()
     begin
-      json = JSON.load(open(manifest))
+      json = JSON.load(URI.open(manifest))
     rescue
       return download_array
     end
@@ -1075,7 +1075,7 @@ module ApplicationHelper
       end
       download_array[index] = [count,caption,jpeg,tiff]
     end
-    puts download_array.inspect
+    #puts download_array.inspect
 
     download_array
   end
@@ -1083,10 +1083,10 @@ module ApplicationHelper
   def manifest_thumb?
     manifest = "https://manifests.collections.yale.edu/ycba/obj/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "lido"
     manifest = "https://manifests.collections.yale.edu/ycba/orb/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "marc"
-    puts "MANIFEST:"+manifest;
+    #puts "MANIFEST:"+manifest;
     download_array = Array.new()
     begin
-      json = JSON.load(open(manifest))
+      json = JSON.load(URI.open(manifest))
     rescue
       return download_array
     end

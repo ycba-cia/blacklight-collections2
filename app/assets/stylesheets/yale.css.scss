@@ -893,6 +893,12 @@ i {
   }
 }
 
+@media screen and (max-width: 479px) {
+  #right-icons {
+    width: 25%;
+  }
+}
+
 @media screen and (min-width: 800px) {
   .columns {
     columns: 100px 3;
