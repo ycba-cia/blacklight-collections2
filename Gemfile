@@ -84,7 +84,7 @@ gem 'sdoc', '~> 1.1' #update dependency for json 2.3.1 (below)
 gem 'blacklight-gallery'
 gem 'marc'
 
-gem 'blacklight_range_limit', '6.3.1'
+gem 'blacklight_range_limit', '~> 6.5.0'
 
 gem 'rails_12factor', group: :production
 

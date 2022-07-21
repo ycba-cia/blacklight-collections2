@@ -315,7 +315,7 @@ module ApplicationHelper
     sorted = doc["exhibition_history_ss"].sort_by { |d|
       #puts d
       #puts extract_date2(d)
-      extract_date2(d)
+      extract_date2(d[d.index("(")..-1])
     }
     sorted.reverse!
     sorted.each {  |exh|
