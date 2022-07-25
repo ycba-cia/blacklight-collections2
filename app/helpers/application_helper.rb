@@ -314,8 +314,8 @@ module ApplicationHelper
     exhs = []
     sorted = doc["exhibition_history_ss"].sort_by { |d|
       #puts d
-      #puts extract_date2(d)
-      extract_date2(d[d.index("(")..-1])
+      extract_date2(d)
+      #extract_date2(d[d.index("(")..-1]) # use limit: nil instead
     }
     sorted.reverse!
     sorted.each {  |exh|
@@ -353,7 +353,7 @@ module ApplicationHelper
     if d.match(/(\b\d{1,2}\D{0,3})?\b(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|(Nov|Dec)(?:ember)?)\D?(\d{1,2}\D?)?\D?((19[1-9]\d|20\d{2})|\d{2})/)
       convert_date(d.match(/(\b\d{1,2}\D{0,3})?\b(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|(Nov|Dec)(?:ember)?)\D?(\d{1,2}\D?)?\D?((19[1-9]\d|20\d{2})|\d{2})/)[0])
     elsif d.match(/\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])/)
-      Date.parse(d)
+      Date.parse(d,limit: nil)
     else
       Date.parse "9999-12-31"
     end
