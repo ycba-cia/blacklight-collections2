@@ -99,7 +99,7 @@ gem "rack", ">= 2.2.3"
 
 gem "json", ">= 2.3.0"
 
-gem "webpacker", "~> 5.3.0"
+#gem "webpacker", "~> 5.3.0" #removed 8/2/2022
 
 # gem "rack-timeout"
 
