@@ -25,7 +25,7 @@ module Blacklight::FacetsHelperBehavior
       if params.has_key?(:f) || params.has_key?(:q)
         max = 100 #large enough number to show all
       else
-        max = 6
+        max = 7
       end
       if i < max
         render_facet_limit(display_facet, options)

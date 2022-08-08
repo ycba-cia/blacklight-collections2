@@ -12,4 +12,11 @@
 <% if document.to_h["publishDate_txt"] %>
   <dd class="blacklight-<%= "publishDate_txt".parameterize %>"><%= field_value document, "publishDate_txt" %></dd>
 <% end %>
+<% if document.to_h["detailed_onview_ss"] && document["collection_ss"][0] == "Paintings and Sculpture" %>
+  <% if document["detailed_onview_ss"][0] == "On view in the galleries" %>
+    <dd class="blacklight-<%= "detailed_onview_ss".parameterize %>">On view</dd>
+  <% elsif document["detailed_onview_ss"][0] == "Not on view" %>
+    <dd class="blacklight-<%= "detailed_onview_ss".parameterize %>">Not on view</dd>
+  <% end %>
+<% end %>
 </dl>
