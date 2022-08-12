@@ -33,13 +33,13 @@ module PrintHelper
     get_images_from_iiifv3(manifest,index)
   end
 
-  #deprecated for cds2
+
   def get_images_from_iiifv3(manifest,index)
     images = Array.new
     pixels = Array.new
     uri = URI(manifest)
     #begin
-      json = JSON.load(open(manifest))
+      json = JSON.load(URI.open(manifest))
 
     image = json["items"][index.to_i]["items"][0]["items"][0]["body"]["id"]
     images.push(image)
@@ -50,6 +50,7 @@ module PrintHelper
     return images,pixels
   end
 
+=begin
   #deprecated for cds2
   def get_images_from_iiif(id)
     id = parse_tms_id(id)
@@ -147,9 +148,11 @@ module PrintHelper
     end
     return true
   end
+=end
 
-  def get_solr_doc(id)
-    url = "#{request.protocol}#{request.host_with_port}/catalog/#{id}.json"
+  def get_solr_doc(id,protocol,hostwport)
+    #url = "#{request.protocol}#{request.host_with_port}/catalog/#{id}.json"
+    url = "#{protocol}#{hostwport}/catalog/#{id}.json"
     uri = URI(url)
     response = Net::HTTP.get(uri)
     j = JSON.parse(response)

@@ -6,7 +6,7 @@ class PrintController < ApplicationController
     @size = params[:size]
     @index = params[:index]
     @images = print_images(@id,@index)
-    @document = get_solr_doc(@id)
+    @document = get_solr_doc(@id,request.protocol,request.host_with_port)
     @item_data = ""
     if @document["recordtype_ss"][0] == "lido"
       @item_data += print_newline_fields("Creator:","author_ss")
