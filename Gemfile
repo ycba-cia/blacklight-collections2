@@ -64,7 +64,7 @@ group :development, :test do
   gem 'rspec'
   gem 'rspec-rails'
   gem 'coveralls', require: false
-  gem 'travis'
+  gem 'travis', '~> 1.11', '>= 1.11.1'
 end
 
 gem 'rsolr', '>= 2.0'
