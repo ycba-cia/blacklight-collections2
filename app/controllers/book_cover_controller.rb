@@ -38,7 +38,7 @@ class BookCoverController < ApplicationController
   private
 
   def return_image(url)
-    bytes = open(url).read
+    bytes = URI.open(url).read
     bytes = nil if bytes.length < 1000  # received a 1x1 px image; cover not found
     bytes
   end
