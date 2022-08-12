@@ -30,7 +30,7 @@ describe ApplicationHelper do
                "^Canaletto to Constable, paintings of town and country from the Yale Center for British Art ^, Yale Center for British Art, New Haven, Conn., 1998, pp. 5, 28, pl. 2, ND1354.4 Y25 1998 (YCBA)|a4205451|b|cND1354.4 Y25 1998 (YCBA)",
                "^Canaletto to Constable, paintings of town and country from the Yale Center for British Art ^, Yale Center for British Art, New Haven, Conn., 1998, pp. 5, 28, pl. 2, ND1354.4 Y25 1998 (YCBA)|a|b|c"]
 
-      lc_ss.each { |lc_ss1|
+      lc_ss.each_with_index { |lc_ss1, index|
         lc_ss1_split = lc_ss1.split("|")
         citation = ""
         ils = ""
@@ -49,19 +49,25 @@ describe ApplicationHelper do
             end
           end
         }
-        puts citation
-        puts ils
-        puts oclc
-        puts callnum
+        #puts citation
+        #puts ils
+        #puts oclc
+        #puts callnum
+        result = ""
         if callnum.include?("(YCBA)") && ils.length > 0
-          puts "get BL"
+          result =  "get BL"
         elsif ils.length > 0
-          puts "get orbis"
+          result = "get orbis"
         elsif oclc.length > 0
-          puts "get oclc"
+          result =  "get oclc"
         else
-          puts "no link"
+          result = "no link"
         end
+        expect(result).to be == "get BL" if index == 0
+        expect(result).to be == "get orbis" if index == 1
+        expect(result).to be == "get oclc" if index == 2
+        expect(result).to be == "get BL" if index == 3
+        expect(result).to be == "no link" if index == 4
       }
     end
   end
