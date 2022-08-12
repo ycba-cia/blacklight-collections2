@@ -29,6 +29,8 @@ module BlacklightCollections2
     #ERJ per: https://guides.rubyonrails.org/v4.0/asset_pipeline.html
     #
     #config.assets.initialize_on_precompile = false
+    #
+    Rails.application.config.active_record.sqlite3.represent_boolean_as_integer = true
 
   end
 end
