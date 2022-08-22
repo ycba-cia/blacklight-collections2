@@ -6,14 +6,16 @@ describe ApplicationHelper do
   describe "#get_export_url_xml" do
 
     let(:solrdoc) do
-      SolrDocument.new(JSON.parse(File.open("spec/fixtures/leighton.json","rb").read))
+      SolrDocument.new(JSON.parse(File.open("spec/fixtures/helmingham.json","rb").read))
     end
 
     let(:solrdoc2) do
-      SolrDocument.new(JSON.parse(File.open("spec/fixtures/prue.json","rb").read))
+      SolrDocument.new(JSON.parse(File.open("spec/fixtures/dort.json","rb").read))
     end
 
-    it "returns url" do
+    it "is a solrdoc" do
+      expect(solrdoc).to be_an_instance_of SolrDocument
+      expect(solrdoc2).to be_an_instance_of SolrDocument
       #NOTE using send as method is private
       #however there is error:
       #NoMethodError:
@@ -24,11 +26,16 @@ describe ApplicationHelper do
 
   describe "parse linked_citation_ss" do
     it "lc1" do
-      lc_ss = ["^Canaletto to Constable, paintings of town and country from the Yale Center for British Art ^, Yale Center for British Art, New Haven, Conn., 1998, pp. 5, 28, pl. 2, ND1354.4 Y25 1998 (YCBA)|a4205451|b39116338|cND1354.4 Y25 1998 (YCBA)",
-               "^Canaletto to Constable, paintings of town and country from the Yale Center for British Art ^, Yale Center for British Art, New Haven, Conn., 1998, pp. 5, 28, pl. 2, ND1354.4 Y25 1998 (YCBA)|a4205451|b39116338|cND1354.4 Y25 1998 (LC)",
-               "^Canaletto to Constable, paintings of town and country from the Yale Center for British Art ^, Yale Center for British Art, New Haven, Conn., 1998, pp. 5, 28, pl. 2, ND1354.4 Y25 1998 (YCBA)|a|b39116338|cND1354.4 Y25 1998 (YCBA)",
-               "^Canaletto to Constable, paintings of town and country from the Yale Center for British Art ^, Yale Center for British Art, New Haven, Conn., 1998, pp. 5, 28, pl. 2, ND1354.4 Y25 1998 (YCBA)|a4205451|b|cND1354.4 Y25 1998 (YCBA)",
-               "^Canaletto to Constable, paintings of town and country from the Yale Center for British Art ^, Yale Center for British Art, New Haven, Conn., 1998, pp. 5, 28, pl. 2, ND1354.4 Y25 1998 (YCBA)|a|b|c"]
+      lc_ss = Array.new
+      lc_ss.append("^Canaletto to Constable, paintings of town and country from the Yale Center for British Art ^, Yale Center for British Art, New Haven, Conn., 1998, pp. 5, 28, pl. 2, ND1354.4 Y25 1998 (YCBA)|a4205451|b39116338|cND1354.4 Y25 1998 (YCBA)")
+      lc_ss.append("^Canaletto to Constable, paintings of town and country from the Yale Center for British Art ^, Yale Center for British Art, New Haven, Conn., 1998, pp. 5, 28, pl. 2, ND1354.4 Y25 1998 (YCBA)|a4205451|b39116338|cND1354.4 Y25 1998 (LC)")
+      lc_ss.append("^Canaletto to Constable, paintings of town and country from the Yale Center for British Art ^, Yale Center for British Art, New Haven, Conn., 1998, pp. 5, 28, pl. 2, ND1354.4 Y25 1998 (YCBA)|a|b39116338|cND1354.4 Y25 1998 (YCBA)")
+      lc_ss.append("^Canaletto to Constable, paintings of town and country from the Yale Center for British Art ^, Yale Center for British Art, New Haven, Conn., 1998, pp. 5, 28, pl. 2, ND1354.4 Y25 1998 (YCBA)|a4205451|b|cND1354.4 Y25 1998 (YCBA)")
+      lc_ss.append("^Canaletto to Constable, paintings of town and country from the Yale Center for British Art ^, Yale Center for British Art, New Haven, Conn., 1998, pp. 5, 28, pl. 2, ND1354.4 Y25 1998 (YCBA)|a|b|c")
+
+      expect(lc_ss.length).to eq 5
+
+      expect(lc_ss).to be_an_instance_of Array
 
       lc_ss.each_with_index { |lc_ss1, index|
         lc_ss1_split = lc_ss1.split("|")
