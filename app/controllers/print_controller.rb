@@ -6,7 +6,23 @@ class PrintController < ApplicationController
     @size = params[:size]
     @index = params[:index]
     @images = print_images(@id,@index)
+=begin
+    #kluge for testing
+    #puts "protocol:#{request.protocol}" # http://
+    #puts "host:#{request.host_with_port}" # test.host
+    if request.host_with_port == "test.host"
+      if @id.start_with?("tms")
+        @document = JSON.parse(File.open("spec/fixtures/dort.json","rb").read)
+      end
+      if @id.start_with?("orbis")
+        @document = JSON.parse(File.open("spec/fixtures/helmingham.json","rb").read)
+      end
+    else
+      @document = get_solr_doc(@id,request.protocol,request.host_with_port)
+    end
+=end
     @document = get_solr_doc(@id,request.protocol,request.host_with_port)
+
     @item_data = ""
     if @document["recordtype_ss"][0] == "lido"
       @item_data += print_newline_fields("Creator:","author_ss")
