@@ -17,7 +17,7 @@ class SolrDocument
     value = self['publisher_ss']
     pub_date = self['publishDate_txt']
     publisher.push(value) unless value.nil? or value.empty?
-    publisher.push(pub_date) unless value.nil? or value.empty? or pub_date.nil? or pub_date.empty?
+    publisher.push(pub_date) unless value.nil? or value.empty? or pub_date.nil? or pub_date.empty? or value[0].include?(pub_date[0])
     (value.nil? or value.empty?) ? nil : publisher.join(' ')
   end
 
@@ -43,7 +43,6 @@ class SolrDocument
 
   def cite_as
     return "Yale Center for British Art" unless self['citation_ss']
-    self['citation_ss']
   end
 
   # new accessor fields, so as to render ordering differently for marc and lido, also using legacy methods above here as accessors too

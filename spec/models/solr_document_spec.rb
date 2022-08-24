@@ -236,6 +236,42 @@ RSpec.describe SolrDocument do
       expect(solrdoc3.getMLA).to eq mlaHash
     end
 
+    it "tests physical_description" do
+      expect(solrdoc.physical_description).to eq ["Support (PTG): 62 × 92 inches (157.5 × 233.7 cm)",
+                                                  "Frame: 73 × 102 × 5 inches (185.4 × 259.1 × 12.7 cm)"]
+    end
+
+    it "tests publisher" do
+      expect(solrdoc2.publisher).to eq "Helmingham, Suffolk, circa 1500."
+    end
+
+    it "tests all _acc" do
+      expect(solrdoc2.orbis_link_acc[0]).to eq "http://hdl.handle.net/10079/bibid/9452785"
+      expect(solrdoc2.callnumber_acc).to eq nil
+      expect(solrdoc2.note_acc[0]).to eq "Barker, Nicholas, ed. Two East Anglian picture books : a facsimile of the Helmingham herbal and bestiary and Bodleian ms. Ashmole 1504. (London: Roxburghe Club, 1988)."
+      expect(solrdoc2.title_acc[0]).to eq "Helmingham herbal and bestiary."
+      expect(solrdoc2.author_acc).to eq nil
+      expect(solrdoc2.physical_acc[0]).to eq "1 v. ([20] leaves, with 1 blank leaf) : ill. ; 45 x 32 cm."
+      expect(solrdoc2.collection_acc[0]).to eq "Rare Books and Manuscripts"
+      expect(solrdoc2.credit_line_acc[0]).to eq "Yale Center for British Art, Paul Mellon Collection"
+      expect(solrdoc2.type_acc[0]).to eq "Archives & Manuscripts"
+      expect(solrdoc2.topic_acc[0]).to eq "Tollemache family."
+      expect(solrdoc2.exhibition_history_acc[0]).to eq "\" Of Green Leaf, Bird, and Flower \" : Artists' Books and the Natural World (Yale Center for British Art, 2014-05-15 - 2014-08-10)"
+      expect(solrdoc2.dummy_ort_marc_acc).to eq "orbis:9452785"
+      expect(solrdoc.dummy_ort_lido_acc).to eq "tms:34"
+      expect(solrdoc2.detailed_onview_acc[0]).to eq "View by request in the Study Room"
+      expect(solrdoc2.titles_primary_acc[0]).to eq "Helmingham herbal and bestiary."
+      expect(solrdoc2.titles_former_acc).to eq nil
+      expect(solrdoc2.titles_additional_acc[0]).to eq "Helmingham bestiary"
+    end
+
+    it "tests cds_url" do
+      expect(solrdoc2.cds_url).to eq "9452785"
+    end
+
+    it "test cite_as" do
+      expect(solrdoc2.cite_as).to eq "Yale Center for British Art"
+    end
 
   end
 end
