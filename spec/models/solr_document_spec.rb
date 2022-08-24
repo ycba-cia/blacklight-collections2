@@ -5,22 +5,32 @@ require "citations"
 RSpec.describe SolrDocument do
   describe "access methods" do
     let(:solrdoc) do
-      SolrDocument.new(JSON.parse(File.open("spec/fixtures/prue.json","rb").read))
+      SolrDocument.new(JSON.parse(File.open("spec/fixtures/dort.json","rb").read))
     end
 
     let(:solrdoc2) do
-      SolrDocument.new(JSON.parse(File.open("spec/fixtures/leighton.json","rb").read))
+      SolrDocument.new(JSON.parse(File.open("spec/fixtures/helmingham.json","rb").read))
     end
 
     let(:solrdoc3) do
-      SolrDocument.new(id: '01234567', edition_ss: ['1st ed.'],author_ss: ["Leighton, Clare, 1898-1989.","name2","me","you","him"])
+      SolrDocument.new(id: "01234567", edition_ss: ["1st ed."], author_ss: ["Leighton, Clare, 1898-1989.","name2","me","you","him"],
+                       publisher_ss: ["New Haven : YCBA Madeup Press"], title_ss: ["a title"], publishDate_ss: ["1975"],
+                       title_short_ss: ["a short title"])
+    end
+
+    let(:solrdoc4) do
+      SolrDocument.new(id: "1234568", edition_ss: ["2nd ed."],author_ss: ["Apple","Bear"])
+    end
+
+    let(:solrdoc5) do
+      SolrDocument.new(id: "1234568", edition_ss: ["2nd ed"],author_ss: ["Apple","Bear","Cat"])
     end
 
     describe "#[]" do
       subject { solrdoc[field] }
 
       context "with format" do
-        let(:field) { :access_facet }
+        let(:field) { :access_ss }
         it { is_expected.to eq ['Open access'] }
       end
 
@@ -30,7 +40,7 @@ RSpec.describe SolrDocument do
       subject { solrdoc.authors }
       context "with author" do
         #NOTE: added fake author_additional_ss to prue.json
-        it { is_expected.to eq ["Sir Joshua Reynolds RA, 1723–1792, British","Sir Fake Author 1","Sir Fake Author 2"] }
+        it { is_expected.to eq ["Joseph Mallord William Turner, 1775–1851, British"] }
       end
     end
 
@@ -38,31 +48,34 @@ RSpec.describe SolrDocument do
       subject { solrdoc2.authors }
       context "with author" do
         #NOTE: added fake author_additional_ss to prue.json
-        it { is_expected.to eq ["Leighton, Clare, 1898-1989.","Josiah Wedgwood & Sons."] }
+        it { is_expected.to eq ["Sangorski & Sutcliffe, binder."] }
+      end
+    end
+
+    describe "#" do
+      subject { solrdoc3.authors }
+      context "with author" do
+        #NOTE: added fake author_additional_ss to prue.json
+        it { is_expected.to eq ["Leighton, Clare, 1898-1989.", "name2", "me", "you", "him"] }
       end
     end
 
     it "can retrieve a short title" do
-      expect(solrdoc.title).to eq ["Mrs. Abington as Miss Prue in \"Love for Love\" by William Congreve"]
-      expect(solrdoc2.title).to eq ["Clare Leighton collection,"]
+      expect(solrdoc.title).to eq ["Dort or Dordrecht: The Dort Packet-Boat from Rotterdam Becalmed"]
+      expect(solrdoc2.title).to eq ["Helmingham herbal and bestiary."]
     end
 
     it "can retrieve a publisher" do
-      #NOTE: added fake publisher_ss to prue.json, leighton.json
-      expect(solrdoc.publisher_cit).to eq ["New Haven : YCBA Madeup Press"]
-      expect(solrdoc2.publisher_cit).to eq ["Hamden : YUL Madeup Press"]
+      expect(solrdoc2.publisher_cit).to eq ["Helmingham, Suffolk, circa 1500."]
     end
 
     it "can retrieve a publishDate" do
-      expect(solrdoc.publishDate).to eq ["1771"]
-      #NOTE: added fake publishDate_ss to leighton.json
-      expect(solrdoc2.publishDate).to eq ["2075"]
+      expect(solrdoc.publishDate).to eq ["1818"]
+      expect(solrdoc2.publishDate).to eq ["circa 1500"]
     end
 
     it "can retrieve an edition" do
-      #NOTE:added fake edition to prue.json, leighton.json
-      expect(solrdoc.edition).to eq ["99th ed."]
-      expect(solrdoc2.edition).to eq ["101th ed."]
+      expect(solrdoc3.edition).to eq ["1st ed."]
     end
 
     it "can't retrieve a pub place" do
@@ -71,7 +84,7 @@ RSpec.describe SolrDocument do
 
     describe "#id" do
       subject { solrdoc.id }
-      it { is_expected.to eq '1669236' }
+      it { is_expected.to eq "tms:34" }
     end
 
     it "can strip punctuation" do
@@ -140,11 +153,13 @@ RSpec.describe SolrDocument do
       s3 = "Sir Joshua Reynolds RA, 1723–1792"
       s4 = "Jones Jr, Indiana, 1910-2000"
       s5 = ""
+      s6 = "Jones, Indiana, Jr"
       expect(solrdoc.cleanNameDates(s1)).to eq "Leighton, Clare"
       expect(solrdoc.cleanNameDates(s2)).to eq "Josiah Wedgwood & Sons."
       expect(solrdoc.cleanNameDates(s3)).to eq "Sir Joshua Reynolds RA"
       expect(solrdoc.cleanNameDates(s4)).to eq "Jones Jr, Indiana"
       expect(solrdoc.cleanNameDates(s5)).to eq ""
+      expect(solrdoc.cleanNameDates(s6)).to eq "Jones, Indiana, Jr"
     end
 
     it "reverses names for MLA" do
@@ -153,50 +168,74 @@ RSpec.describe SolrDocument do
       s3 = "Sir Joshua Reynolds RA, 1723–1792"
       s4 = "Jones Jr, Indiana, 1910-2000"
       s5 = ""
+      s6 = "Jones, Indiana, Jr"
       expect(solrdoc.reverseName(s1)).to eq "Clare Leighton"
       expect(solrdoc.reverseName(s2)).to eq "Josiah Wedgwood & Sons."
       expect(solrdoc.reverseName(s3)).to eq "Sir Joshua Reynolds RA"
       expect(solrdoc.reverseName(s4)).to eq "Indiana Jones Jr"
       expect(solrdoc.reverseName(s5)).to eq ""
+      expect(solrdoc.reverseName(s6)).to eq "Indiana Jones, Jr"
     end
 
     it "render an MLA title" do
-      expect(solrdoc.getMLATitle).to eq "Mrs. Abington As Miss Prue in \"love for Love\" By William Congreve"
-      expect(solrdoc2.getMLATitle).to eq "Clare Leighton Collection,"
+      expect(solrdoc.getMLATitle).to eq "Dort or Dordrecht: The Dort Packet-boat From Rotterdam Becalmed"
+      expect(solrdoc2.getMLATitle).to eq "Helmingham Herbal and Bestiary."
     end
 
     it "renders an APA title" do
-      expect(solrdoc.getAPATitle).to eq "Mrs Abington as Miss Prue in \"Love for Love\" by William Congreve"
-      expect(solrdoc2.getAPATitle).to eq "Clare Leighton collection"
+      expect(solrdoc.getAPATitle).to eq "Dort or Dordrecht The Dort Packet-Boat from Rotterdam Becalmed"
+      expect(solrdoc2.getAPATitle).to eq "Helmingham herbal and bestiary"
     end
 
     it "renders an MLA author" do
-      expect(solrdoc.getMLAAuthors).to eq "Sir Joshua Reynolds RA 1723–1792 British, Sir Fake Author 1, and Sir Fake Author 2."
-      expect(solrdoc2.getMLAAuthors).to eq "Leighton Clare 1898-1989, and Josiah Wedgwood & Sons." #temp rspec fix
+      expect(solrdoc.getMLAAuthors).to eq "Joseph Mallord William Turner."
+      expect(solrdoc2.getMLAAuthors).to eq "Sangorski & Sutcliffe, binder.."
       expect(solrdoc3.getMLAAuthors).to eq "Leighton, Clare, et al"
+      expect(solrdoc4.getMLAAuthors).to eq "Apple, and Bear."
+      expect(solrdoc5.getMLAAuthors).to eq "Apple, Bear, and Cat."
     end
 
     it "renders an APA author" do
-      expect(solrdoc.getAPAAuthors).to eq "Sir Joshua Reynolds RA, Sir Fake Author 1, & Sir Fake Author 2."
-      expect(solrdoc2.getAPAAuthors).to eq "Leighton C, & Josiah Wedgwood & Sons."
+      expect(solrdoc.getAPAAuthors).to eq "Joseph Mallord William Turner."
+      expect(solrdoc2.getAPAAuthors).to eq "Sangorski & Sutcliffe b."
+      expect(solrdoc3.getAPAAuthors).to eq "Leighton C, name2, me, you, & him."
     end
 
     it "renders a publisher" do
-      expect(solrdoc.getPublisher).to eq "New Haven : YCBA Madeup Press"
-      expect(solrdoc2.getPublisher).to eq "Hamden : YUL Madeup Press"
+      expect(solrdoc2.getPublisher).to eq "Helmingham, Suffolk, circa 1500."
     end
 
     it "renders a year" do
-      expect(solrdoc.getYear).to eq "1771"
-      expect(solrdoc2.getYear).to eq "2075"
+      expect(solrdoc.getYear).to eq "1818"
+      expect(solrdoc2.getYear).to eq "circa 1500"
     end
 
     it "renders an edition" do
-      #NOTE:added fake edition to prue.json, leighton.json
-      expect(solrdoc.getEdition).to eq "99th ed."
-      expect(solrdoc2.getEdition).to eq "101th ed."
       expect(solrdoc3.getEdition).to eq ""
+      expect(solrdoc4.getEdition).to eq "2nd ed."
+      expect(solrdoc5.getEdition).to eq "2nd ed."
     end
+
+    it "renders full APA" do
+      apaHash = Hash.new
+      apaHash["authors"] = "Leighton C, name2, me, you, & him."
+      apaHash["edition"] = ""
+      apaHash["publisher"] = "New Haven : YCBA Madeup Press"
+      apaHash["title"] = "a short title."
+      apaHash["year"] = "(1975)."
+      expect(solrdoc3.getAPA).to eq apaHash
+    end
+
+    it "renders full MLA" do
+      mlaHash = Hash.new
+      mlaHash["authors"] = "Leighton, Clare, et al"
+      mlaHash["edition"] = ""
+      mlaHash["publisher"] = "New Haven : YCBA Madeup Press"
+      mlaHash["title"] = "a Short Title."
+      mlaHash["year"] = "1975."
+      expect(solrdoc3.getMLA).to eq mlaHash
+    end
+
 
   end
 end
