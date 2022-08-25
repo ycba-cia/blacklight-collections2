@@ -111,9 +111,26 @@ describe ApplicationHelper do
     end
   end
 
-  describe "#capitalize" do
+  describe "#get_mfhd_base" do
     it "returns true" do
-      expect(helper.capitalize("unavailable")).to be == "Unavailable"
+      expect(helper.get_mfhd_base).to be == "https://libapp.library.yale.edu/VoySearch/GetAllMfhdItem?bibid="
+    end
+  end
+
+  describe "#pull_mfhd_doc" do
+    it "returns true" do
+      expect(helper.pull_mfhd_doc(document1.deep_symbolize_keys)).to be_an_instance_of Nokogiri::HTML4::Document
+    end
+  end
+
+  describe "#get_mfhd_doc" do
+    it "returns true" do
+      expect(helper.get_mfhd_doc(document1.deep_symbolize_keys)).to be_an_instance_of Nokogiri::HTML4::Document
+
+      allow(helper).to receive(:pull_mfhd_doc) do
+        raise "boom"
+      end
+      expect(helper.get_mfhd_doc(document1.deep_symbolize_keys)).to be == "<span>Unable to reach service.  Holdings currently not available<span></br>"
     end
   end
 

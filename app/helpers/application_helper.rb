@@ -566,11 +566,14 @@ module ApplicationHelper
     ENV["MFHD_BASE"]
   end
 
-  def get_mfhd_doc(document)
+  def pull_mfhd_doc(document)
     mfhd = get_mfhd_base + document[:id].split(":")[1]
+    @doc ||= Nokogiri::HTML(URI.open(mfhd))
+  end
 
+  def get_mfhd_doc(document)
     begin
-      @doc ||= Nokogiri::HTML(URI.open(mfhd))
+      pull_mfhd_doc(document)
     rescue
       return "<span>Unable to reach service.  Holdings currently not available<span></br>".html_safe
     end
