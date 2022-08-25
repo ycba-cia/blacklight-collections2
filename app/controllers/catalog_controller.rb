@@ -110,7 +110,7 @@ class CatalogController < ApplicationController
     config.add_facet_field 'author_ss', label: 'Creator', :limit => 20
     config.add_facet_field 'earliestDate_is', :label => 'Date', single: true,range: { segments: false }
     config.add_facet_field 'detailed_onview_ss', :label => 'On-site Access'
-    config.add_facet_field 'rights_ss', helper_method: 'rights_helper',label: 'Image Use'
+    config.add_facet_field 'rights_ss',label: 'Image Use'
     config.add_facet_field 'has_image_ss', helper_method: 'capitalize', :label => 'Image Available'
     y = Time.now.year
     config.add_facet_field 'date_entered_is', :label => 'New Additions', query: { past_year: { label: "#{y-1}-#{y}",fq: "date_entered_is:[#{y-1} TO #{y}]"}}

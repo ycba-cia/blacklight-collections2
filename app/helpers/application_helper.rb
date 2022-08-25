@@ -6,6 +6,8 @@ require 'cgi'
 
 module ApplicationHelper
 
+  #deprecated
+=begin
   def rights_helper options={}
     #these no longer apply as using "Under Certain Circumstances" and "Free to Use"
     popup = ""
@@ -20,6 +22,7 @@ module ApplicationHelper
     options = "<span title=\"#{popup}\">#{options}</span>"
     options.html_safe
   end
+=end
 
   def capitalize options={}
     options.upcase_first
@@ -39,6 +42,7 @@ module ApplicationHelper
   end
 
   #deprecated
+=begin
   def render_aeon_from_call_number options={}
     #method specific to call number
     collection = get_one_value(options[:document][:collection_ss])
@@ -59,7 +63,7 @@ module ApplicationHelper
     end
     values.join('<br/>').html_safe
   end
-
+=end
   def render_aeon_from_access options={}
     #notice during covid
     pd_rb_ia = "<br/><i>Note: The Study Room is open by appointment. Please visit the <a href=\"https://britishart.yale.edu/study-room\">Study Room page</a> on our website for more details.</i>"

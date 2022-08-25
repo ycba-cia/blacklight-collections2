@@ -2,7 +2,12 @@ require 'spec_helper'
 require 'rails_helper'
 
 describe ApplicationHelper do
-  #rspec ./spec/helpers/application_helper_spec.rb:6
+  #rspec ./spec/helpers/application_helper_spec.rb:11
+
+  let(:document1) do
+    JSON.parse(File.open("spec/fixtures/dort.json","rb").read)
+  end
+
   describe "#get_export_url_xml" do
 
     let(:solrdoc) do
@@ -78,4 +83,39 @@ describe ApplicationHelper do
       }
     end
   end
+
+  describe "#render_as_link" do
+    it "returns true" do
+      options = Hash.new
+      options[:value] = ["https://collections.britishart.yale.edu/catalog/tms:34"]
+      expect(helper.render_as_link(options)).to be == "<a target=\"_blank\" href=\"https://collections.britishart.yale.edu/catalog/tms:34\">https://collections.britishart.yale.edu/catalog/tms:34</a>"
+    end
+  end
+
+  describe "#render_aeon_from_access" do
+    it "returns true" do
+      options = Hash.new
+      options[:value] = ["On view in the galleries"]
+      options[:document] = document1
+      expect(helper.render_aeon_from_access(options)).to be == "On view in the galleries"
+
+      options[:value] = ["View by request in the Study Room"]
+      options[:document][:detailed_onview_ss] = ["View by request in the Study Room"]
+      expect(helper.render_aeon_from_access(options)).to be == "View by request in the Study Room [<a href='https://aeon-test-mssa.library.yale.edu/aeon.dll?Action=10&Form=20&Value=GenericRequestMonograph&Site=YCBA&CallNumber=B1977.14.77&ItemTitle=Dort or Dordrecht: The Dort Packet-Boat from Rotterdam Becalmed&ItemAuthor=Joseph Mallord William Turner, 1775–1851, British&ItemDate=1818&Format=Support (PTG): 62 × 92 inches (157.5 × 233.7 cm)&Location=&mfhdID=&EADNumber=https://collections.britishart.yale.edu/catalog/tms:34' target='_blank'>Request</a>]<br/><i>Note: The Study Room is open by appointment. Please visit the <a href=\"https://britishart.yale.edu/study-room\">Study Room page</a> on our website for more details.</i>"
+
+
+      options[:value] = ["Accessible in the Reference Library"]
+      options[:document][:detailed_onview_ss] = ["Accessible in the Reference Library"]
+      expect(helper.render_aeon_from_access(options)).to be == "Accessible in the Reference Library [<a target=\"_blank\" href=\"https://britishart.yale.edu/about-us/departments/reference-library-and-archives\">Hours</a>]<br/><i>Note: The Reference Library is open by appointment. Please visit the <a href=\"https://britishart.yale.edu/reference-library-and-photograph-archives\">Reference Library page</a> on our website for more details. For scans from the reference collection please email <a href=\"mailto:ycba.reference@yale.edu\">ycba.reference@yale.edu</a>.</i>"
+
+    end
+  end
+
+  describe "#capitalize" do
+    it "returns true" do
+      expect(helper.capitalize("unavailable")).to be == "Unavailable"
+    end
+  end
+
+
 end
