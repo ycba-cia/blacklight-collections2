@@ -8,6 +8,10 @@ describe ApplicationHelper do
     JSON.parse(File.open("spec/fixtures/dort.json","rb").read)
   end
 
+  let(:document2) do
+    JSON.parse(File.open("spec/fixtures/helmingham.json","rb").read)
+  end
+
   describe "#get_export_url_xml" do
 
     let(:solrdoc) do
@@ -119,18 +123,39 @@ describe ApplicationHelper do
 
   describe "#pull_mfhd_doc" do
     it "returns true" do
-      expect(helper.pull_mfhd_doc(document1.deep_symbolize_keys)).to be_an_instance_of Nokogiri::HTML4::Document
+      expect(helper.pull_mfhd_doc(document2.deep_symbolize_keys)).to be_an_instance_of Nokogiri::HTML4::Document
     end
   end
 
   describe "#get_mfhd_doc" do
     it "returns true" do
-      expect(helper.get_mfhd_doc(document1.deep_symbolize_keys)).to be_an_instance_of Nokogiri::HTML4::Document
+      expect(helper.get_mfhd_doc(document2.deep_symbolize_keys)).to be_an_instance_of Nokogiri::HTML4::Document
 
       allow(helper).to receive(:pull_mfhd_doc) do
         raise "boom"
       end
-      expect(helper.get_mfhd_doc(document1.deep_symbolize_keys)).to be == "<span>Unable to reach service.  Holdings currently not available<span></br>"
+      expect(helper.get_mfhd_doc(document2.deep_symbolize_keys)).to be == "<span>Unable to reach service.  Holdings currently not available<span></br>"
+    end
+  end
+
+  describe "#get_holdings" do
+    it "returns true" do
+      expect(helper.get_holdings(document2.deep_symbolize_keys)).to be == "<span>Rare Books and Manuscripts</span></br><span>Folio C 2014 4</span></br><span>Yale Center for British Art, Paul Mellon Collection</span></br><span>View by request in the Study Room [<a href='https://aeon-test-mssa.library.yale.edu/aeon.dll?Action=10&Form=20&Value=GenericRequestMonograph&Site=YCBA&CallNumber=Folio C 2014 4&ItemTitle=&ItemAuthor=&ItemDate=&Format=&Location=&mfhdID=9799201&EADNumber=' target='_blank'>Request</a>]<br/><i>Note: The Study Room is open by appointment. Please visit the <a href=\"https://britishart.yale.edu/study-room\">Study Room page</a> on our website for more details.</i></span></br>"
+    end
+  end
+
+  describe "#get_holdings2" do
+    it "returns true" do
+      expect(helper.get_holdings(document1.deep_symbolize_keys)).to be == "<span>Paintings and Sculpture</span></br><span>Not Available<span></br>"
+    end
+  end
+
+  describe "#get_holdings3" do
+    it "returns true" do
+      allow(helper).to receive(:get_mfhd_doc) do
+        raise "boom"
+      end
+      expect(helper.get_holdings(document1.deep_symbolize_keys)).to be == "<span>Unable to reach service.  Holdings currently not available<span></br>"
     end
   end
 
