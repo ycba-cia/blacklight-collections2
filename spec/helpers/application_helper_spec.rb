@@ -159,5 +159,13 @@ describe ApplicationHelper do
     end
   end
 
+  describe "#render_aeon_from_access_callnumber" do
+    it "returns true" do
+      expect(helper.render_aeon_from_access_callnumber(document2.deep_symbolize_keys,"bacrb","Folio C 2014 4",9799201)). to be == "View by request in the Study Room [<a href='https://aeon-test-mssa.library.yale.edu/aeon.dll?Action=10&Form=20&Value=GenericRequestMonograph&Site=YCBA&CallNumber=Folio C 2014 4&ItemTitle=&ItemAuthor=&ItemDate=&Format=&Location=&mfhdID=9799201&EADNumber=' target='_blank'>Request</a>]<br/><i>Note: The Study Room is open by appointment. Please visit the <a href=\"https://britishart.yale.edu/study-room\">Study Room page</a> on our website for more details.</i>"
+      expect(helper.render_aeon_from_access_callnumber(document2.deep_symbolize_keys,"bacref","Folio C 2014 4",9799201)). to be == "Accessible in the Reference Library [<a target=\"_blank\" href=\"https://britishart.yale.edu/about-us/departments/reference-library-and-archives\">Hours</a>]<br/><i>Note: The Reference Library is open by appointment. Please visit the <a href=\"https://britishart.yale.edu/reference-library-and-photograph-archives\">Reference Library page</a> on our website for more details. For scans from the reference collection please email <a href=\"mailto:ycba.reference@yale.edu\">ycba.reference@yale.edu</a>.</i>"
+      expect(helper.render_aeon_from_access_callnumber(document2.deep_symbolize_keys,"bacia","Folio C 2014 4",9799201)). to be == "Accessible by appointment in the Study Room [<a href=\"mailto:ycba.institutionalarchives@yale.edu\">Email</a>]<br/><i>Note: The Study Room is open by appointment. Please visit the <a href=\"https://britishart.yale.edu/study-room\">Study Room page</a> on our website for more details.</i>"
+    end
+  end
+
 
 end
