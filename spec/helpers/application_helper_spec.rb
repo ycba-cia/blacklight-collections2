@@ -12,6 +12,10 @@ describe ApplicationHelper do
     JSON.parse(File.open("spec/fixtures/helmingham.json","rb").read)
   end
 
+  let(:document3) do
+    JSON.parse(File.open("spec/fixtures/dort_frame.json","rb").read)
+  end
+
   describe "#get_export_url_xml" do
 
     let(:solrdoc) do
@@ -166,6 +170,77 @@ describe ApplicationHelper do
       expect(helper.render_aeon_from_access_callnumber(document2.deep_symbolize_keys,"bacia","Folio C 2014 4",9799201)). to be == "Accessible by appointment in the Study Room [<a href=\"mailto:ycba.institutionalarchives@yale.edu\">Email</a>]<br/><i>Note: The Study Room is open by appointment. Please visit the <a href=\"https://britishart.yale.edu/study-room\">Study Room page</a> on our website for more details.</i>"
     end
   end
+
+  describe "#sort_values_and_link_to_facet" do
+    it "returns true" do
+      options = Hash.new
+      options[:value] = ["Rotterdam", "Dordrecht", "Our Dear Lady Church", "Netherlands", "Dordrecht, Gemeente", "Noord"]
+      expect(helper.sort_values_and_link_to_facet(options)).to be == "<a href=\"/?f[][]=Dordrecht\">Dordrecht</a> | <a href=\"/?f[][]=Dordrecht, Gemeente\">Dordrecht, Gemeente</a> | <a href=\"/?f[][]=Netherlands\">Netherlands</a> | <a href=\"/?f[][]=Noord\">Noord</a> | <a href=\"/?f[][]=Our Dear Lady Church\">Our Dear Lady Church</a> | <a href=\"/?f[][]=Rotterdam\">Rotterdam</a>"
+    end
+  end
+
+  describe "#sort_values_and_link_to_facet_frames" do
+    it "returns true" do
+      options = Hash.new
+      options[:document] = document1.deep_symbolize_keys
+      options[:value] = ["marine art", "crowd", "sea", "church", "costume", "jars", "ship", "ships", "market (event)", "sunlight", "men", "women", "cityscape", "flags", "seascape", "rowboats", "fruit", "rubbish", "reflection", "chromaticity", "river", "city", "flotsam", "vegetables"]
+      expect(helper.sort_values_and_link_to_facet_frames(options)).to be == "<a href=\"/?f[][]=chromaticity\">chromaticity</a> | <a href=\"/?f[][]=church\">church</a> | <a href=\"/?f[][]=city\">city</a> | <a href=\"/?f[][]=cityscape\">cityscape</a> | <a href=\"/?f[][]=costume\">costume</a> | <a href=\"/?f[][]=crowd\">crowd</a> | <a href=\"/?f[][]=flags\">flags</a> | <a href=\"/?f[][]=flotsam\">flotsam</a> | <a href=\"/?f[][]=fruit\">fruit</a> | <a href=\"/?f[][]=jars\">jars</a> | <a href=\"/?f[][]=marine art\">marine art</a> | <a href=\"/?f[][]=market (event)\">market (event)</a> | <a href=\"/?f[][]=men\">men</a> | <a href=\"/?f[][]=reflection\">reflection</a> | <a href=\"/?f[][]=river\">river</a> | <a href=\"/?f[][]=rowboats\">rowboats</a> | <a href=\"/?f[][]=rubbish\">rubbish</a> | <a href=\"/?f[][]=sea\">sea</a> | <a href=\"/?f[][]=seascape\">seascape</a> | <a href=\"/?f[][]=ship\">ship</a> | <a href=\"/?f[][]=ships\">ships</a> | <a href=\"/?f[][]=sunlight\">sunlight</a> | <a href=\"/?f[][]=vegetables\">vegetables</a> | <a href=\"/?f[][]=women\">women</a>"
+
+      options = Hash.new
+      options[:document] = document3.deep_symbolize_keys
+      options[:value] = ["frame ornament: Leaf back; centred ribbon-&-stave; centred husk sight", "frame status: Possibly original", "frame cross-section: Concave", "frame style: 'Carlo Maratta' - NeoClassical variant", "frame alteration: probably not", "frame quality: Average"]
+      expect(helper.sort_values_and_link_to_facet_frames(options)).to be == "<a href=\"/?f[][]=frame style: 'Carlo Maratta' - NeoClassical variant\">frame style: 'Carlo Maratta' - NeoClassical variant</a> | <a href=\"/?f[][]=frame status: Possibly original\">frame status: Possibly original</a> | <a href=\"/?f[][]=frame quality: Average\">frame quality: Average</a> | <a href=\"/?f[][]=frame ornament: Leaf back%3B centred ribbon-%26-stave%3B centred husk sight\">frame ornament: Leaf back; centred ribbon-&-stave; centred husk sight</a> | <a href=\"/?f[][]=frame cross-section: Concave\">frame cross-section: Concave</a> | <a href=\"/?f[][]=frame alteration: probably not\">frame alteration: probably not</a>"
+    end
+  end
+
+  describe "#capitalize" do
+    it "returns true" do
+      options = Hash.new
+      options = "available"
+      expect(helper.capitalize(options)).to be == "Available"
+    end
+  end
+
+  describe "#sort_values_and_link_to_topic_no_pipes" do
+    it "returns true" do
+      options = Hash.new
+      options[:value] = [
+          "Tollemache family.",
+          "Bodleian Library. Manuscript. Ashmole 1504.",
+          "Helmingham Hall.",
+          "Agnus castus (Middle English herbal)",
+          "Hortus sanitatis.",
+          "Animals, Mythical, in art.",
+          "Animals in art.",
+          "Animals -- Folklore.",
+          "Plants in art.",
+          "Decoration and ornament -- England.",
+          "Interior decoration -- England."
+      ]
+      expect(helper.sort_values_and_link_to_topic_no_pipes(options)).to be == "<a href=\"/?f[topic_ss][]=Agnus castus (Middle English herbal)\">Agnus castus (Middle English herbal)</a></br><a href=\"/?f[topic_ss][]=Animals -- Folklore.\">Animals -- Folklore.</a></br><a href=\"/?f[topic_ss][]=Animals in art.\">Animals in art.</a></br><a href=\"/?f[topic_ss][]=Animals, Mythical, in art.\">Animals, Mythical, in art.</a></br><a href=\"/?f[topic_ss][]=Bodleian Library. Manuscript. Ashmole 1504.\">Bodleian Library. Manuscript. Ashmole 1504.</a></br><a href=\"/?f[topic_ss][]=Decoration and ornament -- England.\">Decoration and ornament -- England.</a></br><a href=\"/?f[topic_ss][]=Helmingham Hall.\">Helmingham Hall.</a></br><a href=\"/?f[topic_ss][]=Hortus sanitatis.\">Hortus sanitatis.</a></br><a href=\"/?f[topic_ss][]=Interior decoration -- England.\">Interior decoration -- England.</a></br><a href=\"/?f[topic_ss][]=Plants in art.\">Plants in art.</a></br><a href=\"/?f[topic_ss][]=Tollemache family.\">Tollemache family.</a>"
+    end
+  end
+
+  describe "#sort_values_and_link_to_topic" do
+    it "returns true" do
+      options = Hash.new
+      options[:value] = [
+          "Tollemache family.",
+          "Bodleian Library. Manuscript. Ashmole 1504.",
+          "Helmingham Hall.",
+          "Agnus castus (Middle English herbal)",
+          "Hortus sanitatis.",
+          "Animals, Mythical, in art.",
+          "Animals in art.",
+          "Animals -- Folklore.",
+          "Plants in art.",
+          "Decoration and ornament -- England.",
+          "Interior decoration -- England."
+      ]
+      expect(helper.sort_values_and_link_to_topic(options)).to be == "<a href=\"/?f[topic_ss][]=Agnus castus (Middle English herbal)\">Agnus castus (Middle English herbal)</a> | </br><a href=\"/?f[topic_ss][]=Animals -- Folklore.\">Animals -- Folklore.</a> | </br><a href=\"/?f[topic_ss][]=Animals in art.\">Animals in art.</a> | </br><a href=\"/?f[topic_ss][]=Animals, Mythical, in art.\">Animals, Mythical, in art.</a> | </br><a href=\"/?f[topic_ss][]=Bodleian Library. Manuscript. Ashmole 1504.\">Bodleian Library. Manuscript. Ashmole 1504.</a> | </br><a href=\"/?f[topic_ss][]=Decoration and ornament -- England.\">Decoration and ornament -- England.</a> | </br><a href=\"/?f[topic_ss][]=Helmingham Hall.\">Helmingham Hall.</a> | </br><a href=\"/?f[topic_ss][]=Hortus sanitatis.\">Hortus sanitatis.</a> | </br><a href=\"/?f[topic_ss][]=Interior decoration -- England.\">Interior decoration -- England.</a> | </br><a href=\"/?f[topic_ss][]=Plants in art.\">Plants in art.</a> | </br><a href=\"/?f[topic_ss][]=Tollemache family.\">Tollemache family.</a>"
+    end
+  end
+
 
 
 end
