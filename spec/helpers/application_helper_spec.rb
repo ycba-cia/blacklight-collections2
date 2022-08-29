@@ -241,6 +241,24 @@ describe ApplicationHelper do
     end
   end
 
+  describe "#link_to_author" do
+    it "returns true" do
+      options = Hash.new
+      options[:document] = {}
+      options[:document][:auth_author_display_ss] = ["Ireland, Samuel, -1800."]
+      options[:value] = ["Ireland, Samuel, -1800"]
+      expect(helper.link_to_author(options)).to be == "<a href=\"/?f[author_ss][]=Ireland, Samuel, -1800\">Ireland, Samuel, -1800.</a>"
+    end
+  end
+
+  describe "render_related_content" do
+    it "returns true" do
+      options = Hash.new
+      options[:value] = ["View finding aid for the Roger W. Moss Collection of manuscript, original art and printed material by and about Richard Shirley Smith\nhttp://hdl.handle.net/10079/fa/ycba.mss.0017"]
+      expect(helper.render_related_content(options)).to be == "<a target=\"_blank\" href=\"http://hdl.handle.net/10079/fa/ycba.mss.0017\">View finding aid for the Roger W. Moss Collection of manuscript, original art and printed material by and about Richard Shirley Smith</a>"
+    end
+  end
+
 
 
 end
