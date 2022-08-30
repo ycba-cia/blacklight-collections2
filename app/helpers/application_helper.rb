@@ -172,7 +172,11 @@ module ApplicationHelper
       if text.length==0
         links.append(link_to "#{url}", url, target: '_blank')
       else
-        links.append(link_to "#{text}", url, target: '_blank')
+        if url.nil?
+          links.append(text)
+        else
+          links.append(link_to "#{text}", url, target: '_blank')
+        end
       end
     }
     links.join('<br/>').html_safe
@@ -267,6 +271,7 @@ module ApplicationHelper
 
 
   #deprecated 2/4/2021, using render_tms_citation_presorted instead
+=begin
   def render_tms_citation options={}
 
     i = -1
@@ -300,6 +305,7 @@ module ApplicationHelper
     }
     sorted_with_links.join(' ').html_safe
   end
+=end
 
   def render_exhibitions options={}
     exhs = []

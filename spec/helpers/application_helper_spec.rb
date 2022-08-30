@@ -251,14 +251,125 @@ describe ApplicationHelper do
     end
   end
 
-  describe "render_related_content" do
+  describe "#render_related_content" do
     it "returns true" do
       options = Hash.new
       options[:value] = ["View finding aid for the Roger W. Moss Collection of manuscript, original art and printed material by and about Richard Shirley Smith\nhttp://hdl.handle.net/10079/fa/ycba.mss.0017"]
       expect(helper.render_related_content(options)).to be == "<a target=\"_blank\" href=\"http://hdl.handle.net/10079/fa/ycba.mss.0017\">View finding aid for the Roger W. Moss Collection of manuscript, original art and printed material by and about Richard Shirley Smith</a>"
+
+      options = Hash.new
+      options[:value] = ["\nhttps://nal-vam.on.worldcat.org/oclc/1008577166"]
+      expect(helper.render_related_content(options)).to be == "<a target=\"_blank\" href=\"https://nal-vam.on.worldcat.org/oclc/1008577166\">https://nal-vam.on.worldcat.org/oclc/1008577166</a>"
+
+      options = Hash.new
+      options[:value] = ["https://nal-vam.on.worldcat.org/oclc/1008577166"]
+      expect(helper.render_related_content(options)).to be == "https://nal-vam.on.worldcat.org/oclc/1008577166"
+    end
+
+    describe "#render_citation" do
+      it "returns true" do
+        options = Hash.new
+        options[:value] = ["Inscribed, lower right: \"Dort\"", "Signed and dated, lower right: \"JMW Turner RA 1818\""]
+        options[:document] = document1.deep_symbolize_keys
+        expect(helper.render_citation(options)).to be == "<p>Inscribed, lower right: \"Dort\"</p></i> <p>Signed and dated, lower right: \"JMW Turner RA 1818\"</p></i>"
+
+        options[:document][:citation_sort_ss] = nil
+        expect(helper.render_citation(options)).to be == "<p>Inscribed, lower right: \"Dort\"</p></i> <p>Signed and dated, lower right: \"JMW Turner RA 1818\"</p></i>"
+
+        options[:document][:citation_sort_ss] = [nil]
+        expect(helper.render_citation(options)).to be == "<p>Inscribed, lower right: \"Dort\"</p></i> <p>Signed and dated, lower right: \"JMW Turner RA 1818\"</p></i>"
+      end
+    end
+
+    describe "#render_tms_citation_presorted" do
+      it "returns true" do
+        options = Hash.new
+        options[:value] = ["<i>'Splashers,' Scrawlers' and 'Plasterers' : British landscape painting and the language of criticism, 1800-40</i>, Mallord Press, London, Summer 1990, pp. 5-11, NJ18 T85 T87+ (YCBA)",
+        "<i>[Yale University Press Advertisement ] Dort or Dordrecht:, The Dort Packed-boat from Rotterdam Becalmed </i>, Art Journal (CAA), 37, no. 1, Autumn 1977, p. 81, N81 A887 + OVERSIZE (HAAS) Available online in JSTOR"]
+        options[:document] = {}
+        options[:document][:citationURL_ss] = ["-","-"]
+        expect(helper.render_tms_citation_presorted(options)).to be == "<p><i>'Splashers,' Scrawlers' and 'Plasterers' : British landscape painting and the language of criticism, 1800-40</i>, Mallord Press, London, Summer 1990, pp. 5-11, NJ18 T85 T87+ (YCBA)</i><p> <p><i>[Yale University Press Advertisement ] Dort or Dordrecht:, The Dort Packed-boat from Rotterdam Becalmed </i>, Art Journal (CAA), 37, no. 1, Autumn 1977, p. 81, N81 A887 + OVERSIZE (HAAS) Available online in JSTOR</i><p>"
+
+        options[:document][:citationURL_ss] = ["https://test.yale.edu","-"]
+        expect(helper.render_tms_citation_presorted(options)).to be == "<p><a target=\"_blank\" href=\"https://test.yale.edu\"><i>'Splashers,' Scrawlers' and 'Plasterers' : British landscape painting and the language of criticism, 1800-40</i>, Mallord Press, London, Summer 1990, pp. 5-11, NJ18 T85 T87+ (YCBA)</i></a></p> <p><i>[Yale University Press Advertisement ] Dort or Dordrecht:, The Dort Packed-boat from Rotterdam Becalmed </i>, Art Journal (CAA), 37, no. 1, Autumn 1977, p. 81, N81 A887 + OVERSIZE (HAAS) Available online in JSTOR</i><p>"
+      end
+    end
+
+    describe "#render_marc_citation_presorted_tab" do
+      it "returns true" do
+        document = Hash.new
+        document["citation_ss"] = ["Citation1","Citation2"]
+        document["citationURL_ss"] = ["-","-"]
+        expect(helper.render_marc_citation_presorted_tab(document)).to be == "<p>Citation1</i><p> <p>Citation2</i><p>"
+
+        document["citationURL_ss"] = ["https://test.yale.edu","-"]
+        expect(helper.render_marc_citation_presorted_tab(document)).to be == "<p><a target=\"_blank\" href=\"https://test.yale.edu\">Citation1</i></a></p> <p>Citation2</i><p>"
+      end
+    end
+
+    describe "#render_lido_citation_presorted_tab" do
+      it "returns true" do
+        document = Hash.new
+        document["linked_citation_ss"] = ["Alfred Gustave Herbert Bachrach, <i>The Field of Waterloo and Beyond</i>, Turner Studies, vol. 1, 1981, pp. 4-13, NJ18 T85 T87 + (YCBA)|a584227|b7605713|cNJ18 T85 T87 + (YCBA)"]
+        document["citationURL_ss"] = ["-"]
+        #puts helper.render_lido_citation_presorted_tab(document)
+        expect(helper.render_lido_citation_presorted_tab(document)).to be == "<p>Alfred Gustave Herbert Bachrach, <i>The Field of Waterloo and Beyond</i>, Turner Studies, vol. 1, 1981, pp. 4-13, NJ18 T85 T87 + (YCBA)</i> [<a target=\"_blank\" href=\"https://collections.britishart.yale.edu/catalog/orbis:584227\">YCBA</a>]</p>"
+
+        document["linked_citation_ss"] = ["Alfred Gustave Herbert Bachrach, <i>The Field of Waterloo and Beyond</i>, Turner Studies, vol. 1, 1981, pp. 4-13, NJ18 T85 T87 + (YCBA)||b7605713|cNJ18 T85 T87 + (YCBA)"]
+        #puts helper.render_lido_citation_presorted_tab(document)
+        expect(helper.render_lido_citation_presorted_tab(document)).to be == "<p>Alfred Gustave Herbert Bachrach, <i>The Field of Waterloo and Beyond</i>, Turner Studies, vol. 1, 1981, pp. 4-13, NJ18 T85 T87 + (YCBA)</i> [<a target=\"_blank\" href=\"http://www.worldcat.org/oclc/7605713\">OCLC</a>]</p>"
+
+        document["linked_citation_ss"] = ["Alfred Gustave Herbert Bachrach, <i>The Field of Waterloo and Beyond</i>, Turner Studies, vol. 1, 1981, pp. 4-13, NJ18 T85 T87 + (YCBA)|||cNJ18 T85 T87 + (YCBA)"]
+        #puts helper.render_lido_citation_presorted_tab(document)
+        expect(helper.render_lido_citation_presorted_tab(document)).to be == "<p>Alfred Gustave Herbert Bachrach, <i>The Field of Waterloo and Beyond</i>, Turner Studies, vol. 1, 1981, pp. 4-13, NJ18 T85 T87 + (YCBA)</i></p>"
+
+        document["linked_citation_ss"] = ["Alfred Gustave Herbert Bachrach, <i>The Field of Waterloo and Beyond</i>, Turner Studies, vol. 1, 1981, pp. 4-13, NJ18 T85 T87 + (YCBA)|a584227|b7605713|"]
+        #puts helper.render_lido_citation_presorted_tab(document)
+        expect(helper.render_lido_citation_presorted_tab(document)).to be == "<p>Alfred Gustave Herbert Bachrach, <i>The Field of Waterloo and Beyond</i>, Turner Studies, vol. 1, 1981, pp. 4-13, NJ18 T85 T87 + (YCBA)</i> [<a target=\"_blank\" href=\"https://hdl.handle.net/10079/bibid/584227\">ORBIS</a>]</p>"
+
+        document["linked_citation_ss"] = ["Alfred Gustave Herbert Bachrach, <i>The Field of Waterloo and Beyond</i>, Turner Studies, vol. 1, 1981, pp. 4-13, NJ18 T85 T87 + (YCBA)|a584227|b7605713|cNJ18 T85 T87 + (YCBA)"]
+        document["citationURL_ss"] = ["https://test.yale.edu"]
+        #puts helper.render_lido_citation_presorted_tab(document)
+        expect(helper.render_lido_citation_presorted_tab(document)).to be == "<p>Alfred Gustave Herbert Bachrach, <i>The Field of Waterloo and Beyond</i>, Turner Studies, vol. 1, 1981, pp. 4-13, NJ18 T85 T87 + (YCBA)</i>[<a target=\"_blank\" href=\"https://test.yale.edu\">Website</a>]</p>"
+      end
+    end
+
+    describe "#render_exhibitions" do
+      it "returns true" do
+        options = Hash.new
+        options[:value] = [
+            "Yale University Art Gallery 2015 - 2016 (Yale University Art Gallery, 2015-07-27 - 2015-01-05)",
+            "The Critique of Reason : Romantic Art, 1760–1860 (Yale University Art Gallery, 2015-03-06 - 2015-07-26)",
+            "An American's Passion for British Art - Paul Mellon's Legacy (Royal Academy of Arts, 2007-10-20 - 2008-01-27)"]
+        expect(helper.render_exhibitions(options)).to be == "<p><a href=\"/?f[exhibition_history_ss][]=An+American%27s+Passion+for+British+Art+-+Paul+Mellon%27s+Legacy+%28Royal+Academy+of+Arts%2C+2007-10-20+-+2008-01-27%29\">An American's Passion for British Art - Paul Mellon's Legacy (Royal Academy of Arts, 2007-10-20 - 2008-01-27)</a></p><p><a href=\"/?f[exhibition_history_ss][]=The+Critique+of+Reason+%3A+Romantic+Art%2C+1760%E2%80%931860+%28Yale+University+Art+Gallery%2C+2015-03-06+-+2015-07-26%29\">The Critique of Reason : Romantic Art, 1760–1860 (Yale University Art Gallery, 2015-03-06 - 2015-07-26)</a></p><p><a href=\"/?f[exhibition_history_ss][]=Yale+University+Art+Gallery+2015+-+2016+%28Yale+University+Art+Gallery%2C+2015-07-27+-+2015-01-05%29\">Yale University Art Gallery 2015 - 2016 (Yale University Art Gallery, 2015-07-27 - 2015-01-05)</a></p>"
+      end
+    end
+
+    describe "#render_exhibitions_tab" do
+      it "returns true" do
+        document = Hash.new
+        document["exhibition_history_ss"] = [
+            "Yale University Art Gallery 2015 - 2016 (Yale University Art Gallery, 2015-07-27 - 2015-01-05)",
+            "The Critique of Reason : Romantic Art, 1760–1860 (Yale University Art Gallery, 2015-03-06 - 2015-07-26)",
+            "An American's Passion for British Art - Paul Mellon's Legacy (Royal Academy of Arts, 2007-10-20 - 2008-01-27)"]
+        expect(helper.render_exhibitions_tab(document)).to be == "<p><a href=\"/?f[exhibition_history_ss][]=Yale+University+Art+Gallery+2015+-+2016+%28Yale+University+Art+Gallery%2C+2015-07-27+-+2015-01-05%29\">Yale University Art Gallery 2015 - 2016 (Yale University Art Gallery, 2015-07-27 - 2015-01-05)</a></p><p><a href=\"/?f[exhibition_history_ss][]=The+Critique+of+Reason+%3A+Romantic+Art%2C+1760%E2%80%931860+%28Yale+University+Art+Gallery%2C+2015-03-06+-+2015-07-26%29\">The Critique of Reason : Romantic Art, 1760–1860 (Yale University Art Gallery, 2015-03-06 - 2015-07-26)</a></p><p><a href=\"/?f[exhibition_history_ss][]=An+American%27s+Passion+for+British+Art+-+Paul+Mellon%27s+Legacy+%28Royal+Academy+of+Arts%2C+2007-10-20+-+2008-01-27%29\">An American's Passion for British Art - Paul Mellon's Legacy (Royal Academy of Arts, 2007-10-20 - 2008-01-27)</a></p>"
+      end
+    end
+
+    describe "#render_parent" do
+      it "returns true" do
+        options = Hash.new
+        options[:value] = ["The Tempest"]
+        expect(helper.render_parent(options)).to be == "<p><a href=\"/?f[title_collective_ss][]=The Tempest\">Collective Title: The Tempest</a></p>"
+      end
+    end
+
+    describe "#render_titles_all" do
+      it "returns true" do
+        options = Hash.new
+        options[:value] = ["Dort or Dordrecht: The Dort Packet-Boat from Rotterdam Becalmed","Another Title"]
+        expect(helper.render_titles_all(options)).to be == "<p>Dort or Dordrecht: The Dort Packet-Boat from Rotterdam Becalmed</p><p>Another Title</p>"
+      end
     end
   end
-
-
-
 end
