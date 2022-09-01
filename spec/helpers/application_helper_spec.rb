@@ -371,5 +371,23 @@ describe ApplicationHelper do
         expect(helper.render_titles_all(options)).to be == "<p>Dort or Dordrecht: The Dort Packet-Boat from Rotterdam Becalmed</p><p>Another Title</p>"
       end
     end
+
+    describe "#extract_date2" do
+      it "returns true" do
+        d = "\" Of Green Leaf, Bird, and Flower \" : Artists' Books and the Natural World (Yale Center for British Art, 2014-05-15 - 2014-08-10)"
+        expect(helper.extract_date2(d)).to be == Date.parse("2014-05-15",limit: nil)
+        d = "no date"
+        expect(helper.extract_date2(d)).to be == Date.parse("9999-12-31",limit: nil)
+        d = "An exhibit (Yale Center for British Art, August 31,2022 - September 1, 2022)"
+        expect(helper.extract_date2(d)).to be == Date.parse("2022-08-31", limit: nil)
+      end
+    end
+
+    describe "#extract_date" do
+      it "returns true" do
+        d = "An exhibit (Yale Center for British Art, August 31,2022 - September 1, 2022)"
+        expect(helper.extract_date(d)).to be == Date.parse("2022-08-31", limit: nil)
+      end
+    end
   end
 end
