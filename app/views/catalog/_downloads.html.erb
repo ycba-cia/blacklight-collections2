@@ -72,14 +72,14 @@
         </div>
         </br>
         <div class="row">
-          <div id="caption-container" style="text-decoration: underline;" class="col-xs-2">
+          <div id="caption-container" style="text-decoration: underline;" class="col-xs-5" onclick="copy_to_clipboard()">
             <!--<button id="caption-dl-button" type="button" class="btn btn-primary btn-sm">Caption</button>-->
-            Caption
+            Copy Caption to clipboard
           </div>
         </div>
         </br>
         <div id="caption-row" class="row">
-          <div id="caption-dl-info" class="col-xs-12">
+          <div id="caption-dl-info" class="col-xs-12 text-left">
             <% if marc_field?(document) %>
               <%#= get_marc_caption(document) %><!--get from cds caption, not best source-->
               <%= concat_caption_marc(document) %>

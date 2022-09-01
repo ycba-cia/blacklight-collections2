@@ -5,9 +5,9 @@
     "modules": {
         "footerPanel": {
             "options": {
-                "downloadEnabled": true,
+                "downloadEnabled": false,
                 "fullscreenEnabled": true,
-                "shareEnabled": true
+                "shareEnabled": false
             }
         },
         "contentLeftPanel": {

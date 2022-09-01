@@ -45,6 +45,20 @@ function skip_to_links() {
     return false;
 }
 
+function copy_to_clipboard() {
+    //alert(document.getElementById("caption-dl-info").textContent);
+    var copyText = document.getElementById("caption-dl-info").textContent.trim();
+
+    /* Select the text field */ /* ERJ not needed */
+    //copyText.select();
+    //copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+    /* Copy the text inside the text field */
+    navigator.clipboard.writeText(copyText);
+
+    /* Alert the copied text */
+    alert("Caption copied.");
+}
 //overrides
 $(document).on("turbolinks:load",function() {
     //set h1 with title from head
