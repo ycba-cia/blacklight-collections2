@@ -500,5 +500,73 @@ describe ApplicationHelper do
         expect(helper.add_alt_description(options)).to be == "desc1<br/>desc2<br/>其他题名:Staging the world."
       end
     end
+
+    describe "#cds_info_url" do
+      it "returns true" do
+        expect(helper.cds_info_url("34")).to be == "https://deliver.odai.yale.edu/info/repository/YCBA/object/34/type/2"
+      end
+    end
+
+    describe "#cds_thumbnail_url" do
+      it "returns true" do
+        expect(helper.cds_thumbnail_url("34")).to be == "https://deliver.odai.yale.edu/content/repository/YCBA/object/34/type/2/format/1"
+      end
+    end
+
+    describe "#display_rights" do
+      it "returns true" do
+        document = Hash.new
+        expect(helper.display_rights(document)).to be == ""
+        document["ort_ss"] = ["Public Domain"]
+        expect(helper.display_rights(document)).to be == "Public Domain"
+        document["rightsURL_ss"] = ["https://creativecommons.org/publicdomain/zero/1.0/"]
+        expect(helper.display_rights(document)).to be == "<a target=\"_blank\" rel=\"nofollow\" href=\"https://creativecommons.org/publicdomain/zero/1.0/\">Public Domain</a>"
+      end
+    end
+
+    describe "#image_request_link" do
+      it "returns true" do
+        document = document1.deep_symbolize_keys
+        expect(helper.image_request_link(document)).to be == "https://britishart.yale.edu/request-images?id=34&num=B1977.14.77&collection=Paintings and Sculpture&creator=Joseph Mallord William Turner, 1775–1851, British&title=Dort or Dordrecht: The Dort Packet-Boat from Rotterdam Becalmed&url=https://collections.britishart.yale.edu/catalog/tms:34"
+        document = document2.deep_symbolize_keys
+        expect(helper.image_request_link(document)).to be == "https://britishart.yale.edu/request-images-rare-books-and-manuscripts?id=9452785&num=Folio C 2014 4&collection=Rare Books and Manuscripts&creator=&title=Helmingham herbal and bestiary.&url=http://hdl.handle.net/10079/bibid/9452785"
+      end
+    end
+
+    describe "#information_link_subject" do
+      it "returns true" do
+        document = document1.deep_symbolize_keys
+        expect(helper.information_link_subject(document)).to be == "[Online Collection] B1977.14.77, Dort or Dordrecht: The Dort Packet-Boat from Rotterdam Becalmed, Joseph Mallord William Turner, 1775–1851, British "
+       end
+    end
+
+    describe "#information_link_subject_on_view" do
+      it "returns true" do
+        document = document1.deep_symbolize_keys
+        expect(helper.information_link_subject_on_view(document)).to be == "[Onview Request] B1977.14.77, Dort or Dordrecht: The Dort Packet-Boat from Rotterdam Becalmed, Joseph Mallord William Turner, 1775–1851, British "
+      end
+    end
+
+    describe "#thumb" do
+      it "returns true" do
+        document = document1.deep_symbolize_keys
+        expect(helper.thumb(document)).to include "src=\"https://media.collections.yale.edu/thumbnail/ycba/4f227f08-7842-46cc-b05a-e3c6a4614cc1\""
+        expect(helper.thumb(document)).to include "<img alt=\"Joseph Mallord William Turner Dort or Dordrecht: The Dort Packet-Boat from Rotterdam Becalmed\""
+
+        document[:recordtype_ss] = ["marc"]
+        document[:isbn_ss] = ["12345678"]
+        document[:collection_ss] = ["Reference Library"]
+        expect(helper.thumb(document)).to include "src=\"/bookcover/isbn/12345678/size/medium\""
+        expect(helper.thumb(document)).to include "<img alt=\"Joseph Mallord William Turner Dort or Dordrecht: The Dort Packet-Boat from Rotterdam Becalmed\""
+
+      end
+    end
+
+    describe "#doc_thumbnail" do
+      it "returns true" do
+        document = document1.deep_symbolize_keys
+        expect(helper.doc_thumbnail(document)).to be == "https://media.collections.yale.edu/thumbnail/ycba/4f227f08-7842-46cc-b05a-e3c6a4614cc1"
+      end
+    end
   end
 end

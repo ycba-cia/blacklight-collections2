@@ -519,6 +519,7 @@ module ApplicationHelper
   end
 
   def display_rights(document)
+    html = ""
     rights_text = document['ort_ss']
     rights_text = rights_text[0] if rights_text
 
@@ -539,7 +540,7 @@ module ApplicationHelper
   end
 
   def image_request_link(document)
-    if field_value(document,'collection_txt') == "Rare Books and Manuscripts"
+    if field_value(document,:collection_txt) == "Rare Books and Manuscripts"
       url = "https://britishart.yale.edu/request-images-rare-books-and-manuscripts?"
 
       doc = get_mfhd_doc(document)
@@ -553,28 +554,28 @@ module ApplicationHelper
 
       url += "id=#{id}&"
       url += "num=#{callnumber}&"
-      url += "collection=#{field_value(document,'collection_txt')}&"
-      url += "creator=#{field_value(document,'author_ss')}&"
-      url += "title=#{field_value(document,'title_txt')}&"
-      url += "url=#{field_value(document,'url_txt')}"
+      url += "collection=#{field_value(document,:collection_txt)}&"
+      url += "creator=#{field_value(document,:author_ss)}&"
+      url += "title=#{field_value(document,:title_txt)}&"
+      url += "url=#{field_value(document,:url_txt)}"
     else
       url = "https://britishart.yale.edu/request-images?"
-      url += "id=#{field_value(document,'recordID_ss')}&"
-      url += "num=#{field_value(document,'callnumber_txt')}&"
-      url += "collection=#{field_value(document,'collection_txt')}&"
-      url += "creator=#{field_value(document,'author_ss')}&"
-      url += "title=#{field_value(document,'title_txt')}&"
-      url += "url=#{field_value(document,'url_txt')}"
+      url += "id=#{field_value(document,:recordID_ss)}&"
+      url += "num=#{field_value(document,:callnumber_txt)}&"
+      url += "collection=#{field_value(document,:collection_txt)}&"
+      url += "creator=#{field_value(document,:author_ss)}&"
+      url += "title=#{field_value(document,:title_txt)}&"
+      url += "url=#{field_value(document,:url_txt)}"
     end
     url
   end
 
   def information_link_subject(document)
-    subject = "[Online Collection] #{field_value(document,'callnumber_txt')}, #{field_value(document,'title_txt')}, #{field_value(document,'author_ss')} "
+    subject = "[Online Collection] #{field_value(document,:callnumber_txt)}, #{field_value(document,:title_txt)}, #{field_value(document,:author_ss)} "
   end
 
   def information_link_subject_on_view(document)
-    subject = "[Onview Request] #{field_value(document,'callnumber_txt')}, #{field_value(document,'title_txt')}, #{field_value(document,'author_ss')} "
+    subject = "[Onview Request] #{field_value(document,:callnumber_txt)}, #{field_value(document,:title_txt)}, #{field_value(document,:author_ss)} "
   end
 
   def field_value(document, field)
@@ -671,15 +672,15 @@ module ApplicationHelper
     return html.html_safe
   end
 
-  private
+  #private #removed private for rspec scope 9/2/2022
 
-  def thumb(document, options)
+  def thumb(document)
     url = doc_thumbnail(document)
     #url = doc_thumbnail_from_manifest(document) #get thumbnails from manifest on the fly
-    if document['recordtype_ss'] and document['recordtype_ss'][0].to_s == 'marc'
-      if document['isbn_ss']
-        unless document['collection_ss'][0] == "Rare Books and Manuscripts"
-          url = "/bookcover/isbn/#{document['isbn_ss'][0]}/size/medium"
+    if document[:recordtype_ss] and document[:recordtype_ss][0].to_s == 'marc'
+      if document[:isbn_ss]
+        unless document[:collection_ss][0] == "Rare Books and Manuscripts"
+          url = "/bookcover/isbn/#{document[:isbn_ss][0]}/size/medium"
         end
       end
     end
@@ -687,8 +688,8 @@ module ApplicationHelper
     url ||= path_to_image('not_available1.png')
     #square = path_to_image('square.png')
     error_img = path_to_image('not_available1.png')
-    author = document['auth_author_display_ss'].nil? == false ? document['auth_author_display_ss'][0] : ""
-    title_short = document['title_short_ss'].nil? == false ? document['title_short_ss'][0] : ""
+    author = document[:auth_author_display_ss].nil? == false ? document[:auth_author_display_ss][0] : ""
+    title_short = document[:title_short_ss].nil? == false ? document[:title_short_ss][0] : ""
     image_tag url, alt: "#{author} #{title_short}", onerror: "this.src='#{error_img}';"
   end
 
@@ -706,10 +707,10 @@ module ApplicationHelper
 =end
   # cds2 replacement
   def doc_thumbnail(d)
-    if d['manifest_thumbnail_ss'].nil?
+    if d[:manifest_thumbnail_ss].nil?
       return nil
     else
-      return d['manifest_thumbnail_ss'][0]
+      return d[:manifest_thumbnail_ss][0]
     end
   end
 
