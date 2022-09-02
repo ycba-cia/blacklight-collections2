@@ -389,5 +389,116 @@ describe ApplicationHelper do
         expect(helper.extract_date(d)).to be == Date.parse("2022-08-31", limit: nil)
       end
     end
+
+    describe "#combine_topic_subject" do
+      it "returns true" do
+        options = Hash.new
+        options[:document] = {}
+        options[:document][:topic_subjectConcept_ss] = ["subjectconcept1"]
+        options[:document][:topic_subjectEvent_ss] = ["subjectevent1"]
+        options[:document][:topic_subjectObject_ss] = ["subjectobject1"]
+        expect(helper.combine_topic_subject(options)).to be == "subjectconcept1 subjectevent1 subjectobject1"
+      end
+    end
+
+    describe "#combine_curatorial_comments" do
+      it "returns true" do
+        options = Hash.new
+        options[:value] = ["One I have finished."]
+        options[:document] = {}
+        expect(helper.combine_curatorial_comments(options)).to be == "One I have finished.</br>"
+        options[:document][:curatorial_comment_auth_ss] = ["Scott Wilcox"]
+        options[:document][:curatorial_comment_date_ss] = ["2007-01"]
+        expect(helper.combine_curatorial_comments(options)).to be == "One I have finished.</br>--Scott Wilcox,2007-01</br>"
+      end
+    end
+
+    describe "#combine_curatorial_comments_tab" do
+      it "returns true" do
+        document = Hash.new
+        document["curatorial_comment_ss"] = ["One I have finished."]
+        expect(helper.combine_curatorial_comments_tab(document)).to be == ["One I have finished.</br>"]
+        document["curatorial_comment_auth_ss"] = ["Scott Wilcox"]
+        expect(helper.combine_curatorial_comments_tab(document)).to be == ["One I have finished.</br>--Scott Wilcox</br>"]
+        document["curatorial_comment_date_ss"] = ["2007-01"]
+        expect(helper.combine_curatorial_comments_tab(document)).to be == ["One I have finished.</br>--Scott Wilcox,2007-01</br>"]
+      end
+    end
+
+    describe "#format_contents_tab" do
+      it "returns true" do
+        document = Hash.new
+        document["marc_contents_ss"] = ["Alphabet: folio 1","Herbal: folio 2","Bestiary: folio 3"]
+        expect(helper.format_contents_tab(document)).to be == "<ul style='list-style: disc; margin-left: 15px;'><li>Alphabet: folio 1</li><li>Herbal: folio 2</li><li>Bestiary: folio 3</li></ul>"
+      end
+    end
+
+    describe "#render_search_per_line" do
+      it "returns true" do
+        options = Hash.new
+        options[:value] = ["https://one.edu","https://two.edu"]
+        expect(helper.render_search_per_line(options)).to be == "<a href=\"https://one.edu\">https://one.edu</a><br/><a href=\"https://two.edu\">https://two.edu</a>"
+      end
+    end
+
+    describe "#render_copyright_status" do
+      it "returns true" do
+        options = Hash.new
+        options[:document] = {}
+        expect(helper.render_copyright_status(options)).to be == "<a target=\"_blank\" rel=\"nofollow\" href=\"http://rightsstatements.org/vocab/CNE/1.0/\">Copyright Not Evaluated</a>"
+        options[:document] = document1.deep_symbolize_keys
+        expect(helper.render_copyright_status(options)).to be == "<a target=\"_blank\" rel=\"nofollow\" href=\"https://creativecommons.org/publicdomain/zero/1.0/\">Public Domain</a>"
+      end
+    end
+
+    describe "#add_alt_publisher" do
+      it "returns true" do
+        options = Hash.new
+        options[:value] = ["publisher1","publisher2"]
+        options[:document] = {}
+        options[:document][:altrep_publisher_ss] = ["[Tokyo] : ラスキン展実行委員会, 1993."]
+        expect(helper.add_alt_publisher(options)).to be == "publisher1<br/>publisher2<br/>[Tokyo] : ラスキン展実行委員会, 1993."
+      end
+    end
+
+    describe "#add_alt_title" do
+      it "returns true" do
+        options = Hash.new
+        options[:value] = ["title1","title2"]
+        options[:document] = {}
+        options[:document][:altrep_title_ss] = ["リン・チャドウィック彫刻展　= Lynn Chadwick."]
+        expect(helper.add_alt_title(options)).to be == "title1<br/>title2<br/>リン・チャドウィック彫刻展　= Lynn Chadwick."
+      end
+    end
+
+    describe "#add_alt_title_alt" do
+      it "returns true" do
+        options = Hash.new
+        options[:value] = ["title1","title2"]
+        options[:document] = {}
+        options[:document][:altrep_title_alt_ss] = ["粉紅世界"]
+        expect(helper.add_alt_title_alt(options)).to be == "title1<br/>title2<br/>粉紅世界"
+      end
+    end
+
+    describe "#add_alt_edition" do
+      it "returns true" do
+        options = Hash.new
+        options[:value] = ["ed1","ed2"]
+        options[:document] = {}
+        options[:document][:altrep_edition_ss] = ["第1版."]
+        expect(helper.add_alt_edition(options)).to be == "ed1<br/>ed2<br/>第1版."
+      end
+    end
+
+    describe "#add_alt_description" do
+      it "returns true" do
+        options = Hash.new
+        options[:value] = ["desc1","desc2"]
+        options[:document] = {}
+        options[:document][:altrep_description_ss] = ["其他题名:Staging the world."]
+        expect(helper.add_alt_description(options)).to be == "desc1<br/>desc2<br/>其他题名:Staging the world."
+      end
+    end
   end
 end

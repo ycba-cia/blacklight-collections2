@@ -143,7 +143,7 @@
     <% else %>
       <div class="tab-pane" id="1pane">
     <% end %>
-    <% document["curatorial_comment_ss"].each_with_index do |field, i| %>
+    <% combine_curatorial_comments_tab(document).each_with_index do |field, i| %>
       <% if i > 0 %></br><% end %>
       <% field2 = field.gsub('---','</br>').gsub('\n','</br>').html_safe %>
       <div class="columns"><%= field2 %></div>

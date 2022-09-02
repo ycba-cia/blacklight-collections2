@@ -398,7 +398,25 @@ module ApplicationHelper
     return str.html_safe
   end
 
+  def combine_curatorial_comments_tab(doc)
+    array = Array.new
+    doc["curatorial_comment_ss"].each_with_index { |v,i|
+      v.gsub!('\n','</br>')
+      if doc["curatorial_comment_auth_ss"] && doc["curatorial_comment_auth_ss"][i] &&
+          doc["curatorial_comment_date_ss"] && doc["curatorial_comment_date_ss"][i]
+        array.append(v + "</br>--" + doc["curatorial_comment_auth_ss"][i] + "," + doc["curatorial_comment_date_ss"][i] + "</br>")
+      elsif doc["curatorial_comment_auth_ss"] && doc["curatorial_comment_auth_ss"][i]
+          array.append(v + "</br>--" + doc["curatorial_comment_auth_ss"][i] + "</br>")
+      else
+        array.append(v + "</br>")
+      end
+    }
+
+    return array
+  end
+
   #deprecated, not in tombstone but in tabs
+=begin
   def format_contents options={}
     s = "<ul style='list-style: disc;'>"
     options[:value].each do |s1|
@@ -410,7 +428,7 @@ module ApplicationHelper
     s = s + "</ul>"
     s.html_safe
   end
-
+=end
   def format_contents_tab(doc)
     s = "<ul style='list-style: disc; margin-left: 15px;'>"
     doc["marc_contents_ss"].each do |s1|
@@ -424,6 +442,7 @@ module ApplicationHelper
   end
 
   def render_search_per_line options={}
+    links = Array.new
     options[:value].each {  |link|
       links.append(link_to "#{link}", "#{link}")
     }
@@ -431,18 +450,18 @@ module ApplicationHelper
   end
 
   def render_copyright_status options={}
-    label = "Copyright Undetermined"
-    label = options[:document]['ort_ss'][0] if options[:document]['ort_ss']
+    label = "Copyright Not Evaluated"
+    label = options[:document][:ort_ss][0] if options[:document][:ort_ss]
     #puts "LABEL:#{label}"
-    link = "http://rightsstatements.org/vocab/UND/1.0/"
-    link = options[:document]['rightsURL_ss'][0] if options[:document]['rightsURL_ss']
+    link = "http://rightsstatements.org/vocab/CNE/1.0/"
+    link = options[:document][:rightsURL_ss][0] if options[:document][:rightsURL_ss]
     link_to(label, link, target: "_blank", rel: "nofollow")
   end
 
   def add_alt_publisher options={}
     concat = options[:value]
-    if options[:document]['altrep_publisher_ss']
-      options[:document]['altrep_publisher_ss'].each { |v|
+    if options[:document][:altrep_publisher_ss]
+      options[:document][:altrep_publisher_ss].each { |v|
         concat.append(v)
       }
     end
@@ -451,8 +470,8 @@ module ApplicationHelper
 
   def add_alt_title options={}
     concat = options[:value]
-    if options[:document]['altrep_title_ss']
-      options[:document]['altrep_title_ss'].each { |v|
+    if options[:document][:altrep_title_ss]
+      options[:document][:altrep_title_ss].each { |v|
         concat.append(v)
       }
     end
@@ -461,8 +480,8 @@ module ApplicationHelper
 
   def add_alt_title_alt options={}
     concat = options[:value]
-    if options[:document]['altrep_title_alt_ss']
-      options[:document]['altrep_title_alt_ss'].each { |v|
+    if options[:document][:altrep_title_alt_ss]
+      options[:document][:altrep_title_alt_ss].each { |v|
         concat.append(v)
       }
     end
@@ -471,8 +490,8 @@ module ApplicationHelper
 
   def add_alt_edition options={}
     concat = options[:value]
-    if options[:document]['altrep_edition_ss']
-      options[:document]['altrep_edition_ss'].each { |v|
+    if options[:document][:altrep_edition_ss]
+      options[:document][:altrep_edition_ss].each { |v|
         concat.append(v)
       }
     end
@@ -481,8 +500,8 @@ module ApplicationHelper
 
   def add_alt_description options={}
     concat = options[:value]
-    if options[:document]['altrep_description_ss']
-      options[:document]['altrep_description_ss'].each { |v|
+    if options[:document][:altrep_description_ss]
+      options[:document][:altrep_description_ss].each { |v|
         concat.append(v)
       }
     end
