@@ -674,7 +674,7 @@ module ApplicationHelper
 
   #private #removed private for rspec scope 9/2/2022
 
-  def thumb(document)
+  def thumb(document, options)
     url = doc_thumbnail(document)
     #url = doc_thumbnail_from_manifest(document) #get thumbnails from manifest on the fly
     if document[:recordtype_ss] and document[:recordtype_ss][0].to_s == 'marc'
@@ -713,7 +713,8 @@ module ApplicationHelper
       return d[:manifest_thumbnail_ss][0]
     end
   end
-
+  #use doc_thumnail method instead of below method to avoid many http connections rendering results page
+=begin
   def doc_thumbnail_from_manifest(d)
     thumbnail = ""
     manifest = "https://manifests.collections.yale.edu/ycba/obj/" + d['id'].split(":")[1] if d['recordtype_ss'][0] == "lido"
@@ -733,36 +734,32 @@ module ApplicationHelper
     end
     return thumbnail
   end
-
+=end
 
   def get_export_url_xml(doc)
-    if doc['recordtype_ss']
-      if doc['recordtype_ss'][0].to_s == 'marc'
+    if doc[:recordtype_ss]
+      if doc[:recordtype_ss][0].to_s == 'marc'
         url = "https://libapp.library.yale.edu/OAI_BAC/src/OAIOrbisTool.jsp?verb=GetRecord&identifier=oai:orbis.library.yale.edu:"+get_bib_from_handle(doc)+"&metadataPrefix=marc21"
-      elsif doc['recordtype_ss'][0].to_s == 'lido'
-        url = "http://harvester-bl.britishart.yale.edu/oaicatmuseum/OAIHandler?verb=GetRecord&identifier=oai:tms.ycba.yale.edu:" + doc['recordID_ss'][0] +"&metadataPrefix=lido" if doc['recordID_ss']
-      elsif doc['recordtype_ss'][0].to_s == 'mods'
-        url = "" #8/8/17 some rare books have this but not supported
-      else
-        url = ""
+      elsif doc[:recordtype_ss][0].to_s == 'lido'
+        url = "http://harvester-bl.britishart.yale.edu/oaicatmuseum/OAIHandler?verb=GetRecord&identifier=oai:tms.ycba.yale.edu:" + doc[:recordID_ss][0] +"&metadataPrefix=lido" if doc[:recordID_ss]
       end
     end
     return url
   end
 
   def get_manifest_from_document(doc)
-    if doc['recordtype_ss']
-      if doc['recordtype_ss'][0].to_s == 'marc'
-        url = "https://manifests.collections.yale.edu/ycba/orb/" + doc['id'].split(":")[1]
-      elsif doc['recordtype_ss'][0].to_s == 'lido'
-        url = "https://manifests.collections.yale.edu/ycba/obj/" + doc['id'].split(":")[1]
-      else
-        url = ""
+    if doc[:recordtype_ss]
+      if doc[:recordtype_ss][0].to_s == 'marc'
+        url = "https://manifests.collections.yale.edu/ycba/orb/" + doc[:id].split(":")[1]
+      elsif doc[:recordtype_ss][0].to_s == 'lido'
+        url = "https://manifests.collections.yale.edu/ycba/obj/" + doc[:id].split(":")[1]
       end
     end
     return url
   end
 
+  #deprecated
+=begin
   def get_export_url_rdf(doc)
     if doc['recordtype_ss']
       if doc['recordtype_ss'][0].to_s == 'marc'
@@ -777,12 +774,13 @@ module ApplicationHelper
     end
     return url
   end
+=end
 
   def get_bib_from_handle(doc)
-    if doc['url_ss'] and doc['url_ss'][0].start_with?('https://hdl.handle.net/10079/bibid/')
-      bib = doc['url_ss'][0].gsub('https://hdl.handle.net/10079/bibid/', '')
-    elsif doc['url_ss'] and doc['url_ss'][0].start_with?('http://hdl.handle.net/10079/bibid/')
-      bib = doc['url_ss'][0].gsub('http://hdl.handle.net/10079/bibid/', '')
+    if doc[:url_ss] and doc[:url_ss][0].start_with?('https://hdl.handle.net/10079/bibid/')
+      bib = doc[:url_ss][0].gsub('https://hdl.handle.net/10079/bibid/', '')
+    elsif doc[:url_ss] and doc[:url_ss][0].start_with?('http://hdl.handle.net/10079/bibid/')
+      bib = doc[:url_ss][0].gsub('http://hdl.handle.net/10079/bibid/', '')
     else
       bib = "" #or return no bib to extract from url_ss field
     end
@@ -796,7 +794,7 @@ module ApplicationHelper
   end
 
   def prepare_concat_field_with_trailing_period(f)
-    if f
+    if f.kind_of?(Array) and f != [""]
       f = f[0]
       if f[-1] != "."
         f += "."

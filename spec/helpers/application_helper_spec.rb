@@ -550,14 +550,15 @@ describe ApplicationHelper do
     describe "#thumb" do
       it "returns true" do
         document = document1.deep_symbolize_keys
-        expect(helper.thumb(document)).to include "src=\"https://media.collections.yale.edu/thumbnail/ycba/4f227f08-7842-46cc-b05a-e3c6a4614cc1\""
-        expect(helper.thumb(document)).to include "<img alt=\"Joseph Mallord William Turner Dort or Dordrecht: The Dort Packet-Boat from Rotterdam Becalmed\""
+        options = Hash.new
+        expect(helper.thumb(document,options)).to include "src=\"https://media.collections.yale.edu/thumbnail/ycba/4f227f08-7842-46cc-b05a-e3c6a4614cc1\""
+        expect(helper.thumb(document,options)).to include "<img alt=\"Joseph Mallord William Turner Dort or Dordrecht: The Dort Packet-Boat from Rotterdam Becalmed\""
 
         document[:recordtype_ss] = ["marc"]
         document[:isbn_ss] = ["12345678"]
         document[:collection_ss] = ["Reference Library"]
-        expect(helper.thumb(document)).to include "src=\"/bookcover/isbn/12345678/size/medium\""
-        expect(helper.thumb(document)).to include "<img alt=\"Joseph Mallord William Turner Dort or Dordrecht: The Dort Packet-Boat from Rotterdam Becalmed\""
+        expect(helper.thumb(document,options)).to include "src=\"/bookcover/isbn/12345678/size/medium\""
+        expect(helper.thumb(document,options)).to include "<img alt=\"Joseph Mallord William Turner Dort or Dordrecht: The Dort Packet-Boat from Rotterdam Becalmed\""
 
       end
     end
@@ -566,6 +567,55 @@ describe ApplicationHelper do
       it "returns true" do
         document = document1.deep_symbolize_keys
         expect(helper.doc_thumbnail(document)).to be == "https://media.collections.yale.edu/thumbnail/ycba/4f227f08-7842-46cc-b05a-e3c6a4614cc1"
+      end
+    end
+
+    describe "#get_export_url_xml" do
+      it "returns true" do
+        document = document1.deep_symbolize_keys
+        expect(helper.get_export_url_xml(document)).to be == "http://harvester-bl.britishart.yale.edu/oaicatmuseum/OAIHandler?verb=GetRecord&identifier=oai:tms.ycba.yale.edu:34&metadataPrefix=lido"
+        document = document2.deep_symbolize_keys
+        expect(helper.get_export_url_xml(document)).to be == "https://libapp.library.yale.edu/OAI_BAC/src/OAIOrbisTool.jsp?verb=GetRecord&identifier=oai:orbis.library.yale.edu:9452785&metadataPrefix=marc21"
+      end
+    end
+
+    describe "#get_bib_from_handle" do
+      it "returns true" do
+        document = {}
+        expect(helper.get_bib_from_handle(document)).to be == ""
+        document[:url_ss] = ["https://hdl.handle.net/10079/bibid/123456"]
+        expect(helper.get_bib_from_handle(document)).to be == "123456"
+        document[:url_ss] = ["http://hdl.handle.net/10079/bibid/123456"]
+        expect(helper.get_bib_from_handle(document)).to be == "123456"
+      end
+    end
+
+    describe "#get_manifest_from_document" do
+      it "returns true" do
+        document = document1.deep_symbolize_keys
+        expect(helper.get_manifest_from_document(document)).to be == "https://manifests.collections.yale.edu/ycba/obj/34"
+        document = document2.deep_symbolize_keys
+        expect(helper.get_manifest_from_document(document)).to be == "https://manifests.collections.yale.edu/ycba/orb/9452785"
+      end
+    end
+
+    describe "#show_svg" do
+      it "returns true" do
+        v = "logo-horizontal.svg"
+        #puts helper.show_svg(v)
+        expect(helper.show_svg(v)).to include "<svg viewBox=\"0 0 611 18"
+        expect(helper.show_svg(v)).to include "<title>Yale Center for British Art</title>"
+      end
+    end
+
+    describe "#prepare_concat_field_with_trailing_period" do
+      it "returns true" do
+        v = [""]
+        expect(helper.prepare_concat_field_with_trailing_period(v)).to be == ""
+        v = ["a field"]
+        expect(helper.prepare_concat_field_with_trailing_period(v)).to be == "a field."
+        v = ["a field."]
+        expect(helper.prepare_concat_field_with_trailing_period(v)).to be == "a field."
       end
     end
   end
