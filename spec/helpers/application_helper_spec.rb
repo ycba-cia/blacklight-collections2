@@ -702,5 +702,61 @@ describe ApplicationHelper do
         expect(helper.parse_mfhd(r)).to be == ""
       end
     end
+
+    describe "#get_frame_link_label" do
+      it "returns true" do
+        document = Hash.new
+        document["collection_ss"] = ["Frames"]
+        expect(helper.get_frame_link_label(document)).to be == "Link to Framed Image:"
+        document["collection_ss"] = ["Paintings and Sculptures"]
+        expect(helper.get_frame_link_label(document)).to be == "Link to Frame:"
+      end
+    end
+
+    describe "#get_frame_link" do
+      it "returns true" do
+        document = Hash.new
+        document["callnumber_ss"] = ["B1977.14.77"]
+        expect(helper.get_frame_link(document)).to be == "<a data-method=\"get\" href=\"http://test.host/catalog/tms:64431\">B1977.14.77FR</a>"
+        document["callnumber_ss"] = ["B1977.14.77FR"]
+        expect(helper.get_frame_link(document)).to be == "<a data-method=\"get\" href=\"http://test.host/catalog/tms:34\">B1977.14.77</a>"
+      end
+    end
+
+    describe "#render_ycba_item_header" do
+      it "returns true" do
+        document = Hash.new
+        #document["callnumber_ss"] = ["B1977.14.77"]
+        document = document1
+        expect(helper.render_ycba_item_header(document,:tag => :span, :fontsize => "20px")).to be == "<div style=\"text-align:center\" itemprop=\"name\" id=\"fullheader\"><span style=\"font-size: 20px\">Joseph Mallord William Turner, 1775–1851, British</span>, <span style=\"font-weight: bold; font-size: 20px\">Dort or Dordrecht: The Dort Packet-Boat from Rotterdam Becalmed</span>, <span style=\"font-size: 20px\">1818</span></div>"
+       end
+    end
+
+    describe "#get_download_array_from_manifest" do
+      it "returns true" do
+        @document = document1
+        #puts helper.get_download_array_from_manifest
+        expect(helper.get_download_array_from_manifest.length).to be == 4
+        expect(helper.get_download_array_from_manifest[0]).to include "1"
+        expect(helper.get_download_array_from_manifest[0]).to include "recto, cropped to image"
+        expect(helper.get_download_array_from_manifest[0]).to include "https://images.collections.yale.edu/iiif/2/ycba:4f227f08-7842-46cc-b05a-e3c6a4614cc1/full/full/0/default.jpg"
+        expect(helper.get_download_array_from_manifest[0]).to include "https://media.collections.yale.edu/tiff/ycba/4f227f08-7842-46cc-b05a-e3c6a4614cc1.tif"
+        @document = document2
+        expect(helper.get_download_array_from_manifest.length).to be == 26
+        #puts helper.get_download_array_from_manifest
+        expect(helper.get_download_array_from_manifest[0]).to include "1"
+        expect(helper.get_download_array_from_manifest[0]).to include "folios 16v-17r"
+        expect(helper.get_download_array_from_manifest[0]).to include "https://images.collections.yale.edu/iiif/2/ycba:39b6a359-312c-4b71-84c1-349caaf3ff4b/full/full/0/default.jpg"
+        allow(URI).to receive(:open) do
+          raise "boom"
+        end
+        expect(helper.get_download_array_from_manifest.length).to be == 0
+        allow(JSON).to receive(:load) do
+          JSON.generate({"items" => {}})
+        end
+        #puts helper.get_download_array_from_manifest
+        expect(helper.get_download_array_from_manifest.length).to be == 0
+      end
+    end
   end
 end

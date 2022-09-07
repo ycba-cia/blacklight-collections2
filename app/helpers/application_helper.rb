@@ -1094,21 +1094,12 @@ module ApplicationHelper
     items = json["items"]
     items.each_with_index do |item,index|
       count = (index + 1).to_s
-      begin
-        caption = item["label"]["en"][0]
-      rescue
-        caption = ""
-      end
-      begin
-        jpeg = item["items"][0]["items"][0]["body"]["id"]
-      rescue
-        jpeg = ""
-      end
-      begin
-        tiff = item["rendering"][0]["id"]
-      rescue
-        tiff = ""
-      end
+      caption = ""
+      jpeg = ""
+      tiff = ""
+      caption = item["label"]["en"][0] if item && item["label"] && item["label"]["en"] && item["label"]["en"][0]
+      jpeg = item["items"][0]["items"][0]["body"]["id"] if item && item["items"] && item["items"][0] && item["items"][0]["items"] && item["items"][0]["items"][0] && item["items"][0]["items"][0]["body"] && item["items"][0]["items"][0]["body"]["id"]
+      tiff = item["rendering"][0]["id"] if item && item["rendering"] && item["rendering"][0] && item["rendering"][0]["id"]
       download_array[index] = [count,caption,jpeg,tiff]
     end
     #puts download_array.inspect
