@@ -806,7 +806,7 @@ module ApplicationHelper
   end
 
   def prepare_concat_title_short(f)
-    if f
+    if f.kind_of?(Array) and f != [""]
       f = f[0]
       if f[-1] == ":" or f[-1] == "/" or f[-1] == "."
         f = f[0...-1] + "."
@@ -844,6 +844,8 @@ module ApplicationHelper
     return caption
   end
 
+  #deprecated
+=begin
   def get_marc_caption(doc)
     url = "https://deliver.odai.yale.edu/info/repository/YCBA/object/#{doc["id"].split(":")[1]}/type/1"
     json = JSON.load(open(url))
@@ -855,7 +857,7 @@ module ApplicationHelper
     end
     return caption
   end
-
+=end
   def marc_field?(doc)
     doc['recordtype_ss'] and doc['recordtype_ss'][0].to_s == 'marc'
   end
@@ -1017,9 +1019,12 @@ module ApplicationHelper
     return mfhd
   end
 
+  def mfhd_path(r)
+    r["record"][0]["items"][0]["mfhdid"]
+  end
   def parse_mfhd(r)
     begin
-      mfhd = r["record"][0]["items"][0]["mfhdid"]
+      mfhd = mfhd_path(r)
     rescue
       mfhd = ""
     end

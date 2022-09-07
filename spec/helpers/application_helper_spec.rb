@@ -16,6 +16,10 @@ describe ApplicationHelper do
     JSON.parse(File.open("spec/fixtures/dort_frame.json","rb").read)
   end
 
+  let(:document4) do
+    JSON.parse(File.open("spec/fixtures/smith.json","rb").read)
+  end
+
   describe "#get_export_url_xml" do
 
     let(:solrdoc) do
@@ -102,20 +106,29 @@ describe ApplicationHelper do
 
   describe "#render_aeon_from_access" do
     it "returns true" do
+      #ps
       options = Hash.new
       options[:value] = ["On view in the galleries"]
       options[:document] = document1
       expect(helper.render_aeon_from_access(options)).to be == "On view in the galleries"
 
+      #rb
       options[:value] = ["View by request in the Study Room"]
+      options[:document] = document2
       options[:document][:detailed_onview_ss] = ["View by request in the Study Room"]
-      expect(helper.render_aeon_from_access(options)).to be == "View by request in the Study Room [<a href='https://aeon-test-mssa.library.yale.edu/aeon.dll?Action=10&Form=20&Value=GenericRequestMonograph&Site=YCBA&CallNumber=B1977.14.77&ItemTitle=Dort or Dordrecht: The Dort Packet-Boat from Rotterdam Becalmed&ItemAuthor=Joseph Mallord William Turner, 1775–1851, British&ItemDate=1818&Format=Support (PTG): 62 × 92 inches (157.5 × 233.7 cm)&Location=&mfhdID=&EADNumber=https://collections.britishart.yale.edu/catalog/tms:34' target='_blank'>Request</a>]<br/><i>Note: The Study Room is open by appointment. Please visit the <a href=\"https://britishart.yale.edu/study-room\">Study Room page</a> on our website for more details.</i>"
+      expect(helper.render_aeon_from_access(options)).to be == "View by request in the Study Room [<a href='https://aeon-test-mssa.library.yale.edu/aeon.dll?Action=10&Form=20&Value=GenericRequestMonograph&Site=YCBA&CallNumber=&ItemTitle=Helmingham herbal and bestiary.&ItemAuthor=&ItemDate=1500&Format=1 v. ([20] leaves, with 1 blank leaf) : ill. ; 45 x 32 cm.&Location=bacrb&mfhdID=9799201&EADNumber=http://hdl.handle.net/10079/bibid/9452785' target='_blank'>Request</a>]<br/><i>Note: The Study Room is open by appointment. Please visit the <a href=\"https://britishart.yale.edu/study-room\">Study Room page</a> on our website for more details.</i>"
 
-
+      #ref
+      #possible to do, need to mock full ref doc?
       options[:value] = ["Accessible in the Reference Library"]
       options[:document][:detailed_onview_ss] = ["Accessible in the Reference Library"]
       expect(helper.render_aeon_from_access(options)).to be == "Accessible in the Reference Library [<a target=\"_blank\" href=\"https://britishart.yale.edu/about-us/departments/reference-library-and-archives\">Hours</a>]<br/><i>Note: The Reference Library is open by appointment. Please visit the <a href=\"https://britishart.yale.edu/reference-library-and-photograph-archives\">Reference Library page</a> on our website for more details. For scans from the reference collection please email <a href=\"mailto:ycba.reference@yale.edu\">ycba.reference@yale.edu</a>.</i>"
 
+      #pd
+      options[:value] = ["View by request in the Study Room"]
+      options[:document] = document4
+      options[:document][:detailed_onview_ss] = ["View by request in the Study Room"]
+      expect(helper.render_aeon_from_access(options)).to be == "View by request in the Study Room [<a href='https://aeon-test-mssa.library.yale.edu/aeon.dll?Action=10&Form=20&Value=GenericRequestPD&Site=YCBA&CallNumber=B1977.14.7220&ItemTitle=Hannibal passing the Alps (vignette)&ItemAuthor=Print made by W. R. Smith, active 1819–1851&ItemDate=1830&Format=Etching and line engraving; engraver's proof on medium, slightly textured, cream wove paper&Location=bacpd&mfhdID=&EADNumber=https://collections.britishart.yale.edu/catalog/tms:16950' target='_blank'>Request</a>]<br/><i>Note: The Study Room is open by appointment. Please visit the <a href=\"https://britishart.yale.edu/study-room\">Study Room page</a> on our website for more details.</i>"
     end
   end
 
@@ -616,6 +629,77 @@ describe ApplicationHelper do
         expect(helper.prepare_concat_field_with_trailing_period(v)).to be == "a field."
         v = ["a field."]
         expect(helper.prepare_concat_field_with_trailing_period(v)).to be == "a field."
+      end
+    end
+
+    describe "#prepare_concat_title_short" do
+      it "returns true" do
+        v = [""]
+        expect(helper.prepare_concat_title_short(v)).to be == ""
+        v = ["a field:"]
+        expect(helper.prepare_concat_title_short(v)).to be == "a field."
+        v = ["a field: "]
+        expect(helper.prepare_concat_title_short(v)).to be == "a field."
+        v = ["a field"]
+        expect(helper.prepare_concat_title_short(v)).to be == "a field."
+      end
+    end
+
+    describe "#concat_caption_marc" do
+      it "returns true" do
+        expect(helper.concat_caption_marc(document2)).to be == " Helmingham herbal and bestiary.  Helmingham, Suffolk, circa 1500. Yale Center for British Art, Paul Mellon Collection."
+      end
+    end
+
+    describe "#concat_caption" do
+      it "returns true" do
+        expect(helper.concat_caption(document1)).to be == "Joseph Mallord William Turner, 1775–1851, British, Dort or Dordrecht: The Dort Packet-Boat from Rotterdam Becalmed, 1818, Oil on canvas, Yale Center for British Art, Paul Mellon Collection, B1977.14.77"
+      end
+    end
+
+    describe "#marc_field?" do
+      it "returns true" do
+        expect(helper.marc_field?(document2)).to be true
+      end
+    end
+
+    describe "#copyrighted?" do
+      it "returns true" do
+        expect(helper.copyrighted?(document1)).to be false
+        document = Hash.new
+        document["rights_ss"] = ["under copyright"]
+        expect(helper.copyrighted?(document)).to be true
+      end
+    end
+
+    describe "#create_aeon_link_callnumber" do
+      it "returns true" do
+        document = document2
+        callnumber = "Folio C 2014 4"
+        mfhd_id = "9799201"
+        expect(helper.create_aeon_link_callnumber(document,callnumber,mfhd_id)).to be == "<a href='https://aeon-test-mssa.library.yale.edu/aeon.dll?Action=10&Form=20&Value=GenericRequestMonograph&Site=YCBA&CallNumber=Folio C 2014 4&ItemTitle=Helmingham herbal and bestiary.&ItemAuthor=&ItemDate=1500&Format=1 v. ([20] leaves, with 1 blank leaf) : ill. ; 45 x 32 cm.&Location=bacrb&mfhdID=9799201&EADNumber=http://hdl.handle.net/10079/bibid/9452785' target='_blank'>Request</a>"
+        document["collection_ss"] = ["Prints and Drawings"]
+        document["format_ss"] = ["testformat"]
+        #leave location_ss empty
+        expect(helper.create_aeon_link_callnumber(document,callnumber,mfhd_id)).to be == "<a href='https://aeon-test-mssa.library.yale.edu/aeon.dll?Action=10&Form=20&Value=GenericRequestMonograph&Site=YCBA&CallNumber=Folio C 2014 4&ItemTitle=Helmingham herbal and bestiary.&ItemAuthor=&ItemDate=1500&Format=testformat&Location=&mfhdID=9799201&EADNumber=http://hdl.handle.net/10079/bibid/9452785' target='_blank'>Request</a>"
+        document["collection_ss"] = ["Rare Books and Manuscripts"]
+        expect(helper.create_aeon_link_callnumber(document,callnumber,mfhd_id)).to be == "<a href='https://aeon-test-mssa.library.yale.edu/aeon.dll?Action=10&Form=20&Value=GenericRequestMonograph&Site=YCBA&CallNumber=Folio C 2014 4&ItemTitle=Helmingham herbal and bestiary.&ItemAuthor=&ItemDate=1500&Format=1 v. ([20] leaves, with 1 blank leaf) : ill. ; 45 x 32 cm.&Location=bacrb&mfhdID=9799201&EADNumber=http://hdl.handle.net/10079/bibid/9452785' target='_blank'>Request</a>"
+      end
+    end
+
+    describe "#get_bib_lookup" do
+      it "returns true" do
+        expect(helper.get_bib_lookup).to be == "https://libapp-test.library.yale.edu/VoySearch/GetBibItem?bibid="
+      end
+    end
+
+    describe "#parse_mfhd" do
+      it "returns true" do
+        r = Hash.new
+        allow(helper).to receive(:mfhd_path) do
+          raise "boom"
+        end
+        expect(helper.parse_mfhd(r)).to be == ""
       end
     end
   end
