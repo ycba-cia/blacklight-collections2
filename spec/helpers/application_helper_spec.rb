@@ -758,5 +758,42 @@ describe ApplicationHelper do
         expect(helper.get_download_array_from_manifest.length).to be == 0
       end
     end
+
+    describe "#manifest_thumb?" do
+      it "returns true" do
+        @document = document1
+        expect(helper.manifest_thumb?).to be false
+        @document = document2
+        expect(helper.manifest_thumb?).to be false
+        @document = document1
+        @document['id'] = "tms:1050"
+        expect(helper.manifest_thumb?).to be true
+        allow(JSON).to receive(:load) do
+          raise "boom"
+        end
+        expect(helper.manifest_thumb?).to be true
+      end
+    end
+
+    describe "#manifest?" do
+      it "returns true" do
+        @document = document1
+        expect(helper.manifest?).to be true
+        @document = document2
+        expect(helper.manifest?).to be true
+        allow(JSON).to receive(:parse) do
+          raise "boom"
+        end
+        expect(helper.manifest?).to be false
+      end
+    end
+
+    describe "#document_field_exists?" do
+      it "returns true" do
+        document = document1
+        field = "title_ss"
+        expect(helper.document_field_exists?(document,field)).to be true
+      end
+    end
   end
 end

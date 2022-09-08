@@ -1115,7 +1115,7 @@ module ApplicationHelper
     begin
       json = JSON.load(URI.open(manifest))
     rescue
-      return download_array
+      return true
     end
     height = json["items"][0]["height"]
     width = json["items"][0]["width"]
@@ -1145,6 +1145,7 @@ module ApplicationHelper
   end
 
   #deprecated in favor of webpack
+=begin
   def mirador3_config(manifest)
   config = '{
       "id": "mirador3",
@@ -1178,8 +1179,9 @@ module ApplicationHelper
     puts config
     return config.html_safe
   end
-
+=end
   #deprecated in favor of webpack
+=begin
   def mirador3t_config(manifest)
     config = '{
       "id": "mirador3t",
@@ -1219,5 +1221,5 @@ module ApplicationHelper
     puts config
     return config.html_safe
   end
-
+=end
 end
