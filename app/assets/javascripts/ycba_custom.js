@@ -80,3 +80,12 @@ $(document).on("turbolinks:load",function() {
     });
 
 });
+
+$(document).ready(function(){
+    $('.iiifpopover').popover({
+        html : true,
+        content: function() {
+            return $('#iiifpopover_content_wrapper').html();
+        }
+    });
+});

@@ -39,10 +39,20 @@
     </div>
 
     <div id="ycba-thumbnail-controls" class="col-xs-2" align="center">
-      <a target="_blank" href="https://view.collections.yale.edu/uv3/?manifest=https://manifests.collections.yale.edu/ycba/obj/<%= @document['id'].split(":")[1] %>">
-        <img src="<%= path_to_image('logo-iiif.png') %>" class='img-responsive' alt='IIIF Manifest' title='View Image in full IIIF viewer' draggable>
-        <span>View available images</span>
-      </a>
+      <a class="iiifpopover" data-placement="bottom" title="Image Interoperability Framework">
+        <img src="<%= path_to_image('logo-iiif.png') %>" class='img-responsive' alt='IIIF Actions' title='IIIF Actions' draggable></a>
+      <div id="iiifpopover_content_wrapper" style="display: none;">
+        <div>IIIF provides researchers rich metadata and media viewing options for comparison of works across cultural heritage collections. Visit the <a target="_blank" href="https://iiif.io">IIIF page</a> to learn more.</div>
+        <hr>
+        <div><%= link_to("View Manifest",get_manifest_from_document(@document),target: :_blank) %></div>
+        <div><a target="_blank" href="https://view.collections.yale.edu/uv3/?manifest=https://manifests.collections.yale.edu/ycba/obj/<%= @document['id'].split(":")[1] %>">View in Universal Viewer</a></div>
+        <div><a target="_blank" href="https://view.collections.yale.edu/m3/?manifest=https://manifests.collections.yale.edu/ycba/obj/<%= @document['id'].split(":")[1] %>">View in Mirador 3</a></div>
+        <div>
+          <a target="_blank" href="https://view.collections.yale.edu/uv3/?manifest=https://manifests.collections.yale.edu/ycba/obj/<%= @document['id'].split(":")[1] %>">
+            <img src="<%= path_to_image('logo-iiif.png') %>" class='img-responsive' alt='IIIF Manifest' title='Drag and Drop' draggable>
+          </a>
+        </div>
+      </div>
     </div>
 
     <div id="right-icons" class="col-xs-2" align="center">
