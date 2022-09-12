@@ -650,7 +650,7 @@ module ApplicationHelper
     collections.map { |coll|
         collections_title.push("Rare Books and Manuscripts") if coll.start_with?("bacrb")
         collections_title.push("Reference Library") if coll.start_with?("bacref")
-        collections_title.push("Institutional Archives") if coll.start_with?("bacia")
+        collections_title.push("Archives") if coll.start_with?("bacia")
     }
     collections_title = [] if collections_title.nil?
     #puts collections_title
