@@ -3,15 +3,62 @@ require 'rails_helper'
 RSpec.describe BookCoverController, type: :controller do
 
   #8/14/19 failed spec
-=begin
+
   describe "GET #show" do
-    it "returns http success" do
+    it "returns http success for openlibrary" do
       get :show, :params => { :isbn => '0521547903' }
+      #get :show, isbn: '0521547903'
+      expect(response).to have_http_status(:success)
+
+      get :show, :params => { :isbn => '0521547903', :size => "medium" }
+      #get :show, isbn: '0521547903'
+      expect(response).to have_http_status(:success)
+
+      get :show, :params => { :isbn => '0521547903', :size => "large" }
       #get :show, isbn: '0521547903'
       expect(response).to have_http_status(:success)
     end
   end
-=end
+
+  describe "GET #show2" do
+    it "returns http success for google cover image" do
+      #stubbed_controller = BookCoverController.new
+      #didn't trigger
+        #allow(stubbed_controller).to receive(:openlibrary_cover_image).with("0521547903","small").and_return(nil)
+      #deprecated
+        #BookCoverController.any_instance.stub(:openlibrary_cover_image).with("0521547903","small").and_return(nil)
+      #deprecated
+        #controller.stub(:openlibrary_cover_image).with("0521547903","small").and_return(nil)
+      allow_any_instance_of(BookCoverController).to receive(:openlibrary_cover_image).with("0521547903","small").and_return(nil)
+      get :show, :params => { :isbn => '0521547903' }
+      expect(response).to have_http_status(:success)
+
+      allow_any_instance_of(BookCoverController).to receive(:openlibrary_cover_image).with("notvalid","small").and_return(nil)
+      get :show, :params => { :isbn => 'notvalid' }
+      expect(response).to have_http_status(302)
+    end
+  end
+
+  describe "GET #show3" do
+    it "returns http success for amazon cover image" do
+      allow_any_instance_of(BookCoverController).to receive(:openlibrary_cover_image).with("0521547903","small").and_return(nil)
+      allow_any_instance_of(BookCoverController).to receive(:google_cover_image).with("0521547903").and_return(nil)
+      get :show, :params => { :isbn => '0521547903' }
+      expect(response).to have_http_status(:success)
+    end
+  end
+
+  describe "GET #show4" do
+    it "returns http 302 not matching" do
+      allow_any_instance_of(BookCoverController).to receive(:openlibrary_cover_image).with("0521547903","small").and_return(nil)
+      allow_any_instance_of(BookCoverController).to receive(:google_cover_image).with("0521547903").and_return(nil)
+      allow_any_instance_of(BookCoverController).to receive(:amazon_cover_image).with("0521547903").and_return(nil)
+      get :show, :params => { :isbn => '0521547903' }
+      expect(response).to have_http_status(302)
+    end
+  end
+
+
   it 'should return expected openlibrary book cover' do
     isbn = "0316769487"
     openlibrary_size = "S"

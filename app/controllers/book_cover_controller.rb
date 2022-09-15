@@ -59,7 +59,7 @@ class BookCoverController < ApplicationController
   def google_cover_image(isbn)
     #u = "https://books.google.com/books?bibkeys=ISBN:"+isbn+"&jscmd=viewapi" #alternate
     u = "https://www.googleapis.com/books/v1/volumes?q=isbn:"+isbn
-    j = JSON.load(open(u))
+    j = JSON.load(URI.open(u))
     #j = open(u).string #alternate
     if j["items"] && j["items"][0] && j["items"][0]["volumeInfo"] &&
         j["items"][0]["volumeInfo"]["imageLinks"] &&
@@ -78,13 +78,18 @@ class BookCoverController < ApplicationController
   end
 
   #https://developers.exlibrisgroup.com/resources/voyager/code_contributions/SyndeticsStarterDocument.pdf
+  #deprecated
+=begin
   def syndetics_cover_image(isbn,type)
     client_code = ENV['SYNDETICS_CLIENT_CODE']
     u = "http://www.syndetics.com/index.aspx?isbn=#{isbn}/summary.html&client=#{client_code}&type=#{type}"
     return_image(u)
   end
+=end
 
   #http://blog.librarything.com/main/2008/08/a-million-free-covers-from-librarything/
+  #deprecated
+=begin
   def librarything_cover_image(isbn)
     devkey = ENV['LIBRARYTHING_DEV_KEY']
     #EX: http://covers.librarything.com/devkey/KEY/medium/isbn/0545010225
@@ -92,5 +97,5 @@ class BookCoverController < ApplicationController
     puts "LT:"+u
     return_image(u)
   end
-
+=end
 end
