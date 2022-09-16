@@ -320,13 +320,13 @@ class CatalogController < ApplicationController
   def display_marc_accessor_field?(context, doc)
     #NOTE: good diagnostic
     #puts "#{context.accessor} ****> #{doc.send(context.accessor)}"
-    display_marc_field?(context, doc) and !doc.send(context.accessor).nil?
+    display_marc_field?(context, doc) and !context.accessor.nil? and !doc.send(context.accessor).nil?
   end
 
   def display_lido_accessor_field?(context, doc)
     #NOTE: good diagnostic
     #puts "#{context.accessor} ****> #{doc.send(context.accessor)}"
-    display_lido_field?(context, doc) and !doc.send(context.accessor).nil?
+    display_lido_field?(context, doc) and !context.accessor.nil? and !doc.send(context.accessor).nil?
   end
 
   def render_related_content?(context,doc)
