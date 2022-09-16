@@ -213,6 +213,7 @@ describe FacetsHelper do
         allow(helper).to receive(:search_action_path) do |*args|
           search_catalog_path *args
         end
+        allow(helper).to receive(:search_state).and_return(Blacklight::SearchState.new(params, blacklight_config, controller))
       end
     end
 
