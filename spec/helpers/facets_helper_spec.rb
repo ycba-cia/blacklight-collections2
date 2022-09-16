@@ -8,12 +8,12 @@ require 'rails_helper'
 describe FacetsHelper do
 
   let(:blacklight_config) { Blacklight::Configuration.new }
-  #let(:blacklight_configuration_context) { Blacklight::Configuration::Context.new(self) }
+  let(:blacklight_configuration_context) { Blacklight::Configuration::Context.new(controller) }
 
   before(:each) do
     without_partial_double_verification do
       allow(helper).to receive(:blacklight_config).and_return blacklight_config
-      #allow(helper).to receive(:blacklight_configuration_context).and_return blacklight_configuration_context
+      allow(helper).to receive(:blacklight_configuration_context).and_return blacklight_configuration_context
     end
   end
 
@@ -68,14 +68,18 @@ describe FacetsHelper do
     end
 
     it "calls a helper to determine if it should render a field" do
-      allow(controller).to receive_messages(:my_custom_check => true)
+      without_partial_double_verification do
+        allow(controller).to receive_messages(:my_custom_check => true)
+      end
       a = double(:items => [1, 2], :name => 'helper_show')
       expect(helper.should_render_facet?(a)).to be true
     end
 
     it "calls a helper to determine if it should render a field" do
       a = double(:items => [1, 2], :name => 'helper_with_an_arg_show')
-      allow(controller).to receive(:my_custom_check_with_an_arg).with(blacklight_config.facet_fields['helper_with_an_arg_show'], a).and_return(true)
+      without_partial_double_verification do
+        allow(controller).to receive(:my_custom_check_with_an_arg).with(blacklight_config.facet_fields['helper_with_an_arg_show'], a).and_return(true)
+      end
       expect(helper.should_render_facet?(a)).to be true
     end
 
@@ -205,8 +209,10 @@ describe FacetsHelper do
     let(:paginator) { Blacklight::Solr::FacetPaginator.new([f1, f2], limit: 10) }
     subject { helper.render_facet_limit_list(paginator, 'type_solr_field') }
     before do
-      allow(helper).to receive(:search_action_path) do |*args|
-        search_catalog_path *args
+      without_partial_double_verification do
+        allow(helper).to receive(:search_action_path) do |*args|
+          search_catalog_path *args
+        end
       end
     end
 
@@ -280,9 +286,11 @@ describe FacetsHelper do
     before do
       allow(helper).to receive(:facet_configuration_for_field).with('simple_field').and_return(double(:query => nil, :date => nil, :helper_method => nil, :single => false, :url_method => nil))
       allow(helper).to receive(:facet_display_value).and_return('Z')
-      allow(helper).to receive(:search_state).and_return(search_state)
-      allow(helper).to receive(:search_action_path) do |*args|
-        search_catalog_path *args
+      without_partial_double_verification do
+        allow(helper).to receive(:search_state).and_return(search_state)
+        allow(helper).to receive(:search_action_path) do |*args|
+          search_catalog_path *args
+        end
       end
     end
 
@@ -291,7 +299,8 @@ describe FacetsHelper do
 
       it "uses facet_display_value" do
         result = helper.render_facet_value('simple_field', item)
-        expect(result).to be_equivalent_to(expected_html).respecting_element_order
+        #expect(result).to be_equivalent_to(expected_html).respecting_element_order #from blacklight- why didn't this work?
+        expect(result).to be == expected_html
       end
     end
 
@@ -299,9 +308,12 @@ describe FacetsHelper do
       let(:expected_html) { '<span class="facet-label"><a class="facet_select" href="/blabla">Z</a></span><span class="facet-count">10</span>' }
       it "uses that method" do
         allow(helper).to receive(:facet_configuration_for_field).with('simple_field').and_return(double(:query => nil, :date => nil, :helper_method => nil, :single => false, :url_method => :test_method))
-        allow(helper).to receive(:test_method).with('simple_field', item).and_return('/blabla')
+        without_partial_double_verification do
+          allow(helper).to receive(:test_method).with('simple_field', item).and_return('/blabla')
+        end
         result = helper.render_facet_value('simple_field', item)
-        expect(result).to be_equivalent_to(expected_html).respecting_element_order
+        #expect(result).to be_equivalent_to(expected_html).respecting_element_order #from blacklight- why didn't this work?
+        expect(result).to be == expected_html
       end
     end
 
@@ -309,7 +321,8 @@ describe FacetsHelper do
       let(:expected_html) { '<span class="facet-label">Z</span><span class="facet-count">10</span>' }
       it "suppresses the link" do
         result = helper.render_facet_value('simple_field', item, :suppress_link => true)
-        expect(result).to be_equivalent_to(expected_html).respecting_element_order
+        #expect(result).to be_equivalent_to(expected_html).respecting_element_order #from blacklight- why didn't this work?
+        expect(result).to be == expected_html
       end
     end
   end
@@ -322,7 +335,9 @@ describe FacetsHelper do
 
     it "allows you to pass in a :helper_method argument to the configuration" do
       allow(helper).to receive(:facet_configuration_for_field).with('helper_field').and_return(double(:query => nil, :date => nil, :url_method => nil, :helper_method => :my_facet_value_renderer))
-      allow(helper).to receive(:my_facet_value_renderer).with('qwerty').and_return('abc')
+      without_partial_double_verification do
+        allow(helper).to receive(:my_facet_value_renderer).with('qwerty').and_return('abc')
+      end
       expect(helper.facet_display_value('helper_field', 'qwerty')).to eq 'abc'
     end
 
