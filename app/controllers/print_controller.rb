@@ -7,7 +7,7 @@ class PrintController < ApplicationController
     @index = params[:index]
     @images = print_images(@id,@index)
 =begin
-    #kluge for testing
+    #stubbed get_solr_doc rather then this kluge, keeping for reference
     #puts "protocol:#{request.protocol}" # http://
     #puts "host:#{request.host_with_port}" # test.host
     if request.host_with_port == "test.host"

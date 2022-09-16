@@ -10,14 +10,6 @@ RSpec.describe CatalogController, :type => :controller do
     SolrDocument.new(JSON.parse(File.open("spec/fixtures/helmingham.json","rb").read))
   end
 
-  let(:document1) do
-    JSON.parse(File.open("spec/fixtures/dort.json","rb").read)
-  end
-
-  let(:document2) do
-    JSON.parse(File.open("spec/fixtures/helmingham.json","rb").read)
-  end
-
   describe "GET #cite" do
     it "tests cite" do
       allow(SolrDocument).to receive(:find).with("34").and_return(solrdoc1)

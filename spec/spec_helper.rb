@@ -4,7 +4,7 @@
 
 require 'simplecov'
 SimpleCov.start do
-  add_filter "app/controllers/print_controller.rb"
+  #add_filter "app/controllers/print_controller.rb"
 end
 
 require 'capybara/rspec'

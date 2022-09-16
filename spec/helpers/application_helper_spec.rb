@@ -751,9 +751,10 @@ describe ApplicationHelper do
           raise "boom"
         end
         expect(helper.get_download_array_from_manifest.length).to be == 0
-        allow(JSON).to receive(:load) do
-          JSON.generate({"items" => {}})
-        end
+        #following 3 lines not needed to test
+        #allow(JSON).to receive(:load) do
+        #  JSON.generate({"items" => {}})
+        #end
         #puts helper.get_download_array_from_manifest
         expect(helper.get_download_array_from_manifest.length).to be == 0
       end
