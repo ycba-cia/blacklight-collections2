@@ -138,6 +138,16 @@ describe FacetsHelper do
       helper.render_facet_partials fields
     end
 
+    it "tries to render all provided facets" do
+      empty = double(:items => [])
+      fields = [a, b, empty]
+      allow(params).to receive(:has_key?).with(:f).and_return(true)
+      expect(helper).to receive(:render_facet_limit).with(a, {})
+      expect(helper).to receive(:render_facet_limit).with(b, {})
+      expect(helper).to receive(:render_facet_limit).with(empty, {})
+      helper.render_facet_partials fields
+    end
+
     it "defaults to the configured facets" do
       expect(helper).to receive(:facet_field_names) { [a, b] }
       expect(helper).to receive(:render_facet_limit).with(a, {})
@@ -231,6 +241,15 @@ describe FacetsHelper do
         expect(subject).to have_selector 'li', count: 1
         expect(subject).to have_selector 'li:first-child a.facet_select', text: 'Book'
       end
+    end
+
+    it "when facet_in_params? true" do
+      allow(helper).to receive(:facet_in_params?).and_return(true)
+      expect(helper.render_facet_item('type_solr_field',f1)).to include("selected")
+    end
+
+    it "when facet_in_params" do
+      expect(helper.facet_in_params?('type_solr_field',f1)).to be false
     end
   end
 
