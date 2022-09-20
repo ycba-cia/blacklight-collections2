@@ -1,0 +1,41 @@
+<record_list>
+  <bib_id>9452785</bib_id>
+  <bib_action_type>4</bib_action_type>
+  <bib_action_date>08-19-22 17:34:00</bib_action_date>
+  <bib_operator_id>OCLCREC</bib_operator_id>
+  <bib_suppressinopac>N</bib_suppressinopac>
+  <holding>
+    <mfhd_id>9799201</mfhd_id>
+    <mfhd_action_type>2</mfhd_action_type>
+    <mfhd_action_date>02-23-22 13:59:23</mfhd_action_date>
+    <mfhd_operator_id>ys394</mfhd_operator_id>
+    <mfhd_callno>Folio C 2014 4</mfhd_callno>
+    <mfhd_suppressinopac>N</mfhd_suppressinopac>
+    <mfhd_loc_code>bacrb</mfhd_loc_code>
+    <mfhd_loc_name>
+      BRITISH ART CENTER, Rare Bks & Mss (Non-Circulating)
+    </mfhd_loc_name>
+    <mfhd_856_field>NA</mfhd_856_field>
+    <mfhd_583_field>
+      Yale Center for British Art, Paul Mellon Collection
+    </mfhd_583_field>
+    <item>
+      <item_id>8831451</item_id>
+      <item_enum>NA</item_enum>
+      <item_chron>NA</item_chron>
+      <item_loc_code>bacrb</item_loc_code>
+      <item_loc_name>
+        BRITISH ART CENTER, Rare Bks & Mss (Non-Circulating)
+      </item_loc_name>
+      <item_type_code>nocirc</item_type_code>
+      <item_type_name>Non-Circulating Item</item_type_name>
+      <item_spine_label>NA</item_spine_label>
+      <item_status>Not Charged</item_status>
+      <item_stat>NA</item_stat>
+      <item_barcode>
+        <barcode>39002101754902</barcode>
+        <barcode_status>Active</barcode_status>
+      </item_barcode>
+    </item>
+  </holding>
+</record_list>

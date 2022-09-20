@@ -1,0 +1,63 @@
+<record_list>
+<bib_id>34</bib_id>
+  <bib_action_type>4</bib_action_type>
+  <bib_action_date>03-24-11 19:22:45</bib_action_date>
+  <bib_operator_id>OCLCREC</bib_operator_id>
+  <bib_suppressinopac>N</bib_suppressinopac>
+  <holding>
+    <mfhd_id>71</mfhd_id>
+    <mfhd_action_type>2</mfhd_action_type>
+    <mfhd_action_date>02-03-20 10:55:52</mfhd_action_date>
+    <mfhd_operator_id>jbk49</mfhd_operator_id>
+    <mfhd_callno>PS3505 A34 I5 1968</mfhd_callno>
+    <mfhd_suppressinopac>N</mfhd_suppressinopac>
+    <mfhd_loc_code>sml</mfhd_loc_code>
+    <mfhd_loc_name>SML, Stacks, LC Classification</mfhd_loc_name>
+    <mfhd_583_field>NA</mfhd_583_field>
+    <mfhd_856_field>NA</mfhd_856_field>
+    <item>
+      <item_id>60</item_id>
+      <item_enum>NA</item_enum>
+      <item_chron>NA</item_chron>
+      <item_loc_code>sml</item_loc_code>
+      <item_loc_name>SML, Stacks, LC Classification</item_loc_name>
+      <item_type_code>circ</item_type_code>
+      <item_type_name>Circulating</item_type_name>
+      <item_spine_label>NA</item_spine_label>
+      <item_status>Not Charged</item_status>
+      <item_stat>NA</item_stat>
+      <item_barcode>
+        <barcode>39002000604448</barcode>
+        <barcode_status>Active</barcode_status>
+      </item_barcode>
+    </item>
+  </holding>
+  <holding>
+    <mfhd_id>72</mfhd_id>
+    <mfhd_action_type>2</mfhd_action_type>
+    <mfhd_action_date>07-22-19 11:35:28</mfhd_action_date>
+    <mfhd_operator_id>jbk49</mfhd_operator_id>
+    <mfhd_callno>PS3505 A34 I5 1968</mfhd_callno>
+    <mfhd_suppressinopac>N</mfhd_suppressinopac>
+    <mfhd_loc_code>cclger</mfhd_loc_code>
+    <mfhd_loc_name>Request for delivery to any Yale Library</mfhd_loc_name>
+    <mfhd_583_field>NA</mfhd_583_field>
+    <mfhd_856_field>NA</mfhd_856_field>
+    <item>
+      <item_id>61</item_id>
+      <item_enum>NA</item_enum>
+      <item_chron>NA</item_chron>
+      <item_loc_code>cclger</item_loc_code>
+      <item_loc_name>Request for delivery to any Yale Library</item_loc_name>
+      <item_type_code>circ</item_type_code>
+      <item_type_name>Circulating</item_type_name>
+      <item_spine_label>NA</item_spine_label>
+      <item_status>Circulation Review</item_status>
+      <item_stat>NA</item_stat>
+      <item_barcode>
+        <barcode>39002000604455</barcode>
+        <barcode_status>Active</barcode_status>
+      </item_barcode>
+    </item>
+  </holding>
+</record_list>

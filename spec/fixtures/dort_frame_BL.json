@@ -1,0 +1,398 @@
+{
+  "responseHeader": {
+    "status": 0,
+    "QTime": 0,
+    "params": {
+      "fq": "callnumber_ss:\"B1977.14.77FR\"",
+      "wt": "json"
+    }
+  },
+  "response": {
+    "numFound": 1,
+    "start": 0,
+    "docs": [
+      {
+        "institution_ss": [
+          "Yale Center for British Art"
+        ],
+        "institution_txt": [
+          "Yale Center for British Art"
+        ],
+        "collection_ss": [
+          "Frames"
+        ],
+        "collection_txt": [
+          "Frames"
+        ],
+        "record_complete_ss": [
+          "Complete"
+        ],
+        "record_complete_txt": [
+          "Complete"
+        ],
+        "onview_ss": [
+          "Not on view"
+        ],
+        "onview_txt": [
+          "Not on view"
+        ],
+        "building_ss": [
+          "Yale Center for British Art"
+        ],
+        "building_txt": [
+          "Yale Center for British Art"
+        ],
+        "type_ss": [
+          "Frames"
+        ],
+        "type_txt": [
+          "Frames"
+        ],
+        "format_ss": [
+          "Carved wood, later oil and water gilding over original gilding"
+        ],
+        "format_txt": [
+          "Carved wood, later oil and water gilding over original gilding"
+        ],
+        "auth_format_ss": [
+          "water gilding",
+          "oil gilding",
+          "wood",
+          "original gilding",
+          "later gilding",
+          "gold leaf"
+        ],
+        "auth_format_txt": [
+          "water gilding",
+          "oil gilding",
+          "wood",
+          "original gilding",
+          "later gilding",
+          "gold leaf"
+        ],
+        "author_ss": [
+          "Unknown framemaker"
+        ],
+        "author_txt": [
+          "Unknown framemaker"
+        ],
+        "auth_author_ss": [
+          "Unknown artist",
+          "Unknown framemaker",
+          "Unknown rights holder",
+          "Unknown rights administrator",
+          "French 17th century bronzes",
+          "unknown framemaker",
+          "unknown artist"
+        ],
+        "auth_author_txt": [
+          "Unknown artist",
+          "Unknown framemaker",
+          "Unknown rights holder",
+          "Unknown rights administrator",
+          "French 17th century bronzes",
+          "unknown framemaker",
+          "unknown artist"
+        ],
+        "auth_author_display_ss": [
+          "unknown artist"
+        ],
+        "auth_author_display_txt": [
+          "unknown artist"
+        ],
+        "author_earliestDate_ss": [
+          "0"
+        ],
+        "author_earliestDate_txt": [
+          "0"
+        ],
+        "author_latestDate_ss": [
+          "0"
+        ],
+        "author_latestDate_txt": [
+          "0"
+        ],
+        "author_gender_ss": [
+          "unknown"
+        ],
+        "author_gender_txt": [
+          "unknown"
+        ],
+        "title_s": "British, 'Carlo Maratta', NeoClassical variant frame",
+        "title_ss": [
+          "British, 'Carlo Maratta', NeoClassical variant frame"
+        ],
+        "title_txt": [
+          "British, 'Carlo Maratta', NeoClassical variant frame"
+        ],
+        "title_sort_ss": [
+          "British, 'Carlo Maratta', NeoClassical variant frame"
+        ],
+        "title_sort_txt": [
+          "British, 'Carlo Maratta', NeoClassical variant frame"
+        ],
+        "title_short_ss": [
+          "British, 'Carlo Maratta', NeoClassical variant frame"
+        ],
+        "title_short_txt": [
+          "British, 'Carlo Maratta', NeoClassical variant frame"
+        ],
+        "title_full_ss": [
+          "British, 'Carlo Maratta', NeoClassical variant frame"
+        ],
+        "title_full_txt": [
+          "British, 'Carlo Maratta', NeoClassical variant frame"
+        ],
+        "titles_all_ss": [
+          "British, 'Carlo Maratta', NeoClassical variant frame"
+        ],
+        "titles_all_txt": [
+          "British, 'Carlo Maratta', NeoClassical variant frame"
+        ],
+        "titles_primary_ss": [
+          "British, 'Carlo Maratta', NeoClassical variant frame"
+        ],
+        "titles_primary_txt": [
+          "British, 'Carlo Maratta', NeoClassical variant frame"
+        ],
+        "physical_ss": [
+          "Frame: 73 × 102 inches (185.4 × 259.1 cm)"
+        ],
+        "physical_txt": [
+          "Frame: 73 × 102 inches (185.4 × 259.1 cm)"
+        ],
+        "physical_heightUnit_ss": [
+          "cm"
+        ],
+        "physical_heightUnit_txt": [
+          "cm"
+        ],
+        "physical_heightValue_ss": [
+          "185"
+        ],
+        "physical_heightValue_txt": [
+          "185"
+        ],
+        "physical_heightValue_is": [
+          185
+        ],
+        "physical_widthUnit_ss": [
+          "cm"
+        ],
+        "physical_widthUnit_txt": [
+          "cm"
+        ],
+        "physical_widthValue_ss": [
+          "259"
+        ],
+        "physical_widthValue_txt": [
+          "259"
+        ],
+        "physical_widthValue_is": [
+          259
+        ],
+        "physical_depthUnit_ss": [
+          "cm"
+        ],
+        "physical_depthUnit_txt": [
+          "cm"
+        ],
+        "physical_depthValue_ss": [
+          ".0"
+        ],
+        "physical_depthValue_txt": [
+          ".0"
+        ],
+        "callnumber_ss": [
+          "B1977.14.77FR"
+        ],
+        "callnumber_txt": [
+          "B1977.14.77FR"
+        ],
+        "earliestDate_ss": [
+          "1770"
+        ],
+        "earliestDate_txt": [
+          "1770"
+        ],
+        "earliestDate_is": [
+          1770
+        ],
+        "earliestDate_i": 1770,
+        "latestDate_ss": [
+          "1829"
+        ],
+        "latestDate_txt": [
+          "1829"
+        ],
+        "latestDate_is": [
+          1829
+        ],
+        "genre_ss": [
+          "frame"
+        ],
+        "genre_txt": [
+          "frame"
+        ],
+        "object_name_ss": [
+          "frame"
+        ],
+        "object_name_txt": [
+          "frame"
+        ],
+        "exhibition_count_i": 0,
+        "topic_subjectConcept_ss": [
+          "frame ornament: Leaf back; centred ribbon-&amp;-stave; centred husk sight",
+          "frame status: Possibly original",
+          "frame style: 'Carlo Maratta' - NeoClassical variant",
+          "frame cross-section: Concave",
+          "frame alteration: probably not",
+          "frame quality: Average"
+        ],
+        "topic_subjectConcept_txt": [
+          "frame ornament: Leaf back; centred ribbon-&amp;-stave; centred husk sight",
+          "frame status: Possibly original",
+          "frame style: 'Carlo Maratta' - NeoClassical variant",
+          "frame cross-section: Concave",
+          "frame alteration: probably not",
+          "frame quality: Average"
+        ],
+        "topic_ss": [
+          "frame ornament: Leaf back; centred ribbon-&amp;-stave; centred husk sight",
+          "frame status: Possibly original",
+          "frame style: 'Carlo Maratta' - NeoClassical variant",
+          "frame cross-section: Concave",
+          "frame alteration: probably not",
+          "frame quality: Average"
+        ],
+        "topic_txt": [
+          "frame ornament: Leaf back; centred ribbon-&amp;-stave; centred husk sight",
+          "frame status: Possibly original",
+          "frame style: 'Carlo Maratta' - NeoClassical variant",
+          "frame cross-section: Concave",
+          "frame alteration: probably not",
+          "frame quality: Average"
+        ],
+        "citation_count_i": 0,
+        "credit_line_ss": [
+          "Yale Center for British Art"
+        ],
+        "credit_line_txt": [
+          "Yale Center for British Art"
+        ],
+        "rights_ss": [
+          "Free to Use"
+        ],
+        "rights_txt": [
+          "Free to Use"
+        ],
+        "ort_ss": [
+          "Public Domain"
+        ],
+        "ort_txt": [
+          "Public Domain"
+        ],
+        "rightsURL_ss": [
+          "https://creativecommons.org/publicdomain/zero/1.0/"
+        ],
+        "rightsURL_txt": [
+          "https://creativecommons.org/publicdomain/zero/1.0/"
+        ],
+        "resource_ss": [
+          "Resource available online"
+        ],
+        "resource_txt": [
+          "Resource available online"
+        ],
+        "access_ss": [
+          "Open access"
+        ],
+        "access_txt": [
+          "Open access"
+        ],
+        "url_ss": [
+          "https://collections.britishart.yale.edu/catalog/tms:64431"
+        ],
+        "url_txt": [
+          "https://collections.britishart.yale.edu/catalog/tms:64431"
+        ],
+        "recordSource_ss": [
+          "http://britishart.yale.edu"
+        ],
+        "recordSource_txt": [
+          "http://britishart.yale.edu"
+        ],
+        "recordID_ss": [
+          "64431"
+        ],
+        "recordID_txt": [
+          "64431"
+        ],
+        "recordLevel_ss": [
+          "Item"
+        ],
+        "recordLevel_txt": [
+          "Item"
+        ],
+        "cds_repository_code_ss": [
+          "YCBA"
+        ],
+        "cds_repository_code_txt": [
+          "YCBA"
+        ],
+        "cds_object_id_ss": [
+          "64431"
+        ],
+        "cds_object_id_txt": [
+          "64431"
+        ],
+        "id": "tms:64431",
+        "recordtype_ss": [
+          "lido"
+        ],
+        "recordtype_txt": [
+          "lido"
+        ],
+        "timestamp_dt": "2022-09-20T07:55:26.792Z",
+        "has_image_ss": [
+          "available"
+        ],
+        "has_image_txt": [
+          "available"
+        ],
+        "manifest_thumbnail_ss": [
+          "https://media.collections.yale.edu/thumbnail/ycba/a04c822d-150d-4fdc-af2b-f4ddbde05069"
+        ],
+        "manifest_thumbnail_txt": [
+          "https://media.collections.yale.edu/thumbnail/ycba/a04c822d-150d-4fdc-af2b-f4ddbde05069"
+        ],
+        "era_ss": [
+          "18th century-19th century"
+        ],
+        "era_txt": [
+          "18th century-19th century"
+        ],
+        "publishDateFacet_ss": [
+          "late 18th to early 19th century"
+        ],
+        "publishDateFacet_txt": [
+          "late 18th to early 19th century"
+        ],
+        "publishDate_ss": [
+          "late 18th to early 19th century"
+        ],
+        "publishDate_txt": [
+          "late 18th to early 19th century"
+        ],
+        "collection_sort_s": "f",
+        "date_entered_is": [
+          1977
+        ],
+        "fullrecord_txt": [
+          "    &lt;lido:lido  xmlns:lido=\"http://www.lido-schema.org\";  xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\";  xmlns:gml=\"http://www.opengis.net/gml\"; xsi:schemaLocation=\"http://www.lido-schema.org http://www.lido-schema.org/schema/v1.0/lido-v1.0.xsd\";&gt;    &lt;lido:lidoRecID lido:source=\"Yale Center for British Art\" lido:type=\"local\"&gt;YCBA/lido-TMS-64431&lt;/lido:lidoRecID&gt; &lt;lido:category&gt;   &lt;lido:conceptID lido:type=\"URI\"&gt;http://www.cidoc-crm.org/cidoc-crm/E22_Human-Made_Object&;lt;/lido:conceptID&gt;        &lt;lido:term xml:lang=\"eng\"&gt;Human-Made Object&lt;/lido:term&gt;    &lt;/lido:category&gt;  &lt;lido:descriptiveMetadata xml:lang=\"eng\"&gt;    &lt;lido:objectClassificationWrap&gt;      &lt;lido:objectWorkTypeWrap&gt;         &lt;lido:objectWorkType&gt;           &lt;lido:conceptID lido:source=\"AAT\" lido:type=\"Object name\"&gt;300189814&lt;/lido:conceptID&gt;          &lt;lido:term&gt;frame&lt;/lido:term&gt;     &lt;/lido:objectWorkType&gt;       &lt;/lido:objectWorkTypeWrap&gt;       &lt;lido:classificationWrap&gt;       &lt;lido:classification&gt;     &lt;lido:conceptID lido:source=\"AAT\" lido:type=\"Classification\"&gt;300189814&lt;/lido:conceptID&gt;     &lt;lido:term&gt;Frame&lt;/lido:term&gt;    &lt;/lido:classification&gt;      &lt;/lido:classificationWrap&gt;   &lt;/lido:objectClassificationWrap&gt;        &lt;lido:objectIdentificationWrap&gt;         &lt;lido:titleWrap&gt;       &lt;lido:titleSet lido:type=\"Repository title\"&gt;      &lt;lido:appellationValue lido:pref=\"preferred\" xml:lang=\"eng\"&gt;British, 'Carlo Maratta', NeoClassical variant frame&lt;/lido:appellationValue&gt;          &lt;/lido:titleSet&gt;       &lt;/lido:titleWrap&gt;           &lt;lido:inscriptionsWrap&gt;                 &lt;lido:inscriptions lido:type=\"Inscription\"&gt;                    &lt;lido:inscriptionTranscription&gt;&lt;/lido:inscriptionTranscription&gt;                &lt;/lido:inscriptions&gt;                                                &lt;/lido:inscriptionsWrap&gt;                           &lt;lido:repositoryWrap&gt;                &lt;lido:repositorySet lido:type=\"current\"&gt;                                        &lt;lido:repositoryName&gt;        &lt;lido:legalBodyID lido:source=\"ULAN\" lido:type=\"local\"&gt;500303557&lt;/lido:legalBodyID&gt;                         &lt;lido:legalBodyName&gt;                            &lt;lido:appellationValue&gt;Yale Center for British Art&lt;/lido:appellationValue&gt;                        &lt;/lido:legalBodyName&gt;       &lt;lido:legalBodyWeblink&gt;http://britishart.yale.edu&;lt;/lido:legalBodyWeblink&gt;                     &lt;/lido:repositoryName&gt;                    &lt;lido:workID lido:type=\"inventory number\"&gt;B1977.14.77FR&lt;/lido:workID&gt;                                        &lt;lido:repositoryLocation&gt;     &lt;lido:partOfPlace&gt;                        &lt;lido:namePlaceSet&gt;                            &lt;lido:appellationValue lido:label=\"On view or not\"&gt;Not on view&lt;/lido:appellationValue&gt;                        &lt;/lido:namePlaceSet&gt;                    &lt;/lido:partOfPlace&gt;                                                                                                                                                                                                                                                                                                                                                                               &lt;lido:partOfPlace&gt;       &lt;lido:namePlaceSet&gt;        &lt;lido:appellationValue lido:label=\"Site\"&gt;Yale Center for British Art&lt;/lido:appellationValue&gt;         &lt;/lido:namePlaceSet&gt;       &lt;lido:gml&gt;                    &lt;gml:Point&gt;         &lt;gml:coordinates&gt;41.3080060, -72.9306282&lt;/gml:coordinates&gt;         &lt;/gml:Point&gt;       &lt;/lido:gml&gt;      &lt;/lido:partOfPlace&gt;                                                                                                            &lt;/lido:repositoryLocation&gt;                    &lt;/lido:repositorySet&gt;       &lt;/lido:repositoryWrap&gt;               &lt;lido:displayStateEditionWrap&gt;                        &lt;/lido:displayStateEditionWrap&gt;               &lt;lido:objectMeasurementsWrap&gt;                                   &lt;lido:objectMeasurementsSet&gt;      &lt;lido:displayObjectMeasurements&gt;Frame: 73 × 102 inches (185.4 × 259.1 cm)&lt;/lido:displayObjectMeasurements&gt;     &lt;lido:objectMeasurements&gt;                 &lt;lido:measurementsSet&gt;              &lt;lido:measurementType&gt;height&lt;/lido:measurementType&gt;       &lt;lido:measurementUnit&gt;cm&lt;/lido:measurementUnit&gt;         &lt;lido:measurementValue&gt;185.4&lt;/lido:measurementValue&gt;      &lt;/lido:measurementsSet&gt;                             &lt;lido:measurementsSet&gt;              &lt;lido:measurementType&gt;width&lt;/lido:measurementType&gt;       &lt;lido:measurementUnit&gt;cm&lt;/lido:measurementUnit&gt;         &lt;lido:measurementValue&gt;259.1&lt;/lido:measurementValue&gt;      &lt;/lido:measurementsSet&gt;                             &lt;lido:measurementsSet&gt;              &lt;lido:measurementType&gt;depth&lt;/lido:measurementType&gt;       &lt;lido:measurementUnit&gt;cm&lt;/lido:measurementUnit&gt;         &lt;lido:measurementValue&gt;.0&lt;/lido:measurementValue&gt;      &lt;/lido:measurementsSet&gt;                          &lt;lido:extentMeasurements&gt;Frame&lt;/lido:extentMeasurements&gt;        &lt;lido:qualifierMeasurements&gt;&lt;/lido:qualifierMeasurements&gt;         &lt;/lido:objectMeasurements&gt;     &lt;/lido:objectMeasurementsSet&gt;                                    &lt;/lido:objectMeasurementsWrap&gt;     &lt;/lido:objectIdentificationWrap&gt;      &lt;lido:eventWrap&gt;   &lt;lido:eventSet&gt;    &lt;lido:event&gt;    &lt;lido:eventID lido:type=\"TMS\"&gt;64431&lt;/lido:eventID&gt;     &lt;lido:eventType&gt;     &lt;lido:conceptID lido:source=\"AAT\" lido:type=\"local\"&gt;300054713&lt;/lido:conceptID&gt;      &lt;lido:term&gt;production&lt;/lido:term&gt;                    &lt;/lido:eventType&gt;                          &lt;lido:eventActor&gt;                  &lt;lido:displayActorInRole&gt;Unknown framemaker&lt;/lido:displayActorInRole&gt;                              &lt;lido:actorInRole&gt;                               &lt;lido:actor lido:type=\"person\"&gt;                    &lt;lido:actorID lido:source=\"YCBA\" lido:type=\"local\"&gt;ycba_actor_616&lt;/lido:actorID&gt;                                        &lt;lido:nameActorSet&gt;                                                                  &lt;lido:appellationValue lido:pref=\"alternate\"&gt;Unknown artist&lt;/lido:appellationValue&gt;                                                                                     &lt;lido:appellationValue lido:pref=\"preferred\"&gt;unknown artist&lt;/lido:appellationValue&gt;                                                                                     &lt;lido:appellationValue lido:pref=\"alternate\"&gt;Unknown framemaker&lt;/lido:appellationValue&gt;                                                                                     &lt;lido:appellationValue lido:pref=\"alternate\"&gt;Unknown rights holder&lt;/lido:appellationValue&gt;                                                                                     &lt;lido:appellationValue lido:pref=\"alternate\"&gt;Unknown rights administrator&lt;/lido:appellationValue&gt;                                                                                     &lt;lido:appellationValue lido:pref=\"alternate\"&gt;French 17th century bronzes&lt;/lido:appellationValue&gt;                                                                                     &lt;lido:appellationValue lido:pref=\"alternate\"&gt;unknown framemaker&lt;/lido:appellationValue&gt;                                                                                                                                     &lt;lido:appellationValue lido:label=\"Alpha Sort\" lido:pref=\"alternate\"&gt;&lt;/lido:appellationValue&gt;                                                                                                                       &lt;/lido:nameActorSet&gt;                                                         &lt;lido:vitalDatesActor&gt;           &lt;lido:earliestDate lido:type=\"birthDate\"&gt;0&lt;/lido:earliestDate&gt;      &lt;lido:latestDate lido:type=\"deathDate\"&gt;0&lt;/lido:latestDate&gt;                                          &lt;/lido:vitalDatesActor&gt;                           &lt;lido:genderActor&gt;unknown&lt;/lido:genderActor&gt;                                            &lt;/lido:actor&gt;                   &lt;lido:roleActor&gt;                &lt;lido:conceptID lido:source=\"AAT\" lido:type=\"Object related role\"&gt;300025103&lt;/lido:conceptID&gt;        &lt;lido:term&gt;Artist&lt;/lido:term&gt;               &lt;/lido:roleActor&gt;                                &lt;lido:attributionQualifierActor&gt;&lt;/lido:attributionQualifierActor&gt;      &lt;/lido:actorInRole&gt;     &lt;/lido:eventActor&gt;                                                                                                &lt;lido:eventDate&gt;                        &lt;lido:displayDate&gt;late 18th to early 19th century&lt;/lido:displayDate&gt;                        &lt;lido:date&gt;                            &lt;lido:earliestDate&gt;1770&lt;/lido:earliestDate&gt;                            &lt;lido:latestDate&gt;1829&lt;/lido:latestDate&gt;                        &lt;/lido:date&gt;                    &lt;/lido:eventDate&gt;                                        &lt;lido:periodName&gt;      &lt;lido:conceptID lido:type=\"local\" lido:source=\"YCBA\"&gt;23&lt;/lido:conceptID&gt;                        &lt;lido:term&gt;18th century-19th century&lt;/lido:term&gt;                     &lt;/lido:periodName&gt;                                                                                &lt;lido:eventMaterialsTech&gt;                        &lt;lido:displayMaterialsTech&gt;Carved wood, later oil and water gilding over original gilding&lt;/lido:displayMaterialsTech&gt;           &lt;lido:materialsTech&gt;                                         &lt;lido:termMaterialsTech&gt;                                &lt;lido:conceptID lido:type=\"technique\" lido:source=\"AAT\"&gt;300053795&lt;/lido:conceptID&gt;                                &lt;lido:term&gt;water gilding&lt;/lido:term&gt;                            &lt;/lido:termMaterialsTech&gt;                                                &lt;lido:termMaterialsTech&gt;                                &lt;lido:conceptID lido:type=\"technique\" lido:source=\"AAT\"&gt;300230058&lt;/lido:conceptID&gt;                                &lt;lido:term&gt;oil gilding&lt;/lido:term&gt;                            &lt;/lido:termMaterialsTech&gt;                                                &lt;lido:termMaterialsTech&gt;                                &lt;lido:conceptID lido:type=\"medium\" lido:source=\"AAT\"&gt;300011914&lt;/lido:conceptID&gt;                                &lt;lido:term&gt;wood&lt;/lido:term&gt;                            &lt;/lido:termMaterialsTech&gt;                                                &lt;lido:termMaterialsTech&gt;                                &lt;lido:conceptID lido:type=\"technique\" lido:source=\"AAT\"&gt;&lt;/lido:conceptID&gt;                                &lt;lido:term&gt;original gilding&lt;/lido:term&gt;                            &lt;/lido:termMaterialsTech&gt;                                                &lt;lido:termMaterialsTech&gt;                                &lt;lido:conceptID lido:type=\"technique\" lido:source=\"AAT\"&gt;&lt;/lido:conceptID&gt;                                &lt;lido:term&gt;later gilding&lt;/lido:term&gt;                            &lt;/lido:termMaterialsTech&gt;                                                &lt;lido:termMaterialsTech&gt;                                &lt;lido:conceptID lido:type=\"medium\" lido:source=\"AAT\"&gt;&lt;/lido:conceptID&gt;                                &lt;lido:term&gt;gold leaf&lt;/lido:term&gt;                            &lt;/lido:termMaterialsTech&gt;                    &lt;/lido:materialsTech&gt;                    &lt;/lido:eventMaterialsTech&gt;         &lt;/lido:event&gt;            &lt;/lido:eventSet&gt;                                                                                                                                                                                                                                            &lt;lido:eventSet&gt;                                       &lt;lido:event&gt;                                    &lt;lido:eventID lido:type=\"TMS\"&gt;64431&lt;/lido:eventID&gt;                                     &lt;lido:eventType&gt;                                        &lt;lido:conceptID lido:source=\"AAT\" lido:type=\"local\"&gt;300157782&lt;/lido:conceptID&gt;                                        &lt;lido:term&gt;acquisition&lt;/lido:term&gt;                                       &lt;/lido:eventType&gt;                                    &lt;lido:eventActor&gt;                                        &lt;lido:displayActorInRole&gt;Yale Center for British Art&lt;/lido:displayActorInRole&gt;                                        &lt;lido:actorInRole&gt;                                            &lt;lido:actor lido:type=\"institution\"&gt;                                                &lt;lido:actorID lido:source=\"YCBA\" lido:type=\"local\"&gt;ycba_actor_1281&lt;/lido:actorID&gt;                                                           &lt;lido:nameActorSet&gt;                                                                         &lt;lido:appellationValue lido:pref=\"alternate\"&gt;YCBA&lt;/lido:appellationValue&gt;                                                                      &lt;lido:appellationValue lido:pref=\"alternate\"&gt;BAC&lt;/lido:appellationValue&gt;                                                                      &lt;lido:appellationValue lido:pref=\"preferred\"&gt;Yale Center for British Art&lt;/lido:appellationValue&gt;                                                                      &lt;lido:appellationValue lido:pref=\"alternate\"&gt;British Art Center&lt;/lido:appellationValue&gt;                                           &lt;/lido:nameActorSet&gt;          &lt;lido:nationalityActor/&gt;                                                &lt;lido:vitalDatesActor&gt;                                                    &lt;lido:earliestDate lido:label=\"estimatedDate\" lido:type=\"\"&gt;1977&lt;/lido:earliestDate&gt;                                                    &lt;lido:latestDate lido:label=\"estimatedDate\" lido:type=\"\"&gt;9999&lt;/lido:latestDate&gt;                                                &lt;/lido:vitalDatesActor&gt;                                                &lt;lido:genderActor/&gt;                                            &lt;/lido:actor&gt;                                            &lt;lido:roleActor&gt;                                                &lt;lido:conceptID lido:source=\"AAT\" lido:type=\"local\" lido:label=\"Acquisition related role\"&gt;300203630&lt;/lido:conceptID&gt;                                                &lt;lido:term&gt;Owner&lt;/lido:term&gt;                                            &lt;/lido:roleActor&gt;                                            &lt;lido:attributionQualifierActor/&gt;                                        &lt;/lido:actorInRole&gt;                                    &lt;/lido:eventActor&gt;                                    &lt;lido:culture/&gt;                                    &lt;lido:eventDate&gt;                                        &lt;lido:displayDate&gt;1977&lt;/lido:displayDate&gt;                                        &lt;lido:date&gt;                                            &lt;lido:earliestDate&gt;1977&lt;/lido:earliestDate&gt;                                            &lt;lido:latestDate&gt;1977&lt;/lido:latestDate&gt;                                        &lt;/lido:date&gt;                                    &lt;/lido:eventDate&gt;                                     &lt;lido:periodName/&gt;                                   &lt;lido:eventPlace/&gt;                                    &lt;lido:eventMethod&gt;                                        &lt;lido:conceptID lido:type=\"local\" lido:source=\"YCBA\"&gt;0&lt;/lido:conceptID&gt;                                        &lt;lido:term&gt;not selected&lt;/lido:term&gt;                                    &lt;/lido:eventMethod&gt;                                &lt;/lido:event&gt;                                   &lt;/lido:eventSet&gt;                                  &lt;/lido:eventWrap&gt;                &lt;lido:objectRelationWrap&gt;            &lt;lido:subjectWrap&gt;   &lt;lido:subjectSet&gt;    &lt;lido:subject lido:type=\"description\"&gt;                                   &lt;lido:subjectConcept&gt;            &lt;lido:conceptID lido:source=\"YCBA\" lido:type=\"local\"&gt;ycba_term_2046077&lt;/lido:conceptID&gt;      &lt;lido:term&gt;frame ornament: Leaf back; centred ribbon-&amp;amp;-stave; centred husk sight&lt;/lido:term&gt;     &lt;/lido:subjectConcept&gt;                                &lt;lido:subjectConcept&gt;            &lt;lido:conceptID lido:source=\"YCBA\" lido:type=\"local\"&gt;ycba_term_2041850&lt;/lido:conceptID&gt;      &lt;lido:term&gt;frame status: Possibly original&lt;/lido:term&gt;     &lt;/lido:subjectConcept&gt;                                &lt;lido:subjectConcept&gt;            &lt;lido:conceptID lido:source=\"YCBA\" lido:type=\"local\"&gt;ycba_term_2038437&lt;/lido:conceptID&gt;      &lt;lido:term&gt;frame style: 'Carlo Maratta' - NeoClassical variant&lt;/lido:term&gt;     &lt;/lido:subjectConcept&gt;                                &lt;lido:subjectConcept&gt;            &lt;lido:conceptID lido:source=\"YCBA\" lido:type=\"local\"&gt;ycba_term_2038567&lt;/lido:conceptID&gt;      &lt;lido:term&gt;frame cross-section: Concave&lt;/lido:term&gt;     &lt;/lido:subjectConcept&gt;                                &lt;lido:subjectConcept&gt;            &lt;lido:conceptID lido:source=\"YCBA\" lido:type=\"local\"&gt;ycba_term_2041840&lt;/lido:conceptID&gt;      &lt;lido:term&gt;frame alteration: probably not&lt;/lido:term&gt;     &lt;/lido:subjectConcept&gt;                                &lt;lido:subjectConcept&gt;            &lt;lido:conceptID lido:source=\"YCBA\" lido:type=\"local\"&gt;ycba_term_2039244&lt;/lido:conceptID&gt;      &lt;lido:term&gt;frame quality: Average&lt;/lido:term&gt;     &lt;/lido:subjectConcept&gt;                          &lt;/lido:subject&gt;   &lt;/lido:subjectSet&gt;   &lt;/lido:subjectWrap&gt;                      &lt;lido:relatedWorksWrap&gt;                     &lt;/lido:relatedWorksWrap&gt;  &lt;/lido:objectRelationWrap&gt;    &lt;/lido:descriptiveMetadata&gt; &lt;lido:administrativeMetadata xml:lang=\"eng\"&gt;        &lt;lido:rightsWorkWrap&gt;        &lt;lido:rightsWorkSet&gt;            &lt;lido:rightsType&gt;                &lt;lido:conceptID lido:source=\"AAT\" lido:type=\"local\" lido:label=\"object ownership\"&gt;300055603&lt;/lido:conceptID&gt;                            &lt;/lido:rightsType&gt;                        &lt;lido:rightsHolder&gt;                     &lt;lido:legalBodyID lido:source=\"ULAN\" lido:type=\"local\"&gt;500303557&lt;/lido:legalBodyID&gt;                      &lt;lido:legalBodyName&gt;                    &lt;lido:appellationValue&gt;Yale Center for British Art&lt;/lido:appellationValue&gt;                  &lt;/lido:legalBodyName&gt;                &lt;lido:legalBodyWeblink&gt;https://britishart.yale.edu&;lt;/lido:legalBodyWeblink&gt;             &lt;/lido:rightsHolder&gt;                        &lt;lido:creditLine&gt;Yale Center for British Art&lt;/lido:creditLine&gt;        &lt;/lido:rightsWorkSet&gt;                     &lt;lido:rightsWorkSet&gt;            &lt;lido:rightsType&gt;     &lt;lido:conceptID lido:source=\"AAT\" lido:type=\"local\" lido:label=\"copyright\"&gt;300055598&lt;/lido:conceptID&gt;                &lt;lido:term&gt;Public Domain&lt;/lido:term&gt;   &lt;/lido:rightsType&gt;      &lt;lido:rightsType&gt;   &lt;lido:conceptID lido:source=\"AAT\" lido:type=\"local\" lido:label=\"copyright statement\"&gt;300435434&lt;/lido:conceptID&gt;    &lt;lido:term lido:source=\"Creative Commons\" lido:label=\"Public Domain\" lido:type=\"url\"&gt;https://creativecommons.org/publicdomain/zero/1.0/&;lt;/lido:term&gt;     &lt;/lido:rightsType&gt;                         &lt;/lido:rightsWorkSet&gt;          &lt;/lido:rightsWorkWrap&gt;        &lt;lido:recordWrap&gt;                &lt;lido:recordID lido:type=\"local\"&gt;64431&lt;/lido:recordID&gt;                &lt;lido:recordType&gt;            &lt;lido:conceptID lido:source=\"AAT\" lido:type=\"local\"&gt;300133025&lt;/lido:conceptID&gt;            &lt;lido:term&gt;Item&lt;/lido:term&gt;               &lt;/lido:recordType&gt;                 &lt;lido:recordSource&gt;            &lt;lido:legalBodyID lido:source=\"ULAN\" lido:type=\"local\"&gt;500303557&lt;/lido:legalBodyID&gt;            &lt;lido:legalBodyName&gt;                &lt;lido:appellationValue&gt;Yale Center for British Art&lt;/lido:appellationValue&gt;            &lt;/lido:legalBodyName&gt;            &lt;lido:legalBodyWeblink&gt;http://britishart.yale.edu&;lt;/lido:legalBodyWeblink&gt;        &lt;/lido:recordSource&gt;                        &lt;lido:recordInfoSet&gt;            &lt;lido:recordInfoLink lido:formatResource=\"html\"&gt;https://collections.britishart.yale.edu/catalog/tms:64431&lt;/lido:recordInfoLink&gt;             &lt;/lido:recordInfoSet&gt;                &lt;lido:recordInfoSet&gt;            &lt;lido:recordInfoID lido:type=\"url\" lido:source=\"YCBA\"&gt;oai:tms.ycba.yale.edu:64431&lt;/lido:recordInfoID&gt;        &lt;/lido:recordInfoSet&gt;            &lt;/lido:recordWrap&gt;        &lt;lido:resourceWrap&gt;                &lt;lido:resourceSet&gt;                    &lt;lido:resourceRepresentation lido:type=\"http://iiif.io/api/presentation/2/context.json\";&gt;                        &lt;lido:linkResource lido:formatResource=\"application/ld+json\"&gt;https://manifests.collections.yale.edu/v2/ycba/obj/64431&;lt;/lido:linkResource&gt;                    &lt;/lido:resourceRepresentation&gt;      &lt;lido:resourceRepresentation lido:type=\"http://iiif.io/api/presentation/3/context.json\";&gt;                        &lt;lido:linkResource lido:formatResource=\"application/ld+json\"&gt;https://manifests.collections.yale.edu/ycba/obj/64431&;lt;/lido:linkResource&gt;                    &lt;/lido:resourceRepresentation&gt;                    &lt;lido:resourceType&gt;                        &lt;lido:term&gt;IIIF manifest&lt;/lido:term&gt;                    &lt;/lido:resourceType&gt;                    &lt;lido:resourceSource lido:type=\"holder of image\"&gt;                        &lt;lido:legalBodyName&gt;                            &lt;lido:appellationValue&gt;Yale Center for British Art&lt;/lido:appellationValue&gt;                        &lt;/lido:legalBodyName&gt;                    &lt;/lido:resourceSource&gt;                    &lt;lido:rightsResource&gt;                        &lt;lido:rightsHolder&gt;                            &lt;lido:legalBodyID lido:source=\"ULAN\" lido:type=\"local\"&gt;500303557&lt;/lido:legalBodyID&gt;                        &lt;lido:legalBodyName&gt;                            &lt;lido:appellationValue&gt;Yale Center for British Art&lt;/lido:appellationValue&gt;                        &lt;/lido:legalBodyName&gt;                &lt;/lido:rightsHolder&gt;            &lt;/lido:rightsResource&gt;        &lt;/lido:resourceSet&gt;    &lt;/lido:resourceWrap&gt;   &lt;/lido:administrativeMetadata&gt;  &lt;/lido:lido&gt;"
+        ],
+        "_version_": 1744474500141940700
+      }
+    ]
+  }
+}

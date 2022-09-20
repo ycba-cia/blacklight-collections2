@@ -3,6 +3,7 @@ require 'rails_helper'
 
 describe ApplicationHelper do
   #rspec ./spec/helpers/application_helper_spec.rb:11
+  #note: to improve, next https stubs so not calling repeatedly
 
   let(:document1) do
     JSON.parse(File.open("spec/fixtures/dort.json","rb").read)
@@ -116,7 +117,18 @@ describe ApplicationHelper do
       options[:value] = ["View by request in the Study Room"]
       options[:document] = document2
       options[:document][:detailed_onview_ss] = ["View by request in the Study Room"]
+      #expect(helper.render_aeon_from_access(options)).to be == "View by request in the Study Room [<a href='https://aeon-test-mssa.library.yale.edu/aeon.dll?Action=10&Form=20&Value=GenericRequestMonograph&Site=YCBA&CallNumber=&ItemTitle=Helmingham herbal and bestiary.&ItemAuthor=&ItemDate=1500&Format=1 v. ([20] leaves, with 1 blank leaf) : ill. ; 45 x 32 cm.&Location=bacrb&mfhdID=9799201&EADNumber=http://hdl.handle.net/10079/bibid/9452785' target='_blank'>Request</a>]<br/><i>Note: The Study Room is open by appointment. Please visit the <a href=\"https://britishart.yale.edu/study-room\">Study Room page</a> on our website for more details.</i>"
+      stub_request(:get, "https://libapp-test.library.yale.edu/VoySearch/GetBibItem?bibid=9452785").
+          with(
+              headers: {
+                  'Accept'=>'*/*',
+                  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                  'Host'=>'libapp-test.library.yale.edu',
+                  'User-Agent'=>'Ruby'
+              }).
+          to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','helmingham_bibitem.json')), headers: {})
       expect(helper.render_aeon_from_access(options)).to be == "View by request in the Study Room [<a href='https://aeon-test-mssa.library.yale.edu/aeon.dll?Action=10&Form=20&Value=GenericRequestMonograph&Site=YCBA&CallNumber=&ItemTitle=Helmingham herbal and bestiary.&ItemAuthor=&ItemDate=1500&Format=1 v. ([20] leaves, with 1 blank leaf) : ill. ; 45 x 32 cm.&Location=bacrb&mfhdID=9799201&EADNumber=http://hdl.handle.net/10079/bibid/9452785' target='_blank'>Request</a>]<br/><i>Note: The Study Room is open by appointment. Please visit the <a href=\"https://britishart.yale.edu/study-room\">Study Room page</a> on our website for more details.</i>"
+
 
       #ref
       #possible to do, need to mock full ref doc?
@@ -140,12 +152,29 @@ describe ApplicationHelper do
 
   describe "#pull_mfhd_doc" do
     it "returns true" do
+      stub_request(:get, "https://libapp.library.yale.edu/VoySearch/GetAllMfhdItem?bibid=9452785").
+          with(
+              headers: {
+                  'Accept'=>'*/*',
+                  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                  'User-Agent'=>'Ruby'
+              }).
+          to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','helmingham_mfhd.xml')), headers: {})
       expect(helper.pull_mfhd_doc(document2.deep_symbolize_keys)).to be_an_instance_of Nokogiri::HTML4::Document
     end
   end
 
   describe "#get_mfhd_doc" do
     it "returns true" do
+
+      stub_request(:get, "https://libapp.library.yale.edu/VoySearch/GetAllMfhdItem?bibid=9452785").
+          with(
+              headers: {
+                  'Accept'=>'*/*',
+                  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                  'User-Agent'=>'Ruby'
+              }).
+          to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','helmingham_mfhd.xml')), headers: {})
       expect(helper.get_mfhd_doc(document2.deep_symbolize_keys)).to be_an_instance_of Nokogiri::HTML4::Document
 
       allow(helper).to receive(:pull_mfhd_doc) do
@@ -157,12 +186,28 @@ describe ApplicationHelper do
 
   describe "#get_holdings" do
     it "returns true" do
+      stub_request(:get, "https://libapp.library.yale.edu/VoySearch/GetAllMfhdItem?bibid=9452785").
+          with(
+              headers: {
+                  'Accept'=>'*/*',
+                  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                  'User-Agent'=>'Ruby'
+              }).
+          to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','helmingham_mfhd.xml')), headers: {})
       expect(helper.get_holdings(document2.deep_symbolize_keys)).to be == "<span>Rare Books and Manuscripts</span></br><span>Folio C 2014 4</span></br><span>Yale Center for British Art, Paul Mellon Collection</span></br><span>View by request in the Study Room [<a href='https://aeon-test-mssa.library.yale.edu/aeon.dll?Action=10&Form=20&Value=GenericRequestMonograph&Site=YCBA&CallNumber=Folio C 2014 4&ItemTitle=&ItemAuthor=&ItemDate=&Format=&Location=&mfhdID=9799201&EADNumber=' target='_blank'>Request</a>]<br/><i>Note: The Study Room is open by appointment. Please visit the <a href=\"https://britishart.yale.edu/study-room\">Study Room page</a> on our website for more details.</i></span></br>"
     end
   end
 
   describe "#get_holdings2" do
     it "returns true" do
+      stub_request(:get, "https://libapp.library.yale.edu/VoySearch/GetAllMfhdItem?bibid=34").
+          with(
+              headers: {
+                  'Accept'=>'*/*',
+                  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                  'User-Agent'=>'Ruby'
+              }).
+          to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','dort_mfhd.xml')), headers: {})
       expect(helper.get_holdings(document1.deep_symbolize_keys)).to be == "<span>Paintings and Sculpture</span></br><span>Not Available<span></br>"
     end
   end
@@ -539,6 +584,14 @@ describe ApplicationHelper do
 
     describe "#image_request_link" do
       it "returns true" do
+        stub_request(:get, "https://libapp.library.yale.edu/VoySearch/GetAllMfhdItem?bibid=9452785").
+            with(
+                headers: {
+                    'Accept'=>'*/*',
+                    'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                    'User-Agent'=>'Ruby'
+                }).
+            to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','helmingham_mfhd.xml')), headers: {})
         document = document1.deep_symbolize_keys
         expect(helper.image_request_link(document)).to be == "https://britishart.yale.edu/request-images?id=34&num=B1977.14.77&collection=Paintings and Sculpture&creator=Joseph Mallord William Turner, 1775–1851, British&title=Dort or Dordrecht: The Dort Packet-Boat from Rotterdam Becalmed&url=https://collections.britishart.yale.edu/catalog/tms:34"
         document = document2.deep_symbolize_keys
@@ -715,6 +768,24 @@ describe ApplicationHelper do
 
     describe "#get_frame_link" do
       it "returns true" do
+        stub_request(:post, "http://10.5.96.78:8983/solr/ycba_blacklight/select?fq=callnumber_ss:%22B1977.14.77FR%22&wt=json").
+            with(
+                headers: {
+                    'Accept'=>'*/*',
+                    'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                    'Content-Length'=>'0',
+                    'User-Agent'=>'Faraday v1.10.1'
+                }).
+            to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','dort_frame_BL.json')), headers: {})
+        stub_request(:post, "http://10.5.96.78:8983/solr/ycba_blacklight/select?fq=callnumber_ss:%22B1977.14.77%22&wt=json").
+            with(
+                headers: {
+                    'Accept'=>'*/*',
+                    'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                    'Content-Length'=>'0',
+                    'User-Agent'=>'Faraday v1.10.1'
+                }).
+            to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','dort_BL.json')), headers: {})
         document = Hash.new
         document["callnumber_ss"] = ["B1977.14.77"]
         expect(helper.get_frame_link(document)).to be == "<a data-method=\"get\" href=\"http://test.host/catalog/tms:64431\">B1977.14.77FR</a>"
@@ -734,6 +805,22 @@ describe ApplicationHelper do
 
     describe "#get_download_array_from_manifest" do
       it "returns true" do
+        stub_request(:get, "https://manifests.collections.yale.edu/ycba/obj/34").
+            with(
+                headers: {
+                    'Accept'=>'*/*',
+                    'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                    'User-Agent'=>'Ruby'
+                }).
+            to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','dort_iiif.json')), headers: {})
+        stub_request(:get, "https://manifests.collections.yale.edu/ycba/orb/9452785").
+            with(
+                headers: {
+                    'Accept'=>'*/*',
+                    'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                    'User-Agent'=>'Ruby'
+                }).
+            to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','helmingham_iiif.json')), headers: {})
         @document = document1
         #puts helper.get_download_array_from_manifest
         expect(helper.get_download_array_from_manifest.length).to be == 4
@@ -762,6 +849,30 @@ describe ApplicationHelper do
 
     describe "#manifest_thumb?" do
       it "returns true" do
+        stub_request(:get, "https://manifests.collections.yale.edu/ycba/obj/34").
+            with(
+                headers: {
+                    'Accept'=>'*/*',
+                    'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                    'User-Agent'=>'Ruby'
+                }).
+            to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','dort_iiif.json')), headers: {})
+        stub_request(:get, "https://manifests.collections.yale.edu/ycba/orb/9452785").
+            with(
+                headers: {
+                    'Accept'=>'*/*',
+                    'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                    'User-Agent'=>'Ruby'
+                }).
+            to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','helmingham_iiif.json')), headers: {})
+        stub_request(:get, "https://manifests.collections.yale.edu/ycba/obj/1050").
+            with(
+                headers: {
+                    'Accept'=>'*/*',
+                    'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                    'User-Agent'=>'Ruby'
+                }).
+            to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','sickert_iiif.json')), headers: {})
         @document = document1
         expect(helper.manifest_thumb?).to be false
         @document = document2
@@ -778,6 +889,22 @@ describe ApplicationHelper do
 
     describe "#manifest?" do
       it "returns true" do
+        stub_request(:get, "https://manifests.collections.yale.edu/ycba/obj/34").
+            with(
+                headers: {
+                    'Accept'=>'*/*',
+                    'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                    'User-Agent'=>'Ruby'
+                }).
+            to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','dort_iiif.json')), headers: {})
+        stub_request(:get, "https://manifests.collections.yale.edu/ycba/orb/9452785").
+            with(
+                headers: {
+                    'Accept'=>'*/*',
+                    'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                    'User-Agent'=>'Ruby'
+                }).
+            to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','helmingham_iiif.json')), headers: {})
         @document = document1
         expect(helper.manifest?).to be true
         @document = document2

@@ -1,0 +1,1910 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "https://manifests.collections.yale.edu/ycba/orb/9452785",
+  "type": "Manifest",
+  "label": {
+    "en": [
+      "Helmingham herbal and bestiary, circa 1500"
+    ]
+  },
+  "metadata": [
+    {
+      "label": {
+        "en": [
+          "Copyright Statement"
+        ]
+      },
+      "value": {
+        "en": [
+          "Copyright Information"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Title"
+        ]
+      },
+      "value": {
+        "en": [
+          "Helmingham herbal and bestiary."
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Publisher"
+        ]
+      },
+      "value": {
+        "en": [
+          "Helmingham, Suffolk, circa 1500."
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Physical Description"
+        ]
+      },
+      "value": {
+        "en": [
+          "1 v. ([20] leaves, with 1 blank leaf) : ill. ; 45 x 32 cm."
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Credit Line"
+        ]
+      },
+      "value": {
+        "en": [
+          "Yale Center for British Art, Paul Mellon Collection"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Institution"
+        ]
+      },
+      "value": {
+        "en": [
+          "Yale Center for British Art"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Collection"
+        ]
+      },
+      "value": {
+        "en": [
+          "Rare Books and Manuscripts"
+        ]
+      }
+    }
+  ],
+  "rights": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "requiredStatement": {
+    "label": {
+      "en": [
+        "Rights Description"
+      ]
+    },
+    "value": {
+      "en": [
+        "Metadata describing Yale Center for British Art collections is public domain under CC0. Copyright or other restrictions may apply to cultural works or images of those works in this record."
+      ]
+    }
+  },
+  "logo": [
+    {
+      "id": "https://static.britishart.yale.edu/images/ycba_logo.jpg",
+      "type": "Image"
+    }
+  ],
+  "homepage": [
+    {
+      "format": "text/html",
+      "id": "https://collections.britishart.yale.edu/catalog/orbis:9452785",
+      "label": {
+        "en": [
+          "catalog entry at the Yale Center for British Art"
+        ]
+      },
+      "type": "Text"
+    }
+  ],
+  "seeAlso": [
+    {
+      "format": "text/xml",
+      "id": "https://libapp.library.yale.edu/OAI_BAC/src/OAIOrbisTool.jsp?verb=GetRecord&;identifier=oai:orbis.library.yale.edu:9452785&metadataPrefix=marc21",
+      "profile": "http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd",
+      "type": "Dataset"
+    },
+    {
+      "format": "text/html",
+      "id": "http://hdl.handle.net/10079/bibid/9452785",
+      "type": "Dataset"
+    }
+  ],
+  "items": [
+    {
+      "id": "https://manifests.collections.yale.edu/canvas/ycba/39b6a359-312c-4b71-84c1-349caaf3ff4b",
+      "type": "Canvas",
+      "label": {
+        "en": [
+          "folios 16v-17r"
+        ]
+      },
+      "height": 5253,
+      "width": 7206,
+      "items": [
+        {
+          "id": "https://manifests.collections.yale.edu/annopage/ycba/39b6a359-312c-4b71-84c1-349caaf3ff4b",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://manifests.collections.yale.edu/annotation/ycba/39b6a359-312c-4b71-84c1-349caaf3ff4b",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://images.collections.yale.edu/iiif/2/ycba:39b6a359-312c-4b71-84c1-349caaf3ff4b/full/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "@id": "https://images.collections.yale.edu/iiif/2/ycba:39b6a359-312c-4b71-84c1-349caaf3ff4b",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ],
+                "height": 5253,
+                "width": 7206
+              },
+              "target": "https://manifests.collections.yale.edu/canvas/ycba/39b6a359-312c-4b71-84c1-349caaf3ff4b"
+            }
+          ]
+        }
+      ],
+      "thumbnail": [
+        {
+          "id": "https://media.collections.yale.edu/thumbnail/ycba/39b6a359-312c-4b71-84c1-349caaf3ff4b",
+          "type": "Image",
+          "width": 480,
+          "height": 350,
+          "service": [
+            {
+              "@id": "https://media.collections.yale.edu/thumbnail/ycba/39b6a359-312c-4b71-84c1-349caaf3ff4b",
+              "@type": "ImageService2",
+              "profile": "level0"
+            }
+          ]
+        }
+      ],
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Image Use Rights"
+            ]
+          },
+          "value": {
+            "en": [
+              "Copyright Undetermined: The copyright and related rights status of this Item has been reviewed by the organization that has made the Item available, but the organization was unable to make a conclusive determination as to the copyright status of the Item. Please refer to the organization that has made the Item available for more information. You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "https://manifests.collections.yale.edu/canvas/ycba/b89fa105-f014-4363-894b-7462ef645459",
+      "type": "Canvas",
+      "label": {
+        "en": [
+          "cover, front"
+        ]
+      },
+      "height": 6864,
+      "width": 4791,
+      "items": [
+        {
+          "id": "https://manifests.collections.yale.edu/annopage/ycba/b89fa105-f014-4363-894b-7462ef645459",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://manifests.collections.yale.edu/annotation/ycba/b89fa105-f014-4363-894b-7462ef645459",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://images.collections.yale.edu/iiif/2/ycba:b89fa105-f014-4363-894b-7462ef645459/full/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "@id": "https://images.collections.yale.edu/iiif/2/ycba:b89fa105-f014-4363-894b-7462ef645459",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ],
+                "height": 6864,
+                "width": 4791
+              },
+              "target": "https://manifests.collections.yale.edu/canvas/ycba/b89fa105-f014-4363-894b-7462ef645459"
+            }
+          ]
+        }
+      ],
+      "thumbnail": [
+        {
+          "id": "https://media.collections.yale.edu/thumbnail/ycba/b89fa105-f014-4363-894b-7462ef645459",
+          "type": "Image",
+          "width": 335,
+          "height": 480,
+          "service": [
+            {
+              "@id": "https://media.collections.yale.edu/thumbnail/ycba/b89fa105-f014-4363-894b-7462ef645459",
+              "@type": "ImageService2",
+              "profile": "level0"
+            }
+          ]
+        }
+      ],
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Image Use Rights"
+            ]
+          },
+          "value": {
+            "en": [
+              "Copyright Undetermined: The copyright and related rights status of this Item has been reviewed by the organization that has made the Item available, but the organization was unable to make a conclusive determination as to the copyright status of the Item. Please refer to the organization that has made the Item available for more information. You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "https://manifests.collections.yale.edu/canvas/ycba/3b5ed495-4e07-4936-ac81-1ae2c311f7fc",
+      "type": "Canvas",
+      "label": {
+        "en": [
+          "endpapers, front"
+        ]
+      },
+      "height": 5229,
+      "width": 7056,
+      "items": [
+        {
+          "id": "https://manifests.collections.yale.edu/annopage/ycba/3b5ed495-4e07-4936-ac81-1ae2c311f7fc",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://manifests.collections.yale.edu/annotation/ycba/3b5ed495-4e07-4936-ac81-1ae2c311f7fc",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://images.collections.yale.edu/iiif/2/ycba:3b5ed495-4e07-4936-ac81-1ae2c311f7fc/full/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "@id": "https://images.collections.yale.edu/iiif/2/ycba:3b5ed495-4e07-4936-ac81-1ae2c311f7fc",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ],
+                "height": 5229,
+                "width": 7056
+              },
+              "target": "https://manifests.collections.yale.edu/canvas/ycba/3b5ed495-4e07-4936-ac81-1ae2c311f7fc"
+            }
+          ]
+        }
+      ],
+      "thumbnail": [
+        {
+          "id": "https://media.collections.yale.edu/thumbnail/ycba/3b5ed495-4e07-4936-ac81-1ae2c311f7fc",
+          "type": "Image",
+          "width": 480,
+          "height": 356,
+          "service": [
+            {
+              "@id": "https://media.collections.yale.edu/thumbnail/ycba/3b5ed495-4e07-4936-ac81-1ae2c311f7fc",
+              "@type": "ImageService2",
+              "profile": "level0"
+            }
+          ]
+        }
+      ],
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Image Use Rights"
+            ]
+          },
+          "value": {
+            "en": [
+              "Copyright Undetermined: The copyright and related rights status of this Item has been reviewed by the organization that has made the Item available, but the organization was unable to make a conclusive determination as to the copyright status of the Item. Please refer to the organization that has made the Item available for more information. You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "https://manifests.collections.yale.edu/canvas/ycba/9b1c4a84-2854-4e09-809c-12d3b036b481",
+      "type": "Canvas",
+      "label": {
+        "en": [
+          "folio 1r"
+        ]
+      },
+      "height": 5223,
+      "width": 7050,
+      "items": [
+        {
+          "id": "https://manifests.collections.yale.edu/annopage/ycba/9b1c4a84-2854-4e09-809c-12d3b036b481",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://manifests.collections.yale.edu/annotation/ycba/9b1c4a84-2854-4e09-809c-12d3b036b481",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://images.collections.yale.edu/iiif/2/ycba:9b1c4a84-2854-4e09-809c-12d3b036b481/full/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "@id": "https://images.collections.yale.edu/iiif/2/ycba:9b1c4a84-2854-4e09-809c-12d3b036b481",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ],
+                "height": 5223,
+                "width": 7050
+              },
+              "target": "https://manifests.collections.yale.edu/canvas/ycba/9b1c4a84-2854-4e09-809c-12d3b036b481"
+            }
+          ]
+        }
+      ],
+      "thumbnail": [
+        {
+          "id": "https://media.collections.yale.edu/thumbnail/ycba/9b1c4a84-2854-4e09-809c-12d3b036b481",
+          "type": "Image",
+          "width": 480,
+          "height": 356,
+          "service": [
+            {
+              "@id": "https://media.collections.yale.edu/thumbnail/ycba/9b1c4a84-2854-4e09-809c-12d3b036b481",
+              "@type": "ImageService2",
+              "profile": "level0"
+            }
+          ]
+        }
+      ],
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Image Use Rights"
+            ]
+          },
+          "value": {
+            "en": [
+              "Copyright Undetermined: The copyright and related rights status of this Item has been reviewed by the organization that has made the Item available, but the organization was unable to make a conclusive determination as to the copyright status of the Item. Please refer to the organization that has made the Item available for more information. You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "https://manifests.collections.yale.edu/canvas/ycba/ed37f04b-d7d0-49a8-aaf5-6e1fdf858a93",
+      "type": "Canvas",
+      "label": {
+        "en": [
+          "folios 1v-2r"
+        ]
+      },
+      "height": 5259,
+      "width": 7110,
+      "items": [
+        {
+          "id": "https://manifests.collections.yale.edu/annopage/ycba/ed37f04b-d7d0-49a8-aaf5-6e1fdf858a93",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://manifests.collections.yale.edu/annotation/ycba/ed37f04b-d7d0-49a8-aaf5-6e1fdf858a93",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://images.collections.yale.edu/iiif/2/ycba:ed37f04b-d7d0-49a8-aaf5-6e1fdf858a93/full/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "@id": "https://images.collections.yale.edu/iiif/2/ycba:ed37f04b-d7d0-49a8-aaf5-6e1fdf858a93",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ],
+                "height": 5259,
+                "width": 7110
+              },
+              "target": "https://manifests.collections.yale.edu/canvas/ycba/ed37f04b-d7d0-49a8-aaf5-6e1fdf858a93"
+            }
+          ]
+        }
+      ],
+      "thumbnail": [
+        {
+          "id": "https://media.collections.yale.edu/thumbnail/ycba/ed37f04b-d7d0-49a8-aaf5-6e1fdf858a93",
+          "type": "Image",
+          "width": 480,
+          "height": 355,
+          "service": [
+            {
+              "@id": "https://media.collections.yale.edu/thumbnail/ycba/ed37f04b-d7d0-49a8-aaf5-6e1fdf858a93",
+              "@type": "ImageService2",
+              "profile": "level0"
+            }
+          ]
+        }
+      ],
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Image Use Rights"
+            ]
+          },
+          "value": {
+            "en": [
+              "Copyright Undetermined: The copyright and related rights status of this Item has been reviewed by the organization that has made the Item available, but the organization was unable to make a conclusive determination as to the copyright status of the Item. Please refer to the organization that has made the Item available for more information. You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "https://manifests.collections.yale.edu/canvas/ycba/1d5f693b-8d01-43d8-adff-7debde04c1ef",
+      "type": "Canvas",
+      "label": {
+        "en": [
+          "folios 2v-3r"
+        ]
+      },
+      "height": 5289,
+      "width": 7152,
+      "items": [
+        {
+          "id": "https://manifests.collections.yale.edu/annopage/ycba/1d5f693b-8d01-43d8-adff-7debde04c1ef",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://manifests.collections.yale.edu/annotation/ycba/1d5f693b-8d01-43d8-adff-7debde04c1ef",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://images.collections.yale.edu/iiif/2/ycba:1d5f693b-8d01-43d8-adff-7debde04c1ef/full/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "@id": "https://images.collections.yale.edu/iiif/2/ycba:1d5f693b-8d01-43d8-adff-7debde04c1ef",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ],
+                "height": 5289,
+                "width": 7152
+              },
+              "target": "https://manifests.collections.yale.edu/canvas/ycba/1d5f693b-8d01-43d8-adff-7debde04c1ef"
+            }
+          ]
+        }
+      ],
+      "thumbnail": [
+        {
+          "id": "https://media.collections.yale.edu/thumbnail/ycba/1d5f693b-8d01-43d8-adff-7debde04c1ef",
+          "type": "Image",
+          "width": 480,
+          "height": 355,
+          "service": [
+            {
+              "@id": "https://media.collections.yale.edu/thumbnail/ycba/1d5f693b-8d01-43d8-adff-7debde04c1ef",
+              "@type": "ImageService2",
+              "profile": "level0"
+            }
+          ]
+        }
+      ],
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Image Use Rights"
+            ]
+          },
+          "value": {
+            "en": [
+              "Copyright Undetermined: The copyright and related rights status of this Item has been reviewed by the organization that has made the Item available, but the organization was unable to make a conclusive determination as to the copyright status of the Item. Please refer to the organization that has made the Item available for more information. You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "https://manifests.collections.yale.edu/canvas/ycba/00e209e7-71c6-4006-8038-6ddafb204315",
+      "type": "Canvas",
+      "label": {
+        "en": [
+          "folios 3v-4r"
+        ]
+      },
+      "height": 5283,
+      "width": 7140,
+      "items": [
+        {
+          "id": "https://manifests.collections.yale.edu/annopage/ycba/00e209e7-71c6-4006-8038-6ddafb204315",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://manifests.collections.yale.edu/annotation/ycba/00e209e7-71c6-4006-8038-6ddafb204315",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://images.collections.yale.edu/iiif/2/ycba:00e209e7-71c6-4006-8038-6ddafb204315/full/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "@id": "https://images.collections.yale.edu/iiif/2/ycba:00e209e7-71c6-4006-8038-6ddafb204315",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ],
+                "height": 5283,
+                "width": 7140
+              },
+              "target": "https://manifests.collections.yale.edu/canvas/ycba/00e209e7-71c6-4006-8038-6ddafb204315"
+            }
+          ]
+        }
+      ],
+      "thumbnail": [
+        {
+          "id": "https://media.collections.yale.edu/thumbnail/ycba/00e209e7-71c6-4006-8038-6ddafb204315",
+          "type": "Image",
+          "width": 480,
+          "height": 355,
+          "service": [
+            {
+              "@id": "https://media.collections.yale.edu/thumbnail/ycba/00e209e7-71c6-4006-8038-6ddafb204315",
+              "@type": "ImageService2",
+              "profile": "level0"
+            }
+          ]
+        }
+      ],
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Image Use Rights"
+            ]
+          },
+          "value": {
+            "en": [
+              "Copyright Undetermined: The copyright and related rights status of this Item has been reviewed by the organization that has made the Item available, but the organization was unable to make a conclusive determination as to the copyright status of the Item. Please refer to the organization that has made the Item available for more information. You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "https://manifests.collections.yale.edu/canvas/ycba/a8696c71-bb1a-4171-af10-5a0ef1e522a1",
+      "type": "Canvas",
+      "label": {
+        "en": [
+          "folios 4v-5r"
+        ]
+      },
+      "height": 5277,
+      "width": 7134,
+      "items": [
+        {
+          "id": "https://manifests.collections.yale.edu/annopage/ycba/a8696c71-bb1a-4171-af10-5a0ef1e522a1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://manifests.collections.yale.edu/annotation/ycba/a8696c71-bb1a-4171-af10-5a0ef1e522a1",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://images.collections.yale.edu/iiif/2/ycba:a8696c71-bb1a-4171-af10-5a0ef1e522a1/full/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "@id": "https://images.collections.yale.edu/iiif/2/ycba:a8696c71-bb1a-4171-af10-5a0ef1e522a1",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ],
+                "height": 5277,
+                "width": 7134
+              },
+              "target": "https://manifests.collections.yale.edu/canvas/ycba/a8696c71-bb1a-4171-af10-5a0ef1e522a1"
+            }
+          ]
+        }
+      ],
+      "thumbnail": [
+        {
+          "id": "https://media.collections.yale.edu/thumbnail/ycba/a8696c71-bb1a-4171-af10-5a0ef1e522a1",
+          "type": "Image",
+          "width": 480,
+          "height": 355,
+          "service": [
+            {
+              "@id": "https://media.collections.yale.edu/thumbnail/ycba/a8696c71-bb1a-4171-af10-5a0ef1e522a1",
+              "@type": "ImageService2",
+              "profile": "level0"
+            }
+          ]
+        }
+      ],
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Image Use Rights"
+            ]
+          },
+          "value": {
+            "en": [
+              "Copyright Undetermined: The copyright and related rights status of this Item has been reviewed by the organization that has made the Item available, but the organization was unable to make a conclusive determination as to the copyright status of the Item. Please refer to the organization that has made the Item available for more information. You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "https://manifests.collections.yale.edu/canvas/ycba/74168638-2e07-4aef-92c6-5f414cbb7543",
+      "type": "Canvas",
+      "label": {
+        "en": [
+          "folios 5v-6r"
+        ]
+      },
+      "height": 5235,
+      "width": 7098,
+      "items": [
+        {
+          "id": "https://manifests.collections.yale.edu/annopage/ycba/74168638-2e07-4aef-92c6-5f414cbb7543",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://manifests.collections.yale.edu/annotation/ycba/74168638-2e07-4aef-92c6-5f414cbb7543",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://images.collections.yale.edu/iiif/2/ycba:74168638-2e07-4aef-92c6-5f414cbb7543/full/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "@id": "https://images.collections.yale.edu/iiif/2/ycba:74168638-2e07-4aef-92c6-5f414cbb7543",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ],
+                "height": 5235,
+                "width": 7098
+              },
+              "target": "https://manifests.collections.yale.edu/canvas/ycba/74168638-2e07-4aef-92c6-5f414cbb7543"
+            }
+          ]
+        }
+      ],
+      "thumbnail": [
+        {
+          "id": "https://media.collections.yale.edu/thumbnail/ycba/74168638-2e07-4aef-92c6-5f414cbb7543",
+          "type": "Image",
+          "width": 480,
+          "height": 354,
+          "service": [
+            {
+              "@id": "https://media.collections.yale.edu/thumbnail/ycba/74168638-2e07-4aef-92c6-5f414cbb7543",
+              "@type": "ImageService2",
+              "profile": "level0"
+            }
+          ]
+        }
+      ],
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Image Use Rights"
+            ]
+          },
+          "value": {
+            "en": [
+              "Copyright Undetermined: The copyright and related rights status of this Item has been reviewed by the organization that has made the Item available, but the organization was unable to make a conclusive determination as to the copyright status of the Item. Please refer to the organization that has made the Item available for more information. You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "https://manifests.collections.yale.edu/canvas/ycba/7f73459d-ed5e-46a7-98c0-773aef11fcf0",
+      "type": "Canvas",
+      "label": {
+        "en": [
+          "folios 6v-7r"
+        ]
+      },
+      "height": 5223,
+      "width": 7116,
+      "items": [
+        {
+          "id": "https://manifests.collections.yale.edu/annopage/ycba/7f73459d-ed5e-46a7-98c0-773aef11fcf0",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://manifests.collections.yale.edu/annotation/ycba/7f73459d-ed5e-46a7-98c0-773aef11fcf0",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://images.collections.yale.edu/iiif/2/ycba:7f73459d-ed5e-46a7-98c0-773aef11fcf0/full/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "@id": "https://images.collections.yale.edu/iiif/2/ycba:7f73459d-ed5e-46a7-98c0-773aef11fcf0",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ],
+                "height": 5223,
+                "width": 7116
+              },
+              "target": "https://manifests.collections.yale.edu/canvas/ycba/7f73459d-ed5e-46a7-98c0-773aef11fcf0"
+            }
+          ]
+        }
+      ],
+      "thumbnail": [
+        {
+          "id": "https://media.collections.yale.edu/thumbnail/ycba/7f73459d-ed5e-46a7-98c0-773aef11fcf0",
+          "type": "Image",
+          "width": 480,
+          "height": 352,
+          "service": [
+            {
+              "@id": "https://media.collections.yale.edu/thumbnail/ycba/7f73459d-ed5e-46a7-98c0-773aef11fcf0",
+              "@type": "ImageService2",
+              "profile": "level0"
+            }
+          ]
+        }
+      ],
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Image Use Rights"
+            ]
+          },
+          "value": {
+            "en": [
+              "Copyright Undetermined: The copyright and related rights status of this Item has been reviewed by the organization that has made the Item available, but the organization was unable to make a conclusive determination as to the copyright status of the Item. Please refer to the organization that has made the Item available for more information. You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "https://manifests.collections.yale.edu/canvas/ycba/7cea1d0c-22b2-4e5d-9132-6e5862821e00",
+      "type": "Canvas",
+      "label": {
+        "en": [
+          "folios 7v-8r"
+        ]
+      },
+      "height": 5265,
+      "width": 7158,
+      "items": [
+        {
+          "id": "https://manifests.collections.yale.edu/annopage/ycba/7cea1d0c-22b2-4e5d-9132-6e5862821e00",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://manifests.collections.yale.edu/annotation/ycba/7cea1d0c-22b2-4e5d-9132-6e5862821e00",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://images.collections.yale.edu/iiif/2/ycba:7cea1d0c-22b2-4e5d-9132-6e5862821e00/full/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "@id": "https://images.collections.yale.edu/iiif/2/ycba:7cea1d0c-22b2-4e5d-9132-6e5862821e00",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ],
+                "height": 5265,
+                "width": 7158
+              },
+              "target": "https://manifests.collections.yale.edu/canvas/ycba/7cea1d0c-22b2-4e5d-9132-6e5862821e00"
+            }
+          ]
+        }
+      ],
+      "thumbnail": [
+        {
+          "id": "https://media.collections.yale.edu/thumbnail/ycba/7cea1d0c-22b2-4e5d-9132-6e5862821e00",
+          "type": "Image",
+          "width": 480,
+          "height": 353,
+          "service": [
+            {
+              "@id": "https://media.collections.yale.edu/thumbnail/ycba/7cea1d0c-22b2-4e5d-9132-6e5862821e00",
+              "@type": "ImageService2",
+              "profile": "level0"
+            }
+          ]
+        }
+      ],
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Image Use Rights"
+            ]
+          },
+          "value": {
+            "en": [
+              "Copyright Undetermined: The copyright and related rights status of this Item has been reviewed by the organization that has made the Item available, but the organization was unable to make a conclusive determination as to the copyright status of the Item. Please refer to the organization that has made the Item available for more information. You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "https://manifests.collections.yale.edu/canvas/ycba/7ec1f3c8-2b8a-45be-9d8f-49e726f4f03b",
+      "type": "Canvas",
+      "label": {
+        "en": [
+          "folios 8v-9r"
+        ]
+      },
+      "height": 5253,
+      "width": 7128,
+      "items": [
+        {
+          "id": "https://manifests.collections.yale.edu/annopage/ycba/7ec1f3c8-2b8a-45be-9d8f-49e726f4f03b",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://manifests.collections.yale.edu/annotation/ycba/7ec1f3c8-2b8a-45be-9d8f-49e726f4f03b",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://images.collections.yale.edu/iiif/2/ycba:7ec1f3c8-2b8a-45be-9d8f-49e726f4f03b/full/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "@id": "https://images.collections.yale.edu/iiif/2/ycba:7ec1f3c8-2b8a-45be-9d8f-49e726f4f03b",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ],
+                "height": 5253,
+                "width": 7128
+              },
+              "target": "https://manifests.collections.yale.edu/canvas/ycba/7ec1f3c8-2b8a-45be-9d8f-49e726f4f03b"
+            }
+          ]
+        }
+      ],
+      "thumbnail": [
+        {
+          "id": "https://media.collections.yale.edu/thumbnail/ycba/7ec1f3c8-2b8a-45be-9d8f-49e726f4f03b",
+          "type": "Image",
+          "width": 480,
+          "height": 354,
+          "service": [
+            {
+              "@id": "https://media.collections.yale.edu/thumbnail/ycba/7ec1f3c8-2b8a-45be-9d8f-49e726f4f03b",
+              "@type": "ImageService2",
+              "profile": "level0"
+            }
+          ]
+        }
+      ],
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Image Use Rights"
+            ]
+          },
+          "value": {
+            "en": [
+              "Copyright Undetermined: The copyright and related rights status of this Item has been reviewed by the organization that has made the Item available, but the organization was unable to make a conclusive determination as to the copyright status of the Item. Please refer to the organization that has made the Item available for more information. You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "https://manifests.collections.yale.edu/canvas/ycba/5c0e0d07-adae-4d45-832e-bd288e2e699c",
+      "type": "Canvas",
+      "label": {
+        "en": [
+          "folios 9v-10r"
+        ]
+      },
+      "height": 5271,
+      "width": 7194,
+      "items": [
+        {
+          "id": "https://manifests.collections.yale.edu/annopage/ycba/5c0e0d07-adae-4d45-832e-bd288e2e699c",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://manifests.collections.yale.edu/annotation/ycba/5c0e0d07-adae-4d45-832e-bd288e2e699c",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://images.collections.yale.edu/iiif/2/ycba:5c0e0d07-adae-4d45-832e-bd288e2e699c/full/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "@id": "https://images.collections.yale.edu/iiif/2/ycba:5c0e0d07-adae-4d45-832e-bd288e2e699c",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ],
+                "height": 5271,
+                "width": 7194
+              },
+              "target": "https://manifests.collections.yale.edu/canvas/ycba/5c0e0d07-adae-4d45-832e-bd288e2e699c"
+            }
+          ]
+        }
+      ],
+      "thumbnail": [
+        {
+          "id": "https://media.collections.yale.edu/thumbnail/ycba/5c0e0d07-adae-4d45-832e-bd288e2e699c",
+          "type": "Image",
+          "width": 480,
+          "height": 352,
+          "service": [
+            {
+              "@id": "https://media.collections.yale.edu/thumbnail/ycba/5c0e0d07-adae-4d45-832e-bd288e2e699c",
+              "@type": "ImageService2",
+              "profile": "level0"
+            }
+          ]
+        }
+      ],
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Image Use Rights"
+            ]
+          },
+          "value": {
+            "en": [
+              "Copyright Undetermined: The copyright and related rights status of this Item has been reviewed by the organization that has made the Item available, but the organization was unable to make a conclusive determination as to the copyright status of the Item. Please refer to the organization that has made the Item available for more information. You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "https://manifests.collections.yale.edu/canvas/ycba/67b2a28d-4cec-4efd-9613-7406d7f3dcea",
+      "type": "Canvas",
+      "label": {
+        "en": [
+          "folios 10v-11r"
+        ]
+      },
+      "height": 5259,
+      "width": 7194,
+      "items": [
+        {
+          "id": "https://manifests.collections.yale.edu/annopage/ycba/67b2a28d-4cec-4efd-9613-7406d7f3dcea",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://manifests.collections.yale.edu/annotation/ycba/67b2a28d-4cec-4efd-9613-7406d7f3dcea",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://images.collections.yale.edu/iiif/2/ycba:67b2a28d-4cec-4efd-9613-7406d7f3dcea/full/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "@id": "https://images.collections.yale.edu/iiif/2/ycba:67b2a28d-4cec-4efd-9613-7406d7f3dcea",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ],
+                "height": 5259,
+                "width": 7194
+              },
+              "target": "https://manifests.collections.yale.edu/canvas/ycba/67b2a28d-4cec-4efd-9613-7406d7f3dcea"
+            }
+          ]
+        }
+      ],
+      "thumbnail": [
+        {
+          "id": "https://media.collections.yale.edu/thumbnail/ycba/67b2a28d-4cec-4efd-9613-7406d7f3dcea",
+          "type": "Image",
+          "width": 480,
+          "height": 351,
+          "service": [
+            {
+              "@id": "https://media.collections.yale.edu/thumbnail/ycba/67b2a28d-4cec-4efd-9613-7406d7f3dcea",
+              "@type": "ImageService2",
+              "profile": "level0"
+            }
+          ]
+        }
+      ],
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Image Use Rights"
+            ]
+          },
+          "value": {
+            "en": [
+              "Copyright Undetermined: The copyright and related rights status of this Item has been reviewed by the organization that has made the Item available, but the organization was unable to make a conclusive determination as to the copyright status of the Item. Please refer to the organization that has made the Item available for more information. You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "https://manifests.collections.yale.edu/canvas/ycba/573e6337-204e-4510-b608-10b42a75b1b1",
+      "type": "Canvas",
+      "label": {
+        "en": [
+          "folios 11v-12r"
+        ]
+      },
+      "height": 5277,
+      "width": 7200,
+      "items": [
+        {
+          "id": "https://manifests.collections.yale.edu/annopage/ycba/573e6337-204e-4510-b608-10b42a75b1b1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://manifests.collections.yale.edu/annotation/ycba/573e6337-204e-4510-b608-10b42a75b1b1",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://images.collections.yale.edu/iiif/2/ycba:573e6337-204e-4510-b608-10b42a75b1b1/full/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "@id": "https://images.collections.yale.edu/iiif/2/ycba:573e6337-204e-4510-b608-10b42a75b1b1",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ],
+                "height": 5277,
+                "width": 7200
+              },
+              "target": "https://manifests.collections.yale.edu/canvas/ycba/573e6337-204e-4510-b608-10b42a75b1b1"
+            }
+          ]
+        }
+      ],
+      "thumbnail": [
+        {
+          "id": "https://media.collections.yale.edu/thumbnail/ycba/573e6337-204e-4510-b608-10b42a75b1b1",
+          "type": "Image",
+          "width": 480,
+          "height": 352,
+          "service": [
+            {
+              "@id": "https://media.collections.yale.edu/thumbnail/ycba/573e6337-204e-4510-b608-10b42a75b1b1",
+              "@type": "ImageService2",
+              "profile": "level0"
+            }
+          ]
+        }
+      ],
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Image Use Rights"
+            ]
+          },
+          "value": {
+            "en": [
+              "Copyright Undetermined: The copyright and related rights status of this Item has been reviewed by the organization that has made the Item available, but the organization was unable to make a conclusive determination as to the copyright status of the Item. Please refer to the organization that has made the Item available for more information. You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "https://manifests.collections.yale.edu/canvas/ycba/419d9b58-50eb-4265-93b5-930965064eba",
+      "type": "Canvas",
+      "label": {
+        "en": [
+          "folios 12v-13r"
+        ]
+      },
+      "height": 5253,
+      "width": 7230,
+      "items": [
+        {
+          "id": "https://manifests.collections.yale.edu/annopage/ycba/419d9b58-50eb-4265-93b5-930965064eba",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://manifests.collections.yale.edu/annotation/ycba/419d9b58-50eb-4265-93b5-930965064eba",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://images.collections.yale.edu/iiif/2/ycba:419d9b58-50eb-4265-93b5-930965064eba/full/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "@id": "https://images.collections.yale.edu/iiif/2/ycba:419d9b58-50eb-4265-93b5-930965064eba",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ],
+                "height": 5253,
+                "width": 7230
+              },
+              "target": "https://manifests.collections.yale.edu/canvas/ycba/419d9b58-50eb-4265-93b5-930965064eba"
+            }
+          ]
+        }
+      ],
+      "thumbnail": [
+        {
+          "id": "https://media.collections.yale.edu/thumbnail/ycba/419d9b58-50eb-4265-93b5-930965064eba",
+          "type": "Image",
+          "width": 480,
+          "height": 349,
+          "service": [
+            {
+              "@id": "https://media.collections.yale.edu/thumbnail/ycba/419d9b58-50eb-4265-93b5-930965064eba",
+              "@type": "ImageService2",
+              "profile": "level0"
+            }
+          ]
+        }
+      ],
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Image Use Rights"
+            ]
+          },
+          "value": {
+            "en": [
+              "Copyright Undetermined: The copyright and related rights status of this Item has been reviewed by the organization that has made the Item available, but the organization was unable to make a conclusive determination as to the copyright status of the Item. Please refer to the organization that has made the Item available for more information. You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "https://manifests.collections.yale.edu/canvas/ycba/e6e599cc-44cf-4830-b62a-e954d533c35c",
+      "type": "Canvas",
+      "label": {
+        "en": [
+          "folios 13v-14r"
+        ]
+      },
+      "height": 5259,
+      "width": 7206,
+      "items": [
+        {
+          "id": "https://manifests.collections.yale.edu/annopage/ycba/e6e599cc-44cf-4830-b62a-e954d533c35c",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://manifests.collections.yale.edu/annotation/ycba/e6e599cc-44cf-4830-b62a-e954d533c35c",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://images.collections.yale.edu/iiif/2/ycba:e6e599cc-44cf-4830-b62a-e954d533c35c/full/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "@id": "https://images.collections.yale.edu/iiif/2/ycba:e6e599cc-44cf-4830-b62a-e954d533c35c",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ],
+                "height": 5259,
+                "width": 7206
+              },
+              "target": "https://manifests.collections.yale.edu/canvas/ycba/e6e599cc-44cf-4830-b62a-e954d533c35c"
+            }
+          ]
+        }
+      ],
+      "thumbnail": [
+        {
+          "id": "https://media.collections.yale.edu/thumbnail/ycba/e6e599cc-44cf-4830-b62a-e954d533c35c",
+          "type": "Image",
+          "width": 480,
+          "height": 350,
+          "service": [
+            {
+              "@id": "https://media.collections.yale.edu/thumbnail/ycba/e6e599cc-44cf-4830-b62a-e954d533c35c",
+              "@type": "ImageService2",
+              "profile": "level0"
+            }
+          ]
+        }
+      ],
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Image Use Rights"
+            ]
+          },
+          "value": {
+            "en": [
+              "Copyright Undetermined: The copyright and related rights status of this Item has been reviewed by the organization that has made the Item available, but the organization was unable to make a conclusive determination as to the copyright status of the Item. Please refer to the organization that has made the Item available for more information. You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "https://manifests.collections.yale.edu/canvas/ycba/eea9e933-c39e-4179-a17d-d6f17b676b58",
+      "type": "Canvas",
+      "label": {
+        "en": [
+          "folios 14v-15r"
+        ]
+      },
+      "height": 5247,
+      "width": 7188,
+      "items": [
+        {
+          "id": "https://manifests.collections.yale.edu/annopage/ycba/eea9e933-c39e-4179-a17d-d6f17b676b58",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://manifests.collections.yale.edu/annotation/ycba/eea9e933-c39e-4179-a17d-d6f17b676b58",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://images.collections.yale.edu/iiif/2/ycba:eea9e933-c39e-4179-a17d-d6f17b676b58/full/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "@id": "https://images.collections.yale.edu/iiif/2/ycba:eea9e933-c39e-4179-a17d-d6f17b676b58",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ],
+                "height": 5247,
+                "width": 7188
+              },
+              "target": "https://manifests.collections.yale.edu/canvas/ycba/eea9e933-c39e-4179-a17d-d6f17b676b58"
+            }
+          ]
+        }
+      ],
+      "thumbnail": [
+        {
+          "id": "https://media.collections.yale.edu/thumbnail/ycba/eea9e933-c39e-4179-a17d-d6f17b676b58",
+          "type": "Image",
+          "width": 480,
+          "height": 350,
+          "service": [
+            {
+              "@id": "https://media.collections.yale.edu/thumbnail/ycba/eea9e933-c39e-4179-a17d-d6f17b676b58",
+              "@type": "ImageService2",
+              "profile": "level0"
+            }
+          ]
+        }
+      ],
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Image Use Rights"
+            ]
+          },
+          "value": {
+            "en": [
+              "Copyright Undetermined: The copyright and related rights status of this Item has been reviewed by the organization that has made the Item available, but the organization was unable to make a conclusive determination as to the copyright status of the Item. Please refer to the organization that has made the Item available for more information. You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "https://manifests.collections.yale.edu/canvas/ycba/6bda19f2-5056-47f2-8cfa-469f516bf887",
+      "type": "Canvas",
+      "label": {
+        "en": [
+          "folios 15v-16r"
+        ]
+      },
+      "height": 5235,
+      "width": 7194,
+      "items": [
+        {
+          "id": "https://manifests.collections.yale.edu/annopage/ycba/6bda19f2-5056-47f2-8cfa-469f516bf887",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://manifests.collections.yale.edu/annotation/ycba/6bda19f2-5056-47f2-8cfa-469f516bf887",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://images.collections.yale.edu/iiif/2/ycba:6bda19f2-5056-47f2-8cfa-469f516bf887/full/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "@id": "https://images.collections.yale.edu/iiif/2/ycba:6bda19f2-5056-47f2-8cfa-469f516bf887",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ],
+                "height": 5235,
+                "width": 7194
+              },
+              "target": "https://manifests.collections.yale.edu/canvas/ycba/6bda19f2-5056-47f2-8cfa-469f516bf887"
+            }
+          ]
+        }
+      ],
+      "thumbnail": [
+        {
+          "id": "https://media.collections.yale.edu/thumbnail/ycba/6bda19f2-5056-47f2-8cfa-469f516bf887",
+          "type": "Image",
+          "width": 480,
+          "height": 349,
+          "service": [
+            {
+              "@id": "https://media.collections.yale.edu/thumbnail/ycba/6bda19f2-5056-47f2-8cfa-469f516bf887",
+              "@type": "ImageService2",
+              "profile": "level0"
+            }
+          ]
+        }
+      ],
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Image Use Rights"
+            ]
+          },
+          "value": {
+            "en": [
+              "Copyright Undetermined: The copyright and related rights status of this Item has been reviewed by the organization that has made the Item available, but the organization was unable to make a conclusive determination as to the copyright status of the Item. Please refer to the organization that has made the Item available for more information. You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "https://manifests.collections.yale.edu/canvas/ycba/5cc9ff97-b846-4856-a0bb-564fd48f9528",
+      "type": "Canvas",
+      "label": {
+        "en": [
+          "folios 17v-18r"
+        ]
+      },
+      "height": 5253,
+      "width": 7224,
+      "items": [
+        {
+          "id": "https://manifests.collections.yale.edu/annopage/ycba/5cc9ff97-b846-4856-a0bb-564fd48f9528",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://manifests.collections.yale.edu/annotation/ycba/5cc9ff97-b846-4856-a0bb-564fd48f9528",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://images.collections.yale.edu/iiif/2/ycba:5cc9ff97-b846-4856-a0bb-564fd48f9528/full/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "@id": "https://images.collections.yale.edu/iiif/2/ycba:5cc9ff97-b846-4856-a0bb-564fd48f9528",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ],
+                "height": 5253,
+                "width": 7224
+              },
+              "target": "https://manifests.collections.yale.edu/canvas/ycba/5cc9ff97-b846-4856-a0bb-564fd48f9528"
+            }
+          ]
+        }
+      ],
+      "thumbnail": [
+        {
+          "id": "https://media.collections.yale.edu/thumbnail/ycba/5cc9ff97-b846-4856-a0bb-564fd48f9528",
+          "type": "Image",
+          "width": 480,
+          "height": 349,
+          "service": [
+            {
+              "@id": "https://media.collections.yale.edu/thumbnail/ycba/5cc9ff97-b846-4856-a0bb-564fd48f9528",
+              "@type": "ImageService2",
+              "profile": "level0"
+            }
+          ]
+        }
+      ],
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Image Use Rights"
+            ]
+          },
+          "value": {
+            "en": [
+              "Copyright Undetermined: The copyright and related rights status of this Item has been reviewed by the organization that has made the Item available, but the organization was unable to make a conclusive determination as to the copyright status of the Item. Please refer to the organization that has made the Item available for more information. You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "https://manifests.collections.yale.edu/canvas/ycba/61cac15d-6b79-4daf-b8db-c35cf203cd03",
+      "type": "Canvas",
+      "label": {
+        "en": [
+          "folios 18v-19r"
+        ]
+      },
+      "height": 5259,
+      "width": 7212,
+      "items": [
+        {
+          "id": "https://manifests.collections.yale.edu/annopage/ycba/61cac15d-6b79-4daf-b8db-c35cf203cd03",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://manifests.collections.yale.edu/annotation/ycba/61cac15d-6b79-4daf-b8db-c35cf203cd03",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://images.collections.yale.edu/iiif/2/ycba:61cac15d-6b79-4daf-b8db-c35cf203cd03/full/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "@id": "https://images.collections.yale.edu/iiif/2/ycba:61cac15d-6b79-4daf-b8db-c35cf203cd03",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ],
+                "height": 5259,
+                "width": 7212
+              },
+              "target": "https://manifests.collections.yale.edu/canvas/ycba/61cac15d-6b79-4daf-b8db-c35cf203cd03"
+            }
+          ]
+        }
+      ],
+      "thumbnail": [
+        {
+          "id": "https://media.collections.yale.edu/thumbnail/ycba/61cac15d-6b79-4daf-b8db-c35cf203cd03",
+          "type": "Image",
+          "width": 480,
+          "height": 350,
+          "service": [
+            {
+              "@id": "https://media.collections.yale.edu/thumbnail/ycba/61cac15d-6b79-4daf-b8db-c35cf203cd03",
+              "@type": "ImageService2",
+              "profile": "level0"
+            }
+          ]
+        }
+      ],
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Image Use Rights"
+            ]
+          },
+          "value": {
+            "en": [
+              "Copyright Undetermined: The copyright and related rights status of this Item has been reviewed by the organization that has made the Item available, but the organization was unable to make a conclusive determination as to the copyright status of the Item. Please refer to the organization that has made the Item available for more information. You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "https://manifests.collections.yale.edu/canvas/ycba/241935cb-bbcb-4679-925b-998b274c7111",
+      "type": "Canvas",
+      "label": {
+        "en": [
+          "folios 19v-20r"
+        ]
+      },
+      "height": 5265,
+      "width": 7218,
+      "items": [
+        {
+          "id": "https://manifests.collections.yale.edu/annopage/ycba/241935cb-bbcb-4679-925b-998b274c7111",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://manifests.collections.yale.edu/annotation/ycba/241935cb-bbcb-4679-925b-998b274c7111",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://images.collections.yale.edu/iiif/2/ycba:241935cb-bbcb-4679-925b-998b274c7111/full/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "@id": "https://images.collections.yale.edu/iiif/2/ycba:241935cb-bbcb-4679-925b-998b274c7111",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ],
+                "height": 5265,
+                "width": 7218
+              },
+              "target": "https://manifests.collections.yale.edu/canvas/ycba/241935cb-bbcb-4679-925b-998b274c7111"
+            }
+          ]
+        }
+      ],
+      "thumbnail": [
+        {
+          "id": "https://media.collections.yale.edu/thumbnail/ycba/241935cb-bbcb-4679-925b-998b274c7111",
+          "type": "Image",
+          "width": 480,
+          "height": 350,
+          "service": [
+            {
+              "@id": "https://media.collections.yale.edu/thumbnail/ycba/241935cb-bbcb-4679-925b-998b274c7111",
+              "@type": "ImageService2",
+              "profile": "level0"
+            }
+          ]
+        }
+      ],
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Image Use Rights"
+            ]
+          },
+          "value": {
+            "en": [
+              "Copyright Undetermined: The copyright and related rights status of this Item has been reviewed by the organization that has made the Item available, but the organization was unable to make a conclusive determination as to the copyright status of the Item. Please refer to the organization that has made the Item available for more information. You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "https://manifests.collections.yale.edu/canvas/ycba/dea1a241-0234-4751-83fb-1dda843c1736",
+      "type": "Canvas",
+      "label": {
+        "en": [
+          "folio 20v"
+        ]
+      },
+      "height": 5265,
+      "width": 7224,
+      "items": [
+        {
+          "id": "https://manifests.collections.yale.edu/annopage/ycba/dea1a241-0234-4751-83fb-1dda843c1736",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://manifests.collections.yale.edu/annotation/ycba/dea1a241-0234-4751-83fb-1dda843c1736",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://images.collections.yale.edu/iiif/2/ycba:dea1a241-0234-4751-83fb-1dda843c1736/full/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "@id": "https://images.collections.yale.edu/iiif/2/ycba:dea1a241-0234-4751-83fb-1dda843c1736",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ],
+                "height": 5265,
+                "width": 7224
+              },
+              "target": "https://manifests.collections.yale.edu/canvas/ycba/dea1a241-0234-4751-83fb-1dda843c1736"
+            }
+          ]
+        }
+      ],
+      "thumbnail": [
+        {
+          "id": "https://media.collections.yale.edu/thumbnail/ycba/dea1a241-0234-4751-83fb-1dda843c1736",
+          "type": "Image",
+          "width": 480,
+          "height": 350,
+          "service": [
+            {
+              "@id": "https://media.collections.yale.edu/thumbnail/ycba/dea1a241-0234-4751-83fb-1dda843c1736",
+              "@type": "ImageService2",
+              "profile": "level0"
+            }
+          ]
+        }
+      ],
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Image Use Rights"
+            ]
+          },
+          "value": {
+            "en": [
+              "Copyright Undetermined: The copyright and related rights status of this Item has been reviewed by the organization that has made the Item available, but the organization was unable to make a conclusive determination as to the copyright status of the Item. Please refer to the organization that has made the Item available for more information. You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "https://manifests.collections.yale.edu/canvas/ycba/60c43edb-3601-4684-a8ad-cdd0a4a20a6b",
+      "type": "Canvas",
+      "label": {
+        "en": [
+          "endpapers, rear"
+        ]
+      },
+      "height": 5277,
+      "width": 7218,
+      "items": [
+        {
+          "id": "https://manifests.collections.yale.edu/annopage/ycba/60c43edb-3601-4684-a8ad-cdd0a4a20a6b",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://manifests.collections.yale.edu/annotation/ycba/60c43edb-3601-4684-a8ad-cdd0a4a20a6b",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://images.collections.yale.edu/iiif/2/ycba:60c43edb-3601-4684-a8ad-cdd0a4a20a6b/full/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "@id": "https://images.collections.yale.edu/iiif/2/ycba:60c43edb-3601-4684-a8ad-cdd0a4a20a6b",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ],
+                "height": 5277,
+                "width": 7218
+              },
+              "target": "https://manifests.collections.yale.edu/canvas/ycba/60c43edb-3601-4684-a8ad-cdd0a4a20a6b"
+            }
+          ]
+        }
+      ],
+      "thumbnail": [
+        {
+          "id": "https://media.collections.yale.edu/thumbnail/ycba/60c43edb-3601-4684-a8ad-cdd0a4a20a6b",
+          "type": "Image",
+          "width": 480,
+          "height": 351,
+          "service": [
+            {
+              "@id": "https://media.collections.yale.edu/thumbnail/ycba/60c43edb-3601-4684-a8ad-cdd0a4a20a6b",
+              "@type": "ImageService2",
+              "profile": "level0"
+            }
+          ]
+        }
+      ],
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Image Use Rights"
+            ]
+          },
+          "value": {
+            "en": [
+              "Copyright Undetermined: The copyright and related rights status of this Item has been reviewed by the organization that has made the Item available, but the organization was unable to make a conclusive determination as to the copyright status of the Item. Please refer to the organization that has made the Item available for more information. You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "https://manifests.collections.yale.edu/canvas/ycba/75f1bf3a-7bba-486b-9521-a4e40fad9717",
+      "type": "Canvas",
+      "label": {
+        "en": [
+          "endpapers, rear"
+        ]
+      },
+      "height": 5223,
+      "width": 7140,
+      "items": [
+        {
+          "id": "https://manifests.collections.yale.edu/annopage/ycba/75f1bf3a-7bba-486b-9521-a4e40fad9717",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://manifests.collections.yale.edu/annotation/ycba/75f1bf3a-7bba-486b-9521-a4e40fad9717",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://images.collections.yale.edu/iiif/2/ycba:75f1bf3a-7bba-486b-9521-a4e40fad9717/full/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "@id": "https://images.collections.yale.edu/iiif/2/ycba:75f1bf3a-7bba-486b-9521-a4e40fad9717",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ],
+                "height": 5223,
+                "width": 7140
+              },
+              "target": "https://manifests.collections.yale.edu/canvas/ycba/75f1bf3a-7bba-486b-9521-a4e40fad9717"
+            }
+          ]
+        }
+      ],
+      "thumbnail": [
+        {
+          "id": "https://media.collections.yale.edu/thumbnail/ycba/75f1bf3a-7bba-486b-9521-a4e40fad9717",
+          "type": "Image",
+          "width": 480,
+          "height": 351,
+          "service": [
+            {
+              "@id": "https://media.collections.yale.edu/thumbnail/ycba/75f1bf3a-7bba-486b-9521-a4e40fad9717",
+              "@type": "ImageService2",
+              "profile": "level0"
+            }
+          ]
+        }
+      ],
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Image Use Rights"
+            ]
+          },
+          "value": {
+            "en": [
+              "Copyright Undetermined: The copyright and related rights status of this Item has been reviewed by the organization that has made the Item available, but the organization was unable to make a conclusive determination as to the copyright status of the Item. Please refer to the organization that has made the Item available for more information. You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "https://manifests.collections.yale.edu/canvas/ycba/469aec45-2a0b-4b78-ae72-af29eb6040a7",
+      "type": "Canvas",
+      "label": {
+        "en": [
+          "cover, back"
+        ]
+      },
+      "height": 6858,
+      "width": 4767,
+      "items": [
+        {
+          "id": "https://manifests.collections.yale.edu/annopage/ycba/469aec45-2a0b-4b78-ae72-af29eb6040a7",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://manifests.collections.yale.edu/annotation/ycba/469aec45-2a0b-4b78-ae72-af29eb6040a7",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://images.collections.yale.edu/iiif/2/ycba:469aec45-2a0b-4b78-ae72-af29eb6040a7/full/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "@id": "https://images.collections.yale.edu/iiif/2/ycba:469aec45-2a0b-4b78-ae72-af29eb6040a7",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ],
+                "height": 6858,
+                "width": 4767
+              },
+              "target": "https://manifests.collections.yale.edu/canvas/ycba/469aec45-2a0b-4b78-ae72-af29eb6040a7"
+            }
+          ]
+        }
+      ],
+      "thumbnail": [
+        {
+          "id": "https://media.collections.yale.edu/thumbnail/ycba/469aec45-2a0b-4b78-ae72-af29eb6040a7",
+          "type": "Image",
+          "width": 334,
+          "height": 480,
+          "service": [
+            {
+              "@id": "https://media.collections.yale.edu/thumbnail/ycba/469aec45-2a0b-4b78-ae72-af29eb6040a7",
+              "@type": "ImageService2",
+              "profile": "level0"
+            }
+          ]
+        }
+      ],
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Image Use Rights"
+            ]
+          },
+          "value": {
+            "en": [
+              "Copyright Undetermined: The copyright and related rights status of this Item has been reviewed by the organization that has made the Item available, but the organization was unable to make a conclusive determination as to the copyright status of the Item. Please refer to the organization that has made the Item available for more information. You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use."
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

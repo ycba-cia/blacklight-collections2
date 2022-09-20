@@ -1,0 +1,39 @@
+{
+        "record": [
+        {
+        "title": "Helmingham herbal and bestiary.",
+        "author": "NA",
+        "pdescription": "1 v. ([20] leaves, with 1 blank leaf) : ill. ; 45 x 32 cm.",
+        "publisher": "NA",
+        "pubplace": "Helmingham, Suffolk,",
+        "pubdate": "circa 1500.",
+        "isxn": "NA",
+        "oclcmrn": "702203778",
+        "bibid": "9452785",
+        "bib_suppress_in_opac": "N",
+        "items": [
+        {
+        "itemformat": "Other",
+        "itemenum": "NA",
+        "itemchron": "NA",
+        "itemid": "8831451",
+        "barcode": "39002101754902",
+        "barcodestatus": "Active",
+        "itemstat": "NA",
+        "itemstatus": "Not Charged",
+        "itemspinelabel": "NA",
+        "itemloccode": "bacrb",
+        "itemlocname": "BRITISH ART CENTER, Rare Bks &amp; Mss (Non-Circulating)",
+        "itypecode": "nocirc",
+        "itypename": "Non-Circulating Item",
+        "availdate": "NA",
+        "mfhdid": "9799201",
+        "mfhdsuppressinopac": "N",
+        "mfhdloccode": "bacrb",
+        "mfhdlocname": "BRITISH ART CENTER, Rare Bks &amp; Mss (Non-Circulating)",
+        "callno": "Folio C 2014 4"
+        }
+        ]
+        }
+        ]
+        }
