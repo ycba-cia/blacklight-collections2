@@ -6,6 +6,46 @@ RSpec.describe BookCoverController, type: :controller do
 
   describe "GET #show" do
     it "returns http success for openlibrary" do
+      stub_request(:get, "http://covers.openlibrary.org/b/isbn/0521547903-S.jpg").
+          with(
+              headers: {
+                  'Accept'=>'*/*',
+                  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                  'User-Agent'=>'Ruby'
+              }).
+          to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','openlibrary-0521547903-S.jpg')), headers: {})
+      stub_request(:get, "http://covers.openlibrary.org/b/isbn/0521547903-M.jpg").
+          with(
+              headers: {
+                  'Accept'=>'*/*',
+                  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                  'User-Agent'=>'Ruby'
+              }).
+          to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','openlibrary-0521547903-M.jpg')), headers: {})
+      stub_request(:get, "http://covers.openlibrary.org/b/isbn/0521547903-L.jpg").
+          with(
+              headers: {
+                  'Accept'=>'*/*',
+                  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                  'User-Agent'=>'Ruby'
+              }).
+          to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','openlibrary-0521547903-L.jpg')), headers: {})
+      stub_request(:get, "https://www.googleapis.com/books/v1/volumes?q=isbn:0521547903").
+          with(
+              headers: {
+                  'Accept'=>'*/*',
+                  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                  'User-Agent'=>'Ruby'
+              }).
+          to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','googleapis-0521547903.jpg')), headers: {})
+      stub_request(:get, "http://books.google.com/books/content?id=Aau2QgAACAAJ&img=1&printsec=frontcover&source=gbs_api&zoom=1").
+          with(
+              headers: {
+                  'Accept'=>'*/*',
+                  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                  'User-Agent'=>'Ruby'
+              }).
+          to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','googlebooks-Aau2QgAACAAJ.jpg')), headers: {})
       get :show, :params => { :isbn => '0521547903' }
       #get :show, isbn: '0521547903'
       expect(response).to have_http_status(:success)
@@ -29,6 +69,30 @@ RSpec.describe BookCoverController, type: :controller do
         #BookCoverController.any_instance.stub(:openlibrary_cover_image).with("0521547903","small").and_return(nil)
       #deprecated
         #controller.stub(:openlibrary_cover_image).with("0521547903","small").and_return(nil)
+      stub_request(:get, "https://www.googleapis.com/books/v1/volumes?q=isbn:0521547903").
+          with(
+              headers: {
+                  'Accept'=>'*/*',
+                  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                  'User-Agent'=>'Ruby'
+              }).
+          to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','googleapis-0521547903.jpg')), headers: {})
+      stub_request(:get, "http://books.google.com/books/content?id=Aau2QgAACAAJ&img=1&printsec=frontcover&source=gbs_api&zoom=1").
+          with(
+              headers: {
+                  'Accept'=>'*/*',
+                  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                  'User-Agent'=>'Ruby'
+              }).
+          to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','googlebooks-Aau2QgAACAAJ.jpg')), headers: {})
+      stub_request(:get, "https://www.googleapis.com/books/v1/volumes?q=isbn:notvalid").
+          with(
+              headers: {
+                  'Accept'=>'*/*',
+                  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                  'User-Agent'=>'Ruby'
+              }).
+          to_return(status: 200, body: "", headers: {})
       allow_any_instance_of(BookCoverController).to receive(:openlibrary_cover_image).with("0521547903","small").and_return(nil)
       get :show, :params => { :isbn => '0521547903' }
       expect(response).to have_http_status(:success)
@@ -41,6 +105,14 @@ RSpec.describe BookCoverController, type: :controller do
 
   describe "GET #show3" do
     it "returns http success for amazon cover image" do
+      stub_request(:get, "http://images.amazon.com/images/P/0521547903.01.20TRZZZZ.jpg").
+          with(
+              headers: {
+                  'Accept'=>'*/*',
+                  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                  'User-Agent'=>'Ruby'
+              }).
+          to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','0521547903.01.20TRZZZZ.jpg')), headers: {})
       allow_any_instance_of(BookCoverController).to receive(:openlibrary_cover_image).with("0521547903","small").and_return(nil)
       allow_any_instance_of(BookCoverController).to receive(:google_cover_image).with("0521547903").and_return(nil)
       get :show, :params => { :isbn => '0521547903' }
@@ -60,6 +132,15 @@ RSpec.describe BookCoverController, type: :controller do
 
 
   it 'should return expected openlibrary book cover' do
+    stub_request(:get, "http://covers.openlibrary.org/b/isbn/0316769487-S.jpg").
+        with(
+            headers: {
+                'Accept'=>'*/*',
+                'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                'User-Agent'=>'Ruby'
+            }).
+        to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','openlibrary-0316769487-S.jpg')), headers: {})
+
     isbn = "0316769487"
     openlibrary_size = "S"
     u = "http://covers.openlibrary.org/b/isbn/#{isbn}-#{openlibrary_size}.jpg"

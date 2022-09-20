@@ -1,0 +1,75 @@
+{
+  "kind": "books#volumes",
+  "totalItems": 1,
+  "items": [
+    {
+      "kind": "books#volume",
+      "id": "Aau2QgAACAAJ",
+      "etag": "2gq2wh6poQM",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/Aau2QgAACAAJ",
+      "volumeInfo": {
+        "title": "The Cambridge Introduction to English Theatre, 1660-1900",
+        "authors": [
+          "Peter Thomson"
+        ],
+        "publisher": "Cambridge University Press",
+        "publishedDate": "2006-09-14",
+        "description": "This 2006 introduction aims to share with readers the author's enjoyment of the turbulent 240-year history of a theatre that tried, often against the odds, to be 'modern'. In each of its five parts, it deals successively with history and cultural context, with the plays and the actors who caught the imagination of their era. Peter Thomson's text, always approachable, is enriched by quotations and carefully selected illustrations that capture 'the spirit of the age' under consideration. Beginning with the reopening of the playhouses under licence from Charles II, Thomson introduces the modern English theatre by breaking off at key dates - 1700, 1737, 1789 and 1843 - in order to explore both continuity and innovation. Familiar names and well-known plays feature alongside the forgotten and neglected. This is a reading of dramatic history that keeps constantly in mind the material circumstances that produced, and sometimes oppressed, a supremely popular theatre.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_10",
+            "identifier": "0521547903"
+          },
+          {
+            "type": "ISBN_13",
+            "identifier": "9780521547901"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": false
+        },
+        "pageCount": 326,
+        "printType": "BOOK",
+        "categories": [
+          "Drama"
+        ],
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "preview-1.0.0",
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=Aau2QgAACAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=Aau2QgAACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.com/books?id=Aau2QgAACAAJ&dq=isbn:0521547903&hl=&cd=1&source=gbs_api",
+        "infoLink": "http://books.google.com/books?id=Aau2QgAACAAJ&dq=isbn:0521547903&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/The_Cambridge_Introduction_to_English_Th.html?hl=&id=Aau2QgAACAAJ"
+      },
+      "saleInfo": {
+        "country": "US",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "US",
+        "viewability": "NO_PAGES",
+        "embeddable": false,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=Aau2QgAACAAJ&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "NONE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "This is a reading of dramatic history that keeps constantly in mind the material circumstances that produced, and sometimes oppressed, a supremely popular theatre."
+      }
+    }
+  ]
+}
