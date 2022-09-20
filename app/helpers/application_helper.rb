@@ -543,8 +543,12 @@ module ApplicationHelper
     if field_value(document,:collection_txt) == "Rare Books and Manuscripts"
       url = "https://britishart.yale.edu/request-images-rare-books-and-manuscripts?"
 
-      doc = get_mfhd_doc(document)
-      callnumbers = doc.xpath('//record_list/holding[starts-with(mfhd_loc_code,"bacrb")]/mfhd_callno/text()').to_a
+      begin
+        doc = get_mfhd_doc(document)
+        callnumbers = doc.xpath('//record_list/holding[starts-with(mfhd_loc_code,"bacrb")]/mfhd_callno/text()').to_a
+      rescue
+        return "<span>Unable to reach service.  Holdings currently not available<span></br>".html_safe
+      end
       callnumbers = callnumbers.map { |n|
         n.to_s.strip.gsub("'","''")
       }
@@ -594,7 +598,7 @@ module ApplicationHelper
 
   def pull_mfhd_doc(document)
     mfhd = get_mfhd_base + document[:id].split(":")[1]
-    @doc ||= Nokogiri::HTML(URI.open(mfhd))
+    @doc ||= Nokogiri::HTML(URI.open(mfhd,{:read_timeout => 3}))
   end
 
   def get_mfhd_doc(document)
@@ -608,11 +612,12 @@ module ApplicationHelper
   def get_holdings(document)
     begin
       doc = get_mfhd_doc(document)
+      mfhd_ids = doc.xpath('//record_list/holding[starts-with(mfhd_loc_code,"bacrb") or starts-with(mfhd_loc_code,"bacref") or starts-with(mfhd_loc_code,"bacia")]/mfhd_id/text()').to_a
+
     rescue
       return "<span>Unable to reach service.  Holdings currently not available<span></br>".html_safe
     end
 
-    mfhd_ids = doc.xpath('//record_list/holding[starts-with(mfhd_loc_code,"bacrb") or starts-with(mfhd_loc_code,"bacref") or starts-with(mfhd_loc_code,"bacia")]/mfhd_id/text()').to_a
     mfhd_ids = mfhd_ids.map { |n|
       n.to_s.strip.gsub("'","''")
     }
