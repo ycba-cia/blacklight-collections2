@@ -61,7 +61,8 @@ class BookCoverController < ApplicationController
     u = "https://www.googleapis.com/books/v1/volumes?q=isbn:"+isbn
     j = JSON.load(URI.open(u))
     #j = open(u).string #alternate
-    if j["items"] && j["items"][0] && j["items"][0]["volumeInfo"] &&
+    #puts "J:#{j}"
+    if j && j["items"] && j["items"][0] && j["items"][0]["volumeInfo"] &&
         j["items"][0]["volumeInfo"]["imageLinks"] &&
           j["items"][0]["volumeInfo"]["imageLinks"]["thumbnail"]
     t = j["items"][0]["volumeInfo"]["imageLinks"]["thumbnail"]

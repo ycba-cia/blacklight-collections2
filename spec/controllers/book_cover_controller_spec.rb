@@ -98,8 +98,10 @@ RSpec.describe BookCoverController, type: :controller do
       expect(response).to have_http_status(:success)
 
       allow_any_instance_of(BookCoverController).to receive(:openlibrary_cover_image).with("notvalid","small").and_return(nil)
+      allow_any_instance_of(BookCoverController).to receive(:google_cover_image).with("notvalid").and_return({"kind": "books#volumes", "totalItems": 0})
+      allow_any_instance_of(BookCoverController).to receive(:amazon_cover_image).with("notvalid").and_return(nil)
       get :show, :params => { :isbn => 'notvalid' }
-      expect(response).to have_http_status(302)
+      expect(response).to have_http_status(:success)
     end
   end
 
@@ -113,7 +115,7 @@ RSpec.describe BookCoverController, type: :controller do
                   'User-Agent'=>'Ruby'
               }).
           to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','0521547903.01.20TRZZZZ.jpg')), headers: {})
-      allow_any_instance_of(BookCoverController).to receive(:openlibrary_cover_image).with("0521547903","small").and_return(nil)
+      allow_any_instance_of(BookCoverController).to receive(:openlibrary_cover_image).with("0521547903","small").and_return({"kind": "books#volumes", "totalItems": 0})
       allow_any_instance_of(BookCoverController).to receive(:google_cover_image).with("0521547903").and_return(nil)
       get :show, :params => { :isbn => '0521547903' }
       expect(response).to have_http_status(:success)
@@ -123,10 +125,10 @@ RSpec.describe BookCoverController, type: :controller do
   describe "GET #show4" do
     it "returns http 302 not matching" do
       allow_any_instance_of(BookCoverController).to receive(:openlibrary_cover_image).with("0521547903","small").and_return(nil)
-      allow_any_instance_of(BookCoverController).to receive(:google_cover_image).with("0521547903").and_return(nil)
+      allow_any_instance_of(BookCoverController).to receive(:google_cover_image).with("0521547903").and_return({"kind": "books#volumes", "totalItems": 0})
       allow_any_instance_of(BookCoverController).to receive(:amazon_cover_image).with("0521547903").and_return(nil)
       get :show, :params => { :isbn => '0521547903' }
-      expect(response).to have_http_status(302)
+      expect(response).to have_http_status(:success)
     end
   end
 
