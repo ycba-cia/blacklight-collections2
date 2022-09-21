@@ -19,7 +19,15 @@ RSpec.describe CatalogController, :type => :controller do
   end
 
   describe "GET #show" do
-    it "tests show" do
+    it "tests getID" do
+      stub_request(:get, "http://10.5.96.78:8983/solr/ycba_blacklight/select?id=34&qt=document&wt=json").
+          with(
+              headers: {
+                  'Accept'=>'*/*',
+                  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                  'User-Agent'=>'Faraday v1.10.1'
+              }).
+          to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','dort_BL.json')), headers: {})
       get :show, :params => { :id => "34"}
       expect(controller.getID).to be == "34"
     end
