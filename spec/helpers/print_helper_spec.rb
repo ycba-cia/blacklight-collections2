@@ -22,6 +22,14 @@ describe PrintHelper do
 
   describe "#get_images_from_iiifv3" do
     it "gets tested" do
+      stub_request(:get, "https://manifests.collections.yale.edu/ycba/obj/34").
+          with(
+              headers: {
+                  'Accept'=>'*/*',
+                  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                  'User-Agent'=>'Ruby'
+              }).
+          to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','dort_iiif.json')), headers: {})
       images, pixels = helper.get_images_from_iiifv3(@manifest,@index)
       expect(images[0]).to be == @image1
       expect(pixels[0]).to be == @pixels
@@ -29,6 +37,22 @@ describe PrintHelper do
   end
   describe "#get_images_from_cds2" do
     it "gets tested" do
+      stub_request(:get, "https://manifests.collections.yale.edu/ycba/obj/34").
+          with(
+              headers: {
+                  'Accept'=>'*/*',
+                  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                  'User-Agent'=>'Ruby'
+              }).
+          to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','dort_iiif.json')), headers: {})
+      stub_request(:get, "https://manifests.collections.yale.edu/ycba/orb/9452785").
+          with(
+              headers: {
+                  'Accept'=>'*/*',
+                  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                  'User-Agent'=>'Ruby'
+              }).
+          to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','helmingham_iiif.json')), headers: {})
       images1, pixels1 = helper.get_images_from_cds2(@id1,@index)
       images2, pixels2 = helper.get_images_from_cds2(@id2,@index)
       expect(images1[0]).to be == @image1
@@ -39,12 +63,38 @@ describe PrintHelper do
   end
   describe "#print_images" do
     it "gets tested" do
+      stub_request(:get, "https://collections-test.britishart.yale.edu/catalog/tms:34.json").
+          with(
+              headers: {
+                  'Accept'=>'*/*',
+                  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                  'Host'=>'collections-test.britishart.yale.edu',
+                  'User-Agent'=>'Ruby'
+              }).
+          to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','dort_BL.json')), headers: {})
+      stub_request(:get, "https://manifests.collections.yale.edu/ycba/obj/34").
+          with(
+              headers: {
+                  'Accept'=>'*/*',
+                  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                  'User-Agent'=>'Ruby'
+              }).
+          to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','dort_iiif.json')), headers: {})
       markup = helper.print_images(@id1,@index)
       expect(markup).to be == @markup
     end
   end
   describe "#get_solr_doc" do
     it "gets tested" do
+      stub_request(:get, "https://collections-test.britishart.yale.edu/catalog/tms:34.json").
+          with(
+              headers: {
+                  'Accept'=>'*/*',
+                  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                  'Host'=>'collections-test.britishart.yale.edu',
+                  'User-Agent'=>'Ruby'
+              }).
+          to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','dort_BLraw.json')), headers: {})
       solrdoc = helper.get_solr_doc(@id1,"https://","collections-test.britishart.yale.edu")
       expect(solrdoc["callnumber_ss"][0]).to be == "B1977.14.77"
     end
