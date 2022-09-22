@@ -45,6 +45,19 @@ RSpec.describe CatalogController, :type => :controller do
     end
   end
 
+  describe "handling econnrefused exeption" do
+    controller do
+      def index
+        raise Blacklight::Exceptions::RecordNotFound
+      end
+    end
+    it "renders econnrefused" do
+      get :index
+      expect(response).to have_http_status(404)
+    end
+  end
+
+
   describe "#display_marc_field?" do
     it "returns" do
       context = Blacklight::Configuration::ShowField.new

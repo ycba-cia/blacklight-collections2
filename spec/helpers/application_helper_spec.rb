@@ -596,6 +596,11 @@ describe ApplicationHelper do
         expect(helper.image_request_link(document)).to be == "https://britishart.yale.edu/request-images?id=34&num=B1977.14.77&collection=Paintings and Sculpture&creator=Joseph Mallord William Turner, 1775–1851, British&title=Dort or Dordrecht: The Dort Packet-Boat from Rotterdam Becalmed&url=https://collections.britishart.yale.edu/catalog/tms:34"
         document = document2.deep_symbolize_keys
         expect(helper.image_request_link(document)).to be == "https://britishart.yale.edu/request-images-rare-books-and-manuscripts?id=9452785&num=Folio C 2014 4&collection=Rare Books and Manuscripts&creator=&title=Helmingham herbal and bestiary.&url=http://hdl.handle.net/10079/bibid/9452785"
+
+        allow(helper).to receive(:get_mfhd_doc) do
+          raise "boom"
+        end
+        expect(helper.image_request_link(document)).to be == "<span>Unable to reach service.  Holdings currently not available<span></br>"
       end
     end
 
