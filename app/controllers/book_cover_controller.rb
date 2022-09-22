@@ -35,7 +35,7 @@ class BookCoverController < ApplicationController
     end
   end
 
-  private
+  #private
 
   def return_image(url)
     bytes = URI.open(url).read
@@ -65,7 +65,7 @@ class BookCoverController < ApplicationController
     if j && j["items"] && j["items"][0] && j["items"][0]["volumeInfo"] &&
         j["items"][0]["volumeInfo"]["imageLinks"] &&
           j["items"][0]["volumeInfo"]["imageLinks"]["thumbnail"]
-    t = j["items"][0]["volumeInfo"]["imageLinks"]["thumbnail"]
+      t = j["items"][0]["volumeInfo"]["imageLinks"]["thumbnail"]
     else
       return nil
     end
