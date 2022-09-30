@@ -70,6 +70,16 @@ module PrintHelper
     end
   end
 
+  def print_string(label,field)
+    if field.nil? == false
+      s = "<dt style=\"overflow: hidden;\">#{label}</dt>"
+      s+= "<dd>#{field}</dd>"
+      return s
+    else
+      return ""
+    end
+  end
+
   def print_fields_default_empty(label,field,default)
     if @document[field].nil?
       value = default

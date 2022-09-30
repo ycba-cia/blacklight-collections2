@@ -528,7 +528,7 @@ function selectdl(download,id,doc) {
         if (doc["format_ss"] != null) { cap1.push(doc["format_ss"][0]); }
         if (doc["credit_line_ss"] != null) { cap1.push(doc["credit_line_ss"][0]); }
         if (doc["callnumber_ss"] != null) { cap1.push(doc["callnumber_ss"][0]); }
-        $("#caption-dl-info").text(cap1.join(", "));
+        $("#caption-dl-info").text(cap1.join(", ") + ".");
     }
     if (recordtype=="marc") {
         var cap1 = [];
@@ -538,7 +538,7 @@ function selectdl(download,id,doc) {
         if (doc["edition_ss"] != null) { cap1.push(doc["edition_ss"][0]); }
         if (doc["publisher_ss"] != null) { cap1.push(doc["publisher_ss"][0]); }
         if (doc["credit_line_ss"] != null) { cap1.push(doc["credit_line_ss"][0]); }
-        $("#caption-dl-info").text(cap1.join(", "));
+        $("#caption-dl-info").text(cap1.join(", ") + ".");
     }
     if (download[2].length == 0) {
         jpeg_info += "<a href='" + download[2] + "' download='" + download[1] + "' target=\"_blank\">";
@@ -566,7 +566,7 @@ function selectdl(download,id,doc) {
     $("#tiff-container").html(tiff_info);
 
     var print_info =  "";
-    var print_path = "/print/"+id+"/1/"+index;
+    var print_path = "/print/"+id+"/1/"+index+"/"+download[1];
     if (download[2].length == 0) {
         print_info += "<a href='"+print_path+"' target=\"_blank\">";
         print_info += "<button id='print-button' type='button' class='btn btn-primary btn-sm' disabled>Print</button>";

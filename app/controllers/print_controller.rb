@@ -5,6 +5,7 @@ class PrintController < ApplicationController
     @id = params[:id]
     @size = params[:size]
     @index = params[:index]
+    @caption = params[:caption]
     @images = print_images(@id,@index)
 =begin
     #stubbed get_solr_doc rather then this kluge, keeping for reference
@@ -27,6 +28,7 @@ class PrintController < ApplicationController
     if @document["recordtype_ss"][0] == "lido"
       @item_data += print_newline_fields("Creator:","author_ss")
       @item_data += print_fields("Title:","title_ss")
+      @item_data += print_string("Caption:",@caption)
       @item_data += print_fields("Date:","publishDate_ss")
       @item_data += print_fields("Medium:","format_ss")
       @item_data += print_fields("Dimensions:","physical_ss")
@@ -50,6 +52,7 @@ class PrintController < ApplicationController
       @item_data += print_newline_fields("Creator:","author_ss")
       @item_data += print_fields("Title:","title_ss")
       @item_data += print_fields("Alternate Title(s):","title_alt_ss")
+      @item_data += print_string("Caption:",@caption)
       @item_data += print_fields("Edition:","edition_ss")
       @item_data += print_newline_fields("Published/Created:","publisher_ss")
       @item_data += print_fields("Physical Description:","physical_ss")
