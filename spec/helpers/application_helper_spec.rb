@@ -105,6 +105,16 @@ describe ApplicationHelper do
     end
   end
 
+  describe "#handle qualifiers" do
+    it "returns true" do
+      options = Hash.new
+      options[:value] = ["John Nost I, before 1660–1711/1712, Flemish, active in Britain (from before 1686)","or John Cheere, 1709–1787, British"]
+      options[:document] = {}
+      options[:document][:author_removed_ss] = ["John Nost I, before 1660–1711/1712, Flemish, active in Britain (from before 1686)","John Cheere, 1709–1787, British"]
+      expect(helper.handle_qualifiers(options)).to be == "<a href=\"/?f[author_removed_ss][]=John Nost I, before 1660–1711/1712, Flemish, active in Britain (from before 1686)\">John Nost I, before 1660–1711/1712, Flemish, active in Britain (from before 1686)</a><br/><a href=\"/?f[author_removed_ss][]=John Cheere, 1709–1787, British\">or John Cheere, 1709–1787, British</a>"
+    end
+  end
+
   describe "#render_aeon_from_access" do
     it "returns true" do
       #ps

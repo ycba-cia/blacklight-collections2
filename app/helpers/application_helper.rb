@@ -41,6 +41,15 @@ module ApplicationHelper
     links.join('<br/>').html_safe
   end
 
+  def handle_qualifiers options={}
+    links = []
+    options[:value].each_with_index { |v, i |
+      links.append("<a href=\"/?f[author_removed_ss][]=#{options[:document][:author_removed_ss][i]}\">#{v}</a>")
+    }
+
+    links.join('<br/>').html_safe
+  end
+
   #deprecated
 =begin
   def render_aeon_from_call_number options={}
