@@ -566,7 +566,7 @@ function selectdl(download,id,doc) {
     $("#tiff-container").html(tiff_info);
 
     var print_info =  "";
-    var print_path = "/print/"+id+"/1/"+index+"/"+download[1];
+    var print_path = "/print/"+id+"/1/"+index+"?caption="+download[1];
     if (download[2].length == 0) {
         print_info += "<a href='"+print_path+"' target=\"_blank\">";
         print_info += "<button id='print-button' type='button' class='btn btn-primary btn-sm' disabled>Print</button>";
