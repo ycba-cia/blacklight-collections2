@@ -117,6 +117,8 @@ describe PrintHelper do
       expect(printed_sep_fields1).to be == "<dt>Subject Terms:</dt><dd>marine art | crowd | sea | church | costume | jars | ship | ships | market (event) | women | sunlight | men | cityscape | flags | seascape | rowboats | fruit | rubbish | reflection | chromaticity | river | city | flotsam | vegetables</dd>"
       printed_sep_fields2 = helper.print_sep_fields("Subject Terms:","empty_ss")
       expect(printed_sep_fields2).to be == ""
+      print_string = helper.print_string("Caption","a caption")
+      expect(print_string).to be == "<dt style=\"overflow: hidden;\">Caption</dt><dd>a caption</dd>"
 
       @document = JSON.parse(File.read("spec/fixtures/helmingham.json"))
       printed_field = helper.print_fields("Title:","title_ss")
