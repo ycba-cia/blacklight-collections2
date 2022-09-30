@@ -2,7 +2,7 @@
 
 <% if document["rights_ss"] && (document["rights_ss"][0].to_s == "under copyright" || document["rights_ss"][0].to_s == "rights reserved") %>
 <% else %>
-  <div id="ycba-downloads" class="btn btn-primary col-xs-3" align="center" onclick="select_one_dl(<%= downloads %>,'<%= document["id"] %>')">
+  <div id="ycba-downloads" class="btn btn-primary col-xs-3" align="center" onclick="select_one_dl(<%= downloads %>,'<%= document["id"] %>',<%= document.to_json %>)">
     <%= link_to("Download/Print selected image","#downloadModal", data: {toggle: "modal"}, style: "color: white;" ) %>
   </div>
 <% end %>
@@ -80,12 +80,6 @@
         </br>
         <div id="caption-row" class="row">
           <div id="caption-dl-info" class="col-xs-12 text-left">
-            <% if marc_field?(document) %>
-              <%#= get_marc_caption(document) %><!--get from cds caption, not best source-->
-              <%= concat_caption_marc(document) %>
-            <% else %>
-              <%= concat_caption(document) %>
-            <% end %>
           </div>
         </div>
       </div>

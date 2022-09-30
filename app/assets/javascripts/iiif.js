@@ -500,13 +500,13 @@ window.addEventListener("message", (event) => {
     $("#selected-image-index").text(event.data);
 });
 
-function select_one_dl(download,id) {
+function select_one_dl(download,id,doc) {
     var index = $("#selected-image-index").text();
     $("#dlselect-info").show();
-    selectdl(download[index],id);
+    selectdl(download[index],id,doc);
 }
 //cds2
-function selectdl(download,id) {
+function selectdl(download,id,doc) {
     //console.log ("download:" + download);
     //console.log ("download:" + download[0]);
     //console.log ("download:" + download[1]);
@@ -517,6 +517,29 @@ function selectdl(download,id) {
     var index = download[0]-1
     var jpeg_info = "";
     $("#dlselect-info").text(download[0] + ". "+download[1]);
+
+    var recordtype = doc["recordtype_ss"][0];
+    if (recordtype=="lido") {
+        var cap1 = [];
+        if (doc["author_ss"] != null) { cap1.push(doc["author_ss"][0]); }
+        if (doc["title_ss"] != null) { cap1.push(doc["title_ss"][0]); }
+        if (download != null) { cap1.push(download[1]); }
+        if (doc["publishDate_ss"] != null) { cap1.push(doc["publishDate_ss"][0]); }
+        if (doc["format_ss"] != null) { cap1.push(doc["format_ss"][0]); }
+        if (doc["credit_line_ss"] != null) { cap1.push(doc["credit_line_ss"][0]); }
+        if (doc["callnumber_ss"] != null) { cap1.push(doc["callnumber_ss"][0]); }
+        $("#caption-dl-info").text(cap1.join(", "));
+    }
+    if (recordtype=="marc") {
+        var cap1 = [];
+        if (doc["author_ss"] != null) { cap1.push(doc["author_ss"][0]); }
+        if (doc["titles_primary_ss"] != null) { cap1.push(doc["titles_primary_ss"][0]); }
+        if (download != null) { cap1.push(download[1]); }
+        if (doc["edition_ss"] != null) { cap1.push(doc["edition_ss"][0]); }
+        if (doc["publisher_ss"] != null) { cap1.push(doc["publisher_ss"][0]); }
+        if (doc["credit_line_ss"] != null) { cap1.push(doc["credit_line_ss"][0]); }
+        $("#caption-dl-info").text(cap1.join(", "));
+    }
     if (download[2].length == 0) {
         jpeg_info += "<a href='" + download[2] + "' download='" + download[1] + "' target=\"_blank\">";
         jpeg_info += "<button id='jpeg-dl-button' type='button' class='btn btn-primary btn-sm' disabled>JPEG</button>";
