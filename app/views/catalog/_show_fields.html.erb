@@ -1,3 +1,9 @@
+<% if marc_field?(@document) %>
+  <dt class="blacklight-<%= "tmsobjects" %>"><%= "Referenced YCBA Works:" %></dt>
+  <dd class="blacklight-<%= "tmsobjects" %>">
+    <%= get_ycba_objects(@document) %>
+  </dd>
+<% end %>
 <dt class="blacklight-<%= "export" %>"><%= "Export:" %></dt>
 <% if marc_field?(@document) %>
   <dd class="blacklight-<%= "export" %>"><%= link_to("XML",get_export_url_xml(@document),target: :_blank) %></dd>

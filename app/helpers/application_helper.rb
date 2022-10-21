@@ -1079,6 +1079,34 @@ module ApplicationHelper
     response['response']['docs'][0]["id"]
   end
 
+
+  def get_ycba_objects(doc)
+    solr_config = Rails.application.config_for(:blacklight)
+    solr = RSolr.connect :url => solr_config["url"]
+    resp = get_solr_response(solr,"ilsnumber_ss",doc["id"].gsub("orbis:",""))
+    html = ""
+    resp.each do |doc|
+      link = doc["id"]
+      display = Array.new
+      display.push(doc["author_ss"][0]) if doc["author_ss"]
+      display.push(doc["title_short_ss"][0].chomp(":").chomp("/").chomp(".")) if doc["title_short_ss"]
+      display.push(doc["publishDate_ss"][0]) if doc["publishDate_ss"]
+      html += link_to display.join(" "),"#{request.protocol}#{request.host_with_port}/catalog/#{link}",target: :_blank, rel: "nofollow"
+      html += "</br>"
+      #html += link_to display.join(" "),"#{request.protocol}#{request.host_with_port}/catalog/#{link}",target: :_blank, rel: "nofollow"
+    end
+    puts html
+    return html.html_safe
+  end
+  def get_solr_response(solr,field,value)
+    response = solr.post "select", :params => {
+        :fq=>"#{field}:\"#{value}\""
+    }
+    puts "response:#{response}"
+    return [] if response['response']['docs'].length == 0
+    response['response']['docs']
+  end
+
   def render_ycba_item_header(*args)
     options = args.extract_options!
     document = args.first
