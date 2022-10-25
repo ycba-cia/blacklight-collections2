@@ -1097,8 +1097,8 @@ module ApplicationHelper
     resp_sorted.each.with_index do |doc, i|
       link = doc["id"]
       display = Array.new
-      if i==0 and cnt > 100
-        html += "#{cnt} referenced works. only 100 displayed."
+      if i==0 and cnt > 250
+        html += "#{cnt} referenced works. only 250 displayed."
       else
         display.push(doc["author_ss"][0]) if doc["author_ss"]
         display.push(doc["title_short_ss"][0].chomp(":").chomp("/").chomp(".")) if doc["title_short_ss"]
@@ -1114,7 +1114,7 @@ module ApplicationHelper
 
   def get_solr_response(solr,field,value)
     response = solr.post "select", :params => {
-        :fq=>"#{field}:\"#{value}\"", :rows=>100
+        :fq=>"#{field}:\"#{value}\"", :rows=>250
     }
     return [], 0 if response['response']['docs'].length == 0
     return response['response']['docs'], response['response']['numFound']
