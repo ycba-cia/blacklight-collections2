@@ -1,4 +1,4 @@
-<% if marc_field?(@document) %>
+<% if marc_field?(@document) and referenced_works?(@document) %>
   <dt class="blacklight-<%= "tmsobjects" %>"><%= "Referenced YCBA Works:" %></dt>
   <dd class="blacklight-<%= "tmsobjects" %>">
     <%= get_ycba_objects(@document) %>

@@ -1083,28 +1083,51 @@ module ApplicationHelper
   def get_ycba_objects(doc)
     solr_config = Rails.application.config_for(:blacklight)
     solr = RSolr.connect :url => solr_config["url"]
-    resp = get_solr_response(solr,"ilsnumber_ss",doc["id"].gsub("orbis:",""))
+    resp,cnt = get_solr_response(solr,"ilsnumber_ss",doc["id"].gsub("orbis:",""))
     html = ""
-    resp.each do |doc|
+
+    resp_sorted = resp.sort_by { |doc|
+      if doc["auth_author_display_ss"]
+        doc["auth_author_display_ss"][0]
+      else
+        "ZZZZZ"
+      end
+    }
+
+    resp_sorted.each.with_index do |doc, i|
       link = doc["id"]
       display = Array.new
-      display.push(doc["author_ss"][0]) if doc["author_ss"]
-      display.push(doc["title_short_ss"][0].chomp(":").chomp("/").chomp(".")) if doc["title_short_ss"]
-      display.push(doc["publishDate_ss"][0]) if doc["publishDate_ss"]
-      html += link_to display.join(" "),"#{request.protocol}#{request.host_with_port}/catalog/#{link}",target: :_blank, rel: "nofollow"
+      if i==0 and cnt > 100
+        html += "#{cnt} referenced works. only 100 displayed."
+      else
+        display.push(doc["author_ss"][0]) if doc["author_ss"]
+        display.push(doc["title_short_ss"][0].chomp(":").chomp("/").chomp(".")) if doc["title_short_ss"]
+        display.push(doc["publishDate_ss"][0]) if doc["publishDate_ss"]
+        html += link_to display.join(" "),"#{request.protocol}#{request.host_with_port}/catalog/#{link}",target: :_blank, rel: "nofollow"
+      end
       html += "</br>"
       #html += link_to display.join(" "),"#{request.protocol}#{request.host_with_port}/catalog/#{link}",target: :_blank, rel: "nofollow"
     end
-    puts html
+    #puts html
     return html.html_safe
   end
+
   def get_solr_response(solr,field,value)
     response = solr.post "select", :params => {
-        :fq=>"#{field}:\"#{value}\""
+        :fq=>"#{field}:\"#{value}\"", :rows=>100
     }
-    puts "response:#{response}"
-    return [] if response['response']['docs'].length == 0
-    response['response']['docs']
+    return [], 0 if response['response']['docs'].length == 0
+    return response['response']['docs'], response['response']['numFound']
+  end
+
+  def referenced_works?(doc)
+    solr_config = Rails.application.config_for(:blacklight)
+    solr = RSolr.connect :url => solr_config["url"]
+    response = solr.post "select", :params => {
+        :fq=>"ilsnumber_ss:\"#{doc["id"].gsub("orbis:","")}\"", :rows=>0
+    }
+    return false if response['response']['numFound'] == 0
+    return true
   end
 
   def render_ycba_item_header(*args)
