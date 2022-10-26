@@ -970,7 +970,7 @@ describe ApplicationHelper do
             to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','orbis_583000_numfound.json')), headers: {})
 
         id = "orbis:583000"
-        expect(helper.link_to_referenced_ycba_objects(id)).to be == "<a target=\"_blank\" rel=\"nofollow\" href=\"http://test.host/?utf8=✓&amp;search_field=Fielded&amp;q=ilsnumber_ss%3A583000\">1223 Works</a>"
+        expect(helper.link_to_referenced_ycba_objects(id)).to be == "<a target=\"_blank\" rel=\"nofollow\" href=\"http://test.host/?utf8=✓&amp;search_field=Fielded&amp;q=ilsnumber_ss%3A583000\">Link to index of 1223 Works</a>"
       end
     end
   end

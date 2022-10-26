@@ -137,6 +137,17 @@
         <% end %>
       <% end %>
 
+      <% if tab_active %>
+        <% if referenced_works?(document)  %>
+          <li class="nav-item active"><a class="nav-link" href="#10pane" data-toggle="tab">Referenced</br>YCBA Works</a></li>
+          <% tab_active = false %>
+        <% end %>
+      <% else %>
+        <% if referenced_works?(document)  %>
+          <li class="nav-item"><a class="nav-link" href="#10pane" data-toggle="tab">Referenced</br>YCBA Works</a></li>
+        <% end %>
+      <% end %>
+
     </ul>
   </nav>
   </br>
@@ -277,6 +288,17 @@
         <div class="tab-pane" id="9pane">
       <% end %>
       <%= render_marc_citation_presorted_tab(document) %>
+      </div>
+    <% end %>
+
+    <% if referenced_works?(document) %>
+      <% if tab_active %>
+        <div class="tab-pane active" id="10pane">
+          <% tab_active = false %>
+      <% else %>
+        <div class="tab-pane" id="10pane">
+      <% end %>
+      <%= link_to_referenced_ycba_objects(document["id"]) %>
       </div>
     <% end %>
 
