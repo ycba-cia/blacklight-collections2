@@ -1080,6 +1080,8 @@ module ApplicationHelper
   end
 
 
+  #code not used in favor of direct link to ilsnumber_ss facet
+=begin
   def get_ycba_objects(doc)
     solr_config = Rails.application.config_for(:blacklight)
     solr = RSolr.connect :url => solr_config["url"]
@@ -1118,6 +1120,23 @@ module ApplicationHelper
     }
     return [], 0 if response['response']['docs'].length == 0
     return response['response']['docs'], response['response']['numFound']
+  end
+=end
+
+  def link_to_referenced_ycba_objects(id)
+    num_found = get_num_found("ilsnumber_ss",id.gsub("orbis:",""))
+    label = "Works"
+    label = "Work" if num_found == 1
+    link_to "#{num_found} #{label}","#{request.protocol}#{request.host_with_port}/?utf8=✓&search_field=Fielded&q=ilsnumber_ss%3A#{id.gsub("orbis:","")}",target: :_blank, rel: "nofollow"
+  end
+
+  def get_num_found(field,value)
+    solr_config = Rails.application.config_for(:blacklight)
+    solr = RSolr.connect :url => solr_config["url"]
+    response = solr.post "select", :params => {
+        :fq=>"#{field}:\"#{value}\"", :rows=>0
+    }
+    response['response']['numFound']
   end
 
   def referenced_works?(doc)
