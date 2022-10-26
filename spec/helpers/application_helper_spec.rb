@@ -938,5 +938,40 @@ describe ApplicationHelper do
         expect(helper.document_field_exists?(document,field)).to be true
       end
     end
+
+    describe "#referenced_works?" do
+      it "returns true" do
+        stub_request(:post, "http://10.5.96.78:8983/solr/ycba_blacklight/select?fq=ilsnumber_ss:%22583000%22&rows=0&wt=json").
+            with(
+                headers: {
+                    'Accept'=>'*/*',
+                    'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                    'Content-Length'=>'0',
+                    'User-Agent'=>'Faraday v1.10.1'
+                }).
+            to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','orbis_583000_numfound.json')), headers: {})
+
+        document = Hash.new
+        document["id"] = "orbis:583000"
+        expect(helper.referenced_works?(document)).to be true
+      end
+    end
+
+    describe "#link_to_referenced_ycba_objects" do
+      it "returns true" do
+        stub_request(:post, "http://10.5.96.78:8983/solr/ycba_blacklight/select?fq=ilsnumber_ss:%22583000%22&rows=0&wt=json").
+            with(
+                headers: {
+                    'Accept'=>'*/*',
+                    'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                    'Content-Length'=>'0',
+                    'User-Agent'=>'Faraday v1.10.1'
+                }).
+            to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','orbis_583000_numfound.json')), headers: {})
+
+        id = "orbis:583000"
+        expect(helper.link_to_referenced_ycba_objects(id)).to be == "<a target=\"_blank\" rel=\"nofollow\" href=\"http://test.host/?utf8=✓&amp;search_field=Fielded&amp;q=ilsnumber_ss%3A583000\">1223 Works</a>"
+      end
+    end
   end
 end

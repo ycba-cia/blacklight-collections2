@@ -1,0 +1,10 @@
+{
+  "responseHeader":{
+    "status":0,
+    "QTime":0,
+    "params":{
+      "fq":"ilsnumber_ss:\"583000\"",
+      "rows":"0",
+      "wt":"json"}},
+  "response":{"numFound":1223,"start":0,"docs":[]
+  }}
