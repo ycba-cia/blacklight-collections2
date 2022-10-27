@@ -1125,9 +1125,9 @@ module ApplicationHelper
 
   def link_to_referenced_ycba_objects(id)
     num_found = get_num_found("ilsnumber_ss",id.gsub("orbis:",""))
-    prelabel = "Link to index of"
-    label = "Works"
-    label = "Work" if num_found == 1
+    prelabel = "View the"
+    label = "Works referenced in this item"
+    label = "Work referenced in this item" if num_found == 1
     link_to "#{prelabel} #{num_found} #{label}","#{request.protocol}#{request.host_with_port}/?utf8=✓&search_field=Fielded&q=ilsnumber_ss%3A#{id.gsub("orbis:","")}",target: :_blank, rel: "nofollow"
   end
 
