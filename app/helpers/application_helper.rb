@@ -110,6 +110,22 @@ module ApplicationHelper
     value.html_safe
   end
 
+  def render_aeon_from_holdings_callnumber(document,collection,callnumber,mfhd_id)
+    #notice during covid
+    pd_rb_ia = "<br/><i>Note: The Study Room is open by appointment. Please visit the <a href=\"https://britishart.yale.edu/study-room\">Study Room page</a> on our website for more details.</i>"
+    ref = "<br/><i>Note: The Reference Library is open by appointment. Please visit the <a href=\"https://britishart.yale.edu/reference-library-and-photograph-archives\">Reference Library page</a> on our website for more details. For scans from the reference collection please email #{bacref_email}.</i>"
+
+    value = ""
+    if collection.start_with?("Rare")
+      value = "View by request in the Study Room [" + create_aeon_link_callnumber(document,callnumber,mfhd_id) + "]" + pd_rb_ia
+    elsif collection.start_with?("Reference")
+      value = "Accessible in the Reference Library [" + hours + "]" + ref
+    elsif collection.start_with?("Archives")
+      value = "Accessible by appointment in the Study Room [" + bacia_email + "]" + pd_rb_ia
+    end
+    value.html_safe
+  end
+
   def hours
     link_to "Hours", "https://britishart.yale.edu/about-us/departments/reference-library-and-archives", target: '_blank'
   end
@@ -456,6 +472,60 @@ module ApplicationHelper
       links.append(link_to "#{link}", "#{link}")
     }
     links.join('<br/>').html_safe
+  end
+
+  def holdings_helper options={}
+    hid = []
+    hdept = {}
+    hcn = {}
+    hcl = {}
+    hpn = {}
+    hcpn = {}
+    hbn = {}
+    hac = {}
+    options[:document][:holdings_dept_ss].each do |v|
+      hid.append(v.split("|")[0])
+      hdept["#{v.split("|")[0]}"] = v.split("|")[1]
+    end if options[:document][:holdings_dept_ss]
+    options[:document][:holdings_call_number_ss].each do |v|
+      hcn["#{v.split("|")[0]}"] = v.split("|")[1]
+    end if options[:document][:holdings_call_number_ss]
+    options[:document][:holdings_credit_line_ss].each do |v|
+      hcl["#{v.split("|")[0]}"] = v.split("|")[1]
+    end if options[:document][:holdings_credit_line_ss]
+    options[:document][:holdings_provenance_note_ss].each do |v|
+      hpn["#{v.split("|")[0]}"] = v.split("|")[1]
+    end if options[:document][:holdings_provenance_note_ss]
+    options[:document][:holdings_copy_note_ss].each do |v|
+      hcpn["#{v.split("|")[0]}"] = v.split("|")[1]
+    end if options[:document][:holdings_copy_note_ss]
+    options[:document][:holdings_binding_note_ss].each do |v|
+      hbn["#{v.split("|")[0]}"] = v.split("|")[1]
+    end if options[:document][:holdings_binding_note_ss]
+
+    hid.each do |id|
+      #puts "ID:#{id}"
+      #puts "Dept:#{hdept["#{id}"]}"
+      #puts "cn:#{hcn["#{id}"]}"
+      hac["#{id}"] = render_aeon_from_holdings_callnumber(options[:document],hdept["#{id}"],hcn["#{id}"],id)
+    end if hid.length > 0
+
+    html = ""
+    hid.each do |id|
+      html += "<span>#{hdept["#{id}"]}</span></br>" if hdept["#{id}"]
+      html += "<span>#{hcn["#{id}"]}</span></br>" if hcn["#{id}"]
+      html += "<span>#{hcl["#{id}"]}</span></br>" if hcl["#{id}"]
+      html += "<span>#{hpn["#{id}"]}</span></br>" if hpn["#{id}"]
+      html += "<span>#{hcpn["#{id}"]}</span></br>" if hcpn["#{id}"]
+      html += "<span>#{hbn["#{id}"]}</span></br>" if hbn["#{id}"]
+      html += "<span>#{hac["#{id}"]}</span></br>"
+      html+= "</br>"
+    end
+    html = html[0...-5]
+    if html.length==0
+      return nil
+    end
+    return html.html_safe
   end
 
   def render_copyright_status options={}

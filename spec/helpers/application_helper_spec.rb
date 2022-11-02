@@ -818,6 +818,47 @@ describe ApplicationHelper do
        end
     end
 
+    describe "#holdings_helper" do
+      it "returns true" do
+        options = {}
+        options[:document] = {}
+        options[:document][:holdings_dept_ss] = ["75867|Rare Books and Manuscripts"]
+        options[:document][:holdings_call_number_ss] = ["75867|Folio A G 14 Copy 1 "]
+        options[:document][:holdings_credit_line_ss] = ["75867|Yale Center for British Art"]
+        options[:document][:holdings_provenance_note_ss] = ["75867|Provenance Note"]
+        options[:document][:holdings_copy_note_ss] = ["75867|Copy Note"]
+        options[:document][:holdings_binding_note_ss] = ["75867|Binding Note"]
+        #puts helper.holdings_helper(options)
+        expect(helper.holdings_helper(options)).to be == "<span>Rare Books and Manuscripts</span></br><span>Folio A G 14 Copy 1 </span></br><span>Yale Center for British Art</span></br><span>Provenance Note</span></br><span>Copy Note</span></br><span>Binding Note</span></br><span>View by request in the Study Room [<a href='https://aeon-test-mssa.library.yale.edu/aeon.dll?Action=10&Form=20&Value=GenericRequestMonograph&Site=YCBA&CallNumber=Folio A G 14 Copy 1 &ItemTitle=&ItemAuthor=&ItemDate=&Format=&Location=&mfhdID=75867&EADNumber=' target='_blank'>Request</a>]<br/><i>Note: The Study Room is open by appointment. Please visit the <a href=\"https://britishart.yale.edu/study-room\">Study Room page</a> on our website for more details.</i></span></br>"
+
+        options = {}
+        options[:document] = {}
+        options[:document][:holdings_dept_ss] = ["75867|Rare Books and Manuscripts"]
+        options[:document][:holdings_call_number_ss] = ["75867|Folio A G 14 Copy 1 "]
+        #puts helper.holdings_helper(options)
+        expect(helper.holdings_helper(options)).to be == "<span>Rare Books and Manuscripts</span></br><span>Folio A G 14 Copy 1 </span></br><span>View by request in the Study Room [<a href='https://aeon-test-mssa.library.yale.edu/aeon.dll?Action=10&Form=20&Value=GenericRequestMonograph&Site=YCBA&CallNumber=Folio A G 14 Copy 1 &ItemTitle=&ItemAuthor=&ItemDate=&Format=&Location=&mfhdID=75867&EADNumber=' target='_blank'>Request</a>]<br/><i>Note: The Study Room is open by appointment. Please visit the <a href=\"https://britishart.yale.edu/study-room\">Study Room page</a> on our website for more details.</i></span></br>"
+
+        options = {}
+        options[:document] = {}
+        expect(helper.holdings_helper(options)).to be nil
+      end
+    end
+
+    describe "#render_aeon_from_holdings_callnumber" do
+      it "returns true" do
+        document = document2
+        callnumber = "Call Number"
+        mfhd_id = "1234"
+        collection = "Reference Library"
+        #puts helper.render_aeon_from_holdings_callnumber(document,collection,callnumber,mfhd_id)
+        expect(helper.render_aeon_from_holdings_callnumber(document,collection,callnumber,mfhd_id)).to be == "Accessible in the Reference Library [<a target=\"_blank\" href=\"https://britishart.yale.edu/about-us/departments/reference-library-and-archives\">Hours</a>]<br/><i>Note: The Reference Library is open by appointment. Please visit the <a href=\"https://britishart.yale.edu/reference-library-and-photograph-archives\">Reference Library page</a> on our website for more details. For scans from the reference collection please email <a href=\"mailto:ycba.reference@yale.edu\">ycba.reference@yale.edu</a>.</i>"
+
+        collection = "Archives"
+        #puts helper.render_aeon_from_holdings_callnumber(document,collection,callnumber,mfhd_id)
+        expect(helper.render_aeon_from_holdings_callnumber(document,collection,callnumber,mfhd_id)).to be == "Accessible by appointment in the Study Room [<a href=\"mailto:ycba.institutionalarchives@yale.edu\">Email</a>]<br/><i>Note: The Study Room is open by appointment. Please visit the <a href=\"https://britishart.yale.edu/study-room\">Study Room page</a> on our website for more details.</i>"
+      end
+    end
+
     describe "#get_download_array_from_manifest" do
       it "returns true" do
         stub_request(:get, "https://manifests.collections.yale.edu/ycba/obj/34").
