@@ -272,7 +272,7 @@ module ApplicationHelper
           "<p>#{citation}</i></p>"
         end
       else
-        "<p>#{v2[0]}</i>[<a target=\"_blank\" href=\"#{presorted_citation_links[i]}\">Website</a>]</p>"
+        "<p>#{v2[0]}</i> [<a target=\"_blank\" href=\"#{presorted_citation_links[i]}\">Website</a>]</p>"
       end
     }
     combined_with_links.join(' ').html_safe

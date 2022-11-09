@@ -398,7 +398,7 @@ describe ApplicationHelper do
         document["linked_citation_ss"] = ["Alfred Gustave Herbert Bachrach, <i>The Field of Waterloo and Beyond</i>, Turner Studies, vol. 1, 1981, pp. 4-13, NJ18 T85 T87 + (YCBA)|a584227|b7605713|cNJ18 T85 T87 + (YCBA)"]
         document["citationURL_ss"] = ["https://test.yale.edu"]
         #puts helper.render_lido_citation_presorted_tab(document)
-        expect(helper.render_lido_citation_presorted_tab(document)).to be == "<p>Alfred Gustave Herbert Bachrach, <i>The Field of Waterloo and Beyond</i>, Turner Studies, vol. 1, 1981, pp. 4-13, NJ18 T85 T87 + (YCBA)</i>[<a target=\"_blank\" href=\"https://test.yale.edu\">Website</a>]</p>"
+        expect(helper.render_lido_citation_presorted_tab(document)).to be == "<p>Alfred Gustave Herbert Bachrach, <i>The Field of Waterloo and Beyond</i>, Turner Studies, vol. 1, 1981, pp. 4-13, NJ18 T85 T87 + (YCBA)</i> [<a target=\"_blank\" href=\"https://test.yale.edu\">Website</a>]</p>"
       end
     end
 
