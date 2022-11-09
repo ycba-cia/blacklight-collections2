@@ -168,7 +168,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'dummy_ort_lido_acc', :accessor => 'dummy_ort_lido_acc', :label => 'Copyright Status', helper_method: 'render_copyright_status', if: :display_lido_accessor_field?
     config.add_show_field 'callnumber_ss', :label => 'Accession Number', if: :display_lido_field?
     config.add_show_field 'type_ss', :label => 'Classification', if: :display_lido_field?
-    config.add_show_field 'collection_ss', :label => 'Collection', if: :display_lido_field?
+    config.add_show_field 'collection_ss', :label => 'Collection', helper_method: 'handle_lido_collections', if: :display_lido_field?
     config.add_show_field 'topic_ss', :label => 'Subject Terms', link_to_search: 'topic_facet', separator_options: break_separator, helper_method: 'sort_values_and_link_to_facet_frames', if: :display_lido_field?
     config.add_show_field 'topic_subjectPlace_ss', :label => 'Associated Places', link_to_search: true, separator_options: break_separator, helper_method: 'sort_values_and_link_to_facet', if: :display_lido_field?
     config.add_show_field 'topic_subjectActor_ss', :label => 'Associated People', link_to_search: true, separator_options: break_separator, if: :display_lido_field?
