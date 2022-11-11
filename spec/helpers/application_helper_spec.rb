@@ -973,5 +973,17 @@ describe ApplicationHelper do
         expect(helper.link_to_referenced_ycba_objects(id)).to be == "<a target=\"_blank\" rel=\"nofollow\" href=\"http://test.host/?utf8=✓&amp;search_field=Fielded&amp;q=ilsnumber_ss%3A583000\">View the 1223 Works referenced in this item</a>"
       end
     end
+
+    describe "#handle_lido_collections" do
+      it "returns true" do
+        options = Hash.new
+        options[:value] = ["Paintings and Sculpture"]
+        options[:document] = {}
+        options[:document][:callnumber_ss] = "B19701.1"
+        expect(helper.handle_lido_collections(options)).to be == "Paintings and Sculpture"
+        options[:document][:callnumber_ss] = "L1970.1"
+        expect(helper.handle_lido_collections(options)).to be == "Paintings and Sculpture (Loan)"
+      end
+    end
   end
 end

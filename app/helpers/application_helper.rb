@@ -1229,6 +1229,15 @@ module ApplicationHelper
     return true
   end
 
+  def handle_lido_collections options={}
+    #assuming only 1 collection for lido
+    if options[:document][:callnumber_ss] && options[:document][:callnumber_ss][0].start_with?("L")
+      return "#{options[:value][0]} (Loan)"
+    else
+      return options[:value][0]
+    end
+  end
+
   #deprecated in favor of webpack
 =begin
   def mirador3_config(manifest)
