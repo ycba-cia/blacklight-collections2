@@ -166,7 +166,8 @@ class CatalogController < ApplicationController
     config.add_show_field 'description_ss', :label => 'Inscription(s)/Marks/Lettering', helper_method: 'render_citation', if: :display_lido_field?
     config.add_show_field 'credit_line_ss', :label => 'Credit Line', if: :display_lido_field?
     config.add_show_field 'dummy_ort_lido_acc', :accessor => 'dummy_ort_lido_acc', :label => 'Copyright Status', helper_method: 'render_copyright_status', if: :display_lido_accessor_field?
-    config.add_show_field 'callnumber_ss', :label => 'Accession Number', if: :display_lido_field?
+    config.add_show_field 'callnumber_ss', :label => 'Object Number', if: :isLidoLoan?
+    config.add_show_field 'callnumber_txt', :label => 'Accession Number', unless: :isLidoLoan?
     config.add_show_field 'type_ss', :label => 'Classification', if: :display_lido_field?
     config.add_show_field 'collection_ss', :label => 'Collection', helper_method: 'handle_lido_collections', if: :display_lido_field?
     config.add_show_field 'topic_ss', :label => 'Subject Terms', link_to_search: 'topic_facet', separator_options: break_separator, helper_method: 'sort_values_and_link_to_facet_frames', if: :display_lido_field?
@@ -344,5 +345,15 @@ class CatalogController < ApplicationController
     #puts "RELATED:#{doc['resourceURL_ss']}"
     #puts "CONTEXT:#{context.inspect}"
     true
+  end
+
+  def isLidoLoan?(context,doc)
+    #puts context
+    #puts doc
+    if doc[:callnumber_ss] && doc[:callnumber_ss][0].start_with?("L") && display_lido_field?(context,doc)
+      return true
+    else
+      return false
+    end
   end
 end

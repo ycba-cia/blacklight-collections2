@@ -125,5 +125,19 @@ RSpec.describe CatalogController, :type => :controller do
     end
   end
 
+  describe "#isLidoLoan?" do
+    it "returns" do
+      context = Blacklight::Configuration::ShowField.new 
+      document = SolrDocument.new(recordtype_ss: ["lido"])
+      expect(controller.isLidoLoan?(context,document)).to be == false
+
+      document = SolrDocument.new(recordtype_ss: ["lido"],callnumber_ss: ["L2022.1"])
+      expect(controller.isLidoLoan?(context,document)).to be == true
+
+      document = SolrDocument.new(recordtype_ss: ["lido"],callnumber_ss: ["B2022.1"])
+      expect(controller.isLidoLoan?(context,document)).to be == false
+    end
+  end
+
 
 end
