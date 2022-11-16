@@ -337,9 +337,16 @@ module ApplicationHelper
       #extract_date2(d[d.index("(")..-1]) # use limit: nil instead
     }
     sorted.reverse!
-    sorted.each {  |exh|
+    sorted.each_with_index {  |exh, i|
       param = URI.encode_www_form_component(exh)
-      exhs.append("<p><a href=\"/?f[exhibition_history_ss][]=#{param}\">#{exh}</a></p>")
+
+      if doc["exhibitionURL_ss"] && doc["exhibitionURL_ss"][i] != '-'
+        website = doc["exhibitionURL_ss"][i]
+      end
+      #exhs.append("<p><a href=\"/?f[exhibition_history_ss][]=#{param}\">#{exh}</a></p>")
+      exhs.append("<p>#{exh} [<a href=\"/?f[exhibition_history_ss][]=#{param}\">YCBA Objects in the Exhibition</a>]")
+      exhs.append(" [<a href=\"#{website}\">Exhibition Description</a>]") if website
+      exhs.append("</p>")
     }
     exhs.join.html_safe
   end
