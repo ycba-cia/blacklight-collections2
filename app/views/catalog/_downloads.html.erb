@@ -37,6 +37,11 @@
                 <img width="135px;" src='https://rightsstatements.org/files/buttons/CNE.dark-white-interior-blue-type.png' class='img-responsive' alt='Copyright Undetermined' title='Copyright Undetermined'>
               </a>
             <% end %>
+            <% if document["rightsURL_ss"] && document["rightsURL_ss"][0].to_s.include?("https://rightsstatements.org/vocab/NoC-CR/1.0/") %>
+              <a target="_blank" href="https://rightsstatements.org/vocab/NoC-CR/1.0/">
+                <img width="135px;" src='https://rightsstatements.org/files/buttons/NoC-CR.dark-white-interior-blue-type.png' class='img-responsive' alt='Contractual Restrictions' title='Contractual Restrictions'>
+              </a>
+            <% end %>
           </div>
         </div>
         <% if document["rightsURL_ss"] && document["rightsURL_ss"][0].to_s.include?("rightsstatements.org/vocab/InC/1.0/") %>
