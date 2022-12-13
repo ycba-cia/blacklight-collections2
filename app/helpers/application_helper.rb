@@ -44,7 +44,7 @@ module ApplicationHelper
   def handle_qualifiers options={}
     links = []
     options[:value].each_with_index { |v, i |
-      links.append("<a href=\"/?f[author_removed_ss][]=#{options[:document][:author_removed_ss][i]}\">#{v}</a>")
+      links.append("<a href=\"/?f[author_removed_ss][]=#{options[:document][:author_removed_ss][i].gsub(';','%3B').gsub('&','%26')}\">#{v}</a>")
     }
 
     links.join('<br/>').html_safe
@@ -125,7 +125,7 @@ module ApplicationHelper
   def sort_values_and_link_to_facet options={}
     #http://localhost:3000/?f[topic_facet][]=woman #example
     #facet = "topic_facet"
-    options[:value].sort_by(&:downcase).map { |v| "<a href=\"/?f[#{options[:field]}][]=#{v}\">#{v}</a> | " }.join('').chomp(" | ").html_safe
+    options[:value].sort_by(&:downcase).map { |v| "<a href=\"/?f[#{options[:field]}][]=#{v.gsub(';','%3B').gsub('&','%26')}\">#{v}</a> | " }.join('').chomp(" | ").html_safe
   end
 
   def sort_values_and_link_to_facet_frames options={}
@@ -135,7 +135,7 @@ module ApplicationHelper
     if collection == "Frames"
       sort_frames_subjects(options)
     else
-      options[:value].sort_by(&:downcase).map { |v| "<a href=\"/?f[#{options[:field]}][]=#{v}\">#{v}</a> | " }.join('').chomp(" | ").html_safe
+      options[:value].sort_by(&:downcase).map { |v| "<a href=\"/?f[#{options[:field]}][]=#{v.gsub(';','%3B').gsub('&','%26')}\">#{v}</a> | " }.join('').chomp(" | ").html_safe
     end
   end
 
@@ -156,13 +156,13 @@ module ApplicationHelper
   def sort_values_and_link_to_topic options={}
     #http://localhost:3000/?f[topic_facet][]=woman #example
     #facet = "topic_facet"
-    options[:value].sort_by(&:downcase).map { |v| "<a href=\"/?f[topic_ss][]=#{v}\">#{v}</a> | " }.join('</br>').chomp(" | ").html_safe
+    options[:value].sort_by(&:downcase).map { |v| "<a href=\"/?f[topic_ss][]=#{v.gsub(';','%3B').gsub('&','%26')}\">#{v}</a> | " }.join('</br>').chomp(" | ").html_safe
   end
 
   def sort_values_and_link_to_topic_no_pipes options={}
     #http://localhost:3000/?f[topic_facet][]=woman #example
     #facet = "topic_facet"
-    options[:value].sort_by(&:downcase).map { |v| "<a href=\"/?f[topic_ss][]=#{v}\">#{v}</a>" }.join('</br>').html_safe
+    options[:value].sort_by(&:downcase).map { |v| "<a href=\"/?f[topic_ss][]=#{v.gsub(';','%3B').gsub('&','%26')}\">#{v}</a>" }.join('</br>').html_safe
   end
 
   def link_to_author options={}
@@ -170,7 +170,7 @@ module ApplicationHelper
     #facet = "topic_facet"
     full_author = options[:document][:auth_author_display_ss]
     full_author ||= options[:document][:auth_author_ss]
-    options[:value].each_with_index.map { |v, i| "<a href=\"/?f[author_ss][]=#{v}\">#{full_author[i]}</a> | " }.join('</br>').chomp(" | ").html_safe
+    options[:value].each_with_index.map { |v, i| "<a href=\"/?f[author_ss][]=#{v.gsub(';','%3B').gsub('&','%26')}\">#{full_author[i]}</a> | " }.join('</br>').chomp(" | ").html_safe
   end
 
   #used with render_related_content? method in catalog_controller.rb
@@ -324,7 +324,7 @@ module ApplicationHelper
     sorted.reverse!
     sorted.each {  |exh|
       param = URI.encode_www_form_component(exh)
-      exhs.append("<p><a href=\"/?f[exhibition_history_ss][]=#{param}\">#{exh}</a></p>")
+      exhs.append("<p><a href=\"/?f[exhibition_history_ss][]=#{param.gsub(';','%3B').gsub('&','%26')}\">#{exh}</a></p>")
     }
     exhs.join.html_safe
   end
@@ -344,7 +344,7 @@ module ApplicationHelper
         website = doc["exhibitionURL_ss"][i]
       end
       #exhs.append("<p><a href=\"/?f[exhibition_history_ss][]=#{param}\">#{exh}</a></p>")
-      exhs.append("<p>#{exh} [<a href=\"/?f[exhibition_history_ss][]=#{param}\" target='_blank'>YCBA Objects in the Exhibition</a>]")
+      exhs.append("<p>#{exh} [<a href=\"/?f[exhibition_history_ss][]=#{param.gsub(';','%3B').gsub('&','%26')}\" target='_blank'>YCBA Objects in the Exhibition</a>]")
       exhs.append(" [<a href=\"#{website}\" target='_blank'>Exhibition Description</a>]") if website
       exhs.append("</p>")
     }
@@ -353,7 +353,7 @@ module ApplicationHelper
 
   def render_parent options={}
     facet_link = options[:value].map { |item|
-      "<p><a href=\"/?f[title_collective_ss][]=#{item}\">Collective Title: #{item}</a></p>"
+      "<p><a href=\"/?f[title_collective_ss][]=#{item.gsub(';','%3B').gsub('&','%26')}\" target='_blank'>Collective Title: #{item}</a></p>"
     }
     facet_link.join.html_safe
   end
@@ -1200,7 +1200,7 @@ module ApplicationHelper
       end
       download_array[index] = [count,caption,jpeg,tiff]
     end
-    puts download_array.inspect
+    #puts download_array.inspect
 
     return download_array,restricted
   end

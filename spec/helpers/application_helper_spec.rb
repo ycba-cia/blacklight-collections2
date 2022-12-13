@@ -431,7 +431,7 @@ describe ApplicationHelper do
       it "returns true" do
         options = Hash.new
         options[:value] = ["The Tempest"]
-        expect(helper.render_parent(options)).to be == "<p><a href=\"/?f[title_collective_ss][]=The Tempest\">Collective Title: The Tempest</a></p>"
+        expect(helper.render_parent(options)).to be == "<p><a href=\"/?f[title_collective_ss][]=The Tempest\" target='_blank'>Collective Title: The Tempest</a></p>"
       end
     end
 
