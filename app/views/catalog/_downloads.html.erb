@@ -1,17 +1,22 @@
-<% downloads = get_download_array_from_manifest %>
+<% downloads,restricted = get_download_array_from_manifest %>
 
-<% if document["rights_ss"] && (document["rights_ss"][0].to_s == "under copyright" || document["rights_ss"][0].to_s == "rights reserved") %>
-<% else %>
-  <div id="ycba-downloads" class="btn btn-primary col-xs-3" align="center" onclick="select_one_dl(<%= downloads %>,'<%= document["id"] %>',<%= document.to_json %>)">
+<div id="ycba-downloads" class="btn btn-primary col-xs-3" align="center" onclick="select_one_dl(<%= downloads %>,'<%= document["id"] %>',<%= document.to_json %>)">
+  <% if restricted %>
+    <%= link_to("Print selected image","#downloadModal", data: {toggle: "modal"}, style: "color: white;" ) %>
+  <% else %>
     <%= link_to("Download/Print selected image","#downloadModal", data: {toggle: "modal"}, style: "color: white;" ) %>
-  </div>
-<% end %>
+  <% end %>
+</div>
 <div class="modal fade" id="downloadModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Download/Print Selected Image</h4>
+        <% if restricted %>
+          <h4 class="modal-title" id="myModalLabel">Print Selected Image</h4>
+        <% else %>
+          <h4 class="modal-title" id="myModalLabel">Download/Print Selected Image</h4>
+        <% end %>
       </div>
       <div id="download-details" class="modal-body">
         <!--jquery content here-->
@@ -55,20 +60,22 @@
           <div id="dlselect-info" class="col-xs-12"></div>
         </div>
         </br>
-        <div class="row">
-          <div id="jpeg-container" class="col-xs-1">
-            <button id="jpeg-dl-button" type="button" class="btn btn-primary btn-sm" disabled>JPEG</button>
+        <% unless restricted %>
+          <div class="row">
+            <div id="jpeg-container" class="col-xs-1">
+              <button id="jpeg-dl-button" type="button" class="btn btn-primary btn-sm" disabled>JPEG</button>
+            </div>
+            <div id="jpeg-dl-info" class="col-xs-11"></div><!--deprecated-->
           </div>
-          <div id="jpeg-dl-info" class="col-xs-11"></div><!--deprecated-->
-        </div>
-        </br>
-        <div class="row">
-          <div id="tiff-container" class="col-xs-1">
-            <button id="tiff-dl-button" type="button" class="btn btn-primary btn-sm" disabled>TIFF</button>
+          </br>
+          <div class="row">
+            <div id="tiff-container" class="col-xs-1">
+              <button id="tiff-dl-button" type="button" class="btn btn-primary btn-sm" disabled>TIFF</button>
+            </div>
+            <div id="tiff-dl-info" class="col-xs-11"></div><!--deprecated-->
           </div>
-          <div id="tiff-dl-info" class="col-xs-11"></div><!--deprecated-->
-        </div>
-        </br>
+          </br>
+        <% end %>
         <div class="row">
           <div id="print-container" class="col-xs-1">
             <button id="print-button" type="button" class="btn btn-primary btn-sm" disabled>Print</button>

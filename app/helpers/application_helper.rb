@@ -1181,9 +1181,10 @@ module ApplicationHelper
     begin
       json = JSON.load(URI.open(manifest))
     rescue
-      return download_array
+      return download_array,true
     end
     items = json["items"]
+    restricted = false
     items.each_with_index do |item,index|
       count = (index + 1).to_s
       caption = ""
@@ -1192,11 +1193,16 @@ module ApplicationHelper
       caption = item["label"]["en"][0] if item && item["label"] && item["label"]["en"] && item["label"]["en"][0]
       jpeg = item["items"][0]["items"][0]["body"]["id"] if item && item["items"] && item["items"][0] && item["items"][0]["items"] && item["items"][0]["items"][0] && item["items"][0]["items"][0]["body"] && item["items"][0]["items"][0]["body"]["id"]
       tiff = item["rendering"][0]["id"] if item && item["rendering"] && item["rendering"][0] && item["rendering"][0]["id"]
+      if index == 0
+        height = item["height"] if item && item["height"]
+        width = item["width"] if item && item["width"]
+        restricted = true unless height > 480 || width > 480
+      end
       download_array[index] = [count,caption,jpeg,tiff]
     end
-    #puts download_array.inspect
+    puts download_array.inspect
 
-    download_array
+    return download_array,restricted
   end
 
   def manifest_thumb?

@@ -841,27 +841,29 @@ describe ApplicationHelper do
             to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','helmingham_iiif.json')), headers: {})
         @document = document1
         #puts helper.get_download_array_from_manifest
-        expect(helper.get_download_array_from_manifest.length).to be == 4
-        expect(helper.get_download_array_from_manifest[0]).to include "1"
-        expect(helper.get_download_array_from_manifest[0]).to include "recto, cropped to image"
-        expect(helper.get_download_array_from_manifest[0]).to include "https://images.collections.yale.edu/iiif/2/ycba:4f227f08-7842-46cc-b05a-e3c6a4614cc1/full/full/0/default.jpg"
-        expect(helper.get_download_array_from_manifest[0]).to include "https://media.collections.yale.edu/tiff/ycba/4f227f08-7842-46cc-b05a-e3c6a4614cc1.tif"
+        downloads, restricted = helper.get_download_array_from_manifest
+        expect(downloads.length).to be == 4
+        expect(downloads[0]).to include "1"
+        expect(downloads[0]).to include "recto, cropped to image"
+        expect(downloads[0]).to include "https://images.collections.yale.edu/iiif/2/ycba:4f227f08-7842-46cc-b05a-e3c6a4614cc1/full/full/0/default.jpg"
+        expect(downloads[0]).to include "https://media.collections.yale.edu/tiff/ycba/4f227f08-7842-46cc-b05a-e3c6a4614cc1.tif"
         @document = document2
-        expect(helper.get_download_array_from_manifest.length).to be == 26
+        downloads, restricted = helper.get_download_array_from_manifest
+        expect(downloads.length).to be == 26
         #puts helper.get_download_array_from_manifest
-        expect(helper.get_download_array_from_manifest[0]).to include "1"
-        expect(helper.get_download_array_from_manifest[0]).to include "folios 16v-17r"
-        expect(helper.get_download_array_from_manifest[0]).to include "https://images.collections.yale.edu/iiif/2/ycba:39b6a359-312c-4b71-84c1-349caaf3ff4b/full/full/0/default.jpg"
+        expect(downloads[0]).to include "1"
+        expect(downloads[0]).to include "folios 16v-17r"
+        expect(downloads[0]).to include "https://images.collections.yale.edu/iiif/2/ycba:39b6a359-312c-4b71-84c1-349caaf3ff4b/full/full/0/default.jpg"
         allow(URI).to receive(:open) do
           raise "boom"
         end
-        expect(helper.get_download_array_from_manifest.length).to be == 0
+        expect(helper.get_download_array_from_manifest[0].length).to be == 0
         #following 3 lines not needed to test
         #allow(JSON).to receive(:load) do
         #  JSON.generate({"items" => {}})
         #end
         #puts helper.get_download_array_from_manifest
-        expect(helper.get_download_array_from_manifest.length).to be == 0
+        #expect(helper.get_download_array_from_manifest.length).to be == 0
       end
     end
 
