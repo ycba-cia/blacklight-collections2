@@ -84,11 +84,11 @@ module ApplicationHelper
     values = []
     options[:value].each do |v|
       if detailed_onview_ss == "View by request in the Study Room"
-        values.append(v + " [" + create_aeon_link(options[:document]) + "]" + pd_rb_ia)
+        values.append("<b>" + v + " [" + create_aeon_link(options[:document]) + "]</b>" + pd_rb_ia)
       elsif detailed_onview_ss == "Accessible in the Reference Library"
-        values.append(v + " [" + hours + "]" + ref)
+        values.append("<b>" + v + " [" + hours + "]</b>" + ref)
       else
-        values.append(v)
+        values.append("<b>"+v+"</b>")
       end
     end
     values.join('<br/>').html_safe
@@ -101,11 +101,11 @@ module ApplicationHelper
 
     value = ""
     if collection.start_with?("bacrb")
-      value = "View by request in the Study Room [" + create_aeon_link_callnumber(document,callnumber,mfhd_id) + "]" + pd_rb_ia
+      value = "<b>View by request in the Study Room [" + create_aeon_link_callnumber(document,callnumber,mfhd_id) + "]</b>" + pd_rb_ia
     elsif collection.start_with?("bacref")
-      value = "Accessible in the Reference Library [" + hours + "]" + ref
+      value = "<b>Accessible in the Reference Library [" + hours + "]</b>" + ref
     elsif collection.start_with?("bacia")
-      value = "Accessible by appointment in the Study Room [" + bacia_email + "]" + pd_rb_ia
+      value = "<b>Accessible by appointment in the Study Room [" + bacia_email + "]</b>" + pd_rb_ia
     end
     value.html_safe
   end
