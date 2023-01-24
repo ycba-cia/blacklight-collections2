@@ -344,8 +344,8 @@ module ApplicationHelper
         website = doc["exhibitionURL_ss"][i]
       end
       #exhs.append("<p><a href=\"/?f[exhibition_history_ss][]=#{param}\">#{exh}</a></p>")
-      exhs.append("<p>#{exh} [<a href=\"/?f[exhibition_history_ss][]=#{param.gsub(';','%3B').gsub('&','%26')}\" target='_blank'>YCBA Objects in the Exhibition</a>]")
-      exhs.append(" [<a href=\"#{website}\" target='_blank'>Exhibition Description</a>]") if website
+      exhs.append("<p>#{exh} <span style=\"white-space:nowrap\">[<a href=\"/?f[exhibition_history_ss][]=#{param.gsub(';','%3B').gsub('&','%26')}\" target='_blank'>YCBA Objects in the Exhibition</a>]</span>")
+      exhs.append(" <span style=\"white-space:nowrap\">[<a href=\"#{website}\" target='_blank'>Exhibition Description</a>]</span>") if website
       exhs.append("</p>")
     }
     exhs.join.html_safe
