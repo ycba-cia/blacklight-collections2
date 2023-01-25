@@ -108,6 +108,7 @@ class CatalogController < ApplicationController
 
     config.add_facet_field 'collection_ss', :label => 'Collection', :limit => 20, :collapse => false, :sort => 'count'
     config.add_facet_field 'author_removed_ss', label: 'Creator', :limit => 20
+    config.add_facet_field 'loc_naf_author_ss', label: 'CreatorLOC', :limit => 20
     config.add_facet_field 'earliestDate_is', :label => 'Date', single: true,range: { segments: false }
     config.add_facet_field 'detailed_onview_ss', :label => 'On-site Access'
     config.add_facet_field 'rights_ss',label: 'Image Use'
