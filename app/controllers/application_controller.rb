@@ -42,31 +42,23 @@ class ApplicationController < ActionController::Base
     item1 = {:title=>}
 =end
 
-    @footeritems = [{text:"1080 Chapel Street<br/>New Haven, Connecticut"},
+    @footeritems = [{text:"1080 Chapel Street<br/>New Haven, Connecticut</br></br>Admission is free"},
                      #link_list:[["Closure notice","#{site}/closure-notice-archived"]]},
 
-                    {text:"Admission is free",
+                    #{text:"Admission is free",
                      #definition_list:[["Tue &mdash; Sat","10am &mdash; 5pm"],
                      #           ["Sunday","12am &mdash; 5pm"],
                      #           ["Monday","Closed"]]},
-                    },
-                    {title:"Plan your visit",
-                        link_list:[["Visitor guidelines","#{site}/visitor-guidelines"],
-                                ["Tours","#{site}/tours"],
-                                ["City and region","#{site}/city-and-region"],
-                                ["Directions and parking","#{site}/directions-and-parking"],
-                                ["Accessibility","#{site}/accessibility"],
-                                ["Museum Shop","#{site}/museum-shop"]]},
-                    {follow_buttons:"true"},
+                    #},
                     {title:"Exhibitions and programs",
                      link_list:[["Now and upcoming","#{site}/exhibitions-programs"],
                                 ["Past exhibitions and programs","#{site}/exhibitions-programs-past"]]},
                     {title:"Collections",
                      link_list:[["Search the collections","https://collections.britishart.yale.edu"],
                                 ["Conservation","#{site}/conservation"]
-                      #          ["Highlights","?"],
-                      #          ["How to use the collection","?"]]},
-                    ]},
+                     #          ["Highlights","?"],
+                     #          ["How to use the collection","?"]]},
+                     ]},
                     {title:"Research and Learning",
                      link_list:[["Community","#{site}/community"],
                                 ["K–12 teachers","#{site}/k-12-teachers"],
@@ -76,6 +68,13 @@ class ApplicationController < ActionController::Base
                                 ["Publications","#{site}/publications"],
                                 ["Reference Library","#{site}/reference-library-and-photograph-archive"],
                                 ["Study Room","#{site}/study-room"]]},
+                    {title:"Plan your visit",
+                     link_list:[["Visitor guidelines","#{site}/visitor-guidelines"],
+                                ["Tours","#{site}/tours"],
+                                ["City and region","#{site}/city-and-region"],
+                                ["Directions and parking","#{site}/directions-and-parking"],
+                                ["Accessibility","#{site}/accessibility"],
+                                ["Museum Shop","#{site}/museum-shop"]]},
                     {title:"About us",
                      link_list:[["Our story","#{site}/our-story"],
                                 ["Paul Mellon, Founder","#{site}/stories/paul-mellon-founder"],
@@ -85,6 +84,8 @@ class ApplicationController < ActionController::Base
                                 ["Videos","#{site}/videos"],
                                 ["Get involved","#{site}/get-involved"],
                                 ["Departments and staff","#{site}/departments-and-staff"],
-                                ["Contact us","#{site}/contact-us"]]}]
+                                ["Contact us","#{site}/contact-us"]]},
+                    {follow_buttons:"true"}
+                    ]
   end
 end
