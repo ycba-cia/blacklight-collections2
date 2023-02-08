@@ -273,7 +273,7 @@ class CatalogController < ApplicationController
       }
     end
 
-    config.add_search_field('Available Provenance') do |field|
+    config.add_search_field('Search Provenance') do |field|
       field.solr_parameters = {
           qf: ['provenance_txt^10'],
           pf: ['provenence_txt^20']
