@@ -621,7 +621,7 @@ module ApplicationHelper
     begin
       pull_mfhd_doc(document)
     rescue
-      return "<span>Unable to reach service.  Holdings currently not available<span></br>".html_safe
+      raise "Unable to reach mfhd service"
     end
   end
 

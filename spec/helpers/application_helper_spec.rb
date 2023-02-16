@@ -190,7 +190,7 @@ describe ApplicationHelper do
       allow(helper).to receive(:pull_mfhd_doc) do
         raise "boom"
       end
-      expect(helper.get_mfhd_doc(document2.deep_symbolize_keys)).to be == "<span>Unable to reach service.  Holdings currently not available<span></br>"
+      expect(helper.get_mfhd_doc(document2.deep_symbolize_keys)).to raise_error("Unable to reach mfhd service")
     end
   end
 
