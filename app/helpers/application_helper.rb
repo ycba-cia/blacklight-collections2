@@ -41,12 +41,23 @@ module ApplicationHelper
     links.join('<br/>').html_safe
   end
 
+  #deprecated
   def handle_qualifiers options={}
     links = []
     options[:value].each_with_index { |v, i |
       links.append("<a href=\"/?f[author_removed_ss][]=#{options[:document][:author_removed_ss][i].gsub(';','%3B').gsub('&','%26')}\">#{v}</a>")
     }
 
+    links.join('<br/>').html_safe
+  end
+
+  def handle_qualifiers2 options={}
+    links = []
+    options[:value].each_with_index { |v, i |
+      aq = options[:document][:attrib_qual_ss][i]
+      aq = "" if aq=="--"
+      links.append("#{aq} <a href=\"/?f[loc_naf_author_ss][]=#{options[:document][:loc_naf_author_ss][i].gsub(';','%3B').gsub('&','%26')}\">#{v}</a>")
+    }
     links.join('<br/>').html_safe
   end
 
