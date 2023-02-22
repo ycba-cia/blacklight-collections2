@@ -576,7 +576,7 @@ module ApplicationHelper
       url += "num=#{callnumber}&"
       url += "collection=#{field_value(document,:collection_txt)}&"
       url += "creator=#{field_value(document,:author_ss)}&"
-      url += "title=#{field_value(document,:title_txt)[0,256]}&"
+      url += "title=#{field_value(document,:title_txt)[0,248]}&"
       url += "url=#{field_value(document,:url_txt)}"
     else
       url = "https://britishart.yale.edu/request-images?"
@@ -584,7 +584,7 @@ module ApplicationHelper
       url += "num=#{field_value(document,:callnumber_txt)}&"
       url += "collection=#{field_value(document,:collection_txt)}&"
       url += "creator=#{field_value(document,:author_ss)}&"
-      url += "title=#{field_value(document,:title_txt)[0,256]}&"
+      url += "title=#{field_value(document,:title_txt)[0,248]}&"
       url += "url=#{field_value(document,:url_txt)}"
     end
     url
