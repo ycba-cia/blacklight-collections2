@@ -76,19 +76,19 @@ module ApplicationHelper
   def render_aeon_from_access options={}
     #notice during covid
     pd_rb_ia = "<br/><i>Note: The Study Room is open by appointment. Please visit the <a href=\"https://britishart.yale.edu/study-room\">Study Room page</a> on our website for more details.</i>"
-    ref = "<br/><i>Note: Non-Yale users must make an appointment to use the Reference Library. Please visit the <a href=\"https://britishart.yale.edu/reference-library-and-photograph-archives\">Reference Library page</a> on our website for more details. For scans from the reference collection please email #{bacref_email}.</i>"
-
+    ref = "<br/><i>Note: Please visit the <a href=\"https://britishart.yale.edu/reference-library-and-photograph-archives\">Reference Library page</a> on our website for more details.</i>"
+    ps = "<br><i>Note: To make an appointment to see this work, please contact the Paintings and Sculpture department at #{bacps_email}. Please visit the <a href=\"https://britishart.yale.edu/paintings-and-sculpture\">Paintings and Sculpture collections page</a> on our website for more details.</i>"
     #method specific to call number
     detailed_onview_ss = get_one_value(options[:document][:detailed_onview_ss])
     #puts "D:#{detailed_onview_ss}"
     values = []
     options[:value].each do |v|
-      if detailed_onview_ss == "View by request in the Study Room"
+      if detailed_onview_ss == "Accessible by appointment in the Study Room"
         values.append("<b>" + v + " [" + create_aeon_link(options[:document]) + "]</b>" + pd_rb_ia)
-      elsif detailed_onview_ss == "Accessible in the Reference Library"
+      elsif detailed_onview_ss == "Accessible by appointment in the Reference Library"
         values.append("<b>" + v + " [" + hours + "]</b>" + ref)
       else
-        values.append("<b>"+v+"</b>")
+        values.append("<b>"+v+"</b>" + ps)
       end
     end
     values.join('<br/>').html_safe
@@ -120,6 +120,10 @@ module ApplicationHelper
 
   def bacref_email
     mail_to "ycba.reference@yale.edu", "ycba.reference@yale.edu"
+  end
+
+  def bacps_email
+    mail_to "ycba.paintings@yale.edu", "ycba.paintings@yale.edu"
   end
 
   def sort_values_and_link_to_facet options={}
