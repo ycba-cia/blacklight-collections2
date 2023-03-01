@@ -76,7 +76,7 @@ module ApplicationHelper
   def render_aeon_from_access options={}
     #notice during covid
     pd_rb_ia = "<br/><i>Note: The Study Room is open by appointment. Please visit the <a href=\"https://britishart.yale.edu/study-room\">Study Room page</a> on our website for more details.</i>"
-    ref = "<br/><i>Note: Please visit the <a href=\"https://britishart.yale.edu/reference-library-and-photograph-archives\">Reference Library page</a> on our website for more details.</i>"
+    ref = "<br/><i>Note: Please contact the Reference Library to schedule an appointment [Email #{bacref_email}]</i>"
     ps = "<br><i>Note: To make an appointment to see this work, please contact the Paintings and Sculpture department at #{bacps_email}. Please visit the <a href=\"https://britishart.yale.edu/paintings-and-sculpture\">Paintings and Sculpture collections page</a> on our website for more details.</i>"
     #method specific to call number
     detailed_onview_ss = get_one_value(options[:document][:detailed_onview_ss])
@@ -97,7 +97,7 @@ module ApplicationHelper
   def render_aeon_from_access_callnumber(document,collection,callnumber,mfhd_id)
     #notice during covid
     pd_rb_ia = "<br/><i>Note: The Study Room is open by appointment. Please visit the <a href=\"https://britishart.yale.edu/study-room\">Study Room page</a> on our website for more details.</i>"
-    ref = "<br/><i>Note: Non-Yale users must make an appointment to use the Reference Library. Please visit the <a href=\"https://britishart.yale.edu/reference-library-and-photograph-archives\">Reference Library page</a> on our website for more details. For scans from the reference collection please email #{bacref_email}.</i>"
+    ref = "<br/><i>Note: Please contact the Reference Library to schedule an appointment [Email #{bacref_email}]</i>"
 
     value = ""
     if collection.start_with?("bacrb")
