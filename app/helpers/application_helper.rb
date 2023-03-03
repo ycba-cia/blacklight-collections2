@@ -56,7 +56,7 @@ module ApplicationHelper
     options[:value].each_with_index { |v, i |
       aq = options[:document][:attrib_qual_ss][i]
       aq = "" if aq=="--"
-      links.append("#{aq} <a href=\"/?f[loc_naf_author_ss][]=#{options[:document][:loc_naf_author_ss][i].gsub(';','%3B').gsub('&','%26')}\">#{options[:document][:display_author_ss][i]}</a>")
+      links.append("#{aq} <a href=\"/?f[loc_naf_author_ss][]=#{options[:document][:loc_naf_author_ss][i].gsub(';','%3B').gsub('&','%26')}\">#{options[:document][:display_author_ss][i]}</a>".strip)
     }
     links.join('<br/>').html_safe
   end

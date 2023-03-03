@@ -26,6 +26,10 @@ RSpec.describe SolrDocument do
       SolrDocument.new(id: "1234568", edition_ss: ["2nd ed"],author_ss: ["Apple","Bear","Cat"])
     end
 
+    let(:solrdoc6) do
+      SolrDocument.new(id: "1234568", loc_naf_author_ss: ["Turner, J. M. W. (Joseph Mallord William), 1775-1851"])
+    end
+
     describe "#[]" do
       subject { solrdoc[field] }
 
@@ -263,6 +267,7 @@ RSpec.describe SolrDocument do
       expect(solrdoc2.titles_primary_acc[0]).to eq "Helmingham herbal and bestiary."
       expect(solrdoc2.titles_former_acc).to eq nil
       expect(solrdoc2.titles_additional_acc[0]).to eq "Helmingham bestiary"
+      expect(solrdoc6.loc_naf_author_acc[0]).to eq "Turner, J. M. W. (Joseph Mallord William), 1775-1851"
     end
 
     it "tests cds_url" do

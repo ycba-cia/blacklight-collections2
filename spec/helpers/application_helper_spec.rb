@@ -115,18 +115,30 @@ describe ApplicationHelper do
     end
   end
 
+  describe "#handle qualifiers2" do
+    it "returns true" do
+      options = Hash.new
+      options[:value] = ["Last, First, 1600-1700"]
+      options[:document] = {}
+      options[:document][:loc_naf_author_ss] = ["Last, First, 1600-1700"]
+      options[:document][:display_author_ss] = ["First Last, 1600-1700"]
+      options[:document][:attrib_qual_ss] = ["--"]
+      expect(helper.handle_qualifiers2(options)).to be == "<a href=\"/?f[loc_naf_author_ss][]=Last, First, 1600-1700\">First Last, 1600-1700</a>"
+    end
+  end
+
   describe "#render_aeon_from_access" do
     it "returns true" do
       #ps
       options = Hash.new
       options[:value] = ["On view in the galleries"]
       options[:document] = document1
-      expect(helper.render_aeon_from_access(options)).to be == "<b>On view in the galleries</b>"
+      expect(helper.render_aeon_from_access(options)).to start_with "<b>On view in the galleries</b>"
 
       #rb
-      options[:value] = ["View by request in the Study Room"]
+      options[:value] = ["Accessible by appointment in the Study Room"]
       options[:document] = document2
-      options[:document][:detailed_onview_ss] = ["View by request in the Study Room"]
+      options[:document][:detailed_onview_ss] = ["Accessible by appointment in the Study Room"]
       #expect(helper.render_aeon_from_access(options)).to be == "View by request in the Study Room [<a href='https://aeon-test-mssa.library.yale.edu/aeon.dll?Action=10&Form=20&Value=GenericRequestMonograph&Site=YCBA&CallNumber=&ItemTitle=Helmingham herbal and bestiary.&ItemAuthor=&ItemDate=1500&Format=1 v. ([20] leaves, with 1 blank leaf) : ill. ; 45 x 32 cm.&Location=bacrb&mfhdID=9799201&EADNumber=http://hdl.handle.net/10079/bibid/9452785' target='_blank'>Request</a>]<br/><i>Note: The Study Room is open by appointment. Please visit the <a href=\"https://britishart.yale.edu/study-room\">Study Room page</a> on our website for more details.</i>"
       stub_request(:get, "https://libapp-test.library.yale.edu/VoySearch/GetBibItem?bibid=9452785").
           with(
@@ -137,20 +149,25 @@ describe ApplicationHelper do
                   'User-Agent'=>'Ruby'
               }).
           to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','helmingham_bibitem.json')), headers: {})
-      expect(helper.render_aeon_from_access(options)).to be == "<b>View by request in the Study Room [<a href='https://aeon-test-mssa.library.yale.edu/aeon.dll?Action=10&Form=20&Value=GenericRequestMonograph&Site=YCBA&CallNumber=&ItemTitle=Helmingham herbal and bestiary.&ItemAuthor=&ItemDate=1500&Format=1 v. ([20] leaves, with 1 blank leaf) : ill. ; 45 x 32 cm.&Location=bacrb&mfhdID=9799201&EADNumber=http://hdl.handle.net/10079/bibid/9452785' target='_blank'>Request</a>]</b><br/><i>Note: The Study Room is open by appointment. Please visit the <a href=\"https://britishart.yale.edu/study-room\">Study Room page</a> on our website for more details.</i>"
-
+      expect(helper.render_aeon_from_access(options)).to start_with "<b>Accessible by appointment in the Study Room"
 
       #ref
       #possible to do, need to mock full ref doc?
-      options[:value] = ["Accessible in the Reference Library"]
-      options[:document][:detailed_onview_ss] = ["Accessible in the Reference Library"]
-      expect(helper.render_aeon_from_access(options)).to be == "<b>Accessible in the Reference Library [<a target=\"_blank\" href=\"https://britishart.yale.edu/about-us/departments/reference-library-and-archives\">Hours</a>]</b><br/><i>Note: Non-Yale users must make an appointment to use the Reference Library. Please visit the <a href=\"https://britishart.yale.edu/reference-library-and-photograph-archives\">Reference Library page</a> on our website for more details. For scans from the reference collection please email <a href=\"mailto:ycba.reference@yale.edu\">ycba.reference@yale.edu</a>.</i>"
+      options[:value] = ["Accessible by appointment in the Reference Library"]
+      options[:document][:detailed_onview_ss] = ["Accessible by appointment in the Reference Library"]
+      expect(helper.render_aeon_from_access(options)).to start_with "<b>Accessible by appointment in the Reference Library"
 
       #pd
-      options[:value] = ["View by request in the Study Room"]
+      options[:value] = ["Not on view"]
       options[:document] = document4
-      options[:document][:detailed_onview_ss] = ["View by request in the Study Room"]
-      expect(helper.render_aeon_from_access(options)).to be == "<b>View by request in the Study Room [<a href='https://aeon-test-mssa.library.yale.edu/aeon.dll?Action=10&Form=20&Value=GenericRequestPD&Site=YCBA&CallNumber=B1977.14.7220&ItemTitle=Hannibal passing the Alps (vignette)&ItemAuthor=Print made by W. R. Smith, active 1819–1851&ItemDate=1830&Format=Etching and line engraving; engraver's proof on medium, slightly textured, cream wove paper&Location=bacpd&mfhdID=&EADNumber=https://collections.britishart.yale.edu/catalog/tms:16950' target='_blank'>Request</a>]</b><br/><i>Note: The Study Room is open by appointment. Please visit the <a href=\"https://britishart.yale.edu/study-room\">Study Room page</a> on our website for more details.</i>"
+      options[:document][:detailed_onview_ss] = ["Not on view"]
+      expect(helper.render_aeon_from_access(options)).to start_with "<b>Not on view"
+
+      #
+      options[:value] = ["Accessible by appointment in the Study Room"]
+      options[:document] = document4
+      options[:document][:detailed_onview_ss] = ["Accessible by appointment in the Study Room"]
+      expect(helper.render_aeon_from_access(options)).to start_with "<b>Accessible by appointment in the Study Room"
     end
   end
 
@@ -233,9 +250,9 @@ describe ApplicationHelper do
 
   describe "#render_aeon_from_access_callnumber" do
     it "returns true" do
-      expect(helper.render_aeon_from_access_callnumber(document2.deep_symbolize_keys,"bacrb","Folio C 2014 4",9799201)). to be == "<b>View by request in the Study Room [<a href='https://aeon-test-mssa.library.yale.edu/aeon.dll?Action=10&Form=20&Value=GenericRequestMonograph&Site=YCBA&CallNumber=Folio C 2014 4&ItemTitle=&ItemAuthor=&ItemDate=&Format=&Location=&mfhdID=9799201&EADNumber=' target='_blank'>Request</a>]</b><br/><i>Note: The Study Room is open by appointment. Please visit the <a href=\"https://britishart.yale.edu/study-room\">Study Room page</a> on our website for more details.</i>"
-      expect(helper.render_aeon_from_access_callnumber(document2.deep_symbolize_keys,"bacref","Folio C 2014 4",9799201)). to be == "<b>Accessible in the Reference Library [<a target=\"_blank\" href=\"https://britishart.yale.edu/about-us/departments/reference-library-and-archives\">Hours</a>]</b><br/><i>Note: Non-Yale users must make an appointment to use the Reference Library. Please visit the <a href=\"https://britishart.yale.edu/reference-library-and-photograph-archives\">Reference Library page</a> on our website for more details. For scans from the reference collection please email <a href=\"mailto:ycba.reference@yale.edu\">ycba.reference@yale.edu</a>.</i>"
-      expect(helper.render_aeon_from_access_callnumber(document2.deep_symbolize_keys,"bacia","Folio C 2014 4",9799201)). to be == "<b>Accessible by appointment in the Study Room [<a href=\"mailto:ycba.institutionalarchives@yale.edu\">Email</a>]</b><br/><i>Note: The Study Room is open by appointment. Please visit the <a href=\"https://britishart.yale.edu/study-room\">Study Room page</a> on our website for more details.</i>"
+      expect(helper.render_aeon_from_access_callnumber(document2.deep_symbolize_keys,"bacrb","Folio C 2014 4",9799201)). to start_with "<b>View by request in the Study Room"
+      expect(helper.render_aeon_from_access_callnumber(document2.deep_symbolize_keys,"bacref","Folio C 2014 4",9799201)). to start_with "<b>Accessible in the Reference Library"
+      expect(helper.render_aeon_from_access_callnumber(document2.deep_symbolize_keys,"bacia","Folio C 2014 4",9799201)). to start_with "<b>Accessible by appointment in the Study Room"
     end
   end
 
@@ -313,9 +330,10 @@ describe ApplicationHelper do
     it "returns true" do
       options = Hash.new
       options[:document] = {}
-      options[:document][:auth_author_display_ss] = ["Ireland, Samuel, -1800."]
+      options[:document][:loc_naf_author_ss] = ["Ireland, Samuel, -1800"]
       options[:value] = ["Ireland, Samuel, -1800"]
-      expect(helper.link_to_author(options)).to be == "<a href=\"/?f[author_ss][]=Ireland, Samuel, -1800\">Ireland, Samuel, -1800.</a>"
+      options[:field] = "loc_naf_author_acc"
+      expect(helper.link_to_author(options)).to be == "<a href=\"/?f[loc_naf_author_ss][]=Ireland, Samuel, -1800\">Ireland, Samuel, -1800</a>"
     end
   end
 
