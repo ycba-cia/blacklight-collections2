@@ -107,7 +107,7 @@ class CatalogController < ApplicationController
     # :index_range can be an array or range of prefixes that will be used to create the navigation (note: It is case sensitive when searching values)
 
     config.add_facet_field 'collection_ss', :label => 'Collection', :limit => 20, :collapse => false, :sort => 'count'
-    config.add_facet_field 'author_removed_ss', label: 'Creator', :limit => 20
+    config.add_facet_field 'loc_naf_author_ss', label: 'Creator', :limit => 20
     config.add_facet_field 'earliestDate_is', :label => 'Date', single: true,range: { segments: false }
     config.add_facet_field 'detailed_onview_ss', :label => 'On-site Access'
     config.add_facet_field 'rights_ss',label: 'Image Use'
@@ -155,7 +155,8 @@ class CatalogController < ApplicationController
     break_separator = {words_connector: ' <br/> ', last_word_connector: ' <br/> ', two_words_connector: ' <br/> '}
 
     #lido fields in detailed view
-    config.add_show_field 'author_ss', :label => 'Creator', link_to_search: true, separator_options: break_separator, helper_method: 'handle_qualifiers', if: :display_lido_field?
+    #config.add_show_field 'author_ss', :label => 'Creator', link_to_search: true, separator_options: break_separator, helper_method: 'handle_qualifiers', if: :display_lido_field?
+    config.add_show_field 'loc_naf_author_ss', :label => 'Creator', link_to_search: true, separator_options: break_separator, helper_method: 'handle_qualifiers2', if: :display_lido_field?
     config.add_show_field 'titles_primary_ss', :label => 'Title', helper_method: 'render_titles_all', if: :display_lido_field?
     config.add_show_field 'titles_former_ss', :label => 'Former Title(s)', helper_method: 'render_titles_all', if: :display_lido_field?
     config.add_show_field 'titles_additional_ss', :label => 'Additional Title(s)', helper_method: 'render_titles_all', if: :display_lido_field?
@@ -185,7 +186,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'url_ss', :label => 'Link', helper_method: 'render_as_link', if: :display_lido_field?
 
     #marc fields in detailed view (note: accessors needed when field both in marc and lido, and special display_marc_accessor_field method to not show empty fields)
-    config.add_show_field 'author_acc', :accessor => 'author_acc',  :label => 'Creator', helper_method: 'link_to_author', separator_options: break_separator, if: :display_marc_accessor_field?
+    config.add_show_field 'loc_naf_author_acc', :accessor => 'loc_naf_author_acc',  :label => 'Creator', helper_method: 'link_to_author', separator_options: break_separator, if: :display_marc_accessor_field?
     #config.add_show_field 'title_acc', :accessor => 'title_acc', :label => 'Title', helper_method: 'add_alt_title', if: :display_marc_accessor_field?
     #config.add_show_field 'title_alt_ss', :label => 'Alternate Title(s)', helper_method: 'add_alt_title_alt', separator_options: break_separator, if: :display_marc_field?
     config.add_show_field 'title_acc', :accessor => 'title_acc', :label => 'Title(s)', helper_method: 'render_titles_all', if: :display_marc_accessor_field?

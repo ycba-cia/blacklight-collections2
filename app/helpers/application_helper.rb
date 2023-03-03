@@ -41,12 +41,23 @@ module ApplicationHelper
     links.join('<br/>').html_safe
   end
 
+  #deprecated
   def handle_qualifiers options={}
     links = []
     options[:value].each_with_index { |v, i |
       links.append("<a href=\"/?f[author_removed_ss][]=#{options[:document][:author_removed_ss][i].gsub(';','%3B').gsub('&','%26')}\">#{v}</a>")
     }
 
+    links.join('<br/>').html_safe
+  end
+
+  def handle_qualifiers2 options={}
+    links = []
+    options[:value].each_with_index { |v, i |
+      aq = options[:document][:attrib_qual_ss][i]
+      aq = "" if aq=="--"
+      links.append("#{aq} <a href=\"/?f[loc_naf_author_ss][]=#{options[:document][:loc_naf_author_ss][i].gsub(';','%3B').gsub('&','%26')}\">#{options[:document][:display_author_ss][i]}</a>")
+    }
     links.join('<br/>').html_safe
   end
 
@@ -171,10 +182,7 @@ module ApplicationHelper
 
   def link_to_author options={}
     #http://localhost:3000/?f[topic_facet][]=woman #example
-    #facet = "topic_facet"
-    full_author = options[:document][:auth_author_display_ss]
-    full_author ||= options[:document][:auth_author_ss]
-    options[:value].each_with_index.map { |v, i| "<a href=\"/?f[author_ss][]=#{v.gsub(';','%3B').gsub('&','%26')}\">#{full_author[i]}</a> | " }.join('</br>').chomp(" | ").html_safe
+   options[:value].each_with_index.map { |v, i| "<a href=\"/?f[#{options[:field].gsub('_acc','_ss')}][]=#{v.gsub(';','%3B').gsub('&','%26')}\">#{options[:value][i]}</a> | " }.join('</br>').chomp(" | ").html_safe
   end
 
   #used with render_related_content? method in catalog_controller.rb

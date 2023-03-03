@@ -101,6 +101,9 @@ class SolrDocument
   def titles_additional_acc
     self['titles_additional_ss']
   end
+  def loc_naf_author_acc
+    self['loc_naf_author_ss']
+  end
   # Email uses the semantic field mappings below to generate the body of an email.
   SolrDocument.use_extension(Blacklight::Document::Email)
 
