@@ -145,7 +145,8 @@ class CatalogController < ApplicationController
     config.add_index_field 'author_ss', :label => 'Creator'
     config.add_index_field 'publishDate_txt', label: "Date"
     config.add_index_field 'format_txt', :label => 'Medium'
-    config.add_index_field 'physical_txt', :label => 'Dimensions'
+    config.add_index_field 'physical_txt', :label => 'Dimensions', if: :display_lido_field?
+    config.add_index_field 'physical_ss', :label => 'Physical Description', if: :display_marc_field?
     config.add_index_field 'collection_txt', :label => 'Collection'
     config.add_index_field 'credit_line_txt', :label => 'Credit Line'
 
