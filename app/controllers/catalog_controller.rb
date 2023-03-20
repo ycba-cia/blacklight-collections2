@@ -155,6 +155,7 @@ class CatalogController < ApplicationController
     #config.add_show_field 'title_t', :label => 'Title'
 
     break_separator = {words_connector: ' <br/> ', last_word_connector: ' <br/> ', two_words_connector: ' <br/> '}
+    comma_separator = {words_connector: ', ', last_word_connector: ', ', two_words_connector: ', '}
 
     #lido fields in detailed view
     #config.add_show_field 'author_ss', :label => 'Creator', link_to_search: true, separator_options: break_separator, helper_method: 'handle_qualifiers', if: :display_lido_field?
@@ -165,7 +166,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'title_collective_ss', :label => 'Part Of', helper_method: 'render_parent', :limit => 20
     config.add_show_field 'publishDate_ss', :label => 'Date', if: :display_lido_field?
     config.add_show_field 'format_ss', :label => 'Medium', if: :display_lido_field?
-    config.add_show_field 'physical_ss',  :label => 'Dimensions', if: :display_lido_field?
+    config.add_show_field 'physical_ss',  :label => 'Dimensions', separator_options: comma_separator, if: :display_lido_field?
     config.add_show_field 'description_ss', :label => 'Inscription(s)/Marks/Lettering', helper_method: 'render_citation', if: :display_lido_field?
     config.add_show_field 'credit_line_ss', :label => 'Credit Line', if: :display_lido_field?
     config.add_show_field 'dummy_ort_lido_acc', :accessor => 'dummy_ort_lido_acc', :label => 'Copyright Status', helper_method: 'render_copyright_status', if: :display_lido_accessor_field?
