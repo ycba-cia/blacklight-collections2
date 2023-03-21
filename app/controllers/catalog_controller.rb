@@ -189,7 +189,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'url_ss', :label => 'Link', helper_method: 'render_as_link', if: :display_lido_field?
 
     #marc fields in detailed view (note: accessors needed when field both in marc and lido, and special display_marc_accessor_field method to not show empty fields)
-    config.add_show_field 'loc_naf_author_acc', :accessor => 'loc_naf_author_acc',  :label => 'Creator', helper_method: 'link_to_author', separator_options: break_separator, if: :display_marc_accessor_field?
+    config.add_show_field 'author_ss', :label => 'Creator', helper_method: 'link_to_author2', separator_options: break_separator, if: :display_marc_field?
     #config.add_show_field 'title_acc', :accessor => 'title_acc', :label => 'Title', helper_method: 'add_alt_title', if: :display_marc_accessor_field?
     #config.add_show_field 'title_alt_ss', :label => 'Alternate Title(s)', helper_method: 'add_alt_title_alt', separator_options: break_separator, if: :display_marc_field?
     config.add_show_field 'title_acc', :accessor => 'title_acc', :label => 'Title(s)', helper_method: 'render_titles_all', if: :display_marc_accessor_field?

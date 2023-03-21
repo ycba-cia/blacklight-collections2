@@ -185,6 +185,11 @@ module ApplicationHelper
    options[:value].each_with_index.map { |v, i| "<a href=\"/?f[#{options[:field].gsub('_acc','_ss')}][]=#{v.gsub(';','%3B').gsub('&','%26')}\">#{options[:value][i]}</a> | " }.join('</br>').chomp(" | ").html_safe
   end
 
+  def link_to_author2 options={}
+    #http://localhost:3000/?f[topic_facet][]=woman #example
+   options[:value].each_with_index.map { |v, i| "<a href=\"/?f[loc_naf_author_ss][]=#{v.gsub(';','%3B').gsub('&','%26')}\">#{v}</a> | " }.join('</br>').chomp(" | ").html_safe
+  end
+
   #used with render_related_content? method in catalog_controller.rb
   def render_related_content options={}
     links = []
