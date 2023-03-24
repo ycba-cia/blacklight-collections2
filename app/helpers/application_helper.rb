@@ -99,7 +99,8 @@ module ApplicationHelper
       elsif detailed_onview_ss == "Accessible by appointment in the Reference Library"
         values.append("<b>" + v + " [" + hours + "]</b>" + ref)
       else
-        values.append("<b>"+v+"</b>" + ps)
+        #values.append("<b>"+v+"</b>" + ps) #revert to this after with new language
+        values.append("<b>"+v+"</b>")
       end
     end
     values.join('<br/>').html_safe
