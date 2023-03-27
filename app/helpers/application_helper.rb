@@ -350,11 +350,16 @@ module ApplicationHelper
       #extract_date2(d[d.index("(")..-1]) # use limit: nil instead
     }
     sorted.reverse!
+
+    sorted2 = doc["exhibitionURL_ss"].sort_by.with_index { |e,i|
+      extract_date2(doc["exhibition_history_ss"][i])
+    }
+    sorted2.reverse!
     sorted.each_with_index {  |exh, i|
       param = URI.encode_www_form_component(exh)
-
-      if doc["exhibitionURL_ss"] && doc["exhibitionURL_ss"][i] != '-'
-        website = doc["exhibitionURL_ss"][i]
+      
+      if sorted2 && sorted2[i] != '-'
+          website = sorted2[i]
       end
       #exhs.append("<p><a href=\"/?f[exhibition_history_ss][]=#{param}\">#{exh}</a></p>")
       exhs.append("<p>#{exh} <span style=\"white-space:nowrap\">[<a href=\"/?f[exhibition_history_ss][]=#{param.gsub(';','%3B').gsub('&','%26')}\" target='_blank'>YCBA Objects in the Exhibition</a>]</span>")
