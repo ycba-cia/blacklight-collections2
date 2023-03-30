@@ -95,7 +95,7 @@
   <div class="row">
     <div id="ycba-request-photography" class="col-xs-12" align="center">
       <%= link_to("Request photography", image_request_link(document), target: "_blank",) %>&nbsp;|&nbsp;
-      <%= link_to("Print Object", "/print/#{@id}/1", target: "_blank") %>
+      <%= link_to("Print Object", "/print/#{@id}/1/9999", target: "_blank") %>
       <% if document[:eshop_ss] %>
         <%= link_to("Visit museum shop for related items", document[:eshop_ss][0], target: "_blank") %>
       <% end %>

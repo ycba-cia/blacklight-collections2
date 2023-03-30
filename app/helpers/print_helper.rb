@@ -9,15 +9,19 @@ module PrintHelper
     #images = [1]
 
     #images,pixels = get_images_from_sources(id) #deprecated for cds2
-    images, pixels = get_images_from_cds2(id,index)
-    images.each_with_index do |f, i|
-      break if i >= @size.to_i
-      markup += "<div style=\"page-break-after: always\">"
-      markup += "<img class=\"contain\" src=\"#{f}\" width=\"#{pixels[i][0]}\" height=\"#{pixels[i][1]}\" style=\"object-fit: contain;\">"
-      markup += "</div>"
-      #puts f
+    if index=="9999" #no image,bypass image lookup
+      markup = "</br>"
+    else
+      images, pixels = get_images_from_cds2(id,index)
+      images.each_with_index do |f, i|
+        break if i >= @size.to_i
+        markup += "<div style=\"page-break-after: always\">"
+        markup += "<img class=\"contain\" src=\"#{f}\" width=\"#{pixels[i][0]}\" height=\"#{pixels[i][1]}\" style=\"object-fit: contain;\">"
+        markup += "</div>"
+        #puts f
+      end
+      #markup += "</br>"
     end
-    #markup += "</br>"
     markup.html_safe
   end
 
