@@ -13,10 +13,13 @@ module PrintHelper
       markup = "</br>"
     else
       images, pixels = get_images_from_cds2(id,index)
+      #puts "number of images:#{images.size}"
+      #puts "size param:#{@size}"
       images.each_with_index do |f, i|
         break if i >= @size.to_i
         markup += "<div style=\"page-break-after: always\">"
         markup += "<img class=\"contain\" src=\"#{f}\" width=\"#{pixels[i][0]}\" height=\"#{pixels[i][1]}\" style=\"object-fit: contain;\">"
+        markup +="</br><div class=\"printlido\" style=\"font-size: 14px;\"><dt style=\"overflow: hidden;\">a caption</dt></div></br>"
         markup += "</div>"
         #puts f
       end
@@ -34,7 +37,11 @@ module PrintHelper
       objid = id.gsub("orbis:","")
       manifest = "https://manifests.collections.yale.edu/ycba/orb/#{objid}"
     end
-    get_images_from_iiifv3(manifest,index)
+    if index=="9998"
+      return get_all_images_from_iiifv3(manifest,index)
+    else
+      return get_images_from_iiifv3(manifest,index)
+    end
   end
 
 
@@ -51,6 +58,28 @@ module PrintHelper
     #rescue
     #  puts "Error getting print image from manifest: #{manifest}"
     #end
+    return images,pixels
+  end
+
+
+  def get_all_images_from_iiifv3(manifest,index)
+    images = Array.new
+    pixels = Array.new
+    uri = URI(manifest)
+    #begin
+    json = JSON.load(URI.open(manifest))
+    index = 0
+    while index >= 0
+      image = json["items"][index.to_i]["items"][0]["items"][0]["body"]["id"]
+      images.push(image)
+      pixels.push(["700","800"])
+      #rescue
+      #  puts "Error getting print image from manifest: #{manifest}"
+      #end
+      index += 1
+      index = -1 if json["items"][index.to_i].nil?
+    end
+    puts "IMAGES:#{images.inspect}"
     return images,pixels
   end
 
