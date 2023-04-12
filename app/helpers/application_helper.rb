@@ -113,7 +113,11 @@ module ApplicationHelper
 
     value = ""
     if collection.start_with?("bacrb")
-      value = "<b>View by request in the Study Room [" + create_aeon_link_callnumber(document,callnumber,mfhd_id) + "]</b>" + pd_rb_ia
+      if document["onview_ss"] and document["onview_ss"][0] == "On view at the Yale University Art Gallery"
+        value = "<b>On view at the Yale University Art Gallery</b>"
+      else
+        value = "<b>View by request in the Study Room [" + create_aeon_link_callnumber(document,callnumber,mfhd_id) + "]</b>" + pd_rb_ia
+       end
     elsif collection.start_with?("bacref")
       value = "<b>Accessible in the Reference Library [" + hours + "]</b>" + ref
     elsif collection.start_with?("bacia")

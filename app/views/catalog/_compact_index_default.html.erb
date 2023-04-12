@@ -12,7 +12,7 @@
 <% if document.to_h["publishDate_txt"] %>
   <dd class="blacklight-<%= "publishDate_txt".parameterize %>"><%= field_value document, "publishDate_txt" %></dd>
 <% end %>
-<% if document.to_h["detailed_onview_ss"] && document["collection_ss"][0] == "Paintings and Sculpture" %>
+<% if document.to_h["detailed_onview_ss"] %>
   <% if document["detailed_onview_ss"][0] == "On view at the Yale University Art Gallery" %>
     <dd class="blacklight-<%= "detailed_onview_ss".parameterize %>">On view at YUAG</dd>
   <% elsif document["detailed_onview_ss"][0] == "Not on view" %>
