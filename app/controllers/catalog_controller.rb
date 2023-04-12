@@ -301,6 +301,7 @@ class CatalogController < ApplicationController
     config.add_sort_field 'collection_sort_s asc, score desc', label: 'relevance'
     config.add_sort_field 'title_s asc, score desc', label: 'title'
     config.add_sort_field 'earliestDate_i asc, score desc', label: 'date'
+    config.add_sort_field 'author_sort_s asc, score desc', label: ' primary artist'
 
     # If there are more than this many search results, no spelling ("did you
     # mean") suggestion is offered.
