@@ -11,10 +11,11 @@
       <% end -%>
   <% end -%>
   <% if document.to_h["detailed_onview_ss"] %>
-    <dt class="blacklight-<%= "detailed_onview_ss".parameterize %>">On View:</dt>
     <% if document["detailed_onview_ss"][0] == "On view at the Yale University Art Gallery" %>
+      <dt class="blacklight-<%= "detailed_onview_ss".parameterize %>">On View:</dt>
       <dd class="blacklight-<%= "detailed_onview_ss".parameterize %>">On view at YUAG</dd>
     <% elsif document["detailed_onview_ss"][0] == "Not on view" %>
+      <dt class="blacklight-<%= "detailed_onview_ss".parameterize %>">On View:</dt>
       <dd class="blacklight-<%= "detailed_onview_ss".parameterize %>">Not on view</dd>
     <% end %>
   <% end %>
