@@ -54,9 +54,9 @@ module ApplicationHelper
   def handle_qualifiers2 options={}
     links = []
     options[:value].each_with_index { |v, i |
-      aq = options[:document][:attrib_qual_ss][i]
+      aq = options[:document][:attrib_qual_ss].nil? ? "--" : options[:document][:attrib_qual_ss][i]
       aq = "" if aq=="--"
-      suf = options[:document][:author_suffix_ss][i]
+      suf = options[:document][:author_suffix_ss].nil? ? "--" : options[:document][:author_suffix_ss][i]
       suf = "" if suf=="--"
       links.append("#{aq} <a href=\"/?f[loc_naf_author_ss][]=#{options[:document][:loc_naf_author_ss][i].gsub(';','%3B').gsub('&','%26')}\">#{options[:document][:display_author_ss][i]}</a> #{suf}".strip)
     }
