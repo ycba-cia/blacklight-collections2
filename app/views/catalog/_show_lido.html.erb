@@ -131,6 +131,17 @@
       <% end %>
     <% end %>
 
+    <% if tab_active %>
+      <% if document_field_exists?(document,"technical_description_ss")  %>
+        <li class="nav-item active"><a class="nav-link" href="#10pane" data-toggle="tab">Technical</br>Description</a></li>
+        <% tab_active = false %>
+      <% end %>
+    <% else %>
+      <% if document_field_exists?(document,"technical_description_ss")  %>
+        <li class="nav-item"><a class="nav-link" href="#10pane" data-toggle="tab">Technical</br>Description</a></li>
+      <% end %>
+    <% end %>
+
   </ul>
 </nav>
 </br>
@@ -260,6 +271,21 @@
       <div class="tab-pane" id="9pane">
     <% end %>
     <%= render_lido_citation_presorted_tab(document) %>
+    </div>
+  <% end %>
+
+  <% if document_field_exists?(document,"technical_description_ss") %>
+    <% if tab_active %>
+      <div class="tab-pane active" id="10pane">
+        <% tab_active = false %>
+    <% else %>
+      <div class="tab-pane" id="10pane">
+    <% end %>
+    <% document["technical_description_ss"].each_with_index do |field, i| %>
+      <% if i > 0 %></br><hr style="border-top: 1px solid;"></br><% end %>
+      <% field2 = field.gsub('---','</br>').gsub('\n','</br>').html_safe %>
+      <div class="columns"><%= field2 %></div>
+    <% end %>
     </div>
   <% end %>
 
