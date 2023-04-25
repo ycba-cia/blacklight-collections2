@@ -54,6 +54,7 @@ module PrintHelper
       json = JSON.load(URI.open(manifest))
 
     image = json["items"][index.to_i]["items"][0]["items"][0]["body"]["id"]
+    image = image.split("/").each_with_index.map { |v,i| i==7 ? ",700" : v }.join("/")
     images.push(image)
     pixels.push(["700","800"])
     #rescue
@@ -73,6 +74,7 @@ module PrintHelper
     index = 0
     while index >= 0
       image = json["items"][index.to_i]["items"][0]["items"][0]["body"]["id"]
+      image = image.split("/").each_with_index.map { |v,i| i==7 ? ",700" : v }.join("/")
       caption = json["items"][index.to_i]["label"]["en"][0]
       images.push(image)
       pixels.push(["700","800"])
