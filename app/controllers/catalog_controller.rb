@@ -230,7 +230,44 @@ class CatalogController < ApplicationController
     # solr request handler? The one set in config[:default_solr_parameters][:qt],
     # since we aren't specifying it otherwise.
 
-    config.add_search_field 'all_fields', label: 'All Fields'
+    config.add_search_field 'simple_search', label: 'Simple Search'
+
+    config.add_search_field('All Fields') do |field|
+      #field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
+      field.solr_parameters = {
+        qf: [
+            'author_txt^10',
+            'title_txt^4',
+            'topic_txt^4',
+            'publishDate_txt',
+            'format_txt',
+            'physical_txt',
+            'description_txt',
+            'credit_line_txt',
+            'callnumber_txt',
+            'type_txt',
+            'collection_txt',
+            'geographic_txt',
+            'topic_subjectActor_txt^3',
+            'title_alt_txt',
+            'publisher_txt',
+            'resourceURL_txt',
+            'cartographic_detail_txt',
+            'marc_contents_txt',
+            'form_genre_txt',
+            'author_additional_txt',
+            'exhibition_history_txt',
+            'curatorial_comment_txt',
+            'curatorial_comment_auth_txt',
+            'curatorial_description_txt',
+            'curatorial_description_auth_txt',
+            'pub_cat_entry_txt',
+            'pub_cat_entry_auth_txt',
+            'gallery_label_txt',
+            'gallery_label_auth_txt'
+        ]
+      }
+    end
 
 
     # Now we see how to over-ride Solr request handler defaults, in this
@@ -298,10 +335,11 @@ class CatalogController < ApplicationController
     #config.add_sort_field 'pub_date_sort desc, title_sort asc', label: 'year'
     #config.add_sort_field 'author_sort asc, title_sort asc', label: 'author'
     #config.add_sort_field 'title_sort asc, pub_date_sort desc', label: 'title'
-    config.add_sort_field 'collection_sort_s asc, score desc', label: 'relevance'
-    config.add_sort_field 'author_sort_s asc, score desc', label: ' artist'
+    config.add_sort_field 'collection_sort_s asc, score desc', label: 'collection'
+    config.add_sort_field 'score desc', label: 'relevance'
+    config.add_sort_field 'author_sort_s asc, score desc', label: ' artist (A-Z)'
     config.add_sort_field 'earliestDate_i asc, score desc', label: 'date'
-    config.add_sort_field 'title_s asc, score desc', label: 'title'
+    config.add_sort_field 'title_s asc, score desc', label: 'title (A-Z)'
 
 
 
