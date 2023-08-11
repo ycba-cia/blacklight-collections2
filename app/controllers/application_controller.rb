@@ -42,7 +42,8 @@ class ApplicationController < ActionController::Base
     item1 = {:title=>}
 =end
 
-    @footeritems = [{text:"1080 Chapel Street<br/>New Haven, Connecticut</br></br>Admission is free"},
+    @footeritems = [{text:"1080 Chapel Street<br/>New Haven, Connecticut",
+                    link_list:[["Sign up for our e-newsletter","http://eepurl.com/g6CYQb"]]},
                      #link_list:[["Closure notice","#{site}/closure-notice-archived"]]},
 
                     #{text:"Admission is free",
@@ -50,6 +51,15 @@ class ApplicationController < ActionController::Base
                      #           ["Sunday","12am &mdash; 5pm"],
                      #           ["Monday","Closed"]]},
                     #},
+                    {link_list:[["While we are closed","#{site}/while-we-are-closed"],
+                               ["Building conservation updates","#{site}/building-conservation-updates"],
+                               ["Hours and visitor information","#{site}/visitor-guidelines"],
+                               ["Calendar","#{site}/exhibitions-programs"]]},
+                    {link_list:[["Museum Shop","#{site}/museum-shop"],
+                               ["Tours","#{site}/tours"],
+                               ["Accessibility","#{site}/accessibility"],
+                               ["Translate","https://britishart-yale-edu.translate.goog/?_x_tr_sl=auto&_x_tr_tl=fr&_x_tr_hl=en"]]},
+                    {follow_buttons:"true"},
                     {title:"Exhibitions and programs",
                      link_list:[["Now and upcoming","#{site}/exhibitions-programs"],
                                 ["Past exhibitions and programs","#{site}/exhibitions-programs-past"]]},
@@ -69,20 +79,11 @@ class ApplicationController < ActionController::Base
                                 ["Colleges and universities","#{site}/colleges-and-universities"],
                                 ["Children and families","#{site}/children-and-families"],
                                 ["Yale community","#{site}/yale-community"],
-                                ["Residential scholars","#{site}/residential-scholars"],
+                                ["Residential awards","#{site}/residential-awards"],
+                                ["Internships and Opportunities","#{site}/internships-and-opportunities"],
                                 ["Publications","#{site}/publications"],
                                 ["Reference Library","#{site}/reference-library-and-photograph-archive"],
                                 ["Study Room","#{site}/study-room"]]},
-                    {title:"Plan your visit",
-                     link_list:[["While we are closed","#{site}/while-we-are-closed"],
-                                ["Building conservation updates","#{site}/building-conservation-updates"],
-                                ["Hours and visitor information","#{site}/visitor-guidelines"],
-                                ["Calendar","#{site}/exhibitions-programs"],
-                                ["Museum Shop","#{site}/museum-shop"],
-                                ["Tours","#{site}/tours"],
-                                #["City and region","#{site}/city-and-region"],
-                                #["Directions and parking","#{site}/directions-and-parking"],
-                                ["Accessibility","#{site}/accessibility"]]},
                     {title:"About us",
                      link_list:[["Our story","#{site}/our-story"],
                                 ["Paul Mellon, Founder","#{site}/stories/paul-mellon-founder"],
@@ -94,8 +95,7 @@ class ApplicationController < ActionController::Base
                                 ["Get involved","#{site}/get-involved"],
                                 ["Departments and staff","#{site}/departments-and-staff"],
                                 ["Job opportunities","#{site}/job-opportunities"],
-                                ["Contact us","#{site}/contact-us"]]},
-                    {follow_buttons:"true"}
+                                ["Contact us","#{site}/contact-us"]]}
                     ]
   end
 end
