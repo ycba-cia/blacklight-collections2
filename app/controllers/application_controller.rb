@@ -73,7 +73,7 @@ class ApplicationController < ActionController::Base
                      #          ["How to use the collection","?"]]},
                      ]},
                     {title:"Research and Learning",
-                     link_list:[["Overview","#{site}/research-and-learning-overview"],
+                     link_list:[["Research initiatives","#{site}/research-initiatives"],
                                 ["Community","#{site}/community"],
                                 ["K–12 teachers","#{site}/k-12-teachers"],
                                 ["Colleges and universities","#{site}/colleges-and-universities"],
