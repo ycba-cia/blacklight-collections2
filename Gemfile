@@ -10,6 +10,7 @@ ruby "2.7.8"
 gem 'rails', '~> 5.2.8'
 # Use Puma as the app server
 gem 'puma', '~> 5.6'
+gem 'puma-daemon', require: false
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
