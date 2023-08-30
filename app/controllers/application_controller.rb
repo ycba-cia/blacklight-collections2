@@ -66,6 +66,7 @@ class ApplicationController < ActionController::Base
                     {title:"Collections",
                      link_list:[["Collections overview","#{site}/collections-overview"],
                                 ["Search the collections","https://collections.britishart.yale.edu"],
+                                ["Search LUX: Yale Collections Discovery","https://lux.collections.yale.edu"],
                                 ["Using the collections","#{site}/using-collections"],
                                 ["Conservation","#{site}/conservation"],
                                 ["Collections department","#{site}/collections-departments"]
