@@ -1277,6 +1277,21 @@ module ApplicationHelper
     end
   end
 
+  def jsonld(doc)
+    jsonld_doc = Hash.new
+    jsonld_doc["@context"] = "https://schema.org"
+    jsonld_doc["@type"] = "VisualArtwork" if doc[:recordtype_ss][0] == "lido"
+    jsonld_doc["@type"] = "CreativeWork" if doc[:recordtype_ss][0] == "marc"
+    jsonld_doc["name"] = doc["title_ss"][0] unless doc["title_ss"].nil?
+    jsonld_doc["image"] = doc["manifest_thumbnail_ss"][0] unless doc["manifest_thumbnail_ss"].nil?
+
+    creator = Hash.new
+    creator["@type"] = "Person"
+    creator["name"] = doc["loc_naf_author_ss"][0] unless doc["loc_naf_author_ss"].nil?
+    jsonld_doc["creator"] = creator unless doc["loc_naf_author_ss"].nil?
+    return jsonld_doc.to_json.html_safe
+  end
+
   #deprecated in favor of webpack
 =begin
   def mirador3_config(manifest)
