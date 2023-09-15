@@ -1288,7 +1288,12 @@ module ApplicationHelper
     creator = Hash.new
     creator["@type"] = "Person"
     creator["name"] = doc["loc_naf_author_ss"][0] unless doc["loc_naf_author_ss"].nil?
-    jsonld_doc["creator"] = creator unless doc["loc_naf_author_ss"].nil?
+    if doc[:recordtype_ss][0] == "marc"
+      jsonld_doc["creator"] = creator unless doc["loc_naf_author_ss"].nil?
+    end
+    if doc[:recordtype_ss][0] == "lido"
+      jsonld_doc["artist"] = creator unless doc["loc_naf_author_ss"].nil?
+    end
     return jsonld_doc.to_json.html_safe
   end
 
