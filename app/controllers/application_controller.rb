@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  helper Openseadragon::OpenseadragonHelper
+  #helper Openseadragon::OpenseadragonHelper #removed in ruby3 branch
   # Adds a few additional behaviors into the application controller
   include Blacklight::Controller
   layout 'blacklight'
@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
 
   before_action :set_fabrique
 
-  skip_after_action :discard_flash_if_xhr
+  #skip_after_action :discard_flash_if_xhr #removed in ruby3 branch
 
   def set_fabrique
     #question how to manage changes here when deployed to heroku?

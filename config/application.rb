@@ -21,7 +21,7 @@ module BlacklightCollections2
       env_file = File.join(Rails.root, 'config', 'local_env.yml')
       YAML.load(File.open(env_file)).each do |key, value|
         ENV[key.to_s] = value
-      end if File.exists?(env_file)
+      end if File.exist?(env_file)
     end
 
     #config.assets.paths << Rails.root.join("app", "assets", "fonts")
@@ -30,7 +30,9 @@ module BlacklightCollections2
     #
     #config.assets.initialize_on_precompile = false
     #
-    Rails.application.config.active_record.sqlite3.represent_boolean_as_integer = true
+    #Rails.application.config.active_record.sqlite3.represent_boolean_as_integer = true
+
+    #Rails.autoloaders.log! #Used as ruby3 upgrade diagnostic
 
   end
 end
