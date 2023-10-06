@@ -9,11 +9,11 @@ describe PrintHelper do
 
     @manifest = "https://manifests.collections.yale.edu/ycba/obj/34"
     @id1 = "tms:34"
-    @image1 = "https://images.collections.yale.edu/iiif/2/ycba:4f227f08-7842-46cc-b05a-e3c6a4614cc1/full/full/0/default.jpg"
-    @markup = "<div style=\"page-break-after: always\"><img class=\"contain\" src=\"https://images.collections.yale.edu/iiif/2/ycba:4f227f08-7842-46cc-b05a-e3c6a4614cc1/full/full/0/default.jpg\" width=\"700\" height=\"800\" style=\"object-fit: contain;\"></div>"
+    @image1 = "https://images.collections.yale.edu/iiif/2/ycba:4f227f08-7842-46cc-b05a-e3c6a4614cc1/full/,700/0/default.jpg"
+    @markup = "<div style=\"page-break-after: always\"><img class=\"contain\" src=\"https://images.collections.yale.edu/iiif/2/ycba:4f227f08-7842-46cc-b05a-e3c6a4614cc1/full/,700/0/default.jpg\" width=\"700\" height=\"800\" style=\"object-fit: contain;\"></div>"
 
     @id2 = "orbis:9452785"
-    @image2 = "https://images.collections.yale.edu/iiif/2/ycba:39b6a359-312c-4b71-84c1-349caaf3ff4b/full/full/0/default.jpg"
+    @image2 = "https://images.collections.yale.edu/iiif/2/ycba:39b6a359-312c-4b71-84c1-349caaf3ff4b/full/,700/0/default.jpg"
 
     @pixels = ["700","800"]
     @index = 0

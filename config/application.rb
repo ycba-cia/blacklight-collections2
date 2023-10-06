@@ -31,6 +31,8 @@ module BlacklightCollections2
     #config.assets.initialize_on_precompile = false
     #
     #Rails.application.config.active_record.sqlite3.represent_boolean_as_integer = true
+    #
+    config.active_record.legacy_connection_handling = false
 
     #Rails.autoloaders.log! #Used as ruby3 upgrade diagnostic
 

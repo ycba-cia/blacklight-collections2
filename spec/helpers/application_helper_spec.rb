@@ -809,7 +809,7 @@ describe ApplicationHelper do
                     'Accept'=>'*/*',
                     'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
                     'Content-Length'=>'0',
-                    'User-Agent'=>'Faraday v1.10.1'
+                    'User-Agent'=>'Faraday v2.7.11'
                 }).
             to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','dort_frame_BL.json')), headers: {})
         stub_request(:post, "http://10.5.96.78:8983/solr/ycba_blacklight/select?fq=callnumber_ss:%22B1977.14.77%22&wt=json").
@@ -818,7 +818,7 @@ describe ApplicationHelper do
                     'Accept'=>'*/*',
                     'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
                     'Content-Length'=>'0',
-                    'User-Agent'=>'Faraday v1.10.1'
+                    'User-Agent'=>'Faraday v2.7.11'
                 }).
             to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','dort_BL.json')), headers: {})
         document = Hash.new
@@ -969,7 +969,7 @@ describe ApplicationHelper do
                     'Accept'=>'*/*',
                     'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
                     'Content-Length'=>'0',
-                    'User-Agent'=>'Faraday v1.10.1'
+                    'User-Agent'=>'Faraday v2.7.11'
                 }).
             to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','orbis_583000_numfound.json')), headers: {})
 
@@ -987,7 +987,7 @@ describe ApplicationHelper do
                     'Accept'=>'*/*',
                     'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
                     'Content-Length'=>'0',
-                    'User-Agent'=>'Faraday v1.10.1'
+                    'User-Agent'=>'Faraday v2.7.11'
                 }).
             to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','orbis_583000_numfound.json')), headers: {})
 

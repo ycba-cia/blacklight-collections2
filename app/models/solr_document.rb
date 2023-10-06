@@ -1,9 +1,10 @@
 # frozen_string_literal: true
-require "citations"
+#require "citations" #remove ruby3
 class SolrDocument
   include Blacklight::Solr::Document
   include Blacklight::Gallery::OpenseadragonSolrDocument
-  include Blacklight::Solr::Citations
+  #include Blacklight::Solr::Citations #remove ruby3
+  include Citations
 
 
   # self.unique_key = 'id'

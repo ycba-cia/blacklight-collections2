@@ -1,4 +1,5 @@
-module Blacklight::Solr::Citations
+#module Blacklight::Solr::Citations
+module Citations #ruby3 use module Citations rather than Blacklight::Solr::Citations
   extend ActiveSupport::Concern
 
   #note: rough ruby version of vufind php code from:
