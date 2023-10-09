@@ -110,3 +110,5 @@ gem "json", ">= 2.3.0"
 gem "rack-timeout"
 
 gem "addressable", ">= 2.8.0"
+
+gem 'bootstrap', '~> 4.0'
