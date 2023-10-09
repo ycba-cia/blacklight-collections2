@@ -64,8 +64,8 @@ $(document).on("turbolinks:load",function() {
     //set h1 with title from head
     $("h1").text($("head title").text());
 
-    var $item = $('.item');
-    var $numberofSlides = $('.item').length;
+    var $item = $('.carousel-item');
+    var $numberofSlides = $('.carousel-item').length;
     var $currentSlide = Math.floor((Math.random() * $numberofSlides));
 
     $('.carousel-indicators li').each(function(){
