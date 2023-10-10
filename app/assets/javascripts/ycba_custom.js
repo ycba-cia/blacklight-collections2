@@ -79,11 +79,13 @@ $(document).on("turbolinks:load",function() {
         }
     });
 
-    $('.iiifpopover').popover({
+    $('#facet-panel-collapse').removeClass("collapse")
+
+    /*$('.iiifpopover').popover({
         html : true,
         content: function() {
             return $('#iiifpopover_content_wrapper').html();
         }
-    });
+    });*/
 
 });
