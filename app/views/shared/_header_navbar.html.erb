@@ -69,18 +69,21 @@
 <header>
   <div id="ycba-home-page" style="display: none;">Yale Center for British Art Home Page</div>
   <div id="header-row" class="row fixer">
-    <span class="div-horizontal">
-      <span class="col-xs-3 home-fonth" style="padding-left:12%;" onclick="location.href='https://britishart.yale.edu';"><a aria-labelledby="ycba-home-page" href="https://britishart.yale.edu"><< YCBA Home</a></span>
-      <span id="large-banner" class="col-xs-5" style="padding-left:7%;">
-        <a aria-labelledby="ycba-home-page" href="https://britishart.yale.edu"><%= show_svg('logo-horizontal.svg') %></a>
+    <span class="home-fonth" onclick="location.href='https://britishart.yale.edu';"><a aria-labelledby="ycba-home-page" href="https://britishart.yale.edu"><< YCBA Home</a></span>
+    <div id="centered-header" style="text-align: center; margin: auto;"><a aria-labelledby="ycba-home-page" href="https://britishart.yale.edu" style="text-align: center;"><%= show_svg('logo-horizontal.svg') %></a></div>
+    <!--<span class="div-horizontal">
+
+      <span class="home-fonth" style="padding-left:12%;" onclick="location.href='https://britishart.yale.edu';"><a aria-labelledby="ycba-home-page" href="https://britishart.yale.edu"><< YCBA Home</a></span>
+      <span id="large-banner" class="" style="padding-left:7%; text-align: center; margin: auto">
+        <a aria-labelledby="ycba-home-page" href="https://britishart.yale.edu" style="text-align: center;">YCBA<%#= show_svg('logo-horizontal.svg') %></a>
       </span>
     </span>
     <span class="div-vertical">
       <span class="col-xs-5 vert-wrapper">
-        <%= show_svg('logo-vertical.svg') %>
+        <%#= show_svg('logo-vertical.svg') %>
       </span>
       <span aria-labelledby="ycba-home-page" class="col-xs-3 home-fontv" onclick="location.href='https://britishart.yale.edu';"><< YCBA Home</span>
-    </span>
+    </span>-->
   </div>
 </header>
 
@@ -90,7 +93,7 @@
 	  <div class="h3-class">Welcome to YCBA Collections Online</div>
     <!--<p style="background-color: MistyRose;">The Center has reopened on a limited basis. <a href="https://www.eventbrite.com/e/timed-entry-tickets-tickets-117775378327">Reserve</a> your tickets today. From this page our collections can be explored and enjoyed at any time.</p>-->
     <p style="background-color: #eed5b3;">The museum is closed for building conservation. While the YCBA is closed, access to the collections is by appointment only.</p>
-    <p style="vertical-align: bottom; margin-bottom: 1px;">&nbsp &nbsp Search Options:</p>
+    <!--<p style="vertical-align: bottom; margin-bottom: 1px;">&nbsp &nbsp Search Options:</p>-->
   </div>
   <div class="<%= container_classes %>">
     <%= render_search_bar  %>
