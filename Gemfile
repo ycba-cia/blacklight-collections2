@@ -87,7 +87,8 @@ end
 #gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'sdoc', '~> 1.1' #update dependency for json 2.3.1 (below)
 
-gem 'blacklight-gallery', '~> 4.3'
+gem 'blacklight-gallery', '~> 4.4'
+
 gem 'marc'
 
 gem 'blacklight_range_limit', '~> 7.9', '>= 7.9.1'
