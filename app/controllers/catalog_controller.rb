@@ -118,7 +118,7 @@ class CatalogController < ApplicationController
     config.add_facet_field 'author_gender_ss', :label => 'Creator Gender'
     config.add_facet_field 'title_collective_ss', :label => 'Collective Title', :limit => 20
     config.add_facet_field 'era_ss', :label => 'Period'
-    config.add_facet_field 'auth_format_ss', :label => 'Medium', :limit => 20
+    config.add_facet_field 'auth_format_ss', :label => 'Materials & Techniques', :limit => 20
     config.add_facet_field 'physical_heightValue_is', :label => 'Height [cm]',range: { segments: false }
     config.add_facet_field 'physical_widthValue_is', :label => 'Width [cm]',range: { segments: false }
     config.add_facet_field 'object_name_ss', :label => 'Work Type', :limit => 20
@@ -145,7 +145,7 @@ class CatalogController < ApplicationController
     config.add_index_field 'author_ss', :label => 'Creator', if: :display_lido_field?
     config.add_index_field 'loc_naf_author_ss', :label => 'Creator', if: :display_marc_field?
     config.add_index_field 'publishDate_txt', label: "Date"
-    config.add_index_field 'format_txt', :label => 'Medium'
+    config.add_index_field 'format_txt', :label => 'Materials & Techniques'
     config.add_index_field 'physical_txt', :label => 'Dimensions', if: :display_lido_field?
     config.add_index_field 'physical_ss', :label => 'Physical Description', if: :display_marc_field?
     config.add_index_field 'collection_txt', :label => 'Collection'
@@ -166,7 +166,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'titles_additional_ss', :label => 'Additional Title(s)', helper_method: 'render_titles_all', if: :display_lido_field?
     config.add_show_field 'title_collective_ss', :label => 'Part Of', helper_method: 'render_parent', :limit => 20
     config.add_show_field 'publishDate_ss', :label => 'Date', if: :display_lido_field?
-    config.add_show_field 'format_ss', :label => 'Medium', if: :display_lido_field?
+    config.add_show_field 'format_ss', :label => 'Materials & Techniques', if: :display_lido_field?
     config.add_show_field 'physical_ss',  :label => 'Dimensions', separator_options: comma_separator, if: :display_lido_field?
     config.add_show_field 'description_ss', :label => 'Inscription(s)/Marks/Lettering', helper_method: 'render_citation', if: :display_lido_field?
     config.add_show_field 'credit_line_ss', :label => 'Credit Line', if: :display_lido_field?
