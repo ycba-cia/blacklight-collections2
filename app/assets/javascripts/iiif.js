@@ -545,7 +545,12 @@ function selectdl(download,id,doc) {
         jpeg_info += "<button id='jpeg-dl-button' type='button' class='btn btn-primary btn-sm' disabled>JPEG</button>";
         jpeg_info += "</a>"
     } else {
-        jpeg_info += "<a href='" + download[2] + "' download='" + download[1] + "' target=\"_blank\">";
+        if (download[4] > 1024) {
+            var dl2 = download[2].replace("/full/full", "/full/,1024");
+        } else {
+            var dl2 = download[2];
+        }
+        jpeg_info += "<a href='" + dl2 + "' download='" + download[1] + "' target=\"_blank\">";
         jpeg_info += "<button id='jpeg-dl-button' type='button' class='btn btn-primary btn-sm'>JPEG</button>";
         jpeg_info += "</a>"
         //$("#jpeg-dl-info").text(download[0] + ". "+download[1]); deprecated

@@ -1224,7 +1224,7 @@ module ApplicationHelper
         width = item["width"] if item && item["width"]
         restricted = true unless height > 480 || width > 480
       end
-      download_array[index] = [count,caption,jpeg,tiff]
+      download_array[index] = [count,caption,jpeg,tiff,item["width"]]
     end
     #puts download_array.inspect
 
