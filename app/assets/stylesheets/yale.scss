@@ -921,3 +921,10 @@ i {
   //height:250px;
   width:70vh;
 }
+
+//override bootstrap
+@media (min-width: 768px) {
+  .dl-horizontal dt {
+    width: 170px;
+  }
+}
