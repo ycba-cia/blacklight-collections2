@@ -36,7 +36,7 @@
       </div>
     <% end %>
 
-    <div id="ycba-thumbnail-controls" class="col-xs-2" align="center">
+    <div id="ycba-thumbnail-controls" class="col-xs-1" align="center">
       <a class="iiifpopover" data-placement="bottom" title="Image Interoperability Framework">
         <img src="<%= path_to_image('logo-iiif.png') %>" class='img-responsive' alt='IIIF Actions' title='IIIF Actions' draggable></a>
       <div id="iiifpopover_content_wrapper" style="display: none;">
@@ -56,6 +56,14 @@
         </div>
       </div>
     </div>
+
+    <% if @document["link3d_ss"] %>
+      <div id="sketchfab-link" class="col-xs-1" align="center">
+        <a target="_blank" href="<%= @document["link3d_ss"][0] %>">
+          <img src="<%= path_to_image('sketchfab-logo.png') %>" class='img-responsive' alt='See this object on Sketchfab in 3D!' title='See this object on Sketchfab in 3D!' height="50" width="50">
+        </a>
+      </div>
+    <% end %>
 
     <div id="right-icons" class="col-xs-2" align="center">
       <% if document_field_exists?(document,"rightsURL_ss") && document["rightsURL_ss"][0].to_s.include?("rightsstatements.org/vocab/InC/1.0/") %>
