@@ -572,8 +572,10 @@ function selectdl(download,id,doc) {
 
     var print_info =  "";
     var print_info_all = "";
+    var print_info_large = "";
     var print_path = "/print/"+id+"/1/"+index+"?caption="+download[1];
     var print_path_all = "/print/"+id+"/9998/9998";
+    var print_path_large = "/print/"+id+"/2/"+index+"?caption="+download[1];
     if (download[2].length == 0) {
         print_info += "<a href='"+print_path+"' target=\"_blank\">";
         print_info += "<button id='print-button' type='button' class='btn btn-primary btn-sm' disabled>Print</button>";
@@ -581,6 +583,9 @@ function selectdl(download,id,doc) {
         print_info_all += "<a href='"+print_path_all+"' target=\"_blank\">";
         print_info_all += "<button id='print-button-all' type='button' class='btn btn-primary btn-sm' disabled>Print All</button>";
         print_info_all += "</a>";
+        print_info_large += "<a href='"+print_path_large+"' target=\"_blank\">";
+        print_info_large += "<button id='print-button-large' type='button' class='btn btn-primary btn-sm' disabled>Print Large</button>";
+        print_info_large += "</a>";
     } else {
         print_info += "<a href='"+print_path+"' target=\"_blank\">";
         print_info += "<button id='print-button' type='button' class='btn btn-primary btn-sm'>Print</button>";
@@ -588,10 +593,14 @@ function selectdl(download,id,doc) {
         print_info_all += "<a href='"+print_path_all+"' target=\"_blank\">";
         print_info_all += "<button id='print-button-all' type='button' class='btn btn-primary btn-sm'>Print All</button>";
         print_info_all += "</a>";
+        print_info_large += "<a href='"+print_path_large+"' target=\"_blank\">";
+        print_info_large += "<button id='print-button-large' type='button' class='btn btn-primary btn-sm'>Print Largeee</button>";
+        print_info_large += "</a>";
         //$("#print-info").text(download[0] + ". "+download[1]);deprecated
     }
     $("#print-container").html(print_info);
     $("#print-container-all").html(print_info_all);
+    $("#print-container-large").html(print_info_large);
 
 }
 

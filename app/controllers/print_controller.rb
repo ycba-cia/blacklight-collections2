@@ -24,13 +24,13 @@ class PrintController < ApplicationController
 =end
     @document = get_solr_doc(@id,request.protocol,request.host_with_port)
 
-    @item_data = ""
-    if @document["recordtype_ss"][0] == "lido"
+    if @document["recordtype_ss"][0] == "lido" and @size != "2"
+      @item_data = ""
       @item_data += print_newline_fields("Creator:","author_ss")
       @item_data += print_fields("Title:","title_ss")
       @item_data += print_string("Caption:",@caption)
       @item_data += print_fields("Date:","publishDate_ss")
-      @item_data += print_fields("Medium:","format_ss")
+      @item_data += print_fields("Materials & Techniques:","format_ss")
       @item_data += print_fields("Dimensions:","physical_ss")
       @item_data += print_fields("Inscription(s)/Marks/Lettering:","description_ss")
       @item_data += print_fields("Credit Line:","credit_line_ss")
@@ -48,7 +48,9 @@ class PrintController < ApplicationController
       @item_data += print_fields("Link:","url_ss")
     end
 
-    if @document["recordtype_ss"][0] == "marc"
+
+    if @document["recordtype_ss"][0] == "marc" and @size != "2"
+      @item_data = ""
       @item_data += print_newline_fields("Creator:","author_ss")
       @item_data += print_fields("Title:","title_ss")
       @item_data += print_fields("Alternate Title(s):","title_alt_ss")
@@ -71,6 +73,25 @@ class PrintController < ApplicationController
       @item_data += print_sep_fields("Subject Terms:","topic_ss")
       @item_data += print_sep_fields("Form/Genre:","form_genre_ss")
       @item_data += print_sep_fields("Contributors:","author_additional_ss")
+    end
+
+    if @document["recordtype_ss"][0] == "lido" and @size == "2"
+      #example tms:5005
+      @item_data = ""
+      @item_data += print_newline_fields("Creator:","author_ss")
+      @item_data += print_fields("Title:","title_ss")
+      @item_data += print_fields("Date:","publishDate_ss")
+      @item_data += print_fields("Materials & Techniques:","format_ss")
+      @item_data += print_fields("Dimensions:","physical_ss")
+      @item_data += print_fields("Credit Line:","credit_line_ss")
+      @item_data += print_fields_default_empty("Copyright Status:","ort_ss","Unknown")
+      @item_data += print_fields("Accession Number:","callnumber_ss")
+      @item_data += print_fields("Gallery Label:","gallery_label_ss")
+    end
+
+    if @document["recordtype_ss"][0] == "marc" and @size == "2"
+      @item_data = ""
+
     end
 
     render layout: false
