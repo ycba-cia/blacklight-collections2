@@ -594,7 +594,7 @@ function selectdl(download,id,doc) {
         print_info_all += "<button id='print-button-all' type='button' class='btn btn-primary btn-sm'>Print All</button>";
         print_info_all += "</a>";
         print_info_large += "<a href='"+print_path_large+"' target=\"_blank\">";
-        print_info_large += "<button id='print-button-large' type='button' class='btn btn-primary btn-sm'>Print Largeee</button>";
+        print_info_large += "<button id='print-button-large' type='button' class='btn btn-primary btn-sm'>Print Large</button>";
         print_info_large += "</a>";
         //$("#print-info").text(download[0] + ". "+download[1]);deprecated
     }

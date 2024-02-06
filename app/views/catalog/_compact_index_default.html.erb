@@ -7,7 +7,7 @@
   <% if document.to_h["loc_naf_author_ss"] && document["recordtype_ss"][0] == "marc"  %>
     <dd class="blacklight-<%= "loc_naf_author_ss".parameterize %>"><%= field_value document, "loc_naf_author_ss" %></dd>
   <% else %>
-    <dd class="blacklight-<%= "author_ss".parameterize %>"><%= field_value document, "author_ss" %></dd>
+    <dd class="blacklight-<%= "display_author_ss".parameterize %>"><%= field_value document, "display_author_ss" %></dd>
   <% end %>
 <% end %>
 <% if document.to_h["title_short_ss"] %>
