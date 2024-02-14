@@ -80,7 +80,7 @@ group :test, :production do
 end
 
 group :development do
-  gem 'mysql2', '~> 0.4.10'
+  gem 'mysql2', '~> 0.5.6'
 end
 
 # bundle exec rake doc:rails generates the API under doc/api.
