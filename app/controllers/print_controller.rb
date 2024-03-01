@@ -45,8 +45,9 @@ class PrintController < ApplicationController
       @item_data += print_fields("Curatorial Comment:","curatorial_comment_ss")
       @item_data += print_newline_fields("Exhibition History:","exhibition_history_ss")
       @item_data += print_newline_fields("Publications:","citation_txt")
-      @item_data += print_fields("Link:","url_ss")
       @item_data += print_fields("Gallery Label:","gallery_label_ss")
+      @item_data += print_fields("Provenance:","provenance_ss")
+      @item_data += print_fields("Link:","url_ss")
     end
 
 
