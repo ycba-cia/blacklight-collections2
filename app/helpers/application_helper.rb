@@ -387,8 +387,12 @@ module ApplicationHelper
   def render_titles_all options={}
     titles = []
 
-    options[:value].each {  |title|
-      titles.append("<p>"+title+"</p>")
+    options[:value].each_with_index { |title, i|
+      if options[:value].length() == (i + 1)
+        titles.append(title)
+      else
+        titles.append("<p>"+title+"+</p>")
+      end
     }
     titles.join.html_safe
   end

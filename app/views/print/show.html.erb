@@ -17,15 +17,23 @@
     flex-wrap: wrap;
   }
   .printlido dt {
-    text-align: right;
-    width: 20%;
+    /*text-align: right;*/
+    /*width: 20%;*/
+    text-align: left;
+    width: 35%;
     margin-bottom: 8px;
   }
 
   .printlido dd {
     margin-left: auto;
-    width: 78%;
+    /*width: 78%;*/
+    width: 63%;
     margin-bottom: 8px;
+  }
+  .space {
+      margin:0;
+      padding:0;
+      height:12px;
   }
 </style>
 <% if @size == "2" %> <!-- 2 means large -->
@@ -35,12 +43,18 @@
     font-size: 24px;
     width: 740px;
   }
+  .space {
+    margin:0;
+    padding:0;
+    height:12px;
+  }
   </style>
 <% end %>
 <input type='button' onClick='window.print()' class='printbutton' value='Print This Page'/>
 &nbsp;
 <input type='button' onClick="location.href='/catalog/<%= @id %>'" class='printbutton' value='Go back'/>
 <header>
+  <div class="space"></div>
   <div id="header-row" class="row fixer">
     <span class="div-horizontal">
     <span id="large-banner" class="col-xs-5" style="padding-left:7%;">

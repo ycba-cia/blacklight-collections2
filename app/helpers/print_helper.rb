@@ -17,7 +17,7 @@ module PrintHelper
       #puts "size param:#{@size}"
       images.each_with_index do |f, i|
         break if i >= @size.to_i
-        markup += "<div style=\"page-break-after: always\">"
+        markup += "<div style=\"page-break-after: always;\">"
         markup += "<img class=\"contain\" src=\"#{f}\" width=\"#{pixels[i][0]}\" height=\"#{pixels[i][1]}\" style=\"object-fit: contain;\">"
         #markup +="</br><div class=\"printlido\" style=\"font-size: 14px;\"><dt style=\"overflow: hidden;\">#{captions[i]}</dt></div></br>" unless captions[0]=="indie"
         markup +="</br><div class=\"printlido col-xs-5\">#{captions[i]}</div></br>" unless captions[0]=="indie"
@@ -102,7 +102,8 @@ module PrintHelper
   def print_fields(label,field)
     if @document[field].nil? == false
       s = "<dt style=\"overflow: hidden;\">#{label}</dt>"
-      s+= "<dd>#{@document[field][0]}</dd>"
+      #s+= "<dd style=\"display:table-cell; vertical-align: bottom;\">#{@document[field][0]}</dd>"
+      s+= "<dd style=\"display: flex; align-items: end;\">#{@document[field][0].gsub("--- ---","")}</dd>"
       return s
     else
       return ""
@@ -126,7 +127,7 @@ module PrintHelper
       value = @document[field][0]
     end
     s = "<dt>#{label}</dt>"
-    s+= "<dd>#{value}</dd>"
+    s+= "<dd style=\"display: flex; align-items: end;\">#{value}</dd>"
     return s
   end
 
@@ -136,8 +137,13 @@ module PrintHelper
       s = "<dt>#{label}</dt>"
       s+= "<dd>"
       @document[field].each_with_index do |line,i|
-        s+= "<span>#{line}</span></p>" if i == 0
-        s+= "<p>#{line}</p>" if i > 0
+        if @document[field].length() == (i+1)
+          s+= "<span>#{line}</span>"
+        else
+          s+= "#{line}</p>"
+        end
+        #s+= "<span>#{line}</span></p>" if i == 0
+        #s+= "<p>#{line}</p>" if i > 0
       end
       s+= "</dd>"
       return s
