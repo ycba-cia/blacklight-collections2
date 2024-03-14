@@ -391,7 +391,7 @@ module ApplicationHelper
       if options[:value].length() == (i + 1)
         titles.append(title)
       else
-        titles.append("<p>"+title+"+</p>")
+        titles.append("<p>"+title+"</p>")
       end
     }
     titles.join.html_safe
