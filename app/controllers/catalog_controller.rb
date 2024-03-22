@@ -148,8 +148,12 @@ class CatalogController < ApplicationController
     config.add_index_field 'format_txt', :label => 'Materials & Techniques'
     config.add_index_field 'physical_txt', :label => 'Dimensions', if: :display_lido_field?
     config.add_index_field 'physical_ss', :label => 'Physical Description', if: :display_marc_field?
-    config.add_index_field 'collection_txt', :label => 'Collection'
+    config.add_index_field 'collection_txt', :label => 'Collection', if: :display_objects_field?
     config.add_index_field 'credit_line_txt', :label => 'Credit Line'
+    config.add_index_field 'name_ss', :label => 'Artist'
+    config.add_index_field 'gender_ss', :label => 'Gender'
+    config.add_index_field 'tms_birthdate_ss', :label => 'Birth'
+    config.add_index_field 'tms_deathdate_ss', :label => 'Death'
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
@@ -212,6 +216,9 @@ class CatalogController < ApplicationController
     config.add_show_field 'form_genre_ss', :label => 'Form/Genre', link_to_search: true, separator_options: break_separator, if: :display_marc_field?
     config.add_show_field 'author_additional_ss', :label => 'Contributors', link_to_search: true, separator_options: break_separator, if: :display_marc_field?
     #config.add_show_field 'cite_as', accessor: 'cite_as', :label => 'Cite As', if: :display_marc_accessor_field? #don't display per #18
+
+    #artists field
+    config.add_show_field 'name_ss', :label => 'Artist', link_to_search: true, separator_options: break_separator, if: :display_artists_field?
 
     # "fielded" search configuration. Used by pulldown among other places.
     # For supported keys in hash, see rdoc for Blacklight::SearchFields
@@ -362,6 +369,14 @@ class CatalogController < ApplicationController
 
   def display_lido_field?(context, doc)
     doc['recordtype_ss'] and doc['recordtype_ss'][0].to_s == 'lido'
+  end
+
+  def display_artists_field?(context, doc)
+    doc['recordtype_ss'] and doc['recordtype_ss'][0].to_s == 'artists'
+  end
+
+  def display_objects_field?(context, doc)
+    doc['recordtype_ss'] and (doc['recordtype_ss'][0].to_s == 'marc' or doc['recordtype_ss'][0].to_s == 'lido')
   end
 
   def display_marc_accessor_field?(context, doc)
