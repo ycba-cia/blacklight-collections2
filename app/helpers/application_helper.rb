@@ -348,6 +348,9 @@ module ApplicationHelper
     exhs.join.html_safe
   end
 
+
+
+
   def render_exhibitions_tab(doc)
     exhs = []
     sorted = doc["exhibition_history_ss"].sort_by { |d|
@@ -1279,6 +1282,42 @@ module ApplicationHelper
     else
       return options[:value][0]
     end
+  end
+  def render_birthdate options={}
+    tms_birthdate = ""
+    lux_birthdate = ""
+    birthdate = options[:document][:tms_birthdate_ss][0] unless options&.dig(:document,:tms_birthdate_ss).nil?
+    lux_birthdate = options[:document][:lux_birthdate_ss][0] unless options&.dig(:document,:lux_birthdate_ss).nil?
+    birthdate = lux_birthdate if lux_birthdate.length > 0
+    return birthdate
+  end
+  def render_deathdate options={}
+    tms_deathdate = ""
+    lux_deathdate = ""
+    deathdate = options[:document][:tms_deathdate_ss][0] unless options&.dig(:document,:tms_deathdate_ss).nil?
+    lux_deathdate = options[:document][:lux_deathdate_ss][0] unless options&.dig(:document,:lux_deathdate_ss).nil?
+    deathdate  = lux_deathdate if lux_deathdate.length > 0
+    return deathdate
+  end
+
+  def render_luxplace options={}
+    links = []
+    options[:value].each {  |row|
+      links.append(link_to row.split("|")[0], row.split("|")[1].gsub("/data/","/view/"), target: '_blank')
+    }
+    links.join('<br/>').html_safe
+  end
+
+  def render_artwork options={}
+    links = []
+    options[:value].each {  |row|
+      #name = row.split("|")[0]
+      #entity = row.split("|")[1]
+      link = link_to row.split("|")[1], row.split("|")[0], target: '_blank'
+      name = row.split("|")[2]
+      links.append(link + " " + name)
+    }
+    links.join('<br/>').html_safe
   end
 
   def jsonld(doc)
