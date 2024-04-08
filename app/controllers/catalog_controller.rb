@@ -130,7 +130,13 @@ class CatalogController < ApplicationController
     config.add_facet_field 'exhibition_history_ss', :label => 'Exhibition History', :limit => 20
     config.add_facet_field 'credit_line_ss', :label => 'Credit Line', :limit => 20
     config.add_facet_field 'language_name_ss', :label => 'Language', :limit => 20 #marc only
-
+    config.add_facet_field 'gender_ss', :label => 'Gender' #artist only
+    config.add_facet_field 'tms_birthdate_ss', :label => 'Birth Date', single: true,range: { segments: false } #artist only
+    config.add_facet_field 'tms_deathdate_ss', :label => 'Death Date', single: true,range: { segments: false }#artist only
+    config.add_facet_field 'birthplace_ss', :label => 'Birth Place'#artist only
+    config.add_facet_field 'deathplace_ss', :label => 'Death Place'#artist only
+    config.add_facet_field 'activity_ss', :label => 'Activity'#artist only
+    config.add_facet_field 'residence_ss', :label => 'Residence'  #artist only
     # Have BL send all facet field names to Solr, which has been the default
     # previously. Simply remove these lines if you'd rather use Solr request
     # handler defaults, or have no facets.
