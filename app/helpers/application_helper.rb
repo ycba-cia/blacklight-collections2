@@ -1342,6 +1342,19 @@ module ApplicationHelper
     return jsonld_doc.to_json.html_safe
   end
 
+  def jsonld_artist(doc)
+    jsonld_doc = Hash.new
+    jsonld_doc["@context"] = "https://schema.org"
+    jsonld_doc["@type"] = "Person"
+    jsonld_doc["image"] = doc["manifest_thumbnail_ss"][0] unless doc["manifest_thumbnail_ss"].nil?
+    name = doc["name_ss"][0] unless doc["name_ss"].nil?
+    name += " " + doc["tms_birthdate_ss"][0] unless doc["tms_birthdate_ss"] == "0"
+    name += "-"
+    name += doc["tms_deathdate_ss"][0] unless doc["tms_deathhdate_ss"] == "0"
+    jsonld_doc["name"] = name
+    return jsonld_doc.to_json.html_safe
+  end
+
   #deprecated in favor of webpack
 =begin
   def mirador3_config(manifest)
