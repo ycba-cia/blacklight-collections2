@@ -6,8 +6,11 @@
 
   <% index_fields(document).each do |field_name, field| -%>
       <% if should_render_index_field? document, field %>
+        <% if (field_name == "tms_birthdate_ss" or field_name == "tms_deathdate_ss") and (field_value document, field_name) == "0" %>
+        <% else %>
           <dt class="blacklight-<%= field_name.parameterize %>"><%= render_index_field_label document, field: field_name %></dt>
           <dd class="blacklight-<%= field_name.parameterize %>"><%= field_value document, field_name %></dd>
+        <% end %>
       <% end -%>
   <% end -%>
   <% if document.to_h["detailed_onview_ss"] %>

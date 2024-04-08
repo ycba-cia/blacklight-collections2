@@ -1289,6 +1289,7 @@ module ApplicationHelper
     birthdate = options[:document][:tms_birthdate_ss][0] unless options&.dig(:document,:tms_birthdate_ss).nil?
     lux_birthdate = options[:document][:lux_birthdate_ss][0] unless options&.dig(:document,:lux_birthdate_ss).nil?
     birthdate = lux_birthdate if lux_birthdate.length > 0
+    return nil if birthdate == "0"
     return birthdate
   end
   def render_deathdate options={}
@@ -1297,6 +1298,7 @@ module ApplicationHelper
     deathdate = options[:document][:tms_deathdate_ss][0] unless options&.dig(:document,:tms_deathdate_ss).nil?
     lux_deathdate = options[:document][:lux_deathdate_ss][0] unless options&.dig(:document,:lux_deathdate_ss).nil?
     deathdate  = lux_deathdate if lux_deathdate.length > 0
+    return nil if deathdate == "0"
     return deathdate
   end
 
