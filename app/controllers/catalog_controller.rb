@@ -133,10 +133,10 @@ class CatalogController < ApplicationController
     config.add_facet_field 'gender_ss', :label => 'Gender' #artist only
     config.add_facet_field 'tms_birthdate_ss', :label => 'Birth Date', single: true,range: { segments: false } #artist only
     config.add_facet_field 'tms_deathdate_ss', :label => 'Death Date', single: true,range: { segments: false }#artist only
-    config.add_facet_field 'birthplace_ss', :label => 'Birth Place'#artist only
-    config.add_facet_field 'deathplace_ss', :label => 'Death Place'#artist only
-    config.add_facet_field 'activity_ss', :label => 'Activity'#artist only
-    config.add_facet_field 'residence_ss', :label => 'Residence'  #artist only
+    config.add_facet_field 'birthplace_facet_ss', :label => 'Birth Place'#artist only
+    config.add_facet_field 'deathplace_facet_ss', :label => 'Death Place'#artist only
+    config.add_facet_field 'activity_facet_ss', :label => 'Activity'#artist only
+    config.add_facet_field 'residence_facet_ss', :label => 'Residence'  #artist only
     # Have BL send all facet field names to Solr, which has been the default
     # previously. Simply remove these lines if you'd rather use Solr request
     # handler defaults, or have no facets.
@@ -387,6 +387,10 @@ class CatalogController < ApplicationController
 
   def display_artists_field?(context, doc)
     doc['recordtype_ss'] and doc['recordtype_ss'][0].to_s == 'artists'
+  end
+
+  def display_objects_field?(context, doc)
+    doc['recordtype_ss'] and (doc['recordtype_ss'][0].to_s == 'lido' or doc['recordtype_ss'][0].to_s == 'marc')
   end
 
   def display_objects_field?(context, doc)
