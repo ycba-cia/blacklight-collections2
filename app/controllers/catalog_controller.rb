@@ -224,7 +224,7 @@ class CatalogController < ApplicationController
     #config.add_show_field 'cite_as', accessor: 'cite_as', :label => 'Cite As', if: :display_marc_accessor_field? #don't display per #18
 
     #artists field
-    config.add_show_field 'name_ss', :label => 'Artist', separator_options: break_separator, if: :display_artists_field?
+    config.add_show_field 'name_ss', :label => 'Artist', separator_options: break_separator, helper_method: 'link_artist_to_facet', if: :display_artists_field?
     config.add_show_field 'gender_ss', :label => 'Gender', separator_options: break_separator, if: :display_artists_field?
     config.add_show_field 'tms_birthdate_ss', :label => 'Birth Date', separator_options: break_separator, helper_method: 'render_birthdate', if: :display_artists_field?
     config.add_show_field 'tms_deathdate_ss', :label => 'Death Date', separator_options: break_separator, helper_method: 'render_deathdate', if: :display_artists_field?

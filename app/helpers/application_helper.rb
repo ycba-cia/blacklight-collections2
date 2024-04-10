@@ -63,6 +63,13 @@ module ApplicationHelper
     links.join('<br/>').html_safe
   end
 
+  def link_artist_to_facet options={}
+    #don't need URI.encode_www_form_component but need gsub dashes
+    #"<a target=\"_blank\" href=\"/?f[loc_naf_author_ss][]=#{options[:document][:locnaf_ss][0].gsub(';','%3B').gsub('&','%26')}\">#{options[:value][0]}</a>".html_safe
+    #"<a target=\"_blank\" href=\"/?f[loc_naf_author_ss][]=#{URI.encode_www_form_component(options[:document][:locnaf_ss][0].gsub(';','%3B').gsub('&','%26').gsub('-','–'))}\">#{options[:value][0]}</a>".html_safe
+    "<a target=\"_blank\" href=\"/?f[loc_naf_author_ss][]=#{options[:document][:locnaf_ss][0].gsub(';','%3B').gsub('&','%26').gsub('-','–')}\">#{options[:value][0]}</a>".html_safe
+  end
+
   #deprecated
 =begin
   def render_aeon_from_call_number options={}
@@ -1305,7 +1312,10 @@ module ApplicationHelper
   def render_luxplace options={}
     links = []
     options[:value].each {  |row|
-      links.append(link_to row.split("|")[0], row.split("|")[1].gsub("/data/","/view/"), target: '_blank')
+      #links.append(link_to row.split("|")[0], row.split("|")[1].gsub("/data/","/view/"), target: '_blank')
+      luxlink = row.split("|")[1].gsub("/data/","/view/")
+      #puts "lux:" + luxlink
+      links.append(row.split("|")[0] + " [<a target='_blank' href='#{luxlink}')>View in LUX</a>]")
     }
     links.join('<br/>').html_safe
   end
