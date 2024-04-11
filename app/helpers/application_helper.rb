@@ -1327,7 +1327,8 @@ module ApplicationHelper
       #entity = row.split("|")[1]
       link = link_to row.split("|")[1], row.split("|")[0], target: '_blank'
       name = row.split("|")[2]
-      links.append(link + " " + name)
+      #links.append(link + " " + name) #commented out in favor of indent
+      links.append("<span style=\"padding-left: 2em; text-indent: -2em; display: inline-block;\">"+ link + " " + name + "</span>")
     }
     links.join('<br/>').html_safe
   end
