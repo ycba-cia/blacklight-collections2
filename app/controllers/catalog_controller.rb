@@ -228,6 +228,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'gender_ss', :label => 'Gender', separator_options: break_separator, if: :display_artists_field?
     config.add_show_field 'tms_birthdate_ss', :label => 'Birth Date', separator_options: break_separator, helper_method: 'render_birthdate', if: :display_artists_field?
     config.add_show_field 'tms_deathdate_ss', :label => 'Death Date', separator_options: break_separator, helper_method: 'render_deathdate', if: :display_artists_field?
+    config.add_show_field 'displaydate_ss', :label => 'Life Dates', separator_options: break_separator, if: :display_artists_field?
     config.add_show_field 'birthplace_ss', :label => 'Birth Place', link_to_search: true, separator_options: break_separator, helper_method: 'render_luxplace', if: :display_artists_field?
     config.add_show_field 'deathplace_ss', :label => 'Death Place', link_to_search: true, separator_options: break_separator, helper_method: 'render_luxplace', if: :display_artists_field?
     config.add_show_field 'activity_ss', :label => 'Activity Place', link_to_search: true, separator_options: break_separator, helper_method: 'render_luxplace', if: :display_artists_field?
