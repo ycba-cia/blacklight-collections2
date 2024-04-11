@@ -1322,9 +1322,12 @@ module ApplicationHelper
 
   def render_artwork options={}
     links = []
+    titles = []
     options[:value].each {  |row|
       #name = row.split("|")[0]
       #entity = row.split("|")[1]
+      next if titles.include? row.split("|")[1]
+      titles.append(row.split("|")[1])
       link = link_to row.split("|")[1], row.split("|")[0], target: '_blank'
       name = row.split("|")[2]
       #links.append(link + " " + name) #commented out in favor of indent
