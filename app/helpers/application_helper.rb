@@ -1336,6 +1336,12 @@ module ApplicationHelper
     links.join('<br/>').html_safe
   end
 
+  def render_tms_show_fields options={}
+    #commented out next line with pipe separation
+    #options[:value].each_with_index.map { |v, i| "<a href=\"/?f[#{options[:field].gsub('tms_','').gsub('_ss','_facet_ss')}][]=#{v.gsub(';','%3B').gsub('&','%26')}\">#{options[:value][i]}</a> | " }.join('</br>').chomp(" | ").html_safe
+    options[:value].each_with_index.map { |v, i| "<a href=\"/?f[#{options[:field].gsub('tms_','').gsub('_ss','_facet_ss')}][]=#{v.gsub(';','%3B').gsub('&','%26')}\">#{options[:value][i]}</a>" }.join('</br>').html_safe
+  end
+
   def jsonld(doc)
     jsonld_doc = Hash.new
     jsonld_doc["@context"] = "https://schema.org"

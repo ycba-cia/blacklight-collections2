@@ -237,6 +237,14 @@ class CatalogController < ApplicationController
     config.add_show_field 'deathplace_ss', :label => 'Death Place', link_to_search: true, separator_options: break_separator, helper_method: 'render_luxplace', if: :display_artists_field?
     config.add_show_field 'activity_ss', :label => 'Activity Place', link_to_search: true, separator_options: break_separator, helper_method: 'render_luxplace', if: :display_artists_field?
     config.add_show_field 'residence_ss', :label => 'Residence', link_to_search: true, separator_options: break_separator, helper_method: 'render_luxplace', if: :display_artists_field?
+    config.add_show_field 'tms_birthplace_ss', :label => 'TMS Birth Place', link_to_search: true, separator_options: break_separator, helper_method: 'render_tms_show_fields', if: :display_artists_field?
+    config.add_show_field 'tms_deathplace_ss', :label => 'TMS Death Place', link_to_search: true, separator_options: break_separator, helper_method: 'render_tms_show_fields', if: :display_artists_field?
+    config.add_show_field 'tms_activity_ss', :label => 'TMS Activity Place', link_to_search: true, separator_options: break_separator, helper_method: 'render_tms_show_fields', if: :display_artists_field?
+    config.add_show_field 'tms_visittour_ss', :label => 'TMS Place of Visit/Tour', link_to_search: true, separator_options: break_separator, helper_method: 'render_tms_show_fields', if: :display_artists_field?
+    config.add_show_field 'tms_nationalities_ss', :label => 'TMS Nationalities', link_to_search: true, separator_options: break_separator, helper_method: 'render_tms_show_fields', if: :display_artists_field?
+    config.add_show_field 'tms_baptism_ss', :label => 'TMS Baptism Place', link_to_search: true, separator_options: break_separator, helper_method: 'render_tms_show_fields', if: :display_artists_field?
+    config.add_show_field 'tms_studyplace_ss', :label => 'TMS Study Place', link_to_search: true, separator_options: break_separator, helper_method: 'render_tms_show_fields', if: :display_artists_field?
+
     config.add_show_field 'objects_ss', :label => 'Artwork', link_to_search: true, separator_options: break_separator, helper_method: 'render_artwork', if: :display_artists_field?
 
     # "fielded" search configuration. Used by pulldown among other places.
