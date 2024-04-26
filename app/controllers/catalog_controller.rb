@@ -137,6 +137,10 @@ class CatalogController < ApplicationController
     config.add_facet_field 'deathplace_facet_ss', :label => 'Death Place'#artist only
     config.add_facet_field 'activity_facet_ss', :label => 'Activity'#artist only
     config.add_facet_field 'residence_facet_ss', :label => 'Residence'  #artist only
+    config.add_facet_field 'visittour_facet_ss', :label => 'Place of Visit/Tour'  #artist only
+    config.add_facet_field 'nationalities_facet_ss', :label => 'Nationalities'  #artist only
+    config.add_facet_field 'baptism_facet_ss', :label => 'Place of baptism'  #artist only
+    config.add_facet_field 'studyplace_facet_ss', :label => 'Place of study'  #artist only
     # Have BL send all facet field names to Solr, which has been the default
     # previously. Simply remove these lines if you'd rather use Solr request
     # handler defaults, or have no facets.
