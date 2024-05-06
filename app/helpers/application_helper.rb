@@ -1309,6 +1309,53 @@ module ApplicationHelper
     return deathdate
   end
 
+  def render_birth_info options={}
+    info = ""
+    info += options[:value][0]
+    if options[:document][:tms_birthplace_ss]
+      f = "tms_birthplace_ss"
+      v = options[:document][:tms_birthplace_ss][0]
+      info += ", <a target='_blank' href=\"/?f[#{f.gsub('tms_','').gsub('_ss','_facet_ss')}][]=#{v.gsub(';','%3B').gsub('&','%26')}\">#{v}</a> [YCBA]"
+    end
+    if options[:document][:birthplace_ss]
+      v = options[:document][:birthplace_ss][0].split("|")[1].gsub("/data/","/view/")
+      info += ", [<a target='_blank' href='#{v}'>View map in LUX</a>]"
+    end
+    return info.html_safe
+  end
+
+  def render_death_info options={}
+    info = ""
+    info += options[:value][0]
+    if options[:document][:tms_deathplace_ss]
+      f = "tms_birthplace_ss"
+      v = options[:document][:tms_deathplace_ss][0]
+      info += ", <a target='_blank' href=\"/?f[#{f.gsub('tms_','').gsub('_ss','_facet_ss')}][]=#{v.gsub(';','%3B').gsub('&','%26')}\">#{v}</a> [YCBA]"
+    end
+    if options[:document][:deathplace_ss]
+      v = options[:document][:deathplace_ss][0].split("|")[1].gsub("/data/","/view/")
+      info += ", [<a target='_blank' href='#{v}'>View map in LUX</a>]"
+    end
+    return info.html_safe
+  end
+
+  def render_activity_info options={}
+    info = ""
+
+
+    options[:value].each {  |row|
+      #info += row
+      info += "<a target='_blank' href=\"/?f[#{options[:field]}][]=#{row.gsub(';','%3B').gsub('&','%26')}\">#{row}</a> [YCBA]"
+      options[:document][:activity_ss].each { |row2|
+        if row == row2.split("|")[0]
+          info += ", [<a target='_blank' href='#{row2.split("|")[1].gsub("/data/","/view/")}'>View map in LUX</a>]"
+        end
+      }
+      info += "</br>"
+    }
+    return info.html_safe
+  end
+
   def render_luxplace options={}
     links = []
     options[:value].each {  |row|
