@@ -1312,6 +1312,7 @@ module ApplicationHelper
   def render_birth_info options={}
     info = ""
     info += options[:value][0]
+    return if info == "0"
     info += "</br>"
     if options[:document][:birthplace_facet_ss]
       options[:document][:birthplace_facet_ss].each do |row|
@@ -1335,6 +1336,7 @@ module ApplicationHelper
   def render_death_info options={}
     info = ""
     info += options[:value][0]
+    return if info == "0"
     info += "</br>"
     if options[:document][:deathplace_facet_ss]
       options[:document][:deathplace_facet_ss].each do |row|
