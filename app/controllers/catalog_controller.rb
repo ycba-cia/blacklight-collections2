@@ -230,24 +230,24 @@ class CatalogController < ApplicationController
     #artists field
     config.add_show_field 'name_ss', :label => 'Artist', separator_options: break_separator, helper_method: 'link_artist_to_facet', if: :display_artists_field?
     config.add_show_field 'gender_ss', :label => 'Gender', link_to_search: true, separator_options: break_separator, if: :display_artists_field?
+    config.add_show_field 'displaydate_ss', :label => 'Life Dates', separator_options: break_separator, if: :display_artists_field?
+
     config.add_show_field 'tms_birthdate_ss', :label => 'Birth', helper_method: 'render_birth_info', if: :display_artists_field?
     config.add_show_field 'tms_deathdate_ss', :label => 'Death', helper_method: 'render_death_info', if: :display_artists_field?
     config.add_show_field 'activity_facet_ss', :label => 'Activity', helper_method: 'render_activity_info', if: :display_artists_field?
-
     #config.add_show_field 'tms_birthdate_ss', :label => 'Birth Date', separator_options: break_separator, helper_method: 'render_birthdate', if: :display_artists_field?
     #config.add_show_field 'tms_deathdate_ss', :label => 'Death Date', separator_options: break_separator, helper_method: 'render_deathdate', if: :display_artists_field?
-    #config.add_show_field 'displaydate_ss', :label => 'Life Dates', separator_options: break_separator, if: :display_artists_field?
     #config.add_show_field 'birthplace_ss', :label => 'Birth Place', link_to_search: true, separator_options: break_separator, helper_method: 'render_luxplace', if: :display_artists_field?
     #config.add_show_field 'deathplace_ss', :label => 'Death Place', link_to_search: true, separator_options: break_separator, helper_method: 'render_luxplace', if: :display_artists_field?
     #config.add_show_field 'activity_ss', :label => 'Activity Place', link_to_search: true, separator_options: break_separator, helper_method: 'render_luxplace', if: :display_artists_field?
-    #config.add_show_field 'residence_ss', :label => 'Residence', link_to_search: true, separator_options: break_separator, helper_method: 'render_luxplace', if: :display_artists_field?
+    config.add_show_field 'residence_ss', :label => 'Residence', link_to_search: true, separator_options: break_separator, helper_method: 'render_luxplace', if: :display_artists_field?
     #config.add_show_field 'tms_birthplace_ss', :label => 'TMS Birth Place', link_to_search: true, separator_options: break_separator, helper_method: 'render_tms_show_fields', if: :display_artists_field?
     #config.add_show_field 'tms_deathplace_ss', :label => 'TMS Death Place', link_to_search: true, separator_options: break_separator, helper_method: 'render_tms_show_fields', if: :display_artists_field?
     #config.add_show_field 'tms_activity_ss', :label => 'TMS Activity Place', link_to_search: true, separator_options: break_separator, helper_method: 'render_tms_show_fields', if: :display_artists_field?
-    #config.add_show_field 'tms_visittour_ss', :label => 'TMS Place of Visit/Tour', link_to_search: true, separator_options: break_separator, helper_method: 'render_tms_show_fields', if: :display_artists_field?
-    #config.add_show_field 'tms_nationalities_ss', :label => 'TMS Nationalities', link_to_search: true, separator_options: break_separator, helper_method: 'render_tms_show_fields', if: :display_artists_field?
-    #config.add_show_field 'tms_baptism_ss', :label => 'TMS Baptism Place', link_to_search: true, separator_options: break_separator, helper_method: 'render_tms_show_fields', if: :display_artists_field?
-    #config.add_show_field 'tms_studyplace_ss', :label => 'TMS Study Place', link_to_search: true, separator_options: break_separator, helper_method: 'render_tms_show_fields', if: :display_artists_field?
+    config.add_show_field 'tms_visittour_ss', :label => 'Place of Visit/Tour', link_to_search: true, separator_options: break_separator, helper_method: 'render_tms_show_fields', if: :display_artists_field?
+    config.add_show_field 'tms_nationalities_ss', :label => 'Nationalities', link_to_search: true, separator_options: break_separator, helper_method: 'render_tms_show_fields', if: :display_artists_field?
+    config.add_show_field 'tms_baptism_ss', :label => 'Baptism Place', link_to_search: true, separator_options: break_separator, helper_method: 'render_tms_show_fields', if: :display_artists_field?
+    config.add_show_field 'tms_studyplace_ss', :label => 'Study Place', link_to_search: true, separator_options: break_separator, helper_method: 'render_tms_show_fields', if: :display_artists_field?
 
     config.add_show_field 'objects_ss', :label => 'Artwork', link_to_search: true, separator_options: break_separator, helper_method: 'render_artwork', if: :display_artists_field?
 

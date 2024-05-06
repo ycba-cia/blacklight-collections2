@@ -1313,17 +1313,21 @@ module ApplicationHelper
     info = ""
     info += options[:value][0]
     info += "</br>"
-    options[:document][:birthplace_facet_ss].each do |row|
-      #info+= row
-      f = "birthplace_facet_ss"
-      v = row
-      info+= "<a target='_blank' href=\"/?f[#{f}][]=#{v.gsub(';','%3B').gsub('&','%26')}\">#{v}</a> [YCBA]"
-      options[:document][:birthplace_ss].each { |row2|
-        if row == row2.split("|")[0]
-          info += ", [<a target='_blank' href='#{row2.split("|")[1].gsub("/data/","/view/")}'>View map in LUX</a>]"
+    if options[:document][:birthplace_facet_ss]
+      options[:document][:birthplace_facet_ss].each do |row|
+        #info+= row
+        f = "birthplace_facet_ss"
+        v = row
+        info+= "<a target='_blank' href=\"/?f[#{f}][]=#{v.gsub(';','%3B').gsub('&','%26')}\">#{v}</a> [YCBA]"
+        if options[:document][:birthplace_ss]
+          options[:document][:birthplace_ss].each { |row2|
+            if row == row2.split("|")[0]
+              info += ", [<a target='_blank' href='#{row2.split("|")[1].gsub("/data/","/view/")}'>View map in LUX</a>]"
+            end
+          }
         end
-      }
-      info += "</br>"
+        info += "</br>"
+      end
     end
     return info.html_safe
   end
@@ -1332,17 +1336,21 @@ module ApplicationHelper
     info = ""
     info += options[:value][0]
     info += "</br>"
-    options[:document][:deathplace_facet_ss].each do |row|
-      #info+= row
-      f = "deathplace_facet_ss"
-      v = row
-      info+= "<a target='_blank' href=\"/?f[#{f}][]=#{v.gsub(';','%3B').gsub('&','%26')}\">#{v}</a> [YCBA]"
-      options[:document][:deathplace_ss].each { |row2|
-        if row == row2.split("|")[0]
-          info += ", [<a target='_blank' href='#{row2.split("|")[1].gsub("/data/","/view/")}'>View map in LUX</a>]"
+    if options[:document][:deathplace_facet_ss]
+      options[:document][:deathplace_facet_ss].each do |row|
+        #info+= row
+        f = "deathplace_facet_ss"
+        v = row
+        info+= "<a target='_blank' href=\"/?f[#{f}][]=#{v.gsub(';','%3B').gsub('&','%26')}\">#{v}</a> [YCBA]"
+        if options[:document][:deathplace_ss]
+          options[:document][:deathplace_ss].each { |row2|
+            if row == row2.split("|")[0]
+              info += ", [<a target='_blank' href='#{row2.split("|")[1].gsub("/data/","/view/")}'>View map in LUX</a>]"
+            end
+          }
         end
-      }
-      info += "</br>"
+        info += "</br>"
+      end
     end
     return info.html_safe
   end
@@ -1352,11 +1360,13 @@ module ApplicationHelper
     options[:value].each {  |row|
       #info += row
       info += "<a target='_blank' href=\"/?f[#{options[:field]}][]=#{row.gsub(';','%3B').gsub('&','%26')}\">#{row}</a> [YCBA]"
-      options[:document][:activity_ss].each { |row2|
-        if row == row2.split("|")[0]
-          info += ", [<a target='_blank' href='#{row2.split("|")[1].gsub("/data/","/view/")}'>View map in LUX</a>]"
-        end
-      }
+      if options[:document][:activity_ss]
+        options[:document][:activity_ss].each { |row2|
+          if row == row2.split("|")[0]
+            info += ", [<a target='_blank' href='#{row2.split("|")[1].gsub("/data/","/view/")}'>View map in LUX</a>]"
+          end
+        }
+      end
       info += "</br>"
     }
     return info.html_safe
