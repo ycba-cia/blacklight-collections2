@@ -1,3 +1,11 @@
+<script async src="https://www.googletagmanager.com/gtag/js?id=<%= ENV['GTAG'] %>"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', '<%= ENV["GTAG"] %>');
+</script>
 <meta name="robots" content="noindex">
 <style type="text/css" media="print">
   .printbutton {
