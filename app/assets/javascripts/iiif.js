@@ -603,8 +603,8 @@ function selectdl(download,id,doc) {
     $("#print-container-large").html(print_info_large);
 
     //https://www.simpleanalytics.com/glossary/google-analytics/add-google-analytics-to-ruby-on-rails
-    //google analytics proof of concept click event - commented out
-    /*$(document).ready(function() {
+    //google analytics proof of concept click event
+    $(document).ready(function() {
         $("#print-button").click(function() {
             console.log("print-button GA4 event");
             gtag('event', 'click', {
@@ -612,7 +612,21 @@ function selectdl(download,id,doc) {
                 'event_label': 'print-button'
             });
         });
-    });*/
+        $("#jpeg-dl-button").click(function() {
+            console.log("jpeg-dl-button GA4 event");
+            gtag('event', 'click', {
+                'event_category': 'Button',
+                'event_label': 'jpeg-dl-button'
+            });
+        });
+        $("#tiff-dl-button").click(function() {
+            console.log("tiff-dl-button GA4 event");
+            gtag('event', 'click', {
+                'event_category': 'Button',
+                'event_label': 'tiff-dl-button'
+            });
+        });
+    });
 
 }
 
