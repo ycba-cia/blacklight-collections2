@@ -38,9 +38,6 @@
     <!--<div id="print-object" class="btn btn-primary col-xs-3" align="center">
       <%#= link_to("Print Object", "/print/#{@id}/1", style: "color: white;", target: "_blank") %>
     </div>-->
-    <div id="ycba-request-photography" class="btn btn-primary col-xs-3" align="center">
-      <%= link_to("Request additional photography", image_request_link(document), style: "color: white;", target: "_blank") %>
-    </div>
 
     <div id="print-container-largemain" class="col-xs-1">
       <div id="print-button-largemain" type="button" class="btn btn-primary">
@@ -102,7 +99,6 @@
   <%= render_ycba_item_header(document, :tag => :span, :fontsize => "20px") %>
   <div class="row">
     <div id="ycba-request-photography" class="col-xs-12" align="center">
-      <%= link_to("Request photography", image_request_link(document), target: "_blank",) %>&nbsp;|&nbsp;
       <%= link_to("Print Object", "/print/#{@id}/1/9999", target: "_blank") %>
       <% if document[:eshop_ss] %>
         <%= link_to("Visit museum shop for related items", document[:eshop_ss][0], target: "_blank") %>

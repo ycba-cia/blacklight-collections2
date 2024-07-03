@@ -30,11 +30,6 @@
     <div id="ycba-downloads-container">
       <%= render partial: "downloads", locals: {document: document} %>
     </div>
-    <% if document["collection_ss"][0] == "Rare Books and Manuscripts" %>
-      <div id="ycba-request-photography" class="btn btn-primary col-xs-3" align="center">
-        <%= link_to("Request additional photography", image_request_link(document), style: "color: white;", target: "_blank") %>
-      </div>
-    <% end %>
 
     <div id="print-container-largemain" class="col-xs-1">
         <div id="print-button-largemain" type="button" class="btn btn-primary">
@@ -105,9 +100,6 @@
   <%= render_ycba_item_header(document, :tag => :span, :fontsize => "20px") %>
   <div class="row">
     <div id="ycba-request-photography" class="col-xs-12" align="center">
-      <% if document["collection_ss"][0] == "Rare Books and Manuscripts" %>
-        <%= link_to("Request photography", image_request_link(document), target: "_blank") %>&nbsp;|&nbsp;
-      <% end %>
       <%= link_to("Print Object", "/print/#{@id}/1/9999", target: "_blank") %>
     </div>
   </div>
