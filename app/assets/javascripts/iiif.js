@@ -602,5 +602,17 @@ function selectdl(download,id,doc) {
     $("#print-container-all").html(print_info_all);
     $("#print-container-large").html(print_info_large);
 
+    //https://www.simpleanalytics.com/glossary/google-analytics/add-google-analytics-to-ruby-on-rails
+    //google analytics proof of concept click event - commented out
+    /*$(document).ready(function() {
+        $("#print-button").click(function() {
+            console.log("print-button GA4 event");
+            gtag('event', 'click', {
+                'event_category': 'Button',
+                'event_label': 'print-button'
+            });
+        });
+    });*/
+
 }
 
