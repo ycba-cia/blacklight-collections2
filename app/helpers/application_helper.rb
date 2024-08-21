@@ -199,6 +199,14 @@ module ApplicationHelper
    options[:value].each_with_index.map { |v, i| "<a href=\"/?f[#{options[:field].gsub('_acc','_ss')}][]=#{v.gsub(';','%3B').gsub('&','%26')}\">#{options[:value][i]}</a> | " }.join('</br>').chomp(" | ").html_safe
   end
 
+  def link_to_fa options={}
+    "<a href=\"#{options[:value][0]}\">#{options[:value][0]}</a>".html_safe
+  end
+
+  def make_link(field)
+    "<a href=\"#{field}\">#{field}</a>".html_safe
+  end
+
   #used with render_related_content? method in catalog_controller.rb
   def render_related_content options={}
     links = []
@@ -808,6 +816,15 @@ module ApplicationHelper
     return url
   end
 
+  def get_archival_object(doc)
+    if doc[:recordtype_ss]
+      if doc[:recordtype_ss][0].to_s == 'archival'
+        url = "https://archives.yale.edu" + doc[:archival_path_ss][0]
+      end
+    end
+    return url
+  end
+
   def get_manifest_from_document(doc)
     if doc[:recordtype_ss]
       if doc[:recordtype_ss][0].to_s == 'marc'
@@ -1412,13 +1429,14 @@ module ApplicationHelper
     jsonld_doc["@context"] = "https://schema.org"
     jsonld_doc["@type"] = "VisualArtwork" if doc[:recordtype_ss][0] == "lido"
     jsonld_doc["@type"] = "CreativeWork" if doc[:recordtype_ss][0] == "marc"
+    jsonld_doc["@type"] = "ArchiveComponent" if doc[:recordtype_ss][0] == "archival"
     jsonld_doc["name"] = doc["title_ss"][0] unless doc["title_ss"].nil?
     jsonld_doc["image"] = doc["manifest_thumbnail_ss"][0] unless doc["manifest_thumbnail_ss"].nil?
 
     creator = Hash.new
     creator["@type"] = "Person"
     creator["name"] = doc["loc_naf_author_ss"][0] unless doc["loc_naf_author_ss"].nil?
-    if doc[:recordtype_ss][0] == "marc"
+    if doc[:recordtype_ss][0] == "marc" or doc[:recordtype_ss][0] == "archival"
       jsonld_doc["creator"] = creator unless doc["loc_naf_author_ss"].nil?
     end
     if doc[:recordtype_ss][0] == "lido"
