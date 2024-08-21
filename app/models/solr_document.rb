@@ -50,6 +50,10 @@ class SolrDocument
     self['title_ss']
   end
 
+  def title2_acc
+    self['title_ss']
+  end
+
   def author_acc
     self['author_ss']
   end
@@ -67,6 +71,10 @@ class SolrDocument
   end
 
   def type_acc
+    self['type_ss']
+  end
+
+  def type2_acc
     self['type_ss']
   end
 

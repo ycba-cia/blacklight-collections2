@@ -141,6 +141,9 @@ class CatalogController < ApplicationController
     config.add_facet_field 'nationalities_facet_ss', :label => 'Nationalities'  #artist only
     config.add_facet_field 'baptism_facet_ss', :label => 'Place of baptism'  #artist only
     config.add_facet_field 'studyplace_facet_ss', :label => 'Place of study'  #artist only
+    #TODO harmonized facets for archival: loc_naf_author_ss,earliest_date_is
+
+
     # Have BL send all facet field names to Solr, which has been the default
     # previously. Simply remove these lines if you'd rather use Solr request
     # handler defaults, or have no facets.
@@ -164,6 +167,9 @@ class CatalogController < ApplicationController
     config.add_index_field 'gender_ss', :label => 'Gender'
     config.add_index_field 'tms_birthdate_ss', :label => 'Birth'
     config.add_index_field 'tms_deathdate_ss', :label => 'Death'
+    config.add_index_field 'creator_ss', :label => 'Creator', if: :display_archival_field?
+    config.add_index_field 'date_ss', :label => 'Date', if: :display_archival_field?
+    config.add_index_field 'collection_ss', :label => 'Collection', if: :display_archival_field?
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
@@ -250,6 +256,24 @@ class CatalogController < ApplicationController
     config.add_show_field 'tms_studyplace_ss', :label => 'Study Place', link_to_search: true, separator_options: break_separator, helper_method: 'render_tms_show_fields', if: :display_artists_field?
 
     config.add_show_field 'objects_ss', :label => 'Artwork', link_to_search: true, separator_options: break_separator, helper_method: 'render_artwork', if: :display_artists_field?
+
+    #archival fields
+    config.add_show_field 'creator_ss', :label => 'Creator', helper_method: 'link_to_author', separator_options: break_separator, if: :display_archival_field?
+    config.add_show_field 'title2_acc', :accessor => 'title2_acc', :label => 'Title(s)', helper_method: 'render_titles_all', if: :display_archival_accessor_field?
+    config.add_show_field 'date_ss', :label => 'Date', if: :display_archival_field?
+    config.add_show_field 'arcRights_ss', :label => 'Rights', if: :display_archival_field?
+    config.add_show_field 'collection_acc', :accessor => 'collection_acc', :label => 'Collection', if: :display_archival_accessor_field?
+    config.add_show_field 'arcExtent_ss', :label => 'Extent', if: :display_archival_field?
+    config.add_show_field 'arcSeries_ss', :label => 'Series', if: :display_archival_field?
+    config.add_show_field 'arcContainerGrouping_ss', :label => 'ContainerGrouping', if: :display_archival_field?
+    config.add_show_field 'arcCallNumber_ss', :label => 'CallNumber', if: :display_archival_field?
+    config.add_show_field 'arcProvenanceUncontrolled_ss', :label => 'Provenance', if: :display_archival_field?
+    config.add_show_field 'type2_acc', :accessor => 'type2_acc', :label => 'Classification', if: :display_archival_accessor_field?
+    config.add_show_field 'arcAbstract_ss', :label => 'Abstract', if: :display_archival_field?
+    config.add_show_field 'arcDescription_ss', :label => 'Description', if: :display_archival_field?
+    config.add_show_field 'arcArrangement_ss', :label => 'Arrangement', if: :display_archival_field?
+
+
 
     # "fielded" search configuration. Used by pulldown among other places.
     # For supported keys in hash, see rdoc for Blacklight::SearchFields
@@ -404,6 +428,14 @@ class CatalogController < ApplicationController
 
   def display_artists_field?(context, doc)
     doc['recordtype_ss'] and doc['recordtype_ss'][0].to_s == 'artists'
+  end
+
+  def display_archival_field?(context, doc)
+    doc['recordtype_ss'] and doc['recordtype_ss'][0].to_s == 'archival'
+  end
+
+  def display_archival_accessor_field?(context, doc)
+    display_archival_field?(context, doc) and !context.accessor.nil? and !doc.send(context.accessor).nil?
   end
 
   def display_objects_field?(context, doc)
