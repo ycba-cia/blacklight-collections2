@@ -825,6 +825,15 @@ module ApplicationHelper
     return url
   end
 
+  def get_archival_metadata(doc)
+    if doc[:recordtype_ss]
+      if doc[:recordtype_ss][0].to_s == 'archival'
+        url = "https://metadata-api.library.yale.edu/metadatacloud/api/aspace"+doc[:archival_path_ss][0]+"?mediaType=json"
+      end
+    end
+    return url
+  end
+
   def get_manifest_from_document(doc)
     if doc[:recordtype_ss]
       if doc[:recordtype_ss][0].to_s == 'marc'
