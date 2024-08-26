@@ -200,11 +200,11 @@ module ApplicationHelper
   end
 
   def link_to_fa options={}
-    "<a href=\"#{options[:value][0]}\">#{options[:value][0]}</a>".html_safe
+    "<a href=\"#{options[:value][0]}\" target=\"_blank\">#{options[:value][0]}</a>".html_safe
   end
 
   def make_link(field)
-    "<a href=\"#{field}\">#{field}</a>".html_safe
+    "<a href=\"#{field}\" target=\"_blank\">#{field}</a>".html_safe
   end
 
   #used with render_related_content? method in catalog_controller.rb
@@ -840,7 +840,12 @@ module ApplicationHelper
         url = "https://manifests.collections.yale.edu/ycba/orb/" + doc[:id].split(":")[1]
       elsif doc[:recordtype_ss][0].to_s == 'lido'
         url = "https://manifests.collections.yale.edu/ycba/obj/" + doc[:id].split(":")[1]
+      elsif doc[:recordtype_ss][0].to_s == 'archival'
+        url = "https://manifests.collections.yale.edu/ycba/aas/" + doc[:id].split(":")[1]
+      elsif doc[:recordtype_ss][0].to_s == 'artists'
+        url = "https://manifests.collections.yale.edu/ycba/cre/" + doc[:id].split(":")[1]
       end
+
     end
     return url
   end

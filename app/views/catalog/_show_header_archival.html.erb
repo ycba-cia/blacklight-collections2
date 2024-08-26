@@ -44,10 +44,10 @@
           <div>IIIF provides researchers rich metadata and media viewing options for comparison of works across cultural heritage collections. Visit the <a target="_blank" href="https://iiif.io">IIIF page</a> to learn more.</div>
           <hr>
           <div><%= link_to("View Manifest",get_manifest_from_document(@document),target: :_blank) %></div>
-          <div><a target="_blank" href="https://view.collections.yale.edu/uv3/?manifest=https://manifests.collections.yale.edu/ycba/obj/<%= @document['id'].split(":")[1] %>">View in Universal Viewer</a></div>
-          <div><a target="_blank" href="https://view.collections.yale.edu/m3/?manifest=https://manifests.collections.yale.edu/ycba/obj/<%= @document['id'].split(":")[1] %>">View in Mirador 3</a></div>
+          <div><a target="_blank" href="https://view.collections.yale.edu/uv3/?manifest=https://manifests.collections.yale.edu/ycba/aas/<%= @document['id'].split(":")[1] %>">View in Universal Viewer</a></div>
+          <div><a target="_blank" href="https://view.collections.yale.edu/m3/?manifest=https://manifests.collections.yale.edu/ycba/aas/<%= @document['id'].split(":")[1] %>">View in Mirador 3</a></div>
           <div>
-            <a target="_blank" href="https://view.collections.yale.edu/uv3/?manifest=https://manifests.collections.yale.edu/ycba/obj/<%= @document['id'].split(":")[1] %>">
+            <a target="_blank" href="https://view.collections.yale.edu/uv3/?manifest=https://manifests.collections.yale.edu/ycba/aas/<%= @document['id'].split(":")[1] %>">
               <img src="<%= path_to_image('logo-iiif.png') %>" class='img-responsive' alt='IIIF Manifest' title='Drag and Drop' draggable>
             </a>
           </div>
