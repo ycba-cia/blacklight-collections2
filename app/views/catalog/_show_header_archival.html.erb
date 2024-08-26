@@ -22,6 +22,63 @@
         </iframe>
       </div>
     </div>
+    <div class="row">
+      <div class="col-xs-1">&nbsp;</div>
+      <div id="ycba-downloads-container" align="center">
+        <%= render partial: "downloads", locals: {document: document} %>
+      </div>
+      <!--<div id="print-object" class="btn btn-primary col-xs-3" align="center">
+      <%#= link_to("Print Object", "/print/#{@id}/1", style: "color: white;", target: "_blank") %>
+    </div>-->
+
+      <div id="print-container-largemain" class="col-xs-1">
+        <div id="print-button-largemain" type="button" class="btn btn-primary">
+          <%= link_to("Large Print","/print/"+document[:id]+"/2/0", style: "color: white;", target: "_blank") %>
+        </div>
+      </div>
+
+      <div id="ycba-thumbnail-controls" class="col-xs-1" align="center">
+        <a class="iiifpopover" data-placement="bottom" title="Image Interoperability Framework">
+          <img src="<%= path_to_image('logo-iiif.png') %>" class='img-responsive' alt='IIIF Actions' title='IIIF Actions' draggable></a>
+        <div id="iiifpopover_content_wrapper" style="display: none;">
+          <div>IIIF provides researchers rich metadata and media viewing options for comparison of works across cultural heritage collections. Visit the <a target="_blank" href="https://iiif.io">IIIF page</a> to learn more.</div>
+          <hr>
+          <div><%= link_to("View Manifest",get_manifest_from_document(@document),target: :_blank) %></div>
+          <div><a target="_blank" href="https://view.collections.yale.edu/uv3/?manifest=https://manifests.collections.yale.edu/ycba/obj/<%= @document['id'].split(":")[1] %>">View in Universal Viewer</a></div>
+          <div><a target="_blank" href="https://view.collections.yale.edu/m3/?manifest=https://manifests.collections.yale.edu/ycba/obj/<%= @document['id'].split(":")[1] %>">View in Mirador 3</a></div>
+          <div>
+            <a target="_blank" href="https://view.collections.yale.edu/uv3/?manifest=https://manifests.collections.yale.edu/ycba/obj/<%= @document['id'].split(":")[1] %>">
+              <img src="<%= path_to_image('logo-iiif.png') %>" class='img-responsive' alt='IIIF Manifest' title='Drag and Drop' draggable>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div id="right-icons" class="col-xs-2" align="center">
+        <% if document_field_exists?(document,"rightsURL_ss") && document["rightsURL_ss"][0].to_s.include?("rightsstatements.org/vocab/InC/1.0/") %>
+          <a target="_blank" href="https://rightsstatements.org/vocab/InC/1.0/">
+            <img width="135px;"src='https://rightsstatements.org/files/buttons/InC.dark-white-interior-blue-type.png' class='img-responsive' alt='In Copyright' title='In Copyright'>
+          </a>
+        <% end %>
+        <% if document_field_exists?(document,"rightsURL_ss") && document["rightsURL_ss"][0].to_s.include?("creativecommons.org/publicdomain/zero/1.0/") %>
+          <a target="_blank" href="https://creativecommons.org/publicdomain/zero/1.0/">
+            <img width="135px;" src='https://mirrors.creativecommons.org/presskit/buttons/88x31/png/cc-zero.png' class='img-responsive' alt='Public Domain' title='Public Domain'>
+          </a>
+        <% end %>
+        <% if document_field_exists?(document,"rightsURL_ss") && document["rightsURL_ss"][0].to_s.include?("rightsstatements.org/vocab/UND/1.0/") %>
+          <a target="_blank" href="https://rightsstatements.org/vocab/UND/1.0/">
+            <img src='https://rightsstatements.org/files/buttons/UND.dark-white-interior-blue-type.png' class='img-responsive' alt='Copyright Undetermined' title='Copyright Undetermined'>
+          </a>
+        <% end %>
+        <% if document_field_exists?(document,"rightsURL_ss") && document["rightsURL_ss"][0].to_s.include?("https://rightsstatements.org/vocab/NoC-CR/1.0/") %>
+          <a target="_blank" href="https://rightsstatements.org/vocab/NoC-CR/1.0/">
+            <img src='https://rightsstatements.org/files/buttons/NoC-CR.dark-white-interior-blue-type.png' class='img-responsive' alt='Contractual Restrictions' title='Contractual Restrictions'>
+          </a>
+        <% end %>
+      </div>
+    </div>
+    <!-- former place of eshop-->
+  </div>
 <% else %>
   <div id="non-image-section">
     <%= render_ycba_item_header_arc(document, :tag => :span, :fontsize => "20px") %>

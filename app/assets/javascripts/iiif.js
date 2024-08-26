@@ -540,6 +540,16 @@ function selectdl(download,id,doc) {
         if (doc["credit_line_ss"] != null) { cap1.push(doc["credit_line_ss"][0]); }
         $("#caption-dl-info").text(cap1.join(", ") + ".");
     }
+
+    if (recordtype=="archival") {
+        console.log(recordtype);
+        console.log(doc);
+        var cap1 = [];
+        if (doc["creator_ss"] != null) { cap1.push(doc["creator_ss"][0]); }
+        if (doc["title_ss"] != null) { cap1.push(doc["title_ss"][0]); }
+        if (doc["date_ss"] != null) { cap1.push(doc["date_ss"][0]); }
+        $("#caption-dl-info").text(cap1.join(", ") + ".");
+    }
     if (download[2].length == 0) {
         jpeg_info += "<a href='" + download[2] + "' download='" + download[1] + "' target=\"_blank\">";
         jpeg_info += "<button id='jpeg-dl-button' type='button' class='btn btn-primary btn-sm' disabled>JPEG</button>";

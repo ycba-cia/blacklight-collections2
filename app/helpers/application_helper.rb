@@ -1258,6 +1258,8 @@ module ApplicationHelper
   def get_download_array_from_manifest
     manifest = "https://manifests.collections.yale.edu/ycba/obj/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "lido"
     manifest = "https://manifests.collections.yale.edu/ycba/orb/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "marc"
+    manifest = "https://manifests.collections.yale.edu/ycba/aas/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "archival"
+
     #puts "MANIFEST:"+manifest;
     download_array = Array.new()
     begin
