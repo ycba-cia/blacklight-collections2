@@ -1255,10 +1255,24 @@ module ApplicationHelper
     content_tag("div", fullheader, style:"text-align:center", itemprop: "name", id: "fullheader")
   end
 
+  def render_ycba_item_header_cre(*args)
+    options = args.extract_options!
+    document = args.first
+    tag = options.fetch(:tag, :h4)
+    fontsize = options.fetch(:fontsize, "12px")
+    document ||= @document
+
+    header = Array.new
+    header.push(content_tag(tag, document["locnaf_ss"][0], style: "font-size: #{fontsize}")) if document["locnaf_ss"]
+    fullheader = header.join(", ").html_safe
+    content_tag("div", fullheader, style:"text-align:center", itemprop: "name", id: "fullheader")
+  end
+
   def get_download_array_from_manifest
     manifest = "https://manifests.collections.yale.edu/ycba/obj/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "lido"
     manifest = "https://manifests.collections.yale.edu/ycba/orb/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "marc"
     manifest = "https://manifests.collections.yale.edu/ycba/aas/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "archival"
+    manifest = "https://manifests.collections.yale.edu/ycba/cre/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "artists"
 
     #puts "MANIFEST:"+manifest;
     download_array = Array.new()
@@ -1293,6 +1307,8 @@ module ApplicationHelper
     manifest = "https://manifests.collections.yale.edu/ycba/obj/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "lido"
     manifest = "https://manifests.collections.yale.edu/ycba/orb/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "marc"
     manifest = "https://manifests.collections.yale.edu/ycba/aas/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "archival"
+    manifest = "https://manifests.collections.yale.edu/ycba/cre/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "artists"
+    #
     #puts "MANIFEST:"+manifest;
     download_array = Array.new()
     begin
@@ -1313,6 +1329,8 @@ module ApplicationHelper
     url = "https://manifests.collections.yale.edu/ycba/obj/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "lido"
     url = "https://manifests.collections.yale.edu/ycba/orb/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "marc"
     url = "https://manifests.collections.yale.edu/ycba/aas/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "archival"
+    url = "https://manifests.collections.yale.edu/ycba/cre/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "artists"
+
     uri = URI(url)
     response = Net::HTTP.get(uri)
     begin
