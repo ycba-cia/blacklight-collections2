@@ -1,4 +1,39 @@
 <script type="application/ld+json">
   <%= jsonld(document) %>
 </script>
-<h2>Image placeholder</h2>
+<% if manifest? %>
+  <div id="image-section" >
+    <div class="row" style="padding-bottom: 10px">
+      <% if manifest_thumb? %>
+        <% iframe_width = "100%" %>
+        <% iframe_height = "55vh" %>
+      <% else %>
+        <% iframe_width = "100%" %>
+        <% iframe_height = "80vh" %>
+      <% end %>
+      <div class="uv-container" style="position: relative; margin: auto; width:<%= iframe_width %>; height:<%= iframe_height %>;">
+        <iframe
+          class="universal-viewer-iframe"
+          title="Universal Viewer"
+          src="<%= request&.base_url %>/uv/uv.html#?config=uv-config-lido.json&manifest=https://manifests.collections.yale.edu/v2/ycba/aas/<%= @document['id'].split(":")[1] %>"
+          style="width:<%= iframe_width %>; height:<%= iframe_height %>;"
+          allowfullscreen
+          frameborder="0">
+        </iframe>
+      </div>
+    </div>
+<% else %>
+  <div id="non-image-section">
+    <%= render_ycba_item_header_arc(document, :tag => :span, :fontsize => "20px") %>
+    <div class="row">
+      <div id="ycba-request-photography" class="col-xs-12" align="center">
+        <%= link_to("Print Record", "/print/#{@id}/1/9999", target: "_blank") %>
+        <span> | </span>
+        <%= link_to("Large Print Record", "/print/#{@id}/2/9999", target: "_blank") %>
+        <% if document[:eshop_ss] %>
+          <%= link_to("Visit museum shop for related items", document[:eshop_ss][0], target: "_blank") %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>
