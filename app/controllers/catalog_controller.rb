@@ -141,7 +141,7 @@ class CatalogController < ApplicationController
     config.add_facet_field 'nationalities_facet_ss', :label => 'Nationalities'  #artist only
     config.add_facet_field 'baptism_facet_ss', :label => 'Place of baptism'  #artist only
     config.add_facet_field 'studyplace_facet_ss', :label => 'Place of study'  #artist only
-    config.add_facet_field 'arcFindingAid_ss', :label=> 'Finding Aid' #archival only
+    config.add_facet_field 'arcFindingAid_ss', :label=> 'Archival Collections' #archival only
     #TODO harmonized facets for archival: loc_naf_author_ss,earliest_date_is
 
 
