@@ -82,6 +82,10 @@ class SolrDocument
     self['topic_ss']
   end
 
+  def topic2_acc
+    self['topic_ss']
+  end
+
   def exhibition_history_acc
     self['exhibition_history_ss']
   end

@@ -270,6 +270,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'arcCallNumber_ss', :label => 'CallNumber', if: :display_archival_field?
     config.add_show_field 'arcProvenanceUncontrolled_ss', :label => 'Provenance', if: :display_archival_field?
     config.add_show_field 'type2_acc', :accessor => 'type2_acc', :label => 'Classification', if: :display_archival_accessor_field?
+    config.add_show_field 'topic2_acc', accessor: 'topic2_acc', :label => 'Subject Terms', link_to_search: 'topic_facet', separator_options: break_separator, helper_method: 'sort_values_and_link_to_topic_no_pipes', if: :display_archival_accessor_field?
     config.add_show_field 'arcAbstract_ss', :label => 'Abstract', if: :display_archival_field?
     config.add_show_field 'arcDescription_ss', :label => 'Description', if: :display_archival_field?
     config.add_show_field 'arcArrangement_ss', :label => 'Arrangement', if: :display_archival_field?
