@@ -462,6 +462,15 @@ module ApplicationHelper
     return str.html_safe
   end
 
+  def convert_new_lines options={}
+    str = ""
+    options[:value].each_with_index { |v,i|
+      str = str + v + "</br></br></br>"
+    }
+    str = str[0...-15] if str.length > 15
+    return str.gsub(/\n/,'</br>').html_safe
+  end
+
   def combine_curatorial_comments_tab(doc)
     array = Array.new
     doc["curatorial_comment_ss"].each_with_index { |v,i|
