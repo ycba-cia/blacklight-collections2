@@ -275,8 +275,16 @@ class CatalogController < ApplicationController
     config.add_show_field 'arcDescription_ss', :label => 'Description', helper_method: 'convert_new_lines', if: :display_archival_field?
     config.add_show_field 'arcArrangement_ss', :label => 'Arrangement', if: :display_archival_field?
     config.add_show_field 'arcFindingAid_ss', :label => 'FindingAid', helper_method: 'link_to_fa', if: :display_archival_field?
-
-
+    config.add_show_field 'scopeContent_ss', :label => 'ScopeContent', if: :display_archival_field?
+    config.add_show_field 'biogHist_ss', :label => 'BiogHist', if: :display_archival_field?
+    config.add_show_field 'altFormAvail_ss', :label => 'AltFormAvail', if: :display_archival_field?
+    config.add_show_field 'langMaterial_ss', :label => 'LangMaterial', if: :display_archival_field?
+    config.add_show_field 'materialSpec_ss', :label => 'MaterialSpec', if: :display_archival_field?
+    config.add_show_field 'relatedMaterial_ss', :label => 'RelatedMaterial', if: :display_archival_field?
+    config.add_show_field 'oddNote_ss', :label => 'OddNote', if: :display_archival_field?
+    config.add_show_field 'physicalDescription_ss', :label => 'PhysicalDescription', if: :display_archival_field?
+    config.add_show_field 'accessRestrict_ss', :label => 'AccessRestrict', if: :display_archival_field?
+    config.add_show_field 'useRestrict_ss', :label => 'UseRestrict', if: :display_archival_field?
 
     # "fielded" search configuration. Used by pulldown among other places.
     # For supported keys in hash, see rdoc for Blacklight::SearchFields
