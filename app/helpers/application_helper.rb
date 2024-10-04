@@ -837,7 +837,7 @@ module ApplicationHelper
   def get_archival_metadata(doc)
     if doc[:recordtype_ss]
       if doc[:recordtype_ss][0].to_s == 'archival'
-        url = "https://metadata-api.library.yale.edu/metadatacloud/api/aspace"+doc[:archival_path_ss][0]+"?mediaType=json"
+        url = "https://metadata-api.library.yale.edu/metadatacloud/api/aspace"+doc[:archival_path_ss][0]+"?mediaType=json&include-notes=1&include-all-subjects=1"
       end
     end
     return url
