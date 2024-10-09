@@ -194,13 +194,21 @@ module ApplicationHelper
     options[:value].sort_by(&:downcase).map { |v| "<a href=\"/?f[topic_ss][]=#{v.gsub(';','%3B').gsub('&','%26')}\">#{v}</a>" }.join('</br>').html_safe
   end
 
+  def sort_values_and_link_no_pipes options={}
+    #http://localhost:3000/?f[topic_facet][]=woman #example
+    #facet = "topic_facet"
+    #options[:value].sort_by(&:downcase).map { |v| "<a href=\"/?f[topic_ss][]=#{v.gsub(';','%3B').gsub('&','%26')}\">#{v}</a>" }.join('</br>').html_safe
+    options[:value].sort_by(&:downcase).map { |v| "<a href=\"/?f[#{options[:field].gsub('_acc','_ss')}][]=#{v.gsub(';','%3B').gsub('&','%26')}\">#{v}</a>" }.join('</br>').html_safe
+
+  end
+
   def link_to_author options={}
     #http://localhost:3000/?f[topic_facet][]=woman #example
    options[:value].each_with_index.map { |v, i| "<a href=\"/?f[#{options[:field].gsub('_acc','_ss')}][]=#{v.gsub(';','%3B').gsub('&','%26')}\">#{options[:value][i]}</a> | " }.join('</br>').chomp(" | ").html_safe
   end
 
   def link_to_fa options={}
-    "<a href=\"#{options[:value][0]}\" target=\"_blank\">#{options[:value][0]}</a>".html_safe
+    "<a href=\"/?f[#{options[:field]}][]=#{options[:value][0].gsub(';','%3B').gsub('&','%26')}\" target=\"_blank\">#{options[:value][0]}</a>".html_safe
   end
 
   def make_link(field)

@@ -261,33 +261,45 @@ class CatalogController < ApplicationController
     config.add_show_field 'objects_ss', :label => 'Artwork', link_to_search: true, separator_options: break_separator, helper_method: 'render_artwork', if: :display_artists_field?
 
     #archival fields
+    config.add_show_field 'arcCallNumber_ss', :label => 'CallNumber', if: :display_archival_field?
     config.add_show_field 'creator_ss', :label => 'Creator', helper_method: 'link_to_author', separator_options: break_separator, if: :display_archival_field?
     config.add_show_field 'title2_acc', :accessor => 'title2_acc', :label => 'Title(s)', helper_method: 'render_titles_all', if: :display_archival_accessor_field?
     config.add_show_field 'date_ss', :label => 'Date', if: :display_archival_field?
-    config.add_show_field 'arcRights_ss', :label => 'Rights', if: :display_archival_field?
-    config.add_show_field 'collection_acc', :accessor => 'collection_acc', :label => 'Collection', if: :display_archival_accessor_field?
     config.add_show_field 'arcExtent_ss', :label => 'Extent', if: :display_archival_field?
-    config.add_show_field 'arcSeries_ss', :label => 'Series', if: :display_archival_field?
-    config.add_show_field 'arcContainerGrouping_ss', :label => 'ContainerGrouping', if: :display_archival_field?
-    config.add_show_field 'arcCallNumber_ss', :label => 'CallNumber', if: :display_archival_field?
-    config.add_show_field 'arcProvenanceUncontrolled_ss', :label => 'Provenance', if: :display_archival_field?
-    config.add_show_field 'type2_acc', :accessor => 'type2_acc', :label => 'Classification', if: :display_archival_accessor_field?
-    config.add_show_field 'topic2_acc', accessor: 'topic2_acc', :label => 'Subject Terms', link_to_search: 'topic_facet', separator_options: break_separator, helper_method: 'sort_values_and_link_to_topic_no_pipes', if: :display_archival_accessor_field?
-    config.add_show_field 'arcAbstract_ss', :label => 'Abstract', if: :display_archival_field?
-    config.add_show_field 'arcDescription_ss', :label => 'Description', helper_method: 'convert_new_lines', if: :display_archival_field?
-    config.add_show_field 'arcArrangement_ss', :label => 'Arrangement', if: :display_archival_field?
-    config.add_show_field 'arcFindingAid_ss', :label => 'FindingAid', helper_method: 'link_to_fa', if: :display_archival_field?
-    config.add_show_field 'arcFindingAidTitle_ss', :label => 'FindingAidTitle', helper_method: 'link_to_fa', if: :display_archival_field?
-    config.add_show_field 'scopeContent_ss', :label => 'ScopeContent', if: :display_archival_field?
-    config.add_show_field 'biogHist_ss', :label => 'BiogHist', if: :display_archival_field?
-    config.add_show_field 'altFormAvail_ss', :label => 'AltFormAvail', if: :display_archival_field?
     config.add_show_field 'langMaterial_ss', :label => 'LangMaterial', if: :display_archival_field?
     config.add_show_field 'materialSpec_ss', :label => 'MaterialSpec', if: :display_archival_field?
     config.add_show_field 'relatedMaterial_ss', :label => 'RelatedMaterial', if: :display_archival_field?
-    config.add_show_field 'oddNote_ss', :label => 'OddNote', if: :display_archival_field?
-    config.add_show_field 'physicalDescription_ss', :label => 'PhysicalDescription', if: :display_archival_field?
+    config.add_show_field 'type2_acc', :accessor => 'type2_acc', :label => 'Classification', if: :display_archival_accessor_field?
+    config.add_show_field 'arcSeries_ss', :label => 'Series', if: :display_archival_field?
+    config.add_show_field 'arcContainerGrouping_ss', :label => 'ContainerGrouping', if: :display_archival_field?
+    config.add_show_field 'arcAbstract_ss', :label => 'Abstract', if: :display_archival_field?
+    config.add_show_field 'arcProvenanceUncontrolled_ss', :label => 'Provenance', if: :display_archival_field?
+    #config.add_show_field 'arcRights_ss', :label => 'Rights', if: :display_archival_field?
     config.add_show_field 'accessRestrict_ss', :label => 'AccessRestrict', if: :display_archival_field?
     config.add_show_field 'useRestrict_ss', :label => 'UseRestrict', if: :display_archival_field?
+    config.add_show_field 'biogHist_ss', :label => 'BiogHist', if: :display_archival_field?
+    config.add_show_field 'scopeContent_ss', :label => 'ScopeContent', if: :display_archival_field?
+    config.add_show_field 'arcArrangement_ss', :label => 'Arrangement', if: :display_archival_field?
+    #config.add_show_field 'collection_acc', :accessor => 'collection_acc', :label => 'Collection', if: :display_archival_accessor_field?
+    config.add_show_field 'oddNote_ss', :label => 'OddNote', if: :display_archival_field?
+    config.add_show_field 'physicalDescription_ss', :label => 'PhysicalDescription', if: :display_archival_field?
+    config.add_show_field 'altFormAvail_ss', :label => 'AltFormAvail', if: :display_archival_field?
+    config.add_show_field 'genre_ss', :label => 'genre', if: :display_archival_field?
+    config.add_show_field 'topic2_acc', accessor: 'topic2_acc', :label => 'Subject Terms', link_to_search: 'topic_facet', separator_options: break_separator, helper_method: 'sort_values_and_link_to_topic_no_pipes', if: :display_archival_accessor_field?
+    config.add_show_field 'subject_period_acc', accessor: 'subject_period_acc', :label => 'Subject Period', link_to_search: 'topic_facet', separator_options: break_separator, helper_method: 'sort_values_and_link_no_pipes', if: :display_archival_accessor_field?
+    config.add_show_field 'geographic_acc', accessor: 'geographic_acc', :label => 'Associated Places', separator_options: break_separator, helper_method: 'sort_values_and_link_no_pipes', if: :display_archival_accessor_field?
+    config.add_show_field 'topic_subjectActor_acc', accessor: 'topic_subjectActor_acc', :label => 'Associated People/Groups', separator_options: break_separator, helper_method: 'sort_values_and_link_no_pipes', if: :display_archival_accessor_field?
+    config.add_show_field 'function_ss', :label => 'Function', if: :display_archival_field?
+    #config.add_show_field 'arcDescription_ss', :label => 'Description', helper_method: 'convert_new_lines', if: :display_archival_field?
+    #config.add_show_field 'arcFindingAid_ss', :label => 'FindingAid', helper_method: 'link_to_fa', if: :display_archival_field?
+    config.add_show_field 'arcFindingAidTitle_ss', :label => 'FindingAidTitle', helper_method: 'link_to_fa', if: :display_archival_field?
+
+
+
+
+
+
+
 
     # "fielded" search configuration. Used by pulldown among other places.
     # For supported keys in hash, see rdoc for Blacklight::SearchFields

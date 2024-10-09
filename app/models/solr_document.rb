@@ -86,6 +86,18 @@ class SolrDocument
     self['topic_ss']
   end
 
+  def subject_period_acc
+    self['subject_period_ss']
+  end
+
+  def geographic_acc
+    self['geographic_ss']
+  end
+
+  def topic_subjectActor_acc
+    self['topic_subjectActor_ss']
+  end
+
   def exhibition_history_acc
     self['exhibition_history_ss']
   end
