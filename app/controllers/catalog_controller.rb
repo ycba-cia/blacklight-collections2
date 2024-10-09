@@ -284,7 +284,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'oddNote_ss', :label => 'OddNote', if: :display_archival_field?
     config.add_show_field 'physicalDescription_ss', :label => 'PhysicalDescription', if: :display_archival_field?
     config.add_show_field 'altFormAvail_ss', :label => 'AltFormAvail', if: :display_archival_field?
-    config.add_show_field 'genre_ss', :label => 'genre', if: :display_archival_field?
+    config.add_show_field 'genre_ss', :label => 'Genre', if: :display_archival_field?
     config.add_show_field 'topic2_acc', accessor: 'topic2_acc', :label => 'Subject Terms', link_to_search: 'topic_facet', separator_options: break_separator, helper_method: 'sort_values_and_link_to_topic_no_pipes', if: :display_archival_accessor_field?
     config.add_show_field 'subject_period_acc', accessor: 'subject_period_acc', :label => 'Subject Period', link_to_search: 'topic_facet', separator_options: break_separator, helper_method: 'sort_values_and_link_no_pipes', if: :display_archival_accessor_field?
     config.add_show_field 'geographic_acc', accessor: 'geographic_acc', :label => 'Associated Places', separator_options: break_separator, helper_method: 'sort_values_and_link_no_pipes', if: :display_archival_accessor_field?
