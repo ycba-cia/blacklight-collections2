@@ -238,6 +238,7 @@ class CatalogController < ApplicationController
 
     #artists field
     config.add_show_field 'name_ss', :label => 'Artist', separator_options: break_separator, helper_method: 'link_artist_to_facet', if: :display_artists_field?
+    config.add_show_field 'displaybio_ss', :label => 'Short Biography', if: :display_artists_field?
     config.add_show_field 'gender_ss', :label => 'Gender', link_to_search: true, separator_options: break_separator, if: :display_artists_field?
     config.add_show_field 'displaydate_ss', :label => 'Life Dates', separator_options: break_separator, if: :display_artists_field?
 
