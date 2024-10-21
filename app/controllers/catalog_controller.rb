@@ -135,7 +135,7 @@ class CatalogController < ApplicationController
     config.add_facet_field 'tms_deathdate_ss', :label => 'Death Date', single: true,range: { segments: false }#artist only
     config.add_facet_field 'birthplace_facet_ss', :label => 'Birth Place'#artist only
     config.add_facet_field 'deathplace_facet_ss', :label => 'Death Place'#artist only
-    config.add_facet_field 'activity_facet_ss', :label => 'Activity'#artist only
+    config.add_facet_field 'activity_facet_ss', :label => 'Place of Activity'#artist only
     config.add_facet_field 'residence_facet_ss', :label => 'Residence'  #artist only
     config.add_facet_field 'visittour_facet_ss', :label => 'Place of Visit/Tour'  #artist only
     config.add_facet_field 'nationalities_facet_ss', :label => 'Nationalities'  #artist only
