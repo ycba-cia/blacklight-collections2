@@ -175,6 +175,9 @@ class CatalogController < ApplicationController
     config.add_show_field 'callnumber_txt', :label => 'Accession Number', unless: :isLidoLoan?
     config.add_show_field 'type_ss', :label => 'Classification', if: :display_lido_field?
     config.add_show_field 'collection_ss', :label => 'Collection', helper_method: 'handle_lido_collections', if: :display_lido_field?
+    config.add_show_field 'frame_for_object_ss', :label => 'Link to Frame', helper_method: 'handle_frames', if: :display_lido_field?
+    config.add_show_field 'object_for_frame_ss', :label => 'Link to Framed Image', helper_method: 'handle_frames', if: :display_lido_field?
+
     config.add_show_field 'topic_ss', :label => 'Subject Terms', link_to_search: 'topic_facet', separator_options: break_separator, helper_method: 'sort_values_and_link_to_facet_frames', if: :display_lido_field?
     config.add_show_field 'topic_subjectPlace_ss', :label => 'Associated Places', link_to_search: true, separator_options: break_separator, helper_method: 'sort_values_and_link_to_facet', if: :display_lido_field?
     config.add_show_field 'topic_subjectActor_ss', :label => 'Associated People', link_to_search: true, separator_options: break_separator, if: :display_lido_field?

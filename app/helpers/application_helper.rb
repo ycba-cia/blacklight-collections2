@@ -1084,7 +1084,7 @@ module ApplicationHelper
     return mfhd
   end
   #end aeon methods
-
+  #deprecated
   def get_frame_link_label(doc)
     c = doc["collection_ss"][0]
     if c == "Frames"
@@ -1093,7 +1093,7 @@ module ApplicationHelper
       label = "Link to Frame:"
     end
   end
-
+  #deprecated
   def get_frame_link(doc)
     return nil if doc["callnumber_ss"].nil?
     cn = doc["callnumber_ss"][0]
@@ -1109,6 +1109,21 @@ module ApplicationHelper
     link = "" if id.nil?
     link
   end
+  def handle_frames options={}
+    options[:document] # the original document
+    options[:field] # the field to render
+    options[:value] # the value of the field
+
+    links = []
+    options[:value].each {  |link|
+      id = link.split("|")[0]
+      bnum = link.split("|")[1]
+      links.append(link_to bnum, "/catalog/tms:#{id}", target: '_blank')
+    }
+
+    links.join('<br/>').html_safe
+  end
+
 
   def query_solr(solr,field,value)
     response = solr.post "select", :params => {
