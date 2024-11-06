@@ -55,22 +55,27 @@
       </div>
 
       <div id="right-icons" class="col-xs-2" align="center">
-        <% if document_field_exists?(document,"rightsURL_ss") && document["rightsURL_ss"][0].to_s.include?("rightsstatements.org/vocab/InC/1.0/") %>
+        <% if document_field_exists?(document,"useRestrict_ss") && document["useRestrict_ss"][0].to_s.start_with?("In Copyright") %>
           <a target="_blank" href="https://rightsstatements.org/vocab/InC/1.0/">
             <img width="135px;"src='https://rightsstatements.org/files/buttons/InC.dark-white-interior-blue-type.png' class='img-responsive' alt='In Copyright' title='In Copyright'>
           </a>
         <% end %>
-        <% if document_field_exists?(document,"rightsURL_ss") && document["rightsURL_ss"][0].to_s.include?("creativecommons.org/publicdomain/zero/1.0/") %>
+        <% if document_field_exists?(document,"useRestrict_ss") && document["useRestrict_ss"][0].to_s.start_with?("No Copyright") %>
+          <a target="_blank" href="https://rightsstatements.org/page/NoC-US/1.0/">
+            <img width="135px;"src='https://rightsstatements.org/files/buttons/NoC-US.dark-white-interior-blue-type.png' class='img-responsive' alt='No Copyright' title='No Copyright'>
+          </a>
+        <% end %>
+        <% if document_field_exists?(document,"useRestrict_ss") && document["useRestrict_ss"][0].to_s.start_with?("Public Domain") %>
           <a target="_blank" href="https://creativecommons.org/publicdomain/zero/1.0/">
             <img width="135px;" src='https://mirrors.creativecommons.org/presskit/buttons/88x31/png/cc-zero.png' class='img-responsive' alt='Public Domain' title='Public Domain'>
           </a>
         <% end %>
-        <% if document_field_exists?(document,"rightsURL_ss") && document["rightsURL_ss"][0].to_s.include?("rightsstatements.org/vocab/UND/1.0/") %>
+        <% if document_field_exists?(document,"useRestrict_ss") && document["useRestrict_ss"][0].to_s.start_with?("Copywrite Undetermined") %>
           <a target="_blank" href="https://rightsstatements.org/vocab/UND/1.0/">
             <img src='https://rightsstatements.org/files/buttons/UND.dark-white-interior-blue-type.png' class='img-responsive' alt='Copyright Undetermined' title='Copyright Undetermined'>
           </a>
         <% end %>
-        <% if document_field_exists?(document,"rightsURL_ss") && document["rightsURL_ss"][0].to_s.include?("https://rightsstatements.org/vocab/NoC-CR/1.0/") %>
+        <% if document_field_exists?(document,"useRestrict_ss") && document["useRestrict_ss"][0].to_s.start_with?("Contractual Restrictions") %>
           <a target="_blank" href="https://rightsstatements.org/vocab/NoC-CR/1.0/">
             <img src='https://rightsstatements.org/files/buttons/NoC-CR.dark-white-interior-blue-type.png' class='img-responsive' alt='Contractual Restrictions' title='Contractual Restrictions'>
           </a>
