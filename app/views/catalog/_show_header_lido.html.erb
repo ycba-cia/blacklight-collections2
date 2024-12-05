@@ -99,6 +99,8 @@
   <%= render_ycba_item_header(document, :tag => :span, :fontsize => "20px") %>
   <div class="row">
     <div id="ycba-request-photography" class="col-xs-12" align="center">
+      <span id="caption-link-no-image" style="color: #0066cc;" onclick="copy_to_clipboard_direct(<%= document.to_json %>)">Copy Caption to clipboard</span>
+      <span> | </span>
       <%= link_to("Print Record", "/print/#{@id}/1/9999", target: "_blank") %>
       <span> | </span>
       <%= link_to("Large Print Record", "/print/#{@id}/2/9999", target: "_blank") %>

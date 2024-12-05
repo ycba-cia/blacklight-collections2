@@ -571,6 +571,9 @@ $moveRight: $tileHeight * ($growFactor - 1);
   top: 100px;
 }
 
+#caption-link-no-image:hover  {
+  text-decoration: underline;
+}
 //override -15px in fabrique stylings
 #caption-row {
   margin-left: 0px;

@@ -59,6 +59,57 @@ function copy_to_clipboard() {
     /* Alert the copied text */
     alert("Caption copied.");
 }
+
+function copy_to_clipboard_direct(doc) {
+    //alert(document.getElementById("caption-dl-info").textContent);
+    //var copyText = document.getElementById("caption-dl-info").textContent.trim();
+
+    var recordtype = doc["recordtype_ss"][0];
+    if (recordtype=="lido") {
+        var cap1 = [];
+        if (doc["author_ss"] != null) { cap1.push(doc["author_ss"][0]); }
+        if (doc["title_ss"] != null) { cap1.push(doc["title_ss"][0]); }
+        //if (download != null) { cap1.push(download[1]); } //don't display caption as of 1/23/2023
+        if (doc["publishDate_ss"] != null) { cap1.push(doc["publishDate_ss"][0]); }
+        if (doc["format_ss"] != null) { cap1.push(doc["format_ss"][0]); }
+        if (doc["credit_line_ss"] != null) { cap1.push(doc["credit_line_ss"][0]); }
+        if (doc["callnumber_ss"] != null) { cap1.push(doc["callnumber_ss"][0]); }
+        var copyText = cap1.join(", ") + ".";
+
+    }
+    if (recordtype=="marc") {
+        var cap1 = [];
+        if (doc["author_ss"] != null) { cap1.push(doc["author_ss"][0]); }
+        if (doc["titles_primary_ss"] != null) { cap1.push(doc["titles_primary_ss"][0]); }
+        //if (download != null) { cap1.push(download[1]); }////don't display caption as of 1/23/2023
+        if (doc["edition_ss"] != null) { cap1.push(doc["edition_ss"][0]); }
+        if (doc["publisher_ss"] != null) { cap1.push(doc["publisher_ss"][0]); }
+        if (doc["credit_line_ss"] != null) { cap1.push(doc["credit_line_ss"][0]); }
+        var copyText = cap1.join(", ") + ".";
+    }
+
+    if (recordtype=="archival") {
+        var cap1 = [];
+        cap1.push("placeholder for archival caption");
+        var copyText = cap1.join(", ") + ".";
+    }
+
+    if (recordtype=="artists") {
+        var cap1 = [];
+        cap1.push("placeholder for artists caption");
+        var copyText = cap1.join(", ") + ".";
+    }
+
+    /* Select the text field */ /* ERJ not needed */
+    //copyText.select();
+    //copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+    /* Copy the text inside the text field */
+    navigator.clipboard.writeText(copyText);
+
+    /* Alert the copied text */
+    alert("Caption copied.");
+}
 //overrides
 $(document).on("turbolinks:load",function() {
     //set h1 with title from head
