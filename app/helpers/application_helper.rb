@@ -1460,6 +1460,14 @@ module ApplicationHelper
     return info.html_safe
   end
 
+  def render_use_restrict options={}
+    value = ""
+    options[:value].each {  |row|
+      value+= row.sub("\n\n","</br></br>")
+    }
+    return value.html_safe
+  end
+
   def render_luxplace options={}
     links = []
     options[:value].each {  |row|

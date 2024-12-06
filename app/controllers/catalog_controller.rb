@@ -277,7 +277,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'arcProvenanceUncontrolled_ss', :label => 'Provenance', if: :display_archival_field?
     #config.add_show_field 'arcRights_ss', :label => 'Rights', if: :display_archival_field?
     config.add_show_field 'accessRestrict_ss', :label => 'Conditions Governing Access', if: :display_archival_field?
-    config.add_show_field 'useRestrict_ss', :label => 'Conditions Governing Use', if: :display_archival_field?
+    config.add_show_field 'useRestrict_ss', :label => 'Conditions Governing Use', helper_method: 'render_use_restrict', if: :display_archival_field?
     config.add_show_field 'biogHist_ss', :label => 'Biographical/Historical', if: :display_archival_field?
     config.add_show_field 'scopeContent_ss', :label => 'Scope and Content', if: :display_archival_field?
     config.add_show_field 'arcArrangement_ss', :label => 'Arrangement', if: :display_archival_field?
