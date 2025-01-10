@@ -9,6 +9,10 @@
         <dd class="blacklight-<%= field_name.parameterize %>"><%= doc_presenter.field_value field %></dd>
       <% end -%>
     <% end -%>
+    <% unless get_resource_pdf(@document).nil? %>
+      <dt class="blacklight-<%= "archival-path" %>"><%= "Collection PDF:" %></dt>
+      <dd class="blacklight-<%= "archival-path" %>"><%= get_resource_pdf(@document) %></dd>
+    <% end %>
     <dt class="blacklight-<%= "archival-path" %>"><%= "Archival Object:" %></dt>
     <dd class="blacklight-<%= "archival-path" %>"><%= make_link(get_archival_object(@document)) %></dd>
     <dt class="blacklight-<%= "archival-path" %>"><%= "Metadata Cloud URL:" %></dt>

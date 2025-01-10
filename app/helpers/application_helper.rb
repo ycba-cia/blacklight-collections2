@@ -842,6 +842,27 @@ module ApplicationHelper
     return url
   end
 
+  def get_resource_pdf(doc)
+    url = nil
+    #puts doc.to_json
+    return nil if doc[:ancestorIdentifiers_ss].nil?
+    doc[:ancestorIdentifiers_ss].each do |f|
+      if f.include? "/resources/"
+        match_data = f.match(/\/resources\/(\d+)/)
+        if match_data
+          res = match_data[1]
+          pdf = "https://ead-pdfs.library.yale.edu/#{res}.pdf"
+          url = "<a href='#{pdf}' target='_blank'>#{pdf}</a>"
+        end
+      end
+    end
+    if url.nil?
+      return nil
+    else
+      return url.html_safe
+    end
+  end
+
   def get_archival_metadata(doc)
     if doc[:recordtype_ss]
       if doc[:recordtype_ss][0].to_s == 'archival'
