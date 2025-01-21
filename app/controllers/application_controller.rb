@@ -87,7 +87,7 @@ class ApplicationController < ActionController::Base
                     {title:"About us",
                      link_list:[["Our story","#{site}/our-story"],
                                 ["Paul Mellon, Founder","#{site}/stories/paul-mellon-founder"],
-                                ["From the Director","#{site}/director"],
+                                #["From the Director","#{site}/director"],
                                 ["Architecture","#{site}/architecture"],
                                 ["News and press","#{site}/news-and-press"],
                                 ["Annual reports","#{site}/annual-reports"],
