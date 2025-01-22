@@ -1089,6 +1089,31 @@ module ApplicationHelper
     return anchor_tag.html_safe
   end
 
+  def create_archival_aeon_link(doc)
+    aeon = get_aeon_endpoint
+    anchor_tag = "<a href='#{aeon}' target='_blank'>Request</a>"
+
+    action = 10
+    form = 20
+    value = "GenericRequestMonograph"
+    callnumber = get_one_value(doc["arcCallNumber_ss"])
+    title = get_one_value(doc["arcFindingAidTitle_ss"]).gsub("'","%27")
+    eadnumber = "https://archives.yale.edu/#{get_one_value(doc["archival_path_ss"])}"
+
+
+    aeon += "Action=#{action}&"
+    aeon += "Form=#{form}&"
+    aeon += "Value=#{value}&"
+    aeon += "CallNumber=#{callnumber}&"
+    aeon += "ItemTitle=#{title}&"
+    aeon += "EADNumber=#{eadnumber}"
+
+
+    anchor_tag = "<a href='#{aeon}' target='_blank'>Request</a>"
+
+    return anchor_tag.html_safe
+  end
+
   def create_aeon_link_callnumber(doc,callnumber,mfhd_id)
     aeon = get_aeon_endpoint
     #

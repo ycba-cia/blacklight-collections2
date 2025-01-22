@@ -263,6 +263,7 @@ class CatalogController < ApplicationController
 
     #archival fields
     config.add_show_field 'arcCallNumber_ss', :label => 'Call Number', if: :display_archival_field?
+    #request inserted here, see _show_archival_html.erb
     config.add_show_field 'creator_ss', :label => 'Creator', helper_method: 'link_to_author', separator_options: break_separator, if: :display_archival_field?
     config.add_show_field 'title2_acc', :accessor => 'title2_acc', :label => 'Title(s)', helper_method: 'render_titles_all', if: :display_archival_accessor_field?
     config.add_show_field 'date_ss', :label => 'Date', if: :display_archival_field?
