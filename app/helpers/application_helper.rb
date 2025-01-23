@@ -1095,7 +1095,7 @@ module ApplicationHelper
 
     action = 10
     form = 20
-    value = "GenericRequestMonograph"
+    value = "GenericRequestManuscript"
     callnumber = get_one_value(doc["arcCallNumber_ss"])
     title = get_one_value(doc["arcFindingAidTitle_ss"]).gsub("'","%27")
     eadnumber = "https://archives.yale.edu/#{get_one_value(doc["archival_path_ss"])}"
