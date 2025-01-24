@@ -904,6 +904,15 @@ module ApplicationHelper
     return url
   end
 
+  def get_archival_manifest_from_document(doc,type)
+    if doc[:recordtype_ss] && doc[:recordtype_ss][0].to_s == 'archival'
+        url = "https://manifests.collections.yale.edu/ycba/#{type}/" + doc[:id].split(":")[1]
+    else
+      url = ""
+    end
+    return url
+  end
+
   #deprecated
 =begin
   def get_export_url_rdf(doc)
@@ -1426,6 +1435,7 @@ module ApplicationHelper
   end
 
   def manifest_archival?
+    @archival_manifest_type = ""
     urls = Array.new
     urls.push("https://manifests.collections.yale.edu/ycba/aas/" + @document['id'].split(":")[1])
     urls.push("https://manifests.collections.yale.edu/ycba/ras/" + @document['id'].split(":")[1])
@@ -1436,6 +1446,11 @@ module ApplicationHelper
         j = JSON.parse(response)
       rescue
         next
+      end
+      if url.include?("/aas/")
+        @archival_manifest_type = "aas"
+      elsif url.include?("/ras/")
+        @archival_manifest_type = "ras"
       end
       return true
     end
