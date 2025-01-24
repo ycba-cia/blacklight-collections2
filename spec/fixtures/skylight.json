@@ -1,0 +1,166 @@
+{
+  "id": "archival_objects:2222467",
+  "has_image_ss": [
+    "available"
+  ],
+  "has_image_txt": [
+    "available"
+  ],
+  "collection_ss": [
+    "Archival"
+  ],
+  "collection_txt": [
+    "Archival"
+  ],
+  "recordtype_ss": [
+    "archival"
+  ],
+  "recordtype_txt": [
+    "archival"
+  ],
+  "archival_path_ss": [
+    "/repositories/3/archival_objects/2222467"
+  ],
+  "archival_path_txt": [
+    "/repositories/3/archival_objects/2222467"
+  ],
+  "archival_level_ss": [
+    "object"
+  ],
+  "archival_level_txt": [
+    "object"
+  ],
+  "title_ss": [
+    "Skylight"
+  ],
+  "title_txt": [
+    "Skylight"
+  ],
+  "arcSeries_ss": [
+    "Series I. Building"
+  ],
+  "arcSeries_txt": [
+    "Series I. Building"
+  ],
+  "arcContainerGrouping_ss": [
+    "Box 885, folder 1"
+  ],
+  "arcContainerGrouping_txt": [
+    "Box 885, folder 1"
+  ],
+  "arcCallNumber_ss": [
+    "A002"
+  ],
+  "arcCallNumber_txt": [
+    "A002"
+  ],
+  "date_ss": [
+    "undated"
+  ],
+  "date_txt": [
+    "undated"
+  ],
+  "earliestDate_is": [
+    1849
+  ],
+  "arcRights_ss": [
+    "This collection is open without restriction.",
+    "In Copyright\n\nItems in this collection are protected by copyright and/or related rights. \n\nCopyright for some material in this collection is held by Yale University. While these materials may be used for non-commercial purposes without seeking permission from Yale University as the copyright holder, to verify the copyright status of individual items and reproduction of digital materials, please contact ycba.archives@yale.edu or ycba.imaging@yale.edu.  \n \nRights-holders for other material in this collection are unknown. Transmission or reproduction of materials protected by U.S. Copyright Law (Title 17, U.S.C.) beyond that allowed by fair use requires the written permission of the copyright owners. Works not in the public domain cannot be commercially exploited without permission of the copyright owners. Responsibility for any use rests exclusively with the user."
+  ],
+  "arcRights_txt": [
+    "This collection is open without restriction.",
+    "In Copyright\n\nItems in this collection are protected by copyright and/or related rights. \n\nCopyright for some material in this collection is held by Yale University. While these materials may be used for non-commercial purposes without seeking permission from Yale University as the copyright holder, to verify the copyright status of individual items and reproduction of digital materials, please contact ycba.archives@yale.edu or ycba.imaging@yale.edu.  \n \nRights-holders for other material in this collection are unknown. Transmission or reproduction of materials protected by U.S. Copyright Law (Title 17, U.S.C.) beyond that allowed by fair use requires the written permission of the copyright owners. Works not in the public domain cannot be commercially exploited without permission of the copyright owners. Responsibility for any use rests exclusively with the user."
+  ],
+  "type_ss": [
+    "Archives and Manuscripts"
+  ],
+  "type_txt": [
+    "Archives and Manuscripts"
+  ],
+  "arcFindingAid_ss": [
+    "https://hdl.handle.net/10079/fa/ycba.ia.A002"
+  ],
+  "arcFindingAid_txt": [
+    "https://hdl.handle.net/10079/fa/ycba.ia.A002"
+  ],
+  "arcFindingAidTitle_ss": [
+    "Collection of historic photographs and negatives of the Yale Center for British Art"
+  ],
+  "arcFindingAidTitle_txt": [
+    "Collection of historic photographs and negatives of the Yale Center for British Art"
+  ],
+  "topic_ss": [
+    "Architecture",
+    "Conservation and restoration",
+    "Architecture, Modern",
+    "Architectural photography",
+    "Art museums",
+    "Art museum directors"
+  ],
+  "topic_txt": [
+    "Architecture",
+    "Conservation and restoration",
+    "Architecture, Modern",
+    "Architectural photography",
+    "Art museums",
+    "Art museum directors"
+  ],
+  "manifest_thumbnail_ss": [
+    "https://media.collections.yale.edu/thumbnail/ycba/bd1017a2-d280-4ad7-ae97-4dbe25eaf190"
+  ],
+  "manifest_thumbnail_txt": [
+    "https://media.collections.yale.edu/thumbnail/ycba/bd1017a2-d280-4ad7-ae97-4dbe25eaf190"
+  ],
+  "accessRestrict_ss": [
+    "This collection is open without restriction."
+  ],
+  "accessRestrict_txt": [
+    "This collection is open without restriction."
+  ],
+  "useRestrict_ss": [
+    "In Copyright\n\nItems in this collection are protected by copyright and/or related rights. \n\nCopyright for some material in this collection is held by Yale University. While these materials may be used for non-commercial purposes without seeking permission from Yale University as the copyright holder, to verify the copyright status of individual items and reproduction of digital materials, please contact ycba.archives@yale.edu or ycba.imaging@yale.edu.  \n \nRights-holders for other material in this collection are unknown. Transmission or reproduction of materials protected by U.S. Copyright Law (Title 17, U.S.C.) beyond that allowed by fair use requires the written permission of the copyright owners. Works not in the public domain cannot be commercially exploited without permission of the copyright owners. Responsibility for any use rests exclusively with the user. "
+  ],
+  "useRestrict_txt": [
+    "In Copyright\n\nItems in this collection are protected by copyright and/or related rights. \n\nCopyright for some material in this collection is held by Yale University. While these materials may be used for non-commercial purposes without seeking permission from Yale University as the copyright holder, to verify the copyright status of individual items and reproduction of digital materials, please contact ycba.archives@yale.edu or ycba.imaging@yale.edu.  \n \nRights-holders for other material in this collection are unknown. Transmission or reproduction of materials protected by U.S. Copyright Law (Title 17, U.S.C.) beyond that allowed by fair use requires the written permission of the copyright owners. Works not in the public domain cannot be commercially exploited without permission of the copyright owners. Responsibility for any use rests exclusively with the user. "
+  ],
+  "rights_ss": [
+    "Under Certain Circumstances"
+  ],
+  "rights_txt": [
+    "Under Certain Circumstances"
+  ],
+  "subject_period_ss": [
+    "20th Century"
+  ],
+  "subject_period_txt": [
+    "20th Century"
+  ],
+  "topic_subjectActor_ss": [
+    "Yale Center for British Art",
+    "Kahn, Louis I., 1901-1974",
+    "Clement, Constance",
+    "Mellon, Paul",
+    "Brewster, Kingman, Jr., 1919-1988"
+  ],
+  "topic_subjectActor_txt": [
+    "Yale Center for British Art",
+    "Kahn, Louis I., 1901-1974",
+    "Clement, Constance",
+    "Mellon, Paul",
+    "Brewster, Kingman, Jr., 1919-1988"
+  ],
+  "ancestorIdentifiers_ss": [
+    "/aspace/repositories/3/archival_objects/2222466",
+    "/aspace/repositories/3/archival_objects/2222346",
+    "/aspace/repositories/3/resources/5545",
+    "/aspace/repositories/3"
+  ],
+  "ancestorIdentifiers_txt": [
+    "/aspace/repositories/3/archival_objects/2222466",
+    "/aspace/repositories/3/archival_objects/2222346",
+    "/aspace/repositories/3/resources/5545",
+    "/aspace/repositories/3"
+  ],
+  "timestamp_dt": "2025-01-24T17:15:21.541Z",
+  "_version_": 1822151401618276400
+}

@@ -1425,6 +1425,23 @@ module ApplicationHelper
     return true
   end
 
+  def manifest_archival?
+    urls = Array.new
+    urls.push("https://manifests.collections.yale.edu/ycba/aas/" + @document['id'].split(":")[1])
+    urls.push("https://manifests.collections.yale.edu/ycba/ras/" + @document['id'].split(":")[1])
+    urls.each do |url|
+      uri = URI(url)
+      response = Net::HTTP.get(uri)
+      begin
+        j = JSON.parse(response)
+      rescue
+        next
+      end
+      return true
+    end
+    return false
+  end
+
   def document_field_exists?(doc,field)
     return false if doc[field].nil? or !doc.has_key?(field) or doc[field][0]==""
     return true

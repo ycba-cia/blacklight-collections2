@@ -1,0 +1,275 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "https://manifests.collections.yale.edu/ycba/aas/2222467",
+  "type": "Manifest",
+  "label": {
+    "en": [
+      "Collection of historic photographs and negatives of the Yale Center for British Art"
+    ]
+  },
+  "metadata": [
+    {
+      "label": {
+        "en": [
+          "Copyright Statement"
+        ]
+      },
+      "value": {
+        "en": [
+          "In Copyright. Items in this collection are protected by copyright and/or related rights. . Copyright for some material in this collection is held by Yale University. While these materials may be used for non-commercial purposes without seeking permission from Yale University as the copyright holder, to verify the copyright status of individual items and reproduction of digital materials, please contact ycba.archives@yale.edu or ycba.imaging@yale.edu.   Rights-holders for other material in this collection are unknown. Transmission or reproduction of materials protected by U.S. Copyright Law (Title 17, U.S.C.) beyond that allowed by fair use requires the written permission of the copyright owners. Works not in the public domain cannot be commercially exploited without permission of the copyright owners. Responsibility for any use rests exclusively with the user. "
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Title"
+        ]
+      },
+      "value": {
+        "en": [
+          "Skylight"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Collection Name"
+        ]
+      },
+      "value": {
+        "en": [
+          "Collection of historic photographs and negatives of the Yale Center for British Art"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Container/Volume Information"
+        ]
+      },
+      "value": {
+        "en": [
+          "Box 885, folder 1"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Institution"
+        ]
+      },
+      "value": {
+        "en": [
+          "Yale Center for British Art"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Collection"
+        ]
+      },
+      "value": {
+        "en": [
+          "Archives"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Call Number"
+        ]
+      },
+      "value": {
+        "en": [
+          "A002"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Finding Aid"
+        ]
+      },
+      "value": {
+        "en": [
+          "https://hdl.handle.net/10079/fa/ycba.ia.A002"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Archives at Yale Page"
+        ]
+      },
+      "value": {
+        "en": [
+          "https://archives.yale.edu/repositories/3/archival_objects/2222467"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Archives at Yale Page"
+        ]
+      },
+      "value": {
+        "en": [
+          "Metadata describing Yale Center for British Art collections is public domain under CC0. Copyright or other restrictions may apply to cultural works or images of those works in this record."
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "License"
+        ]
+      },
+      "value": {
+        "en": [
+          "https://creativecommons.org/publicdomain/zero/1.0/"
+        ]
+      }
+    }
+  ],
+  "rights": "",
+  "requiredStatement": {
+    "label": {
+      "en": [
+        "Rights Description"
+      ]
+    },
+    "value": {
+      "en": [
+        ""
+      ]
+    }
+  },
+  "logo": [
+    {
+      "id": "https://static.britishart.yale.edu/images/ycba_logo.jpg",
+      "type": "Image"
+    }
+  ],
+  "homepage": [
+    {
+      "format": "text/html",
+      "id": "",
+      "label": {
+        "en": [
+          ""
+        ]
+      },
+      "type": "Text"
+    }
+  ],
+  "items": [
+    {
+      "id": "https://manifests.collections.yale.edu/canvas/ycba/bd1017a2-d280-4ad7-ae97-4dbe25eaf190",
+      "type": "Canvas",
+      "label": {
+        "en": [
+          "Image Courtesy YCBA"
+        ]
+      },
+      "height": 387,
+      "width": 480,
+      "items": [
+        {
+          "id": "https://manifests.collections.yale.edu/annopage/ycba/bd1017a2-d280-4ad7-ae97-4dbe25eaf190",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://manifests.collections.yale.edu/annotation/ycba/bd1017a2-d280-4ad7-ae97-4dbe25eaf190",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://images.collections.yale.edu/iiif/2/ycba:bd1017a2-d280-4ad7-ae97-4dbe25eaf190/full/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "@id": "https://images.collections.yale.edu/iiif/2/ycba:bd1017a2-d280-4ad7-ae97-4dbe25eaf190",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ],
+                "height": 387,
+                "width": 480
+              },
+              "target": "https://manifests.collections.yale.edu/canvas/ycba/bd1017a2-d280-4ad7-ae97-4dbe25eaf190"
+            }
+          ]
+        }
+      ],
+      "thumbnail": [
+        {
+          "id": "https://media.collections.yale.edu/thumbnail/ycba/bd1017a2-d280-4ad7-ae97-4dbe25eaf190",
+          "type": "Image",
+          "format": "image/jpeg",
+          "width": 480,
+          "height": 387
+        }
+      ],
+      "metadata": []
+    },
+    {
+      "id": "https://manifests.collections.yale.edu/canvas/ycba/ae800a07-dea0-44df-9b58-0399b85ee53b",
+      "type": "Canvas",
+      "label": {
+        "en": [
+          "Image Courtesy YCBA"
+        ]
+      },
+      "height": 400,
+      "width": 480,
+      "items": [
+        {
+          "id": "https://manifests.collections.yale.edu/annopage/ycba/ae800a07-dea0-44df-9b58-0399b85ee53b",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://manifests.collections.yale.edu/annotation/ycba/ae800a07-dea0-44df-9b58-0399b85ee53b",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://images.collections.yale.edu/iiif/2/ycba:ae800a07-dea0-44df-9b58-0399b85ee53b/full/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "@id": "https://images.collections.yale.edu/iiif/2/ycba:ae800a07-dea0-44df-9b58-0399b85ee53b",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ],
+                "height": 400,
+                "width": 480
+              },
+              "target": "https://manifests.collections.yale.edu/canvas/ycba/ae800a07-dea0-44df-9b58-0399b85ee53b"
+            }
+          ]
+        }
+      ],
+      "thumbnail": [
+        {
+          "id": "https://media.collections.yale.edu/thumbnail/ycba/ae800a07-dea0-44df-9b58-0399b85ee53b",
+          "type": "Image",
+          "format": "image/jpeg",
+          "width": 480,
+          "height": 400
+        }
+      ],
+      "metadata": []
+    }
+  ]
+}
