@@ -521,7 +521,7 @@ function selectdl(download,id,doc) {
     var recordtype = doc["recordtype_ss"][0];
     if (recordtype=="lido") {
         var cap1 = [];
-        if (doc["author_ss"] != null) { cap1.push(doc["author_ss"][0]); }
+        if (doc["author_ss"] != null) { cap1.push(doc["display_author_ss"][0]); }
         if (doc["title_ss"] != null) { cap1.push(doc["title_ss"][0]); }
         //if (download != null) { cap1.push(download[1]); } //don't display caption as of 1/23/2023
         if (doc["publishDate_ss"] != null) { cap1.push(doc["publishDate_ss"][0]); }
