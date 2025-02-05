@@ -1108,6 +1108,14 @@ module ApplicationHelper
     callnumber = get_one_value(doc["arcCallNumber_ss"])
     title = get_one_value(doc["arcFindingAidTitle_ss"]).gsub("'","%27")
     eadnumber = "https://archives.yale.edu/#{get_one_value(doc["archival_path_ss"])}"
+    itemseries = get_one_value(doc["arcSeries_ss"])
+    cg1 = get_one_value(doc["arcContainerGrouping_ss"])
+    cg2 = cg1.split(",").collect(&:strip)
+    itemvolume = ""
+    itemvolume = cg2[0] if cg2.length == 1 or cg2.length==2
+    itemfolder = ""
+    itemfolder = cg2[1] if cg2.length == 2
+    itemauthor = get_one_value(doc["creator_ss"]).gsub("'","%27")
 
 
     aeon += "Action=#{action}&"
@@ -1115,7 +1123,11 @@ module ApplicationHelper
     aeon += "Value=#{value}&"
     aeon += "CallNumber=#{callnumber}&"
     aeon += "ItemTitle=#{title}&"
-    aeon += "EADNumber=#{eadnumber}"
+    aeon += "EADNumber=#{eadnumber}&"
+    aeon += "Transaction.CustomFields.ItemSeries=#{itemseries}&"
+    aeon += "ItemVolume=#{itemvolume}&"
+    aeon += "Transaction.CustomFields.ItemFolder=#{itemfolder}&"
+    aeon += "ItemAuthor=#{itemauthor}"
 
 
     anchor_tag = "<a href='#{aeon}' target='_blank'>Request</a>"
