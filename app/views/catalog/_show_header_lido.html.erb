@@ -83,6 +83,11 @@
           <img src='https://rightsstatements.org/files/buttons/NoC-CR.dark-white-interior-blue-type.png' class='img-responsive' alt='Contractual Restrictions' title='Contractual Restrictions'>
         </a>
       <% end %>
+      <% if document_field_exists?(document,"rightsURL_ss") && document["rightsURL_ss"][0].to_s.include?("https://rightsstatements.org/page/NKC/1.0/") %>
+        <a target="_blank" href="https://rightsstatements.org/page/NKC/1.0/?language=en">
+          <img src='https://rightsstatements.org/files/buttons/NKC.dark-white-interior.png' class='img-responsive' alt='No Known Copyright' title='No Known Copyright'>
+        </a>
+      <% end %>
     </div>
   </div>
   <!-- former place of eshop-->
