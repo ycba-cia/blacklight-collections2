@@ -117,6 +117,34 @@ class PrintController < ApplicationController
       @item_data += print_sep_fields("Contributors:","author_additional_ss")
     end
 
+    if @document["recordtype_ss"][0] == "archival" and @size != "2"
+      @item_data = ""
+      @item_data += print_newline_fields("Creator:","creator_ss")
+      @item_data += print_fields("Title:","title_ss")
+      @item_data += print_fields("Date:","date_ss")
+    end
+
+    if @document["recordtype_ss"][0] == "archival" and @size == "2"
+      @item_data = ""
+      @item_data += print_newline_fields("Creator:","creator_ss")
+      @item_data += print_fields("Title:","title_ss")
+      @item_data += print_fields("Date:","date_ss")
+    end
+
+    if @document["recordtype_ss"][0] == "artists" and @size != "2"
+      @item_data = ""
+      @item_data += print_fields("Creator:","locnaf_ss")
+      @item_data += print_fields("Date:","displaydate_ss")
+      @item_data += print_newline_fields("Objects:","objects_ss")
+    end
+
+    if @document["recordtype_ss"][0] == "artists" and @size == "2"
+      @item_data = ""
+      @item_data += print_fields("Creator:","locnaf_ss")
+      @item_data += print_fields("Date:","displaydate_ss")
+      @item_data += print_newline_fields("Objects:","objects_ss")
+    end
+
     render layout: false
   end
 end

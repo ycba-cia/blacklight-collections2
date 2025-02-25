@@ -1,0 +1,13 @@
+<%# default partial to display solr document fields in catalog show view -%>
+<!--<div class=" col-xs-12 col-md-8 col-md-pull-4 lido">-->
+<div class=" col-xs-12 col-md-12 lido">
+  <dl class="dl-vertical dl-invert">
+    <% doc_presenter = show_presenter(document) %>
+    <% document_show_fields(document).each do |field_name, field| -%>
+      <% if should_render_show_field? document, field %>
+        <dt class="blacklight-<%= field_name.parameterize %>"><%= render_document_show_field_label document, field: field_name %></dt>
+        <dd class="blacklight-<%= field_name.parameterize %>"><%= doc_presenter.field_value field %></dd>
+        <% end -%>
+    <% end -%>
+  </dl>
+</div>

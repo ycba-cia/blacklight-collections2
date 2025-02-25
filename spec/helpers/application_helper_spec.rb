@@ -21,6 +21,10 @@ describe ApplicationHelper do
     JSON.parse(File.open("spec/fixtures/smith.json","rb").read)
   end
 
+  let(:document5) do
+    JSON.parse(File.open("spec/fixtures/skylight.json","rb").read)
+  end
+
   describe "#get_export_url_xml" do
 
     let(:solrdoc) do
@@ -924,6 +928,7 @@ describe ApplicationHelper do
       end
     end
 
+    #rspec ./spec/helpers/application_helper_spec.rb:932
     describe "#manifest?" do
       it "returns true" do
         stub_request(:get, "https://manifests.collections.yale.edu/ycba/obj/34").
@@ -950,6 +955,82 @@ describe ApplicationHelper do
           raise "boom"
         end
         expect(helper.manifest?).to be false
+      end
+    end
+
+    #rspec ./spec/helpers/application_helper_spec.rb:962
+    describe "#manifest_archival?" do
+      it "good aas returns true" do
+        stub_request(:get, "https://manifests.collections.yale.edu/ycba/aas/2222467").
+            with(
+                headers: {
+                    'Accept'=>'*/*',
+                    'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                    'User-Agent'=>'Ruby'
+                }).
+            to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','skylight_iiif.json')), headers: {})
+        stub_request(:get, "https://manifests.collections.yale.edu/ycba/ras/2222467").
+          with(
+            headers: {
+              'Accept'=>'*/*',
+              'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+              'User-Agent'=>'Ruby'
+            }).
+          to_return(status: 404, body: "", headers: {})
+        @document = document5
+        expect(helper.manifest_archival?).to be true
+        allow(JSON).to receive(:parse) do
+          raise "boom"
+        end
+        expect(helper.manifest_archival?).to be false
+      end
+      it "good ras returns true" do
+        stub_request(:get, "https://manifests.collections.yale.edu/ycba/aas/2222467").
+          with(
+            headers: {
+              'Accept'=>'*/*',
+              'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+              'User-Agent'=>'Ruby'
+            }).
+          to_return(status: 404, body: "", headers: {})
+        stub_request(:get, "https://manifests.collections.yale.edu/ycba/ras/2222467").
+          with(
+            headers: {
+              'Accept'=>'*/*',
+              'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+              'User-Agent'=>'Ruby'
+            }).
+          to_return(status: 200, body: File.new(Rails.root.join('spec','fixtures','skylight_iiif.json')), headers: {})
+        @document = document5
+        expect(helper.manifest_archival?).to be true
+        allow(JSON).to receive(:parse) do
+          raise "boom"
+        end
+        expect(helper.manifest_archival?).to be false
+      end
+      it "no ras or aas returns false" do
+        stub_request(:get, "https://manifests.collections.yale.edu/ycba/aas/2222467").
+          with(
+            headers: {
+              'Accept'=>'*/*',
+              'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+              'User-Agent'=>'Ruby'
+            }).
+          to_return(status: 404, body: "", headers: {})
+        stub_request(:get, "https://manifests.collections.yale.edu/ycba/ras/2222467").
+          with(
+            headers: {
+              'Accept'=>'*/*',
+              'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+              'User-Agent'=>'Ruby'
+            }).
+          to_return(status: 404, body: "", headers: {})
+        @document = document5
+        expect(helper.manifest_archival?).to be false
+        allow(JSON).to receive(:parse) do
+          raise "boom"
+        end
+        expect(helper.manifest_archival?).to be false
       end
     end
 

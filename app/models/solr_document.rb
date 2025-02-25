@@ -50,6 +50,10 @@ class SolrDocument
     self['title_ss']
   end
 
+  def title2_acc
+    self['title_ss']
+  end
+
   def author_acc
     self['author_ss']
   end
@@ -70,8 +74,28 @@ class SolrDocument
     self['type_ss']
   end
 
+  def type2_acc
+    self['type_ss']
+  end
+
   def topic_acc
     self['topic_ss']
+  end
+
+  def topic2_acc
+    self['topic_ss']
+  end
+
+  def subject_period_acc
+    self['subject_period_ss']
+  end
+
+  def geographic_acc
+    self['geographic_ss']
+  end
+
+  def topic_subjectActor_acc
+    self['topic_subjectActor_ss']
   end
 
   def exhibition_history_acc

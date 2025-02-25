@@ -63,6 +63,13 @@ module ApplicationHelper
     links.join('<br/>').html_safe
   end
 
+  def link_artist_to_facet options={}
+    #don't need URI.encode_www_form_component but need gsub dashes
+    #"<a target=\"_blank\" href=\"/?f[loc_naf_author_ss][]=#{options[:document][:locnaf_ss][0].gsub(';','%3B').gsub('&','%26')}\">#{options[:value][0]}</a>".html_safe
+    #"<a target=\"_blank\" href=\"/?f[loc_naf_author_ss][]=#{URI.encode_www_form_component(options[:document][:locnaf_ss][0].gsub(';','%3B').gsub('&','%26').gsub('-','–'))}\">#{options[:value][0]}</a>".html_safe
+    "<a target=\"_blank\" href=\"/?f[loc_naf_author_ss][]=#{options[:document][:locnaf_ss][0].gsub(';','%3B').gsub('&','%26').gsub('-','–')}\">#{options[:value][0]}</a>".html_safe
+  end
+
   #deprecated
 =begin
   def render_aeon_from_call_number options={}
@@ -189,9 +196,25 @@ module ApplicationHelper
     options[:value].sort_by(&:downcase).map { |v| "<a href=\"/?f[topic_ss][]=#{v.gsub(';','%3B').gsub('&','%26')}\">#{v}</a>" }.join('</br>').html_safe
   end
 
+  def sort_values_and_link_no_pipes options={}
+    #http://localhost:3000/?f[topic_facet][]=woman #example
+    #facet = "topic_facet"
+    #options[:value].sort_by(&:downcase).map { |v| "<a href=\"/?f[topic_ss][]=#{v.gsub(';','%3B').gsub('&','%26')}\">#{v}</a>" }.join('</br>').html_safe
+    options[:value].sort_by(&:downcase).map { |v| "<a href=\"/?f[#{options[:field].gsub('_acc','_ss')}][]=#{v.gsub(';','%3B').gsub('&','%26')}\">#{v}</a>" }.join('</br>').html_safe
+
+  end
+
   def link_to_author options={}
     #http://localhost:3000/?f[topic_facet][]=woman #example
    options[:value].each_with_index.map { |v, i| "<a href=\"/?f[#{options[:field].gsub('_acc','_ss')}][]=#{v.gsub(';','%3B').gsub('&','%26')}\">#{options[:value][i]}</a> | " }.join('</br>').chomp(" | ").html_safe
+  end
+
+  def link_to_fa options={}
+    "<a href=\"/?f[#{options[:field]}][]=#{options[:value][0].gsub(';','%3B').gsub('&','%26')}\" target=\"_blank\">#{options[:value][0]}</a>".html_safe
+  end
+
+  def make_link(field)
+    "<a href=\"#{field}\" target=\"_blank\">#{field}</a>".html_safe
   end
 
   #used with render_related_content? method in catalog_controller.rb
@@ -350,6 +373,9 @@ module ApplicationHelper
     exhs.join.html_safe
   end
 
+
+
+
   def render_exhibitions_tab(doc)
     exhs = []
     sorted = doc["exhibition_history_ss"].sort_by { |d|
@@ -444,6 +470,15 @@ module ApplicationHelper
     }
     str.gsub!('\n','</br>');
     return str.html_safe
+  end
+
+  def convert_new_lines options={}
+    str = ""
+    options[:value].each_with_index { |v,i|
+      str = str + v + "</br></br></br>"
+    }
+    str = str[0...-15] if str.length > 15
+    return str.gsub(/\n/,'</br>').html_safe
   end
 
   def combine_curatorial_comments_tab(doc)
@@ -800,13 +835,82 @@ module ApplicationHelper
     return url
   end
 
+  def get_archival_object(doc)
+    if doc[:recordtype_ss]
+      if doc[:recordtype_ss][0].to_s == 'archival'
+        url = "https://archives.yale.edu" + doc[:archival_path_ss][0]
+      end
+    end
+    return url
+  end
+
+  def get_resource_pdf_for_ao(doc)
+    url = nil
+    #puts doc.to_json
+    return nil if doc[:ancestorIdentifiers_ss].nil?
+    doc[:ancestorIdentifiers_ss].each do |f|
+      if f.include? "/resources/"
+        match_data = f.match(/\/resources\/(\d+)/)
+        if match_data
+          res = match_data[1]
+          pdf = "https://ead-pdfs.library.yale.edu/#{res}.pdf"
+          url = "<a href='#{pdf}' target='_blank'>#{pdf}</a>"
+        end
+      end
+    end
+    if url.nil?
+      return nil
+    else
+      return url.html_safe
+    end
+  end
+
+  def get_resource_pdf_for_res(doc)
+    pdf = "https://ead-pdfs.library.yale.edu/#{doc[:id].split(":")[1]}.pdf"
+    url = "<a href='#{pdf}' target='_blank'>#{pdf}</a>"
+    return url.html_safe
+  end
+
+  def get_resource_pdf(doc)
+    if doc[:id].start_with?("resources")
+      return get_resource_pdf_for_res(doc)
+    elsif doc[:id].start_with?("archival")
+      return get_resource_pdf_for_ao(doc)
+    else
+      return nil
+    end
+  end
+
+  def get_archival_metadata(doc)
+    if doc[:recordtype_ss]
+      if doc[:recordtype_ss][0].to_s == 'archival'
+        url = "https://metadata-api.library.yale.edu/metadatacloud/api/aspace"+doc[:archival_path_ss][0]+"?mediaType=json&include-notes=1&include-all-subjects=1"
+      end
+    end
+    return url
+  end
+
   def get_manifest_from_document(doc)
     if doc[:recordtype_ss]
       if doc[:recordtype_ss][0].to_s == 'marc'
         url = "https://manifests.collections.yale.edu/ycba/orb/" + doc[:id].split(":")[1]
       elsif doc[:recordtype_ss][0].to_s == 'lido'
         url = "https://manifests.collections.yale.edu/ycba/obj/" + doc[:id].split(":")[1]
+      elsif doc[:recordtype_ss][0].to_s == 'archival'
+        url = "https://manifests.collections.yale.edu/ycba/aas/" + doc[:id].split(":")[1]
+      elsif doc[:recordtype_ss][0].to_s == 'artists'
+        url = "https://manifests.collections.yale.edu/ycba/cre/" + doc[:id].split(":")[1]
       end
+
+    end
+    return url
+  end
+
+  def get_archival_manifest_from_document(doc,type)
+    if doc[:recordtype_ss] && doc[:recordtype_ss][0].to_s == 'archival'
+        url = "https://manifests.collections.yale.edu/ycba/#{type}/" + doc[:id].split(":")[1]
+    else
+      url = ""
     end
     return url
   end
@@ -990,6 +1094,43 @@ module ApplicationHelper
     aeon += "Location=#{location}&"
     aeon += "mfhdID=#{mfhd}&"
     aeon += "EADNumber=#{url}"
+
+    anchor_tag = "<a href='#{aeon}' target='_blank'>Request</a>"
+
+    return anchor_tag.html_safe
+  end
+
+  def create_archival_aeon_link(doc)
+    aeon = get_aeon_endpoint
+    anchor_tag = "<a href='#{aeon}' target='_blank'>Request</a>"
+
+    action = 10
+    form = 20
+    value = "GenericRequestManuscript"
+    callnumber = get_one_value(doc["arcCallNumber_ss"])
+    title = get_one_value(doc["arcFindingAidTitle_ss"]).gsub("'","%27")
+    eadnumber = "https://archives.yale.edu/#{get_one_value(doc["archival_path_ss"])}"
+    itemseries = get_one_value(doc["arcSeries_ss"])
+    cg1 = get_one_value(doc["arcContainerGrouping_ss"])
+    cg2 = cg1.split(",").collect(&:strip)
+    itemvolume = ""
+    itemvolume = cg2[0] if cg2.length == 1 or cg2.length==2
+    itemfolder = ""
+    itemfolder = cg2[1] if cg2.length == 2
+    itemauthor = get_one_value(doc["creator_ss"]).gsub("'","%27")
+
+
+    aeon += "Action=#{action}&"
+    aeon += "Form=#{form}&"
+    aeon += "Value=#{value}&"
+    aeon += "CallNumber=#{callnumber}&"
+    aeon += "ItemTitle=#{title}&"
+    aeon += "EADNumber=#{eadnumber}&"
+    aeon += "Transaction.CustomFields.ItemSeries=#{itemseries}&"
+    aeon += "ItemVolume=#{itemvolume}&"
+    aeon += "Transaction.CustomFields.ItemFolder=#{itemfolder}&"
+    aeon += "ItemAuthor=#{itemauthor}"
+
 
     anchor_tag = "<a href='#{aeon}' target='_blank'>Request</a>"
 
@@ -1220,9 +1361,41 @@ module ApplicationHelper
     content_tag("div", fullheader, style:"text-align:center", itemprop: "name", id: "fullheader")
   end
 
+  def render_ycba_item_header_arc(*args)
+    options = args.extract_options!
+    document = args.first
+    tag = options.fetch(:tag, :h4)
+    fontsize = options.fetch(:fontsize, "12px")
+    document ||= @document
+
+    header = Array.new
+    header.push(content_tag(tag, document["creator_ss"][0], style: "font-size: #{fontsize}")) if document["creator_ss"]
+    header.push(content_tag(tag, document["title_ss"][0].chomp(":").chomp("/").chomp("."), style: "font-weight: bold; font-size: #{fontsize}")) if document["title_ss"]
+    header.push(content_tag(tag, document["date_ss"][0], style: "font-size: #{fontsize}")) if document["date_ss"]
+
+    fullheader = header.join(", ").html_safe
+    content_tag("div", fullheader, style:"text-align:center", itemprop: "name", id: "fullheader")
+  end
+
+  def render_ycba_item_header_cre(*args)
+    options = args.extract_options!
+    document = args.first
+    tag = options.fetch(:tag, :h4)
+    fontsize = options.fetch(:fontsize, "12px")
+    document ||= @document
+
+    header = Array.new
+    header.push(content_tag(tag, document["locnaf_ss"][0], style: "font-size: #{fontsize}")) if document["locnaf_ss"]
+    fullheader = header.join(", ").html_safe
+    content_tag("div", fullheader, style:"text-align:center", itemprop: "name", id: "fullheader")
+  end
+
   def get_download_array_from_manifest
     manifest = "https://manifests.collections.yale.edu/ycba/obj/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "lido"
     manifest = "https://manifests.collections.yale.edu/ycba/orb/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "marc"
+    manifest = "https://manifests.collections.yale.edu/ycba/aas/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "archival"
+    manifest = "https://manifests.collections.yale.edu/ycba/cre/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "artists"
+
     #puts "MANIFEST:"+manifest;
     download_array = Array.new()
     begin
@@ -1255,6 +1428,9 @@ module ApplicationHelper
   def manifest_thumb?
     manifest = "https://manifests.collections.yale.edu/ycba/obj/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "lido"
     manifest = "https://manifests.collections.yale.edu/ycba/orb/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "marc"
+    manifest = "https://manifests.collections.yale.edu/ycba/aas/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "archival"
+    manifest = "https://manifests.collections.yale.edu/ycba/cre/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "artists"
+    #
     #puts "MANIFEST:"+manifest;
     download_array = Array.new()
     begin
@@ -1274,6 +1450,9 @@ module ApplicationHelper
   def manifest?
     url = "https://manifests.collections.yale.edu/ycba/obj/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "lido"
     url = "https://manifests.collections.yale.edu/ycba/orb/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "marc"
+    url = "https://manifests.collections.yale.edu/ycba/aas/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "archival"
+    url = "https://manifests.collections.yale.edu/ycba/cre/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "artists"
+
     uri = URI(url)
     response = Net::HTTP.get(uri)
     begin
@@ -1282,6 +1461,29 @@ module ApplicationHelper
       return false
     end
     return true
+  end
+
+  def manifest_archival?
+    @archival_manifest_type = ""
+    urls = Array.new
+    urls.push("https://manifests.collections.yale.edu/ycba/aas/" + @document['id'].split(":")[1])
+    urls.push("https://manifests.collections.yale.edu/ycba/ras/" + @document['id'].split(":")[1])
+    urls.each do |url|
+      uri = URI(url)
+      response = Net::HTTP.get(uri)
+      begin
+        j = JSON.parse(response)
+      rescue
+        next
+      end
+      if url.include?("/aas/")
+        @archival_manifest_type = "aas"
+      elsif url.include?("/ras/")
+        @archival_manifest_type = "ras"
+      end
+      return true
+    end
+    return false
   end
 
   def document_field_exists?(doc,field)
@@ -1297,24 +1499,162 @@ module ApplicationHelper
       return options[:value][0]
     end
   end
+  def render_birthdate options={}
+    tms_birthdate = ""
+    lux_birthdate = ""
+    birthdate = options[:document][:tms_birthdate_ss][0] unless options&.dig(:document,:tms_birthdate_ss).nil?
+    lux_birthdate = options[:document][:lux_birthdate_ss][0] unless options&.dig(:document,:lux_birthdate_ss).nil?
+    birthdate = lux_birthdate if lux_birthdate.length > 0
+    return nil if birthdate == "0"
+    return birthdate
+  end
+  def render_deathdate options={}
+    tms_deathdate = ""
+    lux_deathdate = ""
+    deathdate = options[:document][:tms_deathdate_ss][0] unless options&.dig(:document,:tms_deathdate_ss).nil?
+    lux_deathdate = options[:document][:lux_deathdate_ss][0] unless options&.dig(:document,:lux_deathdate_ss).nil?
+    deathdate  = lux_deathdate if lux_deathdate.length > 0
+    return nil if deathdate == "0"
+    return deathdate
+  end
+
+  def render_birth_info options={}
+    info = ""
+    info += options[:value][0]
+    return if info == "0"
+    info += "</br>"
+    if options[:document][:birthplace_facet_ss]
+      options[:document][:birthplace_facet_ss].each do |row|
+        #info+= row
+        f = "birthplace_facet_ss"
+        v = row
+        info+= "<a target='_blank' href=\"/?f[#{f}][]=#{v.gsub(';','%3B').gsub('&','%26')}\">#{v}</a> [YCBA]"
+        if options[:document][:birthplace_ss]
+          options[:document][:birthplace_ss].each { |row2|
+            if row == row2.split("|")[0]
+              info += ", [<a target='_blank' href='#{row2.split("|")[1].gsub("/data/","/view/")}'>View map in LUX</a>]"
+            end
+          }
+        end
+        info += "</br>"
+      end
+    end
+    return info.html_safe
+  end
+
+  def render_death_info options={}
+    info = ""
+    info += options[:value][0]
+    return if info == "0"
+    info += "</br>"
+    if options[:document][:deathplace_facet_ss]
+      options[:document][:deathplace_facet_ss].each do |row|
+        #info+= row
+        f = "deathplace_facet_ss"
+        v = row
+        info+= "<a target='_blank' href=\"/?f[#{f}][]=#{v.gsub(';','%3B').gsub('&','%26')}\">#{v}</a> [YCBA]"
+        if options[:document][:deathplace_ss]
+          options[:document][:deathplace_ss].each { |row2|
+            if row == row2.split("|")[0]
+              info += ", [<a target='_blank' href='#{row2.split("|")[1].gsub("/data/","/view/")}'>View map in LUX</a>]"
+            end
+          }
+        end
+        info += "</br>"
+      end
+    end
+    return info.html_safe
+  end
+
+  def render_activity_info options={}
+    info = ""
+    options[:value].each {  |row|
+      #info += row
+      info += "<a target='_blank' href=\"/?f[#{options[:field]}][]=#{row.gsub(';','%3B').gsub('&','%26')}\">#{row}</a> [YCBA]"
+      if options[:document][:activity_ss]
+        options[:document][:activity_ss].each { |row2|
+          if row == row2.split("|")[0]
+            info += ", [<a target='_blank' href='#{row2.split("|")[1].gsub("/data/","/view/")}'>View map in LUX</a>]"
+          end
+        }
+      end
+      info += "</br>"
+    }
+    return info.html_safe
+  end
+
+  def render_use_restrict options={}
+    value = ""
+    options[:value].each {  |row|
+      value+= row.sub("\n\n","</br></br>")
+    }
+    return value.html_safe
+  end
+
+  def render_luxplace options={}
+    links = []
+    options[:value].each {  |row|
+      #links.append(link_to row.split("|")[0], row.split("|")[1].gsub("/data/","/view/"), target: '_blank')
+      luxlink = row.split("|")[1].gsub("/data/","/view/")
+      #puts "lux:" + luxlink
+      links.append(row.split("|")[0] + " [<a target='_blank' href='#{luxlink}')>View in LUX</a>]")
+    }
+    links.join('<br/>').html_safe
+  end
+
+  def render_artwork options={}
+    links = []
+    titles = []
+    options[:value].each {  |row|
+      #name = row.split("|")[0]
+      #entity = row.split("|")[1]
+      next if titles.include? row.split("|")[1]
+      titles.append(row.split("|")[1])
+      link = link_to row.split("|")[1], row.split("|")[0], target: '_blank'
+      name = row.split("|")[2]
+      #links.append(link + " " + name) #commented out in favor of indent
+      links.append("<span style=\"padding-left: 2em; text-indent: -2em; display: inline-block;\">"+ link + " " + name + "</span>")
+    }
+    links.join('<br/>').html_safe
+  end
+
+  def render_tms_show_fields options={}
+    #commented out next line with pipe separation
+    #options[:value].each_with_index.map { |v, i| "<a href=\"/?f[#{options[:field].gsub('tms_','').gsub('_ss','_facet_ss')}][]=#{v.gsub(';','%3B').gsub('&','%26')}\">#{options[:value][i]}</a> | " }.join('</br>').chomp(" | ").html_safe
+    options[:value].each_with_index.map { |v, i| "<a href=\"/?f[#{options[:field].gsub('tms_','').gsub('_ss','_facet_ss')}][]=#{v.gsub(';','%3B').gsub('&','%26')}\">#{options[:value][i]}</a>" }.join('</br>').html_safe
+  end
 
   def jsonld(doc)
     jsonld_doc = Hash.new
     jsonld_doc["@context"] = "https://schema.org"
     jsonld_doc["@type"] = "VisualArtwork" if doc[:recordtype_ss][0] == "lido"
     jsonld_doc["@type"] = "CreativeWork" if doc[:recordtype_ss][0] == "marc"
+    jsonld_doc["@type"] = "ArchiveComponent" if doc[:recordtype_ss][0] == "archival"
     jsonld_doc["name"] = doc["title_ss"][0] unless doc["title_ss"].nil?
     jsonld_doc["image"] = doc["manifest_thumbnail_ss"][0] unless doc["manifest_thumbnail_ss"].nil?
 
     creator = Hash.new
     creator["@type"] = "Person"
     creator["name"] = doc["loc_naf_author_ss"][0] unless doc["loc_naf_author_ss"].nil?
-    if doc[:recordtype_ss][0] == "marc"
+    if doc[:recordtype_ss][0] == "marc" or doc[:recordtype_ss][0] == "archival"
       jsonld_doc["creator"] = creator unless doc["loc_naf_author_ss"].nil?
     end
     if doc[:recordtype_ss][0] == "lido"
       jsonld_doc["artist"] = creator unless doc["loc_naf_author_ss"].nil?
     end
+    return jsonld_doc.to_json.html_safe
+  end
+
+  def jsonld_artist(doc)
+    jsonld_doc = Hash.new
+    jsonld_doc["@context"] = "https://schema.org"
+    jsonld_doc["@type"] = "Person"
+    jsonld_doc["image"] = doc["manifest_thumbnail_ss"][0] unless doc["manifest_thumbnail_ss"].nil?
+    name = doc["name_ss"][0] unless doc["name_ss"].nil?
+    name += " " + doc["tms_birthdate_ss"][0] unless doc["tms_birthdate_ss"] == "0"
+    name += "-"
+    name += doc["tms_deathdate_ss"][0] unless doc["tms_deathhdate_ss"] == "0"
+    jsonld_doc["name"] = name
     return jsonld_doc.to_json.html_safe
   end
 

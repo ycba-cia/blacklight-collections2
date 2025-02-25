@@ -130,6 +130,22 @@ class CatalogController < ApplicationController
     config.add_facet_field 'exhibition_history_ss', :label => 'Exhibition History', :limit => 20
     config.add_facet_field 'credit_line_ss', :label => 'Credit Line', :limit => 20
     config.add_facet_field 'language_name_ss', :label => 'Language', :limit => 20 #marc only
+    config.add_facet_field 'gender_ss', :label => 'Gender' #artist only
+    config.add_facet_field 'tms_birthdate_ss', :label => 'Birth Date', single: true,range: { segments: false } #artist only
+    config.add_facet_field 'tms_deathdate_ss', :label => 'Death Date', single: true,range: { segments: false }#artist only
+    config.add_facet_field 'birthplace_facet_ss', :label => 'Birth Place'#artist only
+    config.add_facet_field 'deathplace_facet_ss', :label => 'Death Place'#artist only
+    config.add_facet_field 'activity_facet_ss', :label => 'Place of Activity'#artist only
+    config.add_facet_field 'residence_facet_ss', :label => 'Residence'  #artist only
+    config.add_facet_field 'visittour_facet_ss', :label => 'Place of Visit/Tour'  #artist only
+    config.add_facet_field 'nationalities_facet_ss', :label => 'Nationalities'  #artist only
+    config.add_facet_field 'baptism_facet_ss', :label => 'Place of baptism'  #artist only
+    config.add_facet_field 'studyplace_facet_ss', :label => 'Place of study'  #artist only
+    #config.add_facet_field 'arcFindingAid_ss', :label=> 'Collections Handle' #archival only
+    config.add_facet_field 'arcFindingAidTitle_ss', :label=> 'Archival Collections' #archival only
+    config.add_facet_field 'archival_level_ss', :label=> 'Archival Level' #archival only
+    #TODO harmonized facets for archival: loc_naf_author_ss,earliest_date_is
+
 
     # Have BL send all facet field names to Solr, which has been the default
     # previously. Simply remove these lines if you'd rather use Solr request
@@ -148,8 +164,15 @@ class CatalogController < ApplicationController
     config.add_index_field 'format_txt', :label => 'Materials & Techniques'
     config.add_index_field 'physical_txt', :label => 'Dimensions', if: :display_lido_field?
     config.add_index_field 'physical_ss', :label => 'Physical Description', if: :display_marc_field?
-    config.add_index_field 'collection_txt', :label => 'Collection'
+    config.add_index_field 'collection_txt', :label => 'Collection', if: :display_objects_field?
     config.add_index_field 'credit_line_txt', :label => 'Credit Line'
+    config.add_index_field 'name_ss', :label => 'Artist'
+    config.add_index_field 'gender_ss', :label => 'Gender'
+    config.add_index_field 'tms_birthdate_ss', :label => 'Birth'
+    config.add_index_field 'tms_deathdate_ss', :label => 'Death'
+    config.add_index_field 'creator_ss', :label => 'Creator', if: :display_archival_field?
+    config.add_index_field 'date_ss', :label => 'Date', if: :display_archival_field?
+    config.add_index_field 'collection_ss', :label => 'Collection', if: :display_archival_field?
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
@@ -215,6 +238,73 @@ class CatalogController < ApplicationController
     config.add_show_field 'form_genre_ss', :label => 'Form/Genre', link_to_search: true, separator_options: break_separator, if: :display_marc_field?
     config.add_show_field 'author_additional_ss', :label => 'Contributors', link_to_search: true, separator_options: break_separator, if: :display_marc_field?
     #config.add_show_field 'cite_as', accessor: 'cite_as', :label => 'Cite As', if: :display_marc_accessor_field? #don't display per #18
+
+    #artists field
+    config.add_show_field 'name_ss', :label => 'Artist', separator_options: break_separator, helper_method: 'link_artist_to_facet', if: :display_artists_field?
+    config.add_show_field 'displaybio_ss', :label => 'Short Biography', if: :display_artists_field?
+    config.add_show_field 'gender_ss', :label => 'Gender', link_to_search: true, separator_options: break_separator, if: :display_artists_field?
+    config.add_show_field 'displaydate_ss', :label => 'Life Dates', separator_options: break_separator, if: :display_artists_field?
+
+    config.add_show_field 'tms_birthdate_ss', :label => 'Birth', helper_method: 'render_birth_info', if: :display_artists_field?
+    config.add_show_field 'tms_deathdate_ss', :label => 'Death', helper_method: 'render_death_info', if: :display_artists_field?
+    config.add_show_field 'activity_facet_ss', :label => 'Activity', helper_method: 'render_activity_info', if: :display_artists_field?
+    #config.add_show_field 'tms_birthdate_ss', :label => 'Birth Date', separator_options: break_separator, helper_method: 'render_birthdate', if: :display_artists_field?
+    #config.add_show_field 'tms_deathdate_ss', :label => 'Death Date', separator_options: break_separator, helper_method: 'render_deathdate', if: :display_artists_field?
+    #config.add_show_field 'birthplace_ss', :label => 'Birth Place', link_to_search: true, separator_options: break_separator, helper_method: 'render_luxplace', if: :display_artists_field?
+    #config.add_show_field 'deathplace_ss', :label => 'Death Place', link_to_search: true, separator_options: break_separator, helper_method: 'render_luxplace', if: :display_artists_field?
+    #config.add_show_field 'activity_ss', :label => 'Activity Place', link_to_search: true, separator_options: break_separator, helper_method: 'render_luxplace', if: :display_artists_field?
+    config.add_show_field 'residence_ss', :label => 'Residence', link_to_search: true, separator_options: break_separator, helper_method: 'render_luxplace', if: :display_artists_field?
+    #config.add_show_field 'tms_birthplace_ss', :label => 'TMS Birth Place', link_to_search: true, separator_options: break_separator, helper_method: 'render_tms_show_fields', if: :display_artists_field?
+    #config.add_show_field 'tms_deathplace_ss', :label => 'TMS Death Place', link_to_search: true, separator_options: break_separator, helper_method: 'render_tms_show_fields', if: :display_artists_field?
+    #config.add_show_field 'tms_activity_ss', :label => 'TMS Activity Place', link_to_search: true, separator_options: break_separator, helper_method: 'render_tms_show_fields', if: :display_artists_field?
+    config.add_show_field 'tms_visittour_ss', :label => 'Place of Visit/Tour', link_to_search: true, separator_options: break_separator, helper_method: 'render_tms_show_fields', if: :display_artists_field?
+    config.add_show_field 'tms_nationalities_ss', :label => 'Nationalities', link_to_search: true, separator_options: break_separator, helper_method: 'render_tms_show_fields', if: :display_artists_field?
+    config.add_show_field 'tms_baptism_ss', :label => 'Baptism Place', link_to_search: true, separator_options: break_separator, helper_method: 'render_tms_show_fields', if: :display_artists_field?
+    config.add_show_field 'tms_studyplace_ss', :label => 'Study Place', link_to_search: true, separator_options: break_separator, helper_method: 'render_tms_show_fields', if: :display_artists_field?
+
+    config.add_show_field 'objects_ss', :label => 'Artwork', link_to_search: true, separator_options: break_separator, helper_method: 'render_artwork', if: :display_artists_field?
+
+    #archival fields
+    config.add_show_field 'arcCallNumber_ss', :label => 'Call Number', if: :display_archival_field?
+    #request inserted here, see _show_archival_html.erb
+    config.add_show_field 'creator_ss', :label => 'Creator', helper_method: 'link_to_author', separator_options: break_separator, if: :display_archival_field?
+    config.add_show_field 'title2_acc', :accessor => 'title2_acc', :label => 'Title(s)', helper_method: 'render_titles_all', if: :display_archival_accessor_field?
+    config.add_show_field 'date_ss', :label => 'Date', if: :display_archival_field?
+    config.add_show_field 'arcExtent_ss', :label => 'Extent', if: :display_archival_field?
+    config.add_show_field 'langMaterial_ss', :label => 'Language of Material', if: :display_archival_field?
+    config.add_show_field 'materialSpec_ss', :label => 'Material Specific Details', if: :display_archival_field?
+    config.add_show_field 'relatedMaterial_ss', :label => 'Related Material', if: :display_archival_field?
+    config.add_show_field 'type2_acc', :accessor => 'type2_acc', :label => 'Classification', if: :display_archival_accessor_field?
+    config.add_show_field 'arcSeries_ss', :label => 'Series', if: :display_archival_field?
+    config.add_show_field 'arcContainerGrouping_ss', :label => 'Part of Collection', if: :display_archival_field?
+    config.add_show_field 'arcAbstract_ss', :label => 'Abstract', if: :display_archival_field?
+    config.add_show_field 'arcProvenanceUncontrolled_ss', :label => 'Provenance', if: :display_archival_field?
+    #config.add_show_field 'arcRights_ss', :label => 'Rights', if: :display_archival_field?
+    config.add_show_field 'accessRestrict_ss', :label => 'Conditions Governing Access', if: :display_archival_field?
+    config.add_show_field 'useRestrict_ss', :label => 'Conditions Governing Use', helper_method: 'render_use_restrict', if: :display_archival_field?
+    config.add_show_field 'biogHist_ss', :label => 'Biographical/Historical', if: :display_archival_field?
+    config.add_show_field 'scopeContent_ss', :label => 'Scope and Content', if: :display_archival_field?
+    config.add_show_field 'arcArrangement_ss', :label => 'Arrangement', if: :display_archival_field?
+    #config.add_show_field 'collection_acc', :accessor => 'collection_acc', :label => 'Collection', if: :display_archival_accessor_field?
+    config.add_show_field 'oddNote_ss', :label => 'Additional Notes', if: :display_archival_field?
+    config.add_show_field 'physicalDescription_ss', :label => 'Physical Description', if: :display_archival_field?
+    config.add_show_field 'altFormAvail_ss', :label => 'Alternative Forms Available', if: :display_archival_field?
+    config.add_show_field 'genre_ss', :label => 'Genre', if: :display_archival_field?
+    config.add_show_field 'topic2_acc', accessor: 'topic2_acc', :label => 'Subject Terms', link_to_search: 'topic_facet', separator_options: break_separator, helper_method: 'sort_values_and_link_to_topic_no_pipes', if: :display_archival_accessor_field?
+    config.add_show_field 'subject_period_acc', accessor: 'subject_period_acc', :label => 'Subject Period', link_to_search: 'topic_facet', separator_options: break_separator, helper_method: 'sort_values_and_link_no_pipes', if: :display_archival_accessor_field?
+    config.add_show_field 'geographic_acc', accessor: 'geographic_acc', :label => 'Associated Places', separator_options: break_separator, helper_method: 'sort_values_and_link_no_pipes', if: :display_archival_accessor_field?
+    config.add_show_field 'topic_subjectActor_acc', accessor: 'topic_subjectActor_acc', :label => 'Associated People/Groups', separator_options: break_separator, helper_method: 'sort_values_and_link_no_pipes', if: :display_archival_accessor_field?
+    config.add_show_field 'function_ss', :label => 'Function', if: :display_archival_field?
+    #config.add_show_field 'arcDescription_ss', :label => 'Description', helper_method: 'convert_new_lines', if: :display_archival_field?
+    #config.add_show_field 'arcFindingAid_ss', :label => 'Finding Aid', helper_method: 'link_to_fa', if: :display_archival_field?
+    config.add_show_field 'arcFindingAidTitle_ss', :label => 'Finding Aid Title', helper_method: 'link_to_fa', if: :display_archival_field?
+
+
+
+
+
+
+
 
     # "fielded" search configuration. Used by pulldown among other places.
     # For supported keys in hash, see rdoc for Blacklight::SearchFields
@@ -365,6 +455,26 @@ class CatalogController < ApplicationController
 
   def display_lido_field?(context, doc)
     doc['recordtype_ss'] and doc['recordtype_ss'][0].to_s == 'lido'
+  end
+
+  def display_artists_field?(context, doc)
+    doc['recordtype_ss'] and doc['recordtype_ss'][0].to_s == 'artists'
+  end
+
+  def display_archival_field?(context, doc)
+    doc['recordtype_ss'] and doc['recordtype_ss'][0].to_s == 'archival'
+  end
+
+  def display_archival_accessor_field?(context, doc)
+    display_archival_field?(context, doc) and !context.accessor.nil? and !doc.send(context.accessor).nil?
+  end
+
+  def display_objects_field?(context, doc)
+    doc['recordtype_ss'] and (doc['recordtype_ss'][0].to_s == 'lido' or doc['recordtype_ss'][0].to_s == 'marc')
+  end
+
+  def display_objects_field?(context, doc)
+    doc['recordtype_ss'] and (doc['recordtype_ss'][0].to_s == 'marc' or doc['recordtype_ss'][0].to_s == 'lido')
   end
 
   def display_marc_accessor_field?(context, doc)

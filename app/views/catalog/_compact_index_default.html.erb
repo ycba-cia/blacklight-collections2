@@ -23,4 +23,28 @@
     <dd class="blacklight-<%= "detailed_onview_ss".parameterize %>">Not on view</dd>
   <% end %>
 <% end %>
+<% if document.to_h["name_ss"] %>
+  <dd class="middle-label blacklight-<%= "name_ss".parameterize %>"><%= field_value(document, "name_ss") %></dd>
+<% end %>
+<% if document.to_h["tms_birthdate_ss"] && document.to_h["tms_deathdate_ss"] && field_value(document, "tms_birthdate_ss") != "0" && field_value(document, "tms_deathdate_ss") != "0" %>
+    <dd class="middle-label blacklight-<%= "lifedates".parameterize %>"><%= field_value(document, "tms_birthdate_ss") %><%= "-" %><%= field_value(document, "tms_deathdate_ss") %></dd>
+<% end %>
+<% if document.to_h["tms_birthdate_ss"] && document.to_h["tms_deathdate_ss"] && field_value(document, "tms_birthdate_ss") != "0" && field_value(document, "tms_deathdate_ss") == "0" %>
+    <dd class="middle-label blacklight-<%= "lifedates".parameterize %>"><%= field_value(document, "tms_birthdate_ss") %><%= "-" %></dd>
+<% end %>
+<% if document.to_h["tms_birthdate_ss"] && document.to_h["tms_deathdate_ss"] && field_value(document, "tms_birthdate_ss") == "0" && field_value(document, "tms_deathdate_ss") != "0" %>
+  <dd class="middle-label blacklight-<%= "lifedates".parameterize %>"><%= "-" %><%= field_value(document, "tms_deathdate_ss") %></dd>
+<% end %>
+<% if document.to_h["creator_ss"] and document["recordtype_ss"][0] == "archival" %>
+    <dd class="middle-label blacklight-<%= "creator_ss".parameterize %>"><%= field_value(document, "creator_ss") %></dd>
+<% end %>
+<% if document.to_h["title_ss"] and document["recordtype_ss"][0] == "archival" %>
+    <dd class="middle-label blacklight-<%= "title_ss".parameterize %>"><%= field_value(document, "title_ss") %></dd>
+<% end %>
+<% if document.to_h["date_ss"] and document["recordtype_ss"][0] == "archival" %>
+    <dd class="middle-label blacklight-<%= "date_ss".parameterize %>"><%= field_value(document, "date_ss") %></dd>
+<% end %>
+<% if document.to_h["collection_ss"] and document["recordtype_ss"][0] == "archival" %>
+    <dd class="middle-label blacklight-<%= "collection_ss".parameterize %>"><%= field_value(document, "collection_ss") %></dd>
+<% end %>
 </dl>

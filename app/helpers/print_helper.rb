@@ -38,6 +38,14 @@ module PrintHelper
       objid = id.gsub("orbis:","")
       manifest = "https://manifests.collections.yale.edu/ycba/orb/#{objid}"
     end
+    if id.starts_with?("archival_objects")
+      objid = id.gsub("archival_objects:","")
+      manifest = "https://manifests.collections.yale.edu/ycba/aas/#{objid}"
+    end
+    if id.starts_with?("artists")
+      objid = id.gsub("artists:","")
+      manifest = "https://manifests.collections.yale.edu/ycba/cre/#{objid}"
+    end
     if index=="9998"
       return get_all_images_from_iiifv3(manifest,index)
     else
