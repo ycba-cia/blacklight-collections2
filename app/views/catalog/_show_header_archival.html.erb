@@ -15,7 +15,7 @@
         <iframe
           class="universal-viewer-iframe"
           title="Universal Viewer"
-          src="<%= request&.base_url %>/uv/uv.html#?config=uv-config-lido.json&manifest=https://manifests.collections.yale.edu/v2/ycba/aas/<%= @document['id'].split(":")[1] %>"
+          src="<%= request&.base_url %>/uv/uv.html#?config=uv-config-lido.json&manifest=https://manifests.collections.yale.edu/v2/ycba/<%= @archival_manifest_type %>/<%= @document['id'].split(":")[1] %>"
           style="width:<%= iframe_width %>; height:<%= iframe_height %>;"
           allowfullscreen
           frameborder="0">
