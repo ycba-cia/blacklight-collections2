@@ -119,16 +119,32 @@ class PrintController < ApplicationController
 
     if @document["recordtype_ss"][0] == "archival" and @size != "2"
       @item_data = ""
+      @item_data += print_newline_fields("Call Number:","arcCallNumber_ss")
+      @item_data += print_newline_fields("Finding Aid Title:","arcFindingAidTitle_ss")
+      @item_data += print_newline_fields("Title:","title_ss")
       @item_data += print_newline_fields("Creator:","creator_ss")
-      @item_data += print_fields("Title:","title_ss")
       @item_data += print_fields("Date:","date_ss")
+      @item_data += print_fields("Classification:","type_ss")
+      @item_data += print_fields("Series:","arcSeries_ss")
+      @item_data += print_fields("Part of Collection:","arcContainerGrouping_ss")
+      @item_data += print_sep_fields("Subject Terms:","topic_ss")
+      @item_data += print_fields("Conditions Governing Use:","useRestrict_ss")
+      @item_data += print_string("Collection PDF:",get_resource_pdf(@document))
     end
 
     if @document["recordtype_ss"][0] == "archival" and @size == "2"
       @item_data = ""
+      @item_data += print_newline_fields("Call Number:","arcCallNumber_ss")
+      @item_data += print_newline_fields("Finding Aid Title:","arcFindingAidTitle_ss")
+      @item_data += print_newline_fields("Title:","title_ss")
       @item_data += print_newline_fields("Creator:","creator_ss")
-      @item_data += print_fields("Title:","title_ss")
       @item_data += print_fields("Date:","date_ss")
+      @item_data += print_fields("Classification:","type_ss")
+      @item_data += print_fields("Series:","arcSeries_ss")
+      @item_data += print_fields("Part of Collection:","arcContainerGrouping_ss")
+      @item_data += print_sep_fields("Subject Terms:","topic_ss")
+      @item_data += print_fields("Conditions Governing Use:","useRestrict_ss")
+      @item_data += print_string("Collection PDF:",get_resource_pdf(@document))
     end
 
     if @document["recordtype_ss"][0] == "artists" and @size != "2"

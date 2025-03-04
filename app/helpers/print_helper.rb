@@ -182,4 +182,45 @@ module PrintHelper
       return ""
     end
   end
+
+  def get_resource_pdf_for_ao(doc)
+    url = nil
+    pdf = nil
+    #puts doc.to_json
+    return nil if doc["ancestorIdentifiers_ss"].nil?
+    doc["ancestorIdentifiers_ss"].each do |f|
+      if f.include? "/resources/"
+        match_data = f.match(/\/resources\/(\d+)/)
+        if match_data
+          res = match_data[1]
+          pdf = "https://ead-pdfs.library.yale.edu/#{res}.pdf"
+          url = "<a href='#{pdf}' target='_blank'>#{pdf}</a>"
+        end
+      end
+    end
+    if url.nil?
+      return nil
+    else
+      #return url.html_safe
+      return pdf
+    end
+  end
+
+  def get_resource_pdf_for_res(doc)
+    pdf = "https://ead-pdfs.library.yale.edu/#{doc["id"].split(":")[1]}.pdf"
+    url = "<a href='#{pdf}' target='_blank'>#{pdf}</a>"
+    #return url.html_safe
+    return pdf
+  end
+
+  def get_resource_pdf(doc)
+    #puts doc["id"]
+    if doc["id"].start_with?("resources")
+      return get_resource_pdf_for_res(doc)
+    elsif doc["id"].start_with?("archival")
+      return get_resource_pdf_for_ao(doc)
+    else
+      return nil
+    end
+  end
 end
