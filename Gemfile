@@ -101,7 +101,8 @@ gem 'bourbon'
 
 gem 'newrelic_rpm'
 
-gem "rack", ">= 2.2.3"
+#gem "rack", ">= 2.2.3"
+gem "rack", "~> 2.2.13"
 
 gem "json", ">= 2.3.0"
 
