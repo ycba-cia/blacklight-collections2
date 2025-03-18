@@ -19,6 +19,8 @@
 <% if document.to_h["detailed_onview_ss"] %>
   <% if document["detailed_onview_ss"][0] == "On view at the Yale University Art Gallery" %>
     <dd class="blacklight-<%= "detailed_onview_ss".parameterize %>">On view at YUAG</dd>
+  <% elsif document["detailed_onview_ss"][0] == "On view" %>
+    <dd class="blacklight-<%= "detailed_onview_ss".parameterize %>">On view</dd>
   <% elsif document["detailed_onview_ss"][0] == "Not on view" %>
     <dd class="blacklight-<%= "detailed_onview_ss".parameterize %>">Not on view</dd>
   <% end %>
