@@ -623,7 +623,7 @@ module ApplicationHelper
   end
 
   def image_request_link(document)
-    if field_value(document,:collection_txt) == "Rare Books and Manuscripts"
+    if field_value(document,:collection_txt) == "Rare Books and Manuscripts" || field_value(document,:collection_txt) == "Reference Library"
       url = "https://britishart.yale.edu/request-images-rare-books-and-manuscripts?"
 
       begin
@@ -645,6 +645,15 @@ module ApplicationHelper
       url += "creator=#{field_value(document,:author_ss)}&"
       url += "title=#{field_value(document,:title_txt)[0,248]}&"
       url += "url=#{field_value(document,:url_txt)}"
+    elsif field_value(document,:collection_txt) == "Archives"
+      id = document[:id].split(":")[1]
+      url = "https://britishart.yale.edu/request-images?"
+      url += "id=#{id}&"
+      url += "num=#{field_value(document,:arcCallNumber_txt)}&"
+      url += "collection=#{field_value(document,:collection_txt)}&"
+      url += "creator=#{field_value(document,:creator_ss)}&"
+      url += "title=#{field_value(document,:title_txt)[0,248]}&"
+      url += "url=https://collections.britishart.yale.edu/catalog/archival_objects:#{id}"
     else
       url = "https://britishart.yale.edu/request-images?"
       url += "id=#{field_value(document,:recordID_ss)}&"
@@ -1401,7 +1410,16 @@ module ApplicationHelper
     begin
       json = JSON.load(URI.open(manifest))
     rescue
-      return download_array,true
+      if manifest.split("/")[4] = "aas"
+        manifest = manifest.sub("/aas/","/ras/")
+        begin
+          json = JSON.load(URI.open(manifest))
+        rescue
+          return download_array,true
+        end
+      else
+        return download_array,true
+      end
     end
     items = json["items"]
     restricted = false

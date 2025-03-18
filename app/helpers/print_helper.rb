@@ -59,7 +59,14 @@ module PrintHelper
     pixels = Array.new
     uri = URI(manifest)
     #begin
+    begin
       json = JSON.load(URI.open(manifest))
+    rescue
+      if manifest.split("/")[4] = "aas"
+        manifest = manifest.sub("/aas/","/ras/")
+        json = JSON.load(URI.open(manifest))
+      end
+    end
 
     image = json["items"][index.to_i]["items"][0]["items"][0]["body"]["id"]
     height = json["items"][index.to_i]["height"]*2
@@ -81,8 +88,14 @@ module PrintHelper
     pixels = Array.new
     captions = Array.new
     uri = URI(manifest)
-    #begin
-    json = JSON.load(URI.open(manifest))
+    begin
+      json = JSON.load(URI.open(manifest))
+    rescue
+      if manifest.split("/")[4] = "aas"
+        manifest = manifest.sub("/aas/","/ras/")
+        json = JSON.load(URI.open(manifest))
+      end
+    end
     index = 0
     while index >= 0
       image = json["items"][index.to_i]["items"][0]["items"][0]["body"]["id"]
