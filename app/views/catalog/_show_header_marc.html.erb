@@ -26,7 +26,7 @@
   </div>
 
   <div class="row">
-    <div class="col-xs-1">&nbsp;</div>
+    <!--<div class="col-xs-1">&nbsp;</div>-->
     <div id="ycba-downloads-container">
       <%= render partial: "downloads", locals: {document: document} %>
     </div>
@@ -36,6 +36,12 @@
           <%= link_to("Large Print","/print/"+document[:id]+"/2/0", style: "color: white;", target: "_blank") %>
         </div>
     </div>
+
+    <div class="col-xs-1">&nbsp;</div>
+    <div id="ycba-request-photography" class="btn btn-primary col-xs-3" align="center">
+        <%= link_to("Request additional photography", image_request_link(document), style: "color: white;", target: "_blank") %>
+    </div>
+
 
     <div id="ycba-thumbnail-controls" class="col-xs-1" align="center">
       <a class="iiifpopover" data-placement="bottom" title="Image Interoperability Framework">
@@ -106,6 +112,8 @@
   <div class="row">
     <div id="ycba-request-photography" class="col-xs-12" align="center">
       <span id="caption-link-no-image" style="color: #0066cc;" onclick="copy_to_clipboard_direct(<%= document.to_json %>)">Copy Caption to clipboard</span>
+      <span> | </span>
+      <%= link_to("Request photography", image_request_link(document), target: "_blank") %>
       <span> | </span>
       <%= link_to("Print Record", "/print/#{@id}/1/9999", target: "_blank") %>
       <span> | </span>

@@ -90,7 +90,9 @@ function copy_to_clipboard_direct(doc) {
 
     if (recordtype=="archival") {
         var cap1 = [];
-        cap1.push("placeholder for archival caption");
+        if (doc["creator_ss"] != null) { cap1.push(doc["creator_ss"][0]); }
+        if (doc["title_ss"] != null) { cap1.push(doc["title_ss"][0]); }
+        if (doc["date_ss"] != null) { cap1.push(doc["date_ss"][0]); }
         var copyText = cap1.join(", ") + ".";
     }
 

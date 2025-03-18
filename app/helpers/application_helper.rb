@@ -624,8 +624,11 @@ module ApplicationHelper
 
   def image_request_link(document)
     if field_value(document,:collection_txt) == "Rare Books and Manuscripts" || field_value(document,:collection_txt) == "Reference Library"
-      url = "https://britishart.yale.edu/request-images-rare-books-and-manuscripts?"
-
+      if field_value(document,:collection_txt) == "Rare Books and Manuscripts"
+        url = "https://britishart.yale.edu/request-images-rare-books-and-manuscripts?"
+      elsif field_value(document,:collection_txt) == "Reference Library"
+        url = "https://britishart.yale.edu/request-images?"
+      end
       begin
         doc = get_mfhd_doc(document)
         callnumbers = doc.xpath('//record_list/holding[starts-with(mfhd_loc_code,"bacrb")]/mfhd_callno/text()').to_a
@@ -647,10 +650,10 @@ module ApplicationHelper
       url += "url=#{field_value(document,:url_txt)}"
     elsif field_value(document,:collection_txt) == "Archives"
       id = document[:id].split(":")[1]
-      url = "https://britishart.yale.edu/request-images?"
+      url = "https://britishart.yale.edu/request-images-archives?"
       url += "id=#{id}&"
       url += "num=#{field_value(document,:arcCallNumber_txt)}&"
-      url += "collection=#{field_value(document,:collection_txt)}&"
+      url += "collection=#{field_value(document,:arcFindingAidTitle_txt)}&"
       url += "creator=#{field_value(document,:creator_ss)}&"
       url += "title=#{field_value(document,:title_txt)[0,248]}&"
       url += "url=https://collections.britishart.yale.edu/catalog/archival_objects:#{id}"
