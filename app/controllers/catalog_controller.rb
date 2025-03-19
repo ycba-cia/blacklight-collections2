@@ -330,7 +330,7 @@ class CatalogController < ApplicationController
       #field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
       field.solr_parameters = {
         qf: [
-            'author_txt^10',
+            'loc_naf_author_txt^10',
             'title_txt^4',
             'topic_txt^4',
             'publishDate_txt',
@@ -385,8 +385,8 @@ class CatalogController < ApplicationController
     config.add_search_field('Creator') do |field|
       #field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
       field.solr_parameters = {
-        qf: ['author_txt^10'],
-        pf: ['author_txt^20']
+        qf: ['loc_naf_author_txt^10'],
+        pf: ['loc_naf_author_txt^20']
       }
     end
 
