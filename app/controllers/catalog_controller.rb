@@ -358,7 +358,16 @@ class CatalogController < ApplicationController
             'pub_cat_entry_txt',
             'pub_cat_entry_auth_txt',
             'gallery_label_txt',
-            'gallery_label_auth_txt'
+            'gallery_label_auth_txt',
+            'arcCallNumber_txt',
+            'creator_txt^10',
+            'arcSeries_txt',
+            'biogHist_txt',
+            'scopeContent_txt',
+            'arcAbstract_txt',
+            'oddNote_txt',
+            'arcArrangement_txt',
+            'arcFindingAidTitle_txt'
         ]
       }
     end
