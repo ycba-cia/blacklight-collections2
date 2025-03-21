@@ -8,7 +8,7 @@
         <% next if "exhibition_history_acc" == field_name %>
         <% if aeon_before == field_name && doc_presenter.field_value(field).length>0 %>
           <dt class="blacklight-<%= "holdings" %>"><%= "Holdings:" %></dt>
-          <dd class="blacklight-<%= "export" %>"><%= get_holdings(@document) %></dd>
+          <dd class="blacklight-<%= "export" %>"><%= get_holdings_alma(@document) %></dd>
           <% unless document["collection_ss"][0] == "Reference Library" %>
             <!--Don't show Copyright Status if REF (dependent on aeon_before) -->
             <dt class="blacklight-<%= field_name.parameterize %>"><%= render_document_show_field_label document, field: field_name %></dt>

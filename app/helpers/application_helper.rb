@@ -704,6 +704,10 @@ module ApplicationHelper
     end
   end
 
+  def get_holdings_alma(document)
+    collection = document
+  end
+
   def get_holdings(document)
     begin
       doc = get_mfhd_doc(document)
@@ -836,10 +840,30 @@ module ApplicationHelper
   end
 =end
 
+  def resolve_alma_marc(id)
+    harvest_url = "https://yale.alma.exlibrisgroup.com/view/oai/01YALE_INST/request?verb=GetRecord&identifier=oai:alma.01YALE_INST:"+id+"&metadataPrefix=marc21"
+    mdc_url = "https://metadata-api.library.yale.edu/metadatacloud/api/alma/bib/#{id}.marcxml?continue"
+    url = URI.parse(harvest_url)
+    response = Net::HTTP.get_response(url)
+    if response.content_type == 'text/xml'
+      xml_data = response.body
+      doc = REXML::Document.new(xml_data)
+      REXML::XPath.each(doc, "//error[@code='idDoesNotExist']") do |element|
+        return mdc_url
+      end
+    else
+      return harvest_url
+    end
+  end
   def get_export_url_xml(doc)
     if doc[:recordtype_ss]
       if doc[:recordtype_ss][0].to_s == 'marc'
-        url = "https://libapp.library.yale.edu/OAI_BAC/src/OAIOrbisTool.jsp?verb=GetRecord&identifier=oai:orbis.library.yale.edu:"+get_bib_from_handle(doc)+"&metadataPrefix=marc21"
+        if ENV["LSF"] ==  'alma'
+          #url = "https://yale.alma.exlibrisgroup.com/view/oai/01YALE_INST/request?verb=GetRecord&identifier=oai:alma.01YALE_INST:"+doc[:id].gsub("alma:","")+"&metadataPrefix=marc21"
+          url = resolve_alma_marc(doc[:id].gsub("alma:",""))
+        else
+          url = "https://libapp.library.yale.edu/OAI_BAC/src/OAIOrbisTool.jsp?verb=GetRecord&identifier=oai:orbis.library.yale.edu:"+doc[:id].gsub("orbis:","")+"&metadataPrefix=marc21"
+        end
       elsif doc[:recordtype_ss][0].to_s == 'lido'
         url = "http://harvester-bl.britishart.yale.edu/oaicatmuseum/OAIHandler?verb=GetRecord&identifier=oai:tms.ycba.yale.edu:" + doc[:recordID_ss][0] +"&metadataPrefix=lido" if doc[:recordID_ss]
       end
@@ -945,6 +969,7 @@ module ApplicationHelper
   end
 =end
 
+  #deprecated in alma (url_ss is alma), used in export data, replaced by parsing solr doc id
   def get_bib_from_handle(doc)
     if doc[:url_ss] and doc[:url_ss][0].start_with?('https://hdl.handle.net/10079/bibid/')
       bib = doc[:url_ss][0].gsub('https://hdl.handle.net/10079/bibid/', '')
