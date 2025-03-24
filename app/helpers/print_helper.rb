@@ -140,11 +140,11 @@ module PrintHelper
   end
   def print_holdings(id)
     s = "<dt style=\"overflow: hidden;\">Holdings:</dt>"
-    s+= "<dd>#{get_holdings(id)}</dd>"
+    s+= "<dd>#{get_holdings_print(id)}</dd>"
     return s
   end
 
-  def get_holdings(id)
+  def get_holdings_print(id)
     begin
       mfhd = ENV["MFHD_BASE"] + id
       #puts "MFHD:" + mfhd
