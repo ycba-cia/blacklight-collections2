@@ -138,6 +138,72 @@ module PrintHelper
       return ""
     end
   end
+  def print_holdings(id)
+    s = "<dt style=\"overflow: hidden;\">Holdings:</dt>"
+    s+= "<dd>#{get_holdings(id)}</dd>"
+    return s
+  end
+
+  def get_holdings(id)
+    begin
+      mfhd = ENV["MFHD_BASE"] + id
+      #puts "MFHD:" + mfhd
+      doc ||= Nokogiri::HTML(URI.open(mfhd,{:read_timeout => 3}))
+      mfhd_ids = doc.xpath('//record_list/holding[starts-with(mfhd_loc_code,"bacrb") or starts-with(mfhd_loc_code,"bacref") or starts-with(mfhd_loc_code,"bacia")]/mfhd_id/text()').to_a
+
+    rescue
+      return "<span>Unable to reach service.  Holdings currently not available<span></br>".html_safe
+    end
+
+    mfhd_ids = mfhd_ids.map { |n|
+      n.to_s.strip.gsub("'","''")
+    }
+    mfhd_ids = [] if mfhd_ids.nil?
+    #puts mfhd_ids.inspect
+
+    collections = doc.xpath('//record_list/holding[starts-with(mfhd_loc_code,"bacrb") or starts-with(mfhd_loc_code,"bacref") or starts-with(mfhd_loc_code,"bacia")]/mfhd_loc_code/text()').to_a
+    collections = collections.map { |n|
+      n.to_s.strip.gsub("'","''")
+    }
+    collections = [] if collections.nil?
+    #puts collections.inspect
+
+    callnumbers = doc.xpath('//record_list/holding[starts-with(mfhd_loc_code,"bacrb") or starts-with(mfhd_loc_code,"bacref") or starts-with(mfhd_loc_code,"bacia")]/mfhd_callno/text()').to_a
+    callnumbers = callnumbers.map { |n|
+      n.to_s.strip.gsub("'","''")
+    }
+    callnumbers = [] if callnumbers.nil?
+    #puts callnumbers.inspect
+
+    creditlines = doc.xpath('//record_list/holding[starts-with(mfhd_loc_code,"bacrb") or starts-with(mfhd_loc_code,"bacref") or starts-with(mfhd_loc_code,"bacia")]/mfhd_583_field/text()').to_a
+    creditlines = creditlines.map { |n|
+      n.to_s.strip.gsub("'","''")
+    }
+    creditlines = [] if creditlines.nil?
+    #puts creditlines.inspect
+
+    collections_title = []
+    collections.map { |coll|
+        collections_title.push("Rare Books and Manuscripts") if coll.start_with?("bacrb")
+        collections_title.push("Reference Library") if coll.start_with?("bacref")
+        collections_title.push("Archives") if coll.start_with?("bacia")
+    }
+    collections_title = [] if collections_title.nil?
+
+    html = ""
+    collections.each_with_index { |coll, i|
+      html += "<span>#{collections_title[i]}</span></br>"
+      html += "<span>#{callnumbers[i]}</span></br>"
+      html += "<span>#{creditlines[i]}</span></br>" if creditlines[i]!="NA"
+      html += "</br>"
+    }
+
+    #html = html[0...-5]
+    if html.length==0
+      html += "<span>Not Available<span></br>"
+    end
+    return html.html_safe
+  end
 
   def print_string(label,field)
     if field.nil? == false
