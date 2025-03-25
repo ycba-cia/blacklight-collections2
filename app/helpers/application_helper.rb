@@ -1457,7 +1457,22 @@ module ApplicationHelper
     begin
       json = JSON.load(URI.open(manifest))
     rescue
-      return true
+      #return true
+      if manifest.split("/")[4] = "aas"
+        manifest = manifest.sub("/aas/","/ras/")
+        begin
+          json = JSON.load(URI.open(manifest))
+        rescue
+          return true
+        end
+        height = json["items"][0]["height"]
+        width = json["items"][0]["width"]
+        if height <= 480 and width <= 480
+          return true
+        else
+          return false
+        end
+      end
     end
     height = json["items"][0]["height"]
     width = json["items"][0]["width"]
@@ -1465,7 +1480,7 @@ module ApplicationHelper
       return true
     else
       return false
-     end
+    end
   end
 
   def manifest?
