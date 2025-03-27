@@ -95,6 +95,7 @@ module ApplicationHelper
 =end
   def render_aeon_from_access options={}
     #notice during covid
+    #these 3 pd_rb_ia, ref, ps, not used starting with reopening
     pd_rb_ia = "<br/><i>Note: The Study Room is open by appointment. Please visit the <a href=\"https://britishart.yale.edu/study-room\">Study Room page</a> on our website for more details.</i>"
     ref = "<br/><i>Note: Please contact the Reference Library to schedule an appointment [Email #{bacref_email}]</i>"
     ps = "<br><i>Note: To make an appointment to see this work, please contact the Paintings and Sculpture department at #{bacps_email}. Please visit the <a href=\"https://britishart.yale.edu/paintings-and-sculpture\">Paintings and Sculpture collections page</a> on our website for more details.</i>"
@@ -103,10 +104,10 @@ module ApplicationHelper
     #puts "D:#{detailed_onview_ss}"
     values = []
     options[:value].each do |v|
-      if detailed_onview_ss == "Accessible by appointment in the Study Room"
-        values.append("<b>" + v + " [" + create_aeon_link(options[:document]) + "]</b>" + pd_rb_ia)
-      elsif detailed_onview_ss == "Accessible by appointment in the Reference Library"
-        values.append("<b>" + v + " [" + hours + "]</b>" + ref)
+      if detailed_onview_ss.include? "Study Room"
+        values.append("<b>" + v + " [" + create_aeon_link(options[:document]) + "]</b>")
+      elsif detailed_onview_ss.include? "Reference Library"
+        values.append("<b>" + v + " [" + hours + "]</b>")
       else
         #values.append("<b>"+v+"</b>" + ps) #revert to this after with new language
         values.append("<b>"+v+"</b>")
@@ -116,7 +117,7 @@ module ApplicationHelper
   end
 
   def render_aeon_from_access_callnumber(document,collection,callnumber,mfhd_id)
-    #notice during covid
+    #notice during covid - deprecated reopening
     pd_rb_ia = "<br/><i>Note: The Study Room is open by appointment. Please visit the <a href=\"https://britishart.yale.edu/study-room\">Study Room page</a> on our website for more details.</i>"
     ref = "<br/><i>Note: Please contact the Reference Library to schedule an appointment [Email #{bacref_email}]</i>"
 
@@ -126,10 +127,10 @@ module ApplicationHelper
         value = "<b>On view at the Yale University Art Gallery</b>"
       else
         # value = "<b>View by request in the Study Room [" + create_aeon_link_callnumber(document,callnumber,mfhd_id) + "]</b>" + pd_rb_ia
-        value = "<b>[" + create_aeon_link_callnumber(document,callnumber,mfhd_id) + "]</b>"
+        value = "<b>Accessible in the Study Room [" + create_aeon_link_callnumber(document,callnumber,mfhd_id) + "]</b>"
       end
     elsif collection.start_with?("bacref")
-      value = "<b>Accessible in the Reference Library [" + hours + "]</b>" + ref
+      value = "<b>Accessible in the Reference Library [" + hours + "]</b>"
     elsif collection.start_with?("bacia")
       #value = "<b>Accessible by appointment in the Study Room [" + bacia_email + "]</b>" + pd_rb_ia
       value = "<b>[" + bacia_email + "]</b>"

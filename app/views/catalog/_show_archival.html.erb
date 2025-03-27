@@ -11,7 +11,7 @@
       <% end -%>
       <% if aeon_before == field_name && doc_presenter.field_value(field).length>0 %>
         <dt class="blacklight-<%= "holdings" %>"><%= "Holdings:" %></dt>
-        <dd class="blacklight-<%= "holdings" %>">Accessible by appointment in the Study Room [<%= create_archival_aeon_link(@document) %>]</dd>
+        <dd class="blacklight-<%= "holdings" %>">Accessible in the Study Room [<%= create_archival_aeon_link(@document) %>]</dd>
       <% end %>
     <% end -%>
     <% unless get_resource_pdf(@document).nil? %>
