@@ -6,7 +6,7 @@ class PrintController < ApplicationController
     @size = params[:size]
     @index = params[:index]
     @caption = params[:caption]
-    @images = print_images(@id,@index)
+    #@images = print_images(@id,@index)
 =begin
     #stubbed get_solr_doc rather then this kluge, keeping for reference
     #puts "protocol:#{request.protocol}" # http://
@@ -23,7 +23,11 @@ class PrintController < ApplicationController
     end
 =end
     @document = get_solr_doc(@id,request.protocol,request.host_with_port)
-
+    if @document['manifest_ss']
+      @images = print_images(@id,@index,@document['manifest_ss'][0])
+    else
+      @images = print_images(@id,@index,nil)
+    end
     if @document["recordtype_ss"][0] == "lido" and @size != "2"
       @item_data = ""
       @item_data += print_newline_fields("Creator:","author_ss")
@@ -61,9 +65,13 @@ class PrintController < ApplicationController
       @item_data += print_newline_fields("Published / Created:","publisher_ss")
       @item_data += print_fields("Physical Description:","physical_ss")
       #@item_data += print_fields("Collection:","collection_ss")
-      @item_data += print_holdings(@id.gsub("orbis:",""))
-      @item_data += print_newline_fields("Call Number:","callnumber_ss")
-      @item_data += print_fields("Credit Line:","credit_line_ss")
+      if ENV["LSP"] == "alma"
+        @item_data += print_holdings(@id.gsub("alma:",""),@document)
+      else
+        @item_data += print_holdings(@id.gsub("orbis:",""),@document)
+      end
+      #@item_data += print_newline_fields("Call Number:","callnumber_ss")
+      #@item_data += print_fields("Credit Line:","credit_line_ss")
       @item_data += print_fields_default_empty("Copyright Status:","ort_ss","Unknown")
       @item_data += print_fields("Full Orbis Record:","orbis_link_ss")
       @item_data += print_fields("Related Content:","resourceURL_ss")
@@ -102,9 +110,13 @@ class PrintController < ApplicationController
       @item_data += print_newline_fields("Published / Created:","publisher_ss")
       @item_data += print_fields("Physical Description:","physical_ss")
       #@item_data += print_fields("Collection:","collection_ss")
-      @item_data += print_holdings(@id.gsub("orbis:",""))
-      @item_data += print_newline_fields("Call Number:","callnumber_ss")
-      @item_data += print_fields("Credit Line:","credit_line_ss")
+      if ENV["LSP"] == "alma"
+        @item_data += print_holdings(@id.gsub("alma:",""),@document)
+      else
+        @item_data += print_holdings(@id.gsub("orbis:",""),@document)
+      end
+      #@item_data += print_newline_fields("Call Number:","callnumber_ss")
+      #@item_data += print_fields("Credit Line:","credit_line_ss")
       @item_data += print_fields_default_empty("Copyright Status:","ort_ss","Unknown")
       @item_data += print_fields("Full Orbis Record:","orbis_link_ss")
       @item_data += print_fields("Related Content:","resourceURL_ss")

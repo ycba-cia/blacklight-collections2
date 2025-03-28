@@ -84,7 +84,16 @@ function copy_to_clipboard_direct(doc) {
         //if (download != null) { cap1.push(download[1]); }////don't display caption as of 1/23/2023
         if (doc["edition_ss"] != null) { cap1.push(doc["edition_ss"][0]); }
         if (doc["publisher_ss"] != null) { cap1.push(doc["publisher_ss"][0]); }
-        if (doc["credit_line_ss"] != null) { cap1.push(doc["credit_line_ss"][0]); }
+        if (doc["credit_line_ss"] != null) {
+            var cl = doc["credit_line_ss"][0];
+            var cl1;
+            if (cl.includes("|")) {
+                cl1 = cl.split("|")[1];
+            } else {
+                cl1 = cl;
+            }
+            cap1.push(cl1);
+        }
         var copyText = cap1.join(", ") + ".";
     }
 

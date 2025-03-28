@@ -3,6 +3,7 @@
 </script>
 <!-- <%= render_document_heading(document, :tag => :h2) %>-->
 
+<% if manifest? %>
 <div id="image-section">
 
   <div class="row" style="padding-bottom: 10px">
@@ -17,7 +18,11 @@
       <iframe
         class="universal-viewer-iframe"
         title="Universal Viewer"
-        src="<%= request&.base_url %>/uv/uv.html#?config=uv-config-marc.json&manifest=https://manifests.collections.yale.edu/v2/ycba/orb/<%= @document['id'].split(":")[1] %>"
+        <% if ENV["LSP"] == "alma" && @document['manifest_ss'] %>
+          src="<%= request&.base_url %>/uv/uv.html#?config=uv-config-marc.json&manifest=https://manifests.collections.yale.edu/v2/ycba/<%= @document['manifest_ss'][0] %>"
+        <% else %>
+          src="<%= request&.base_url %>/uv/uv.html#?config=uv-config-marc.json&manifest=https://manifests.collections.yale.edu/v2/ycba/orb/<%= @document['id'].split(":")[1] %>"
+        <% end %>
         style="width:<%= iframe_width %>; height:<%= iframe_height %>;"
         allowfullscreen
         frameborder="0">
@@ -54,10 +59,10 @@
           <hr>
         <% end %>
         <div><%= link_to("View Manifest",get_manifest_from_document(@document),target: :_blank) %></div>
-        <div><a target="_blank" href="https://view.collections.yale.edu/uv3/?manifest=https://manifests.collections.yale.edu/ycba/orb/<%= @document['id'].split(":")[1] %>">View in Universal Viewer</a></div>
-        <div><a target="_blank" href="https://view.collections.yale.edu/m3/?manifest=https://manifests.collections.yale.edu/ycba/orb/<%= @document['id'].split(":")[1] %>">View in Mirador 3</a></div>
+        <div><a target="_blank" href="https://view.collections.yale.edu/uv3/?manifest=<%= get_manifest_from_document(@document) %>">View in Universal Viewer</a></div>
+        <div><a target="_blank" href="https://view.collections.yale.edu/m3/?manifest=<%= get_manifest_from_document(@document) %>">View in Mirador 3</a></div>
         <div>
-          <a target="_blank" href="https://view.collections.yale.edu/uv3/?manifest=https://manifests.collections.yale.edu/ycba/orb/<%= @document['id'].split(":")[1] %>">
+          <a target="_blank" href="https://view.collections.yale.edu/uv3/?manifest=<%= get_manifest_from_document(@document) %>">
             <img src="<%= path_to_image('logo-iiif.png') %>" class='img-responsive' alt='IIIF Manifest' title='Drag and Drop' draggable>
           </a>
         </div>
@@ -107,6 +112,7 @@
 
 </div>
 
+<% else %>
 <div id="non-image-section">
   <%= render_ycba_item_header(document, :tag => :span, :fontsize => "20px") %>
   <div class="row">
@@ -121,19 +127,6 @@
     </div>
   </div>
 </div>
-
-<% unless manifest? %>
-  <script type="text/javascript">
-      console.log("no image");
-      $("#non-image-section").show();
-      $("#image-section").hide();
-  </script>
-<% else %>
-  <script type="text/javascript">
-      console.log("image");
-      $("#non-image-section").hide();
-      $("#image-section").show();
-  </script>
 <% end %>
 
 

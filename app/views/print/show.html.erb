@@ -82,7 +82,11 @@
   </br>
   </br>
 <% end %>
-<%= print_images(@id,@index) %>
+<% if @document["manifest_ss"] %>
+  <%= print_images(@id,@index,@document["manifest_ss"][0]) %>
+<% else %>
+  <%= print_images(@id,@index,nil) %>
+<% end %>
 <div class="printlido col-xs-5">
   <dl class="dl-vertical dl-invert">
     <%= @item_data.html_safe %>

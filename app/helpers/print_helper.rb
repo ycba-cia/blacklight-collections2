@@ -3,7 +3,7 @@ require 'json'
 
 module PrintHelper
 
-  def print_images(id,index)
+  def print_images(id,index,manifest_path)
     markup = ""
     #test_image = "https://images.britishart.yale.edu/iiif/1b747e8f-7754-482c-b5a2-9e1dc1986f4b/full/full/0/native.jpg"
     #images = [1]
@@ -12,7 +12,7 @@ module PrintHelper
     if index=="9999" #no image,bypass image lookup
       markup = "</br>"
     else
-      images, pixels, captions = get_images_from_cds2(id,index)
+      images, pixels, captions = get_images_from_cds2(id,index,manifest_path)
       #puts "number of images:#{images.size}"
       #puts "size param:#{@size}"
       images.each_with_index do |f, i|
@@ -29,7 +29,7 @@ module PrintHelper
     markup.html_safe
   end
 
-  def get_images_from_cds2(id,index)
+  def get_images_from_cds2(id,index,manifest_path)
     if id.starts_with?("tms")
       objid = id.gsub("tms:","")
       manifest = "https://manifests.collections.yale.edu/ycba/obj/#{objid}"
@@ -41,6 +41,10 @@ module PrintHelper
     if id.starts_with?("archival_objects")
       objid = id.gsub("archival_objects:","")
       manifest = "https://manifests.collections.yale.edu/ycba/aas/#{objid}"
+    end
+    if id.starts_with?("alma")
+      #objid = id.gsub("alma:","")
+      manifest = "https://manifests.collections.yale.edu/ycba/#{manifest_path}"
     end
     if id.starts_with?("artists")
       objid = id.gsub("artists:","")
@@ -138,10 +142,48 @@ module PrintHelper
       return ""
     end
   end
-  def print_holdings(id)
+  def print_holdings(id,document)
     s = "<dt style=\"overflow: hidden;\">Holdings:</dt>"
-    s+= "<dd>#{get_holdings_print(id)}</dd>"
+    if ENV["LSP"] == "alma"
+      s+= "<dd>#{get_holdings_print_alma(document)}</dd>"
+    else
+      s+= "<dd>#{get_holdings_print(id)}</dd>"
+    end
     return s
+  end
+
+  def get_holdings_print_alma(document)
+    html = ""
+
+    coll_map = Hash.new
+    coll_map["bacrb"] = "Rare Books and Manuscripts"
+    coll_map["bacref"] = "Reference Library"
+
+    colls = Hash.new
+    colls_short = Hash.new
+    document["holdings_coll_ss"].each do |coll|
+      colls_short[coll.split("|")[0].to_s] = coll.split("|")[1]
+      colls[coll.split("|")[0].to_s] = coll_map[coll.split("|")[1]]
+    end
+
+    cn = Hash.new
+    document["call_number_ss"].each do |coll|
+      cn[coll.split("|")[0].to_s] = coll.split("|")[1]
+    end
+
+    cl = Hash.new
+    document["credit_line_ss"].each do |coll|
+      cl[coll.split("|")[0].to_s] = coll.split("|")[1]
+    end
+
+    document["mfhd_ss"].each do |holding|
+        html += "<span>#{colls[holding.to_s]}</span></br>" if colls[holding.to_s]
+        html += "<span>#{cn[holding.to_s]}</span></br>" if cn[holding.to_s]
+        html += "<span>#{cl[holding.to_s]}</span></br>" if cl[holding.to_s]
+        html += "</br>"
+    end
+    html = html[0...-5]
+    return html.html_safe
   end
 
   def get_holdings_print(id)
