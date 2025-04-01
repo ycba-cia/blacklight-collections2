@@ -508,10 +508,12 @@ function select_one_dl(download,id,doc) {
 //cds2
 function selectdl(download,id,doc) {
     //console.log ("download:" + download);
-    //console.log ("download:" + download[0]);
-    //console.log ("download:" + download[1]);
-    //console.log ("download:" + download[2]);
-    //console.log ("download:" + download[3]);
+    //console.log ("id:" + id);
+    //console.log ("doc:" + doc);
+    //console.log ("download0:" + download[0]);
+    //console.log ("download1:" + download[1]);
+    //console.log ("download2:" + download[2]);
+    //console.log ("download3:" + download[3]);
     //[count,caption,jpeg,tiff]
 
     var index = download[0]-1
@@ -551,7 +553,7 @@ function selectdl(download,id,doc) {
         $("#caption-dl-info").text(cap1.join(", ") + ".");
     }
     if (download[2].length == 0) {
-        jpeg_info += "<a href='" + download[2] + "' download='" + download[1] + "' target=\"_blank\">";
+        jpeg_info += "<a href='" + download[2] + "' download='" + download[1].replace(/'/g, "") + "' target=\"_blank\">";
         jpeg_info += "<button id='jpeg-dl-button' type='button' class='btn btn-primary btn-sm' disabled>JPEG</button>";
         jpeg_info += "</a>"
     } else {
@@ -560,7 +562,7 @@ function selectdl(download,id,doc) {
         } else {
             var dl2 = download[2];
         }
-        jpeg_info += "<a href='" + dl2 + "' download='" + download[1] + "' target=\"_blank\">";
+        jpeg_info += "<a href='" + dl2 + "' download='" + download[1].replace(/'/g, "") + "' target=\"_blank\">";
         jpeg_info += "<button id='jpeg-dl-button' type='button' class='btn btn-primary btn-sm'>JPEG</button>";
         jpeg_info += "</a>"
         //$("#jpeg-dl-info").text(download[0] + ". "+download[1]); deprecated
@@ -569,11 +571,11 @@ function selectdl(download,id,doc) {
 
     var tiff_info =  "";
     if (download[3].length == 0) {
-        tiff_info += "<a href='" + download[3] + "' download='" + download[1] + "' target=\"_blank\">";
+        tiff_info += "<a href='" + download[3] + "' download='" + download[1].replace(/'/g, "") + "' target=\"_blank\">";
         tiff_info += "<button id='tiff-dl-button' type='button' class='btn btn-primary btn-sm' disabled>TIFF</button>";
         tiff_info += "</a>";
     } else {
-        tiff_info += "<a href='" + download[3] + "' download='" + download[1] + "' target=\"_blank\">";
+        tiff_info += "<a href='" + download[3] + "' download='" + download[1].replace(/'/g, "") + "' target=\"_blank\">";
         tiff_info += "<button id='tiff-dl-button' type='button' class='btn btn-primary btn-sm'>TIFF</button>";
         tiff_info += "</a>";
         //$("#tiff-dl-info").text(download[0] + ". "+download[1]); deprecated
@@ -583,9 +585,9 @@ function selectdl(download,id,doc) {
     var print_info =  "";
     var print_info_all = "";
     var print_info_large = "";
-    var print_path = "/print/"+id+"/1/"+index+"?caption="+download[1];
+    var print_path = "/print/"+id+"/1/"+index+"?caption="+download[1].replace(/'/g, "");
     var print_path_all = "/print/"+id+"/9998/9998";
-    var print_path_large = "/print/"+id+"/2/"+index+"?caption="+download[1];
+    var print_path_large = "/print/"+id+"/2/"+index+"?caption="+download[1].replace(/'/g, "");
     if (download[2].length == 0) {
         print_info += "<a href='"+print_path+"' target=\"_blank\">";
         print_info += "<button id='print-button' type='button' class='btn btn-primary btn-sm' disabled>Print</button>";

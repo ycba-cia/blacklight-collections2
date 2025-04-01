@@ -720,22 +720,22 @@ module ApplicationHelper
 
     colls = Hash.new
     colls_short = Hash.new
-    document["holdings_coll_ss"].each do |coll|
+    document["holdings_coll_ss"]&.each do |coll|
       colls_short[coll.split("|")[0].to_s] = coll.split("|")[1]
       colls[coll.split("|")[0].to_s] = coll_map[coll.split("|")[1]]
     end
 
     cn = Hash.new
-    document["call_number_ss"].each do |coll|
+    document["call_number_ss"]&.each do |coll|
       cn[coll.split("|")[0].to_s] = coll.split("|")[1]
     end
 
     cl = Hash.new
-    document["credit_line_ss"].each do |coll|
+    document["credit_line_ss"]&.each do |coll|
       cl[coll.split("|")[0].to_s] = coll.split("|")[1]
     end
 
-    document["mfhd_ss"].each do |holding|
+    document["mfhd_ss"]&.each do |holding|
         html += "<span>#{colls[holding.to_s]}</span></br>" if colls[holding.to_s]
         html += "<span>#{cn[holding.to_s]}</span></br>" if cn[holding.to_s]
         html += "<span>#{cl[holding.to_s]}</span></br>" if cl[holding.to_s]
@@ -1473,7 +1473,18 @@ module ApplicationHelper
 
   def get_download_array_from_manifest
     manifest = "https://manifests.collections.yale.edu/ycba/obj/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "lido"
-    manifest = "https://manifests.collections.yale.edu/ycba/orb/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "marc"
+    if @document['recordtype_ss'][0] == "marc"
+      if ENV["LSP"] == "alma"
+        if @document['manifest_ss']
+          manifest = "https://manifests.collections.yale.edu/ycba/" + @document['manifest_ss'][0]
+        else
+          return false
+        end
+      else
+        manifest = "https://manifests.collections.yale.edu/ycba/orb/" + @document['id'].split(":")[1]
+      end
+    end
+    #manifest = "https://manifests.collections.yale.edu/ycba/orb/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "marc"
     manifest = "https://manifests.collections.yale.edu/ycba/aas/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "archival"
     manifest = "https://manifests.collections.yale.edu/ycba/cre/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "artists"
 
