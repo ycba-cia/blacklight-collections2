@@ -80,11 +80,15 @@ function copy_to_clipboard_direct(doc) {
     if (recordtype=="marc") {
         var cap1 = [];
         if (doc["author_ss"] != null) { cap1.push(doc["author_ss"][0]); }
-        if (doc["titles_primary_ss"] != null) { cap1.push(doc["titles_primary_ss"][0]); }
+        if (doc["titles_primary_ss"] != null) { cap1.push(doc["titles_primary_ss"][0].replace(/\.$/, '')); }
         //if (download != null) { cap1.push(download[1]); }////don't display caption as of 1/23/2023
         if (doc["edition_ss"] != null) { cap1.push(doc["edition_ss"][0]); }
-        if (doc["publisher_ss"] != null) { cap1.push(doc["publisher_ss"][0]); }
-        if (doc["credit_line_ss"] != null) { cap1.push(doc["credit_line_ss"][0]); }
+        if (doc["publisher_ss"] != null) { cap1.push(doc["publisher_ss"][0].replace(/\.$/, '')); }
+        if (doc["credit_line_ss"] != null) {
+            cap1.push(doc["credit_line_ss"][0]);
+        } else {
+            cap1.push("Yale Center for British Art");
+        }
         var copyText = cap1.join(", ") + ".";
     }
 

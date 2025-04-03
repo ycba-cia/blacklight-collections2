@@ -533,11 +533,15 @@ function selectdl(download,id,doc) {
     if (recordtype=="marc") {
         var cap1 = [];
         if (doc["author_ss"] != null) { cap1.push(doc["author_ss"][0]); }
-        if (doc["titles_primary_ss"] != null) { cap1.push(doc["titles_primary_ss"][0]); }
+        if (doc["titles_primary_ss"] != null) { cap1.push(doc["titles_primary_ss"][0].replace(/\.$/, '')); }
         //if (download != null) { cap1.push(download[1]); }////don't display caption as of 1/23/2023
         if (doc["edition_ss"] != null) { cap1.push(doc["edition_ss"][0]); }
-        if (doc["publisher_ss"] != null) { cap1.push(doc["publisher_ss"][0]); }
-        if (doc["credit_line_ss"] != null) { cap1.push(doc["credit_line_ss"][0]); }
+        if (doc["publisher_ss"] != null) { cap1.push(doc["publisher_ss"][0].replace(/\.$/, '')); }
+        if (doc["credit_line_ss"] != null) {
+            cap1.push(doc["credit_line_ss"][0]);
+        } else {
+            cap1.push("Yale Center for British Art");
+        }
         $("#caption-dl-info").text(cap1.join(", ") + ".");
     }
 
@@ -594,7 +598,7 @@ function selectdl(download,id,doc) {
         print_info_all += "<button id='print-button-all' type='button' class='btn btn-primary btn-sm' disabled>Print All</button>";
         print_info_all += "</a>";
         print_info_large += "<a href='"+print_path_large+"' target=\"_blank\">";
-        print_info_large += "<button id='print-button-large' type='button' class='btn btn-primary btn-sm' disabled>Print Large</button>";
+        print_info_large += "<button id='print-button-large' type='button' class='btn btn-primary btn-sm' disabled>Large Print Record</button>";
         print_info_large += "</a>";
     } else {
         print_info += "<a href='"+print_path+"' target=\"_blank\">";
@@ -604,7 +608,7 @@ function selectdl(download,id,doc) {
         print_info_all += "<button id='print-button-all' type='button' class='btn btn-primary btn-sm'>Print All</button>";
         print_info_all += "</a>";
         print_info_large += "<a href='"+print_path_large+"' target=\"_blank\">";
-        print_info_large += "<button id='print-button-large' type='button' class='btn btn-primary btn-sm'>Print Large</button>";
+        print_info_large += "<button id='print-button-large' type='button' class='btn btn-primary btn-sm'>Print Large Print Record</button>";
         print_info_large += "</a>";
         //$("#print-info").text(download[0] + ". "+download[1]);deprecated
     }

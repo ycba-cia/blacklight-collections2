@@ -41,7 +41,7 @@
 
     <div id="print-container-largemain" class="col-xs-1">
       <div id="print-button-largemain" type="button" class="btn btn-primary">
-        <%= link_to("Large Print","/print/"+document[:id]+"/2/0", style: "color: white;", target: "_blank") %>
+        <%= link_to("Print Large Print Record","/print/"+document[:id]+"/2/0", style: "color: white;", target: "_blank") %>
       </div>
     </div>
 
@@ -115,7 +115,7 @@
       <span> | </span>
       <%= link_to("Print Record", "/print/#{@id}/1/9999", target: "_blank") %>
       <span> | </span>
-      <%= link_to("Large Print Record", "/print/#{@id}/2/9999", target: "_blank") %>
+      <%= link_to("Print Large Print Record", "/print/#{@id}/2/9999", target: "_blank") %>
       <% if document[:eshop_ss] %>
         <%= link_to("Visit museum shop for related items", document[:eshop_ss][0], target: "_blank") %>
       <% end %>

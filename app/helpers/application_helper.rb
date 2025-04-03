@@ -1059,8 +1059,8 @@ module ApplicationHelper
   #aeon methods
   #For P&D when not "on view"
   def create_aeon_link(doc)
-    #aeon = "https://aeon-mssa.library.yale.edu/aeon.dll?" #production
-    #aeon = "https://aeon-test-mssa.library.yale.edu/aeon.dll?" #test
+    #aeon = "https://aeon.library.yale.edu/aeon.dll?" #production
+    #aeon = "https://aeon-test-mssa.library.yale.edu/aeon.dll?" #test #actually old test
     aeon = get_aeon_endpoint
     #
     #start here,get fields, get mfhd and apply a link underline styling, and try for P&D as well
