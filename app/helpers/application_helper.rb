@@ -122,6 +122,7 @@ module ApplicationHelper
     ref = "<br/><i>Note: Please contact the Reference Library to schedule an appointment [Email #{bacref_email}]</i>"
 
     value = ""
+    puts "Collection:#{collection}"
     if collection.start_with?("bacrb")
       if document["onview_ss"] and document["onview_ss"][0] == "On view at the Yale University Art Gallery"
         value = "<b>On view at the Yale University Art Gallery</b>"
@@ -645,6 +646,11 @@ module ApplicationHelper
 
       url += "id=#{id}&"
       url += "num=#{callnumber}&"
+      if document["call_number_ss"] && ENV["LSP"] == "alma"
+        url += "num=#{document["call_number_ss"][0].split("|")[1]}&"
+      else
+        url += "num=#{callnumber}&"
+      end
       url += "collection=#{field_value(document,:collection_txt)}&"
       url += "creator=#{field_value(document,:author_ss)}&"
       url += "title=#{field_value(document,:title_txt)[0,248]}&"
@@ -703,6 +709,41 @@ module ApplicationHelper
     rescue
       raise "Unable to reach mfhd service"
     end
+  end
+
+  def get_holdings_alma(document)
+    html = ""
+
+    coll_map = Hash.new
+    coll_map["bacrb"] = "Rare Books and Manuscripts"
+    coll_map["bacref"] = "Reference Library"
+
+    colls = Hash.new
+    colls_short = Hash.new
+    document["holdings_coll_ss"]&.each do |coll|
+      colls_short[coll.split("|")[0].to_s] = coll.split("|")[1]
+      colls[coll.split("|")[0].to_s] = coll_map[coll.split("|")[1]]
+    end
+
+    cn = Hash.new
+    document["call_number_ss"]&.each do |coll|
+      cn[coll.split("|")[0].to_s] = coll.split("|")[1]
+    end
+
+    cl = Hash.new
+    document["credit_line_ss"]&.each do |coll|
+      cl[coll.split("|")[0].to_s] = coll.split("|")[1]
+    end
+
+    document["mfhd_ss"]&.each do |holding|
+        html += "<span>#{colls[holding.to_s]}</span></br>" if colls[holding.to_s]
+        html += "<span>#{cn[holding.to_s]}</span></br>" if cn[holding.to_s]
+        html += "<span>#{cl[holding.to_s]}</span></br>" if cl[holding.to_s]
+        html += "<span>#{render_aeon_from_access_callnumber(document,colls_short[holding.to_s],cn[holding.to_s],holding)}</span></br>"
+        html += "</br>"
+    end
+    html = html[0...-5]
+    return html.html_safe
   end
 
   def get_holdings(document)
@@ -837,10 +878,32 @@ module ApplicationHelper
   end
 =end
 
+
+  def resolve_alma_marc(id)
+    harvest_url = "https://yale.alma.exlibrisgroup.com/view/oai/01YALE_INST/request?verb=GetRecord&identifier=oai:alma.01YALE_INST:"+id+"&metadataPrefix=marc21"
+    mdc_url = "https://metadata-api.library.yale.edu/metadatacloud/api/alma/bib/#{id}.marcxml?continue"
+    url = URI.parse(harvest_url)
+    response = Net::HTTP.get_response(url)
+    if response.content_type == 'text/xml'
+      xml_data = response.body
+      doc = REXML::Document.new(xml_data)
+      REXML::XPath.each(doc, "//error[@code='idDoesNotExist']") do |element|
+        return mdc_url
+      end
+      return harvest_url
+    else
+      return harvest_url
+    end
+  end
   def get_export_url_xml(doc)
     if doc[:recordtype_ss]
       if doc[:recordtype_ss][0].to_s == 'marc'
         url = "https://libapp.library.yale.edu/OAI_BAC/src/OAIOrbisTool.jsp?verb=GetRecord&identifier=oai:orbis.library.yale.edu:"+get_bib_from_handle(doc)+"&metadataPrefix=marc21"
+        if ENV["LSP"] == 'alma'
+          url = resolve_alma_marc(doc[:id].gsub("alma:",""))
+        else
+          url = "https://libapp.library.yale.edu/OAI_BAC/src/OAIOrbisTool.jsp?verb=GetRecord&identifier=oai:orbis.library.yale.edu:"+doc[:id].gsub("orbis:","")+"&metadataPrefix=marc21"
+        end
       elsif doc[:recordtype_ss][0].to_s == 'lido'
         url = "http://harvester-bl.britishart.yale.edu/oaicatmuseum/OAIHandler?verb=GetRecord&identifier=oai:tms.ycba.yale.edu:" + doc[:recordID_ss][0] +"&metadataPrefix=lido" if doc[:recordID_ss]
       end
@@ -906,7 +969,11 @@ module ApplicationHelper
   def get_manifest_from_document(doc)
     if doc[:recordtype_ss]
       if doc[:recordtype_ss][0].to_s == 'marc'
-        url = "https://manifests.collections.yale.edu/ycba/orb/" + doc[:id].split(":")[1]
+        if ENV["LSP"] == 'alma' && doc[:manifest_ss]
+          url = "https://manifests.collections.yale.edu/ycba/" + doc[:manifest_ss][0]
+        else
+          url = "https://manifests.collections.yale.edu/ycba/orb/" + doc[:id].split(":")[1]
+        end
       elsif doc[:recordtype_ss][0].to_s == 'lido'
         url = "https://manifests.collections.yale.edu/ycba/obj/" + doc[:id].split(":")[1]
       elsif doc[:recordtype_ss][0].to_s == 'archival'
@@ -946,6 +1013,7 @@ module ApplicationHelper
   end
 =end
 
+  #deprecated in alma (url_ss is alma), used in export data, replaced by parsing solr doc id
   def get_bib_from_handle(doc)
     if doc[:url_ss] and doc[:url_ss][0].start_with?('https://hdl.handle.net/10079/bibid/')
       bib = doc[:url_ss][0].gsub('https://hdl.handle.net/10079/bibid/', '')
@@ -1405,7 +1473,18 @@ module ApplicationHelper
 
   def get_download_array_from_manifest
     manifest = "https://manifests.collections.yale.edu/ycba/obj/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "lido"
-    manifest = "https://manifests.collections.yale.edu/ycba/orb/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "marc"
+    if @document['recordtype_ss'][0] == "marc"
+      if ENV["LSP"] == "alma"
+        if @document['manifest_ss']
+          manifest = "https://manifests.collections.yale.edu/ycba/" + @document['manifest_ss'][0]
+        else
+          return false
+        end
+      else
+        manifest = "https://manifests.collections.yale.edu/ycba/orb/" + @document['id'].split(":")[1]
+      end
+    end
+    #manifest = "https://manifests.collections.yale.edu/ycba/orb/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "marc"
     manifest = "https://manifests.collections.yale.edu/ycba/aas/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "archival"
     manifest = "https://manifests.collections.yale.edu/ycba/cre/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "artists"
 
@@ -1449,7 +1528,17 @@ module ApplicationHelper
 
   def manifest_thumb?
     manifest = "https://manifests.collections.yale.edu/ycba/obj/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "lido"
-    manifest = "https://manifests.collections.yale.edu/ycba/orb/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "marc"
+    if @document['recordtype_ss'][0] == "marc"
+      if ENV["LSP"] == "alma"
+        if @document['manifest_ss']
+          manifest = "https://manifests.collections.yale.edu/ycba/" + @document['manifest_ss'][0]
+        else
+          return false
+        end
+      else
+        manifest = "https://manifests.collections.yale.edu/ycba/orb/" + @document['id'].split(":")[1]
+      end
+    end
     manifest = "https://manifests.collections.yale.edu/ycba/aas/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "archival"
     manifest = "https://manifests.collections.yale.edu/ycba/cre/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "artists"
     #
@@ -1486,7 +1575,18 @@ module ApplicationHelper
 
   def manifest?
     url = "https://manifests.collections.yale.edu/ycba/obj/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "lido"
-    url = "https://manifests.collections.yale.edu/ycba/orb/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "marc"
+    if @document['recordtype_ss'][0] == "marc"
+      if ENV["LSP"] == "alma"
+        if @document['manifest_ss']
+          url = "https://manifests.collections.yale.edu/ycba/" + @document['manifest_ss'][0]
+        else
+          return false
+        end
+      else
+        url = "https://manifests.collections.yale.edu/ycba/orb/" + @document['id'].split(":")[1]
+      end
+    end
+    #next line not used - see method manifest_archival instead
     url = "https://manifests.collections.yale.edu/ycba/aas/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "archival"
     url = "https://manifests.collections.yale.edu/ycba/cre/" + @document['id'].split(":")[1] if @document['recordtype_ss'][0] == "artists"
 
