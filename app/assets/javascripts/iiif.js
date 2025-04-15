@@ -540,7 +540,14 @@ function selectdl(download,id,doc) {
         if (doc["edition_ss"] != null) { cap1.push(doc["edition_ss"][0]); }
         if (doc["publisher_ss"] != null) { cap1.push(doc["publisher_ss"][0].replace(/\.$/, '')); }
         if (doc["credit_line_ss"] != null) {
-            cap1.push(doc["credit_line_ss"][0]);
+            var cl = doc["credit_line_ss"][0];
+            var cl1;
+            if (cl.includes("|")) {
+                cl1 = cl.split("|")[1];
+            } else {
+                cl1 = cl;
+            }
+            cap1.push(cl1);
         } else {
             cap1.push("Yale Center for British Art");
         }
